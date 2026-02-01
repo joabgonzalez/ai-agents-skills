@@ -17,9 +17,9 @@ RESET='\033[0m'
 
 # Function to print colored messages
 print_header() {
-  printf "\n${CYAN}${BOLD}╔════════════════════════════════════════════════════════╗${RESET}\n"
-  printf "${CYAN}${BOLD}║${RESET}  %-54s${CYAN}${BOLD}║${RESET}\n" "$1"
-  printf "${CYAN}${BOLD}╚════════════════════════════════════════════════════════╝${RESET}\n\n"
+  printf "\n${RED}${BOLD}╔════════════════════════════════════════════════════════╗${RESET}\n"
+  printf "${RED}${BOLD}║${RESET}  %-54s${RED}${BOLD}║${RESET}\n" "$1"
+  printf "${RED}${BOLD}╚════════════════════════════════════════════════════════╝${RESET}\n\n"
 }
 
 print_info() {
@@ -170,7 +170,7 @@ uninstall_external() {
 clear
 
 # Welcome banner
-printf "${MAGENTA}${BOLD}"
+printf "${RED}${BOLD}"
 printf "  ╔═══════════════════════════════════════════════════════╗\n"
 printf "  ║                                                       ║\n"
 printf "  ║           AI AGENTS UNINSTALLER                       ║\n"
