@@ -8,13 +8,13 @@ DEST_PATH=""
 # Extracts skills from the frontmatter of AGENTS.md
 extract_skills() {
   local agents_file="$1"
-  grep -A 10 '^skills:' "$agents_file" | grep '-' | sed 's/- *//g' | tr -d '\r'
+  awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$agents_file" | tr -d '\r'
 }
 
 # Extracts skills from the frontmatter of a SKILL.md file
 extract_skill_dependencies() {
   local skill_file="$1"
-  grep -A 10 '^skills:' "$skill_file" | grep '-' | sed 's/- *//g' | tr -d '\r'
+  awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$skill_file" | tr -d '\r'
 }
 
 # Global variable to track copied skills

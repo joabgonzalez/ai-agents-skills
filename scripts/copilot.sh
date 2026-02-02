@@ -5,7 +5,7 @@ set -e
 # Function to extract skills from the frontmatter of AGENTS.md
 extract_skills() {
   local agents_file="$1"
-  grep -A 10 '^skills:' "$agents_file" | grep '-' | sed 's/- *//g' | tr -d '\r'
+  awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$agents_file" | tr -d '\r'
 }
 
 # Function to create symbolic links for skills

@@ -119,8 +119,6 @@ while true; do
     done
     printf "${GREEN}✓${RESET}  Destination: ${BOLD}%s${RESET}\n" "$dest_path"
     
-    param="--external --project $project_name --path $dest_path"
-    
     # Confirmation
     printf "\n"
     printf "${BLUE}ℹ${RESET}  Ready to install ${BOLD}%s${RESET} to ${BOLD}%s${RESET}\n" "$project_name" "$dest_path"
@@ -135,6 +133,9 @@ while true; do
     print_info "Preparing agent and skills..."
     bash scripts/install.sh --project "$project_name" --path "$dest_path"
     print_success "Agent and skills prepared"
+    
+    # Set param for model scripts (only --external --path, no --project)
+    param="--external --path $dest_path"
     break
   else
     print_error "Invalid option. Please select L or E."
