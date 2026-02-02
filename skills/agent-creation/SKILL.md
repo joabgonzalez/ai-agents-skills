@@ -117,10 +117,16 @@ After the frontmatter, include the following sections:
 
 1. **# Agent Name** (h1): Title describing the agent (e.g., "SBD Project Agent").
 2. **## Purpose**: Clear statement of the agent's primary goal and responsibilities. Be specific and actionable.
-3. **## Supported stack** (if applicable): List technologies, frameworks, libraries, and versions used in the project.
-4. **## Skills Reference** (optional but recommended): Table listing all skills with descriptions and paths.
-5. **## Workflows** (optional): Common workflows the agent handles (e.g., "Feature Development," "Code Review").
-6. **## Policies** (optional): Project-specific rules, constraints, or guidelines the agent must follow.
+3. **## ⚠️ Mandatory Skill Reading** (REQUIRED): Critical instructions for reading skills before task execution. Must include:
+   - Skill Reading Protocol (5-step process)
+   - Warning about not proceeding without reading skills
+   - Notification Policy for multi-skill tasks (2+ skills)
+   - Link to Mandatory Skills table
+4. **## Mandatory Skills** (REQUIRED): Table with triggers, required skills, and paths. Use format: `| Trigger (When to Read) | Required Skill | Path |`
+5. **## Supported stack** (if applicable): List technologies, frameworks, libraries, and versions used in the project.
+6. **## Skills Reference** (optional but recommended): Table listing all skills with descriptions and paths.
+7. **## Workflows** (optional): Common workflows the agent handles (e.g., "Feature Development," "Code Review").
+8. **## Policies** (optional): Project-specific rules, constraints, or guidelines the agent must follow.
 
 ### Step 5: Writing Guidelines
 
@@ -218,6 +224,8 @@ This agent serves as the primary development assistant for the Example Project, 
 - [ ] Empty fields omitted
 - [ ] Token-efficient documentation
 - [ ] Purpose section clear and actionable
+- [ ] **⚠️ Mandatory Skill Reading section included** with protocol and confirmation policy
+- [ ] **Mandatory Skills table included** with triggers, skills, and paths
 - [ ] Content in English with proper formatting
 
 ---

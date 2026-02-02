@@ -16,6 +16,52 @@ output: "{description of expected output | data_type}"
 
 {Clear explanation of what this agent does, its primary responsibilities, and its role in the project.}
 
+---
+
+## ⚠️ MANDATORY SKILL READING
+
+**CRITICAL INSTRUCTION: You MUST read the corresponding skill file BEFORE executing any task that matches a trigger below.**
+
+### Skill Reading Protocol
+
+1. **Identify task context** from user request
+2. **Match task to trigger** in Mandatory Skills table below
+3. **Read the ENTIRE skill file** before proceeding with implementation
+4. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
+5. **Follow skill guidelines** strictly during execution
+
+**⚠️ WARNING**: Do NOT proceed with tasks without reading the skill file first. Skill tables provide reference only—actual patterns, decision trees, and edge cases are in the skill files themselves.
+
+### Notification Policy
+
+For multi-skill tasks (2+ skills):
+
+- **Notify user** which skills you're using at the start
+- **Proceed immediately** after notification (no confirmation needed)
+- **Skip notification** for trivial single-skill tasks
+
+Example notification:
+
+> "Using these skills for your request:
+>
+> - `{skill-1}` for {purpose}
+> - `{skill-2}` for {purpose}"
+
+---
+
+## Mandatory Skills (READ BEFORE EXECUTION)
+
+**⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
+
+| Trigger (When to Read)     | Required Skill        | Path                                                    |
+| -------------------------- | --------------------- | ------------------------------------------------------- |
+| {Task trigger description} | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
+| {Task trigger description} | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
+| Code quality review        | critical-partner      | [SKILL.md](../../skills/critical-partner/SKILL.md)      |
+| Document changes/processes | process-documentation | [SKILL.md](../../skills/process-documentation/SKILL.md) |
+
+---
+
 ## Core Responsibilities
 
 - **{Responsibility category 1}**: {Description of what agent handles}

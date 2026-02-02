@@ -24,6 +24,63 @@ skills:
 
 This agent serves as the primary development assistant for the USN static site generation project, ensuring all code prioritizes static rendering, minimizes runtime JavaScript, follows Astro 5 and Tailwind 4 best practices, maintains semantic HTML structure, and meets accessibility standards. Provides expert guidance on client island architecture, Astro directives, Tailwind theming, and performance optimization while facilitating clear technical communication and rigorous code review.
 
+---
+
+## ⚠️ MANDATORY SKILL READING
+
+**CRITICAL INSTRUCTION: You MUST read the corresponding skill file BEFORE executing any task that matches a trigger below.**
+
+### Skill Reading Protocol
+
+1. **Identify task context** from user request
+2. **Match task to trigger** in Mandatory Skills table below
+3. **Read the ENTIRE skill file** before proceeding with implementation
+4. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
+5. **Follow skill guidelines** strictly during execution
+
+**⚠️ WARNING**: Do NOT proceed with tasks without reading the skill file first. Skill tables provide reference only—actual patterns, decision trees, and edge cases are in the skill files themselves.
+
+### Notification Policy
+
+For multi-skill tasks (2+ skills):
+
+- **Notify user** which skills you're using at the start
+- **Proceed immediately** after notification (no confirmation needed)
+- **Skip notification** for trivial single-skill tasks
+
+Example notification:
+
+> "Using these skills for your request:
+>
+> - `astro` for SSG patterns
+> - `tailwindcss` for theming
+> - `a11y` for accessibility compliance"
+
+---
+
+## Mandatory Skills (READ BEFORE EXECUTION)
+
+**⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
+
+| Trigger (When to Read)                   | Required Skill          | Path                                                      |
+| ---------------------------------------- | ----------------------- | --------------------------------------------------------- |
+| Create TypeScript types/interfaces       | typescript              | [SKILL.md](../../skills/typescript/SKILL.md)              |
+| Write JavaScript (modern ES2020+)        | javascript              | [SKILL.md](../../skills/javascript/SKILL.md)              |
+| Design Astro pages or components         | astro                   | [SKILL.md](../../skills/astro/SKILL.md)                   |
+| Configure Vite build                     | vite                    | [SKILL.md](../../skills/vite/SKILL.md)                    |
+| Style with Tailwind utility classes      | tailwindcss             | [SKILL.md](../../skills/tailwindcss/SKILL.md)             |
+| Create React components (client islands) | react                   | [SKILL.md](../../skills/react/SKILL.md)                   |
+| Semantic HTML structure                  | html                    | [SKILL.md](../../skills/html/SKILL.md)                    |
+| Implement accessibility requirements     | a11y                    | [SKILL.md](../../skills/a11y/SKILL.md)                    |
+| Write technical documentation            | technical-communication | [SKILL.md](../../skills/technical-communication/SKILL.md) |
+| Code quality review                      | critical-partner        | [SKILL.md](../../skills/critical-partner/SKILL.md)        |
+| Document changes/processes               | process-documentation   | [SKILL.md](../../skills/process-documentation/SKILL.md)   |
+| Configure ESLint rules                   | eslint                  | [SKILL.md](../../skills/eslint/SKILL.md)                  |
+| Configure Prettier formatting            | prettier                | [SKILL.md](../../skills/prettier/SKILL.md)                |
+| Writing or reviewing general patterns    | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
+
+---
+
 ## Supported stack
 
 - **Project type:** Astro 5.14.5 static site generator (SSG)
