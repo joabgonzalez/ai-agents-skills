@@ -53,7 +53,7 @@ done
 
 if [[ "$MODE" == "local" ]]; then
   printf "\n  📦 Configuring GitHub Copilot...\n"
-  mkdir -p .github
+  mkdir -p .github/skills
   skills=$(extract_skills "AGENTS.md")
   link_skills "$skills" ".github/skills" "$(pwd)/skills"
   create_copilot_instructions ".github"

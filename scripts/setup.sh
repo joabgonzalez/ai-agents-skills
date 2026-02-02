@@ -188,6 +188,23 @@ while true; do
   esac
 done
 
+# Update registry for local installations
+if [[ "$install_type" =~ ^[Ll]$ ]]; then
+  print_info "Updating installation registry..."
+  
+  # Extract skills from AGENTS.md
+  skills=$(awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "AGENTS.md" | tr '\n' ' ')
+  
+  # Source install.sh functions
+  source scripts/install.sh
+  
+  # Update registry
+  timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  update_registry "local" "agents" "." "$skills"
+  
+  print_success "Registry updated"
+fi
+
 printf "\n"
 print_header "Installation Complete!"
 print_success "All selected models have been configured."
