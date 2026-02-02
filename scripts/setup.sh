@@ -60,11 +60,11 @@ clear
 
 # Welcome banner
 printf "${MAGENTA}${BOLD}"
-printf "  ╔═══════════════════════════════════════════════════════╗\n"
-printf "  ║                                                       ║\n"
-printf "  ║           AI AGENTS INSTALLATION SETUP                ║\n"
-printf "  ║                                                       ║\n"
-printf "  ╚═══════════════════════════════════════════════════════╝\n"
+printf "  ╔═════════════════════════════════════════════════════╗\n"
+printf "  ║                                                     ║\n"
+printf "  ║           AI AGENTS INSTALLATION SETUP              ║\n"
+printf "  ║                                                     ║\n"
+printf "  ╚═════════════════════════════════════════════════════╝\n"
 printf "${RESET}\n"
 
 # Ask for installation type

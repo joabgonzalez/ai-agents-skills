@@ -171,11 +171,11 @@ clear
 
 # Welcome banner
 printf "${RED}${BOLD}"
-printf "  ╔═══════════════════════════════════════════════════════╗\n"
-printf "  ║                                                       ║\n"
-printf "  ║           AI AGENTS UNINSTALLER                       ║\n"
-printf "  ║                                                       ║\n"
-printf "  ╚═══════════════════════════════════════════════════════╝\n"
+printf "  ╔══════════════════════════════════════════════╗\n"
+printf "  ║                                              ║\n"
+printf "  ║           AI AGENTS UNINSTALLER              ║\n"
+printf "  ║                                              ║\n"
+printf "  ╚══════════════════════════════════════════════╝\n"
 printf "${RESET}\n"
 
 # Ask for uninstall type

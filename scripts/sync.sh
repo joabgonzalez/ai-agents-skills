@@ -10,9 +10,9 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 print_header() {
-  printf "${BLUE}╔════════════════════════════════════════╗${NC}\n"
-  printf "${BLUE}║${NC}     ${YELLOW}Skills Sync Utility${NC}            ${BLUE}║${NC}\n"
-  printf "${BLUE}╚════════════════════════════════════════╝${NC}\n"
+  printf "${BLUE}╔═══════════════════════════════════╗${NC}\n"
+  printf "${BLUE}║${NC}        ${YELLOW}Skills Sync Utility${NC}        ${BLUE}║${NC}\n"
+  printf "${BLUE}╚═══════════════════════════════════╝${NC}\n"
   printf "\n"
 }
 
