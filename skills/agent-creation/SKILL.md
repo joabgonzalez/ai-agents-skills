@@ -1,17 +1,34 @@
 ---
 name: agent-creation
-description: Guides agents and users to create standards-compliant agent definitions in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required.
+description: Guides agents and users to create standards-compliant agent definitions using templates in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required. Trigger: When creating a new agent definition, setting up project agents, or documenting agent workflows.
 ---
 
 # Agent Creation Skill
 
 ## Overview
 
-Provides actionable instructions for creating standards-compliant agent definitions. Agents are defined in markdown files (AGENTS.md) with YAML frontmatter specifying metadata and a clear, readable structure. This skill enforces context gathering before agent creation to ensure robust and well-defined agents.
+Provides actionable instructions for creating standards-compliant agent definitions using templates. Agents are defined in markdown files (AGENTS.md) with YAML frontmatter specifying metadata and a clear, readable structure. This skill enforces context gathering before agent creation to ensure robust and well-defined agents.
 
 ## Objective
 
-Enable agents and users to generate agent definitions that strictly follow the required structure and conventions. Ensure sufficient context is gathered through clarifying questions before proceeding with agent creation. Validate each agent against the specification and provide a compliance checklist to ensure all requirements are met.
+Enable agents and users to generate agent definitions that strictly follow the required structure and conventions using the provided template. Ensure sufficient context is gathered through clarifying questions before proceeding with agent creation. Validate each agent against the JSON schema and provide a compliance checklist to ensure all requirements are met.
+
+---
+
+## When to Use
+
+Use this skill when:
+
+- Creating a new agent definition from scratch
+- Setting up project-specific agents
+- Documenting agent workflows and responsibilities
+- Defining agent context and skill requirements
+
+Don't use this skill for:
+
+- Creating individual skills (use skill-creation instead)
+- Creating context prompts (use prompt-creation instead)
+- Modifying existing agents without full context
 
 ---
 

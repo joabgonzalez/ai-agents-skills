@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Frontmatter Schema",
+  "description": "JSON Schema for validating agent frontmatter in AGENTS.md files",
+  "type": "object",
+  "required": ["name", "description", "skills"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Agent identifier (lowercase with hyphens only)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "pattern": ".*Trigger:.*",
+      "description": "Precise description including 'Trigger:' clause for when agent activates"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "contains": {
+        "enum": ["critical-partner"]
+      },
+      "description": "Required: List of skills (must include critical-partner)"
+    },
+    "input": {
+      "type": "string",
+      "pattern": ".+\\s*\\|\\s*.+",
+      "description": "Optional: Expected input format as 'description | data_type'"
+    },
+    "output": {
+      "type": "string",
+      "pattern": ".+\\s*\\|\\s*.+",
+      "description": "Optional: Expected output format as 'description | data_type'"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "name": {
+            "not": {
+              "pattern": "^(user-facing|simple|demo|example)"
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "skills": {
+            "contains": {
+              "enum": ["process-documentation"]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: critical-partner
-description: Skill for acting as a rigorous, constructive, and analytical partner for code generation, review, and improvement in software projects. Provides counterarguments, identifies issues, and ensures best practices.
+description: Rigorous, constructive, and analytical partner for code generation, review, and improvement. Provides counterarguments, identifies issues, ensures best practices. Trigger: When validating code quality, reviewing implementations, or providing critical feedback before finalizing changes.
 allowed-tools:
   - documentation-reader
   - web-search

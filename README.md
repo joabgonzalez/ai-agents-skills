@@ -10,19 +10,55 @@ This project provides three core capabilities:
 2. **Agents**: Project-specific combinations of skills with defined responsibilities and workflows
 3. **Context Prompts**: Structured configuration files (JSON or markdown) that provide technology stack or behavioral context to AI assistants
 
+### Key Features
+
+- **Template-Based Creation**: Use pre-built templates for consistent skill, agent, and prompt creation
+- **Auto-Invoke System**: Automatic skill detection and invocation based on task patterns
+- **JSON Schema Validation**: Validate frontmatter structure for skills, agents, and prompts
+- **Decision Trees**: AI-friendly condition→action mappings in every skill
+- **Trigger-Based Invocation**: Inline trigger clauses help AI know when to invoke skills
+- **Token-Efficient**: Optimized documentation to reduce AI context size while maintaining precision
+- **Multi-Model Support**: Works with GitHub Copilot, Claude, Codex, and Gemini
+
 ## Project Structure
 
-- `skills/`: Reusable skill definitions with SKILL.md files
-  - **Meta-skills**: Core skills for self-management (skill-creation, agent-creation, prompt-creation, process-documentation, critical-partner, conventions, a11y, skill-sync) - automatically included in all installations
-- `agents/`: Agent definitions with AGENTS.md files for specific projects
-- `prompts/`: Context prompts for AI assistants (technology stacks and behavioral configurations)
-  - Naming: `<behavior>.md` or `<project>.md` (e.g., english-practice.md, sbd.md)
-- `scripts/`: Installation, setup, and utility scripts
-  - `setup.sh`: Interactive installation wizard with model selection
-  - `install.sh`: Core installation logic with dependency resolution
-  - `sync.sh`: Sync skills/ changes to all installed model directories
-  - `uninstall.sh`: Remove installed configurations (local or external)
-  - Model-specific scripts: `copilot.sh`, `claude.sh`, `codex.sh`, `gemini.sh`
+```
+ai-agents-framework/
+├── skills/                    # Reusable skill definitions
+│   ├── {skill-name}/
+│   │   ├── SKILL.md           # Main skill documentation
+│   │   ├── assets/            # Templates, schemas, configs
+│   │   │   ├── SKILL-TEMPLATE.md
+│   │   │   └── frontmatter-schema.json
+│   │   └── references/        # Links to local documentation
+│   │       └── docs.md
+│   └── ...
+├── agents/                    # Agent definitions
+│   ├── {project-name}/
+│   │   └── AGENTS.md          # Agent configuration
+│   └── ...
+├── prompts/                   # Context prompts
+│   ├── {behavior}.md
+│   └── {project}.md
+└── scripts/                   # Installation utilities
+    ├── setup.sh               # Interactive wizard
+    ├── install.sh             # Core installation
+    ├── sync.sh                # Multi-model sync
+    └── uninstall.sh           # Removal wizard
+```
+
+### Meta-Skills (Always Included)
+
+Core skills for self-management, automatically included in all installations:
+
+- **skill-creation**: Create new skills with templates and validation
+- **agent-creation**: Create new agents with context gathering
+- **prompt-creation**: Create context prompts
+- **process-documentation**: Document features, bugs, refactors, ADRs
+- **critical-partner**: Review and improve code/skills
+- **conventions**: General coding standards
+- **a11y**: Universal accessibility standards
+- **skill-sync**: Synchronize changes across model directories
 
 ## Skills Table
 
@@ -60,6 +96,108 @@ This project provides three core capabilities:
 | yup                     | Yup validation usage and conventions                                   | skills/yup/SKILL.md                     |
 | zod                     | Zod validation usage and conventions                                   | skills/zod/SKILL.md                     |
 
+## How It Works
+
+### Auto-Invoke System
+
+The framework includes an Auto-Invoke table in [AGENTS.md](AGENTS.md) that maps common development tasks to the appropriate skills. When an AI assistant detects you're performing a task (e.g., "Create a React component"), it automatically invokes the corresponding skill (e.g., `react`).
+
+Example mappings:
+
+- Creating React components → `react` skill
+- Writing TypeScript types → `typescript` skill
+- After modifying skills → `skill-sync` skill
+- Code quality review → `critical-partner` skill
+
+This eliminates the need to manually specify which skill to use for each task.
+
+### Template-Based Creation
+
+Creating new skills, agents, or prompts is simplified with templates:
+
+```bash
+# Copy template
+cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/new-skill/SKILL.md
+
+# Fill in placeholders
+# - {skill-name}
+# - {description}
+# - {Trigger: ...}
+# - etc.
+```
+
+Templates include:
+
+- **SKILL-TEMPLATE.md**: Complete skill structure with all required sections
+- **AGENT-TEMPLATE.md**: Complete agent definition structure
+- **PROMPT-TEMPLATE.md**: Context prompt structure
+- **frontmatter-schema.json**: JSON Schema for frontmatter validation
+
+### Validation
+
+Each creation skill includes JSON Schema validation:
+
+```bash
+# Validate skill frontmatter
+cat skills/my-skill/SKILL.md | yq eval '.frontmatter' - | \
+  yq eval-all '.' skills/skill-creation/assets/frontmatter-schema.json -
+```
+
+### Synchronization
+
+After modifying skills, sync changes to all installed model directories:
+
+```bash
+make sync
+```
+
+This copies the updated skills/ directory to:
+
+- `.github/skills/` (GitHub Copilot)
+- `.claude/skills/` (Claude)
+- `.codex/skills/` (Codex)
+- `.gemini/skills/` (Gemini)
+
+Includes assets/ and references/ subdirectories automatically.
+
+## Usage Examples
+
+### Creating a New Skill
+
+1. Use the skill-creation skill (auto-invoked when you ask to create a skill)
+2. Copy the template:
+   ```bash
+   mkdir skills/my-new-skill
+   cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/my-new-skill/SKILL.md
+   ```
+3. Fill in all placeholders (`{skill-name}`, `{description}`, `{Trigger}`, etc.)
+4. Validate frontmatter against schema
+5. Add to AGENTS.md Available Skills and Auto-Invoke tables
+6. Sync to all models: `make sync`
+
+### Creating a New Agent
+
+1. Use the agent-creation skill (auto-invoked when you ask to create an agent)
+2. Copy the template:
+   ```bash
+   mkdir agents/my-project
+   cp skills/agent-creation/assets/AGENT-TEMPLATE.md agents/my-project/AGENTS.md
+   ```
+3. Gather required context (purpose, skills, workflows, etc.)
+4. Fill in template placeholders
+5. Validate frontmatter against schema
+
+### Applying Skills
+
+Skills are automatically invoked based on your task. You can also manually invoke:
+
+```
+# In your AI assistant conversation
+"Use the react skill to create a component"
+"Apply typescript skill to add types"
+"Use critical-partner to review this code"
+```
+
 ## Installation
 
 ### Quick Start
@@ -79,8 +217,9 @@ This launches the guided setup script (`scripts/setup.sh`) with step-by-step ins
 - **External installation**: Allows you to select an agent from `agents/`, specify the destination path for the external project, and choose the model(s) to install. The script automatically copies:
   - Selected agent (AGENTS.md)
   - All required skills with recursive dependency resolution
-  - Meta-skills (skill-creation, agent-creation, prompt-creation, process-documentation, critical-partner, conventions, a11y, skill-sync) for self-management
+  - Meta-skills for self-management
   - Model-specific configuration files
+  - assets/ and references/ subdirectories
 
 Follow the interactive prompts to complete your installation.
 

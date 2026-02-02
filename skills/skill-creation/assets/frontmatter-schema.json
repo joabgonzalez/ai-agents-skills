@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Skill Frontmatter Schema",
+  "description": "JSON Schema for validating skill frontmatter in SKILL.md files",
+  "type": "object",
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Skill identifier (lowercase with hyphens only)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "pattern": ".*Trigger:.*",
+      "description": "Precise description including 'Trigger:' clause for when AI should invoke"
+    },
+    "input": {
+      "type": "string",
+      "pattern": ".+\\s*\\|\\s*.+",
+      "description": "Optional: Expected input format as 'description | data_type'"
+    },
+    "output": {
+      "type": "string",
+      "pattern": ".+\\s*\\|\\s*.+",
+      "description": "Optional: Expected output format as 'description | data_type'"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "uniqueItems": true,
+      "description": "Optional: List of internal skill dependencies"
+    },
+    "dependencies": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9@/-]+$": {
+          "type": "string",
+          "pattern": "^(\\^|~|>=|>|<|<=|\\*|[0-9])",
+          "description": "Version range for external library"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Optional: External libraries with version ranges"
+    },
+    "allowed-tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "description": "Optional: Tools agent can use with this skill"
+    }
+  },
+  "additionalProperties": false
+}

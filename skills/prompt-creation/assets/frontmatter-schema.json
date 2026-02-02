@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prompt Frontmatter Schema",
+  "description": "JSON Schema for validating prompt frontmatter",
+  "type": "object",
+  "required": ["name", "type", "description", "context"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Prompt identifier (lowercase with hyphens only)"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["technology-stack", "behavioral"],
+      "description": "Prompt type: technology-stack or behavioral"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 15,
+      "description": "Brief description of prompt purpose"
+    },
+    "context": {
+      "type": "string",
+      "description": "When this prompt should be included in context"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "default": "medium",
+      "description": "Optional: Priority level for context inclusion"
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["project-wide", "component-specific", "task-specific"],
+      "description": "Optional: Scope of prompt application"
+    }
+  },
+  "additionalProperties": false
+}

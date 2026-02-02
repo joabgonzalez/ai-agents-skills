@@ -63,7 +63,7 @@ sync_model() {
     gemini) model_dir=".gemini" ;;
   esac
   
-  print_info "Syncing skills for $model..."
+  print_info "Syncing skills and agents for $model..."
   
   # Remove old skills directory
   if [ -d "$model_dir/skills" ]; then
@@ -73,7 +73,32 @@ sync_model() {
   # Copy current skills directory
   cp -R skills "$model_dir/skills"
   
-  print_success "Synced skills to $model_dir/"
+  # Sync model-specific files
+  case "$model" in
+    copilot)
+      # Update copilot-instructions.md
+      if [ -f "scripts/templates/copilot-instructions.md" ]; then
+        cp scripts/templates/copilot-instructions.md "$model_dir/copilot-instructions.md"
+        print_info "  Synced copilot-instructions.md"
+      fi
+      ;;
+    claude)
+      # Update CLAUDE.md from AGENTS.md
+      if [ -f "AGENTS.md" ]; then
+        cp AGENTS.md CLAUDE.md
+        print_info "  Synced agents: AGENTS.md → CLAUDE.md"
+      fi
+      ;;
+    gemini)
+      # Update GEMINI.md from AGENTS.md
+      if [ -f "AGENTS.md" ]; then
+        cp AGENTS.md GEMINI.md
+        print_info "  Synced agents: AGENTS.md → GEMINI.md"
+      fi
+      ;;
+  esac
+  
+  print_success "Synced skills and agents to $model_dir/"
 }
 
 # Sync all installed models
@@ -83,4 +108,4 @@ done
 
 printf "\n"
 print_success "All models synced successfully!"
-print_info "Skills have been updated in all model directories."
+print_info "Skills and agents have been updated in all model directories."

@@ -1,6 +1,6 @@
 ---
 name: skill-sync
-description: Guides agent to maintain synchronization across model directories (.github, .claude, .codex, .gemini) after modifying skills, agents, or prompts. Ensures consistency between AGENTS.md, CLAUDE.md, GEMINI.md. Provides validation checklist and works alongside automated sync script.
+description: Maintains synchronization across model directories after modifying skills, agents, or prompts. Ensures consistency between AGENTS.md, CLAUDE.md, GEMINI.md. Trigger: After creating or modifying any skill, agent, or prompt to synchronize changes across all model directories.
 input: "modification type (skill/agent/prompt), affected files, validation queries | string"
 output: "sync instructions, validation checklist, affected paths, manual steps | markdown"
 ---

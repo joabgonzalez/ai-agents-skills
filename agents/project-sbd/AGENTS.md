@@ -65,6 +65,44 @@ This agent serves as the primary development assistant for the SBD web applicati
 | a11y                    | Accessibility standards and WCAG compliance           | skills/html-a11y/SKILL.md               |
 | conventions             | General coding standards and project conventions      | skills/conventions/SKILL.md             |
 
+---
+
+## Workflows
+
+### Feature Development
+
+1. Gather requirements and clarify acceptance criteria
+2. Design component architecture with TypeScript interfaces
+3. Implement React components using MUI library
+4. Configure Redux Toolkit slices and RTK Query endpoints (if data fetching needed)
+5. Implement forms with Formik and Yup validation
+6. Ensure accessibility compliance (semantic HTML, ARIA, keyboard navigation)
+7. Write ESLint-compliant, Prettier-formatted code
+8. Test with strict TypeScript checks enabled
+9. Document changes using process-documentation skill
+10. Request critical-partner review before finalization
+
+### Code Review
+
+1. Verify strict TypeScript compliance (no `any`, explicit return types)
+2. Check MUI component usage and theming consistency
+3. Validate accessibility standards (a11y skill)
+4. Review Redux Toolkit slice patterns and RTK Query cache configuration
+5. Ensure Formik forms use proper validation schemas
+6. Confirm version compatibility with supported stack
+7. Suggest improvements using critical-partner skill
+
+### Bug Fixing
+
+1. Reproduce issue and identify root cause
+2. Check TypeScript types and Redux state consistency
+3. Verify MUI component configuration and props
+4. Test accessibility impact
+5. Implement fix with minimal changes
+6. Document resolution using process-documentation skill
+
+---
+
 ## Policies and recommendations
 
 **Typing requirements:**

@@ -1,6 +1,6 @@
 ---
 name: process-documentation
-description: Enforces comprehensive documentation of all processes and changes. Provides templates for features, bug fixes, refactors, and ADRs with structured format and validation checklist.
+description: Comprehensive documentation of all processes and changes. Templates for features, bug fixes, refactors, ADRs with structured format and validation. Trigger: When completing features, fixing bugs, refactoring code, making architectural decisions, or before committing changes.
 allowed-tools:
   - file-operations
   - read-file

@@ -1,6 +1,6 @@
 ---
 name: javascript
-description: Modern JavaScript conventions and ES2020+ features.
+description: Modern JavaScript (ES2020+) patterns and best practices. ES modules, async/await, destructuring, optional chaining, nullish coalescing. Trigger: When writing modern JavaScript code, using ES2020+ features, or refactoring legacy JavaScript.
 skills:
   - conventions
 allowed-tools:
@@ -17,6 +17,71 @@ Modern JavaScript patterns and best practices for ES2020+ development.
 ## Objective
 
 Guide developers in writing clean, efficient JavaScript using modern language features and patterns.
+
+---
+
+## When to Use
+
+Use this skill when:
+
+- Writing JavaScript code with ES2020+ features
+- Refactoring legacy JavaScript to modern syntax
+- Implementing async operations with promises/async-await
+- Using destructuring, optional chaining, nullish coalescing
+
+Don't use this skill for:
+
+- TypeScript-specific patterns (use typescript skill)
+- React patterns (use react skill)
+- Node.js backend specifics (general JS only)
+
+---
+
+## Critical Patterns
+
+### ✅ REQUIRED: Use const/let, Never var
+
+```javascript
+// ✅ CORRECT: const for immutable, let for mutable
+const API_URL = "https://api.example.com";
+let count = 0;
+
+// ❌ WRONG: var (function-scoped, causes issues)
+var count = 0;
+```
+
+### ✅ REQUIRED: Use async/await for Async Operations
+
+```javascript
+// ✅ CORRECT: async/await
+async function fetchData() {
+  try {
+    const response = await fetch(url);
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// ❌ WRONG: Promise chains (less readable)
+function fetchData() {
+  return fetch(url)
+    .then((res) => res.json())
+    .catch((error) => console.error(error));
+}
+```
+
+### ✅ REQUIRED: Optional Chaining and Nullish Coalescing
+
+```javascript
+// ✅ CORRECT: Safe property access
+const name = user?.profile?.name ?? "Anonymous";
+
+// ❌ WRONG: Manual null checks
+const name = (user && user.profile && user.profile.name) || "Anonymous";
+```
+
+---
 
 ## Conventions
 
@@ -35,6 +100,26 @@ Refer to conventions for:
 - Use async/await for asynchronous operations
 - Apply optional chaining (?.) and nullish coalescing (??)
 
+---
+
+## Decision Tree
+
+**Async operation?** → Use `async/await` with try/catch for error handling.
+
+**String concatenation?** → Use template literals: `string ${variable}`.
+
+**Default value needed?** → Use nullish coalescing `??` for null/undefined, `||` for any falsy value.
+
+**Property might not exist?** → Use optional chaining: `obj?.prop?.nested`.
+
+**Iterate array?** → Use `.map()`, `.filter()`, `.reduce()` over for loops. Use `for...of` for early breaks.
+
+**Copy object/array?** → Use spread operator: `{...obj}`, `[...arr]`.
+
+**Function as callback?** → Use arrow function unless you need `this` context.
+
+---
+
 ## Example
 
 ```javascript
@@ -52,6 +137,22 @@ const fetchData = async (url) => {
 const { name, age = 18 } = user;
 const greeting = `Hello, ${name}!`;
 ```
+
+---
+
+## Edge Cases
+
+**Parallel async operations:** Use `Promise.all()` for concurrent execution, not sequential awaits.
+
+**Array holes:** Sparse arrays with holes behave differently in `.map()` vs `.forEach()`. Use `.filter(Boolean)` to remove.
+
+**Number precision:** Floating point math may be imprecise. Use libraries like decimal.js for financial calculations.
+
+**Equality:** Use `===` for strict equality. `==` coerces types and causes bugs.
+
+**this binding:** Arrow functions don't bind `this`. Use regular functions for methods that need `this` context.
+
+---
 
 ## References
 

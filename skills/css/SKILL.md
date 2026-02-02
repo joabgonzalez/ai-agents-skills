@@ -1,6 +1,6 @@
 ---
 name: css
-description: Skill for writing modern, maintainable, and accessible CSS using the latest features, best practices, and up-to-date conventions. General conventions and accessibility are delegated to conventions and a11y skills.
+description: Modern, maintainable, and accessible CSS using latest features and best practices. Grid, Flexbox, custom properties, container queries, cascade layers. Trigger: When writing CSS styles, implementing layouts with Grid/Flexbox, or using modern CSS features.
 skills:
   - conventions
   - a11y
@@ -19,6 +19,79 @@ This skill provides guidance for writing modern CSS with focus on maintainabilit
 ## Objective
 
 Enable developers to write clean, efficient CSS that leverages modern features like CSS Grid, Flexbox, custom properties, and container queries while maintaining accessibility and browser compatibility.
+
+---
+
+## When to Use
+
+Use this skill when:
+
+- Writing CSS styles for layouts and components
+- Implementing responsive designs with Grid/Flexbox
+- Using modern CSS features (custom properties, container queries)
+- Optimizing CSS performance and maintainability
+- Creating animations and transitions
+
+Don't use this skill for:
+
+- Tailwind utility classes (use tailwindcss skill)
+- MUI sx prop styling (use mui skill)
+
+---
+
+## Critical Patterns
+
+### ✅ REQUIRED: Use Custom Properties for Theming
+
+```css
+/* ✅ CORRECT: Custom properties */
+:root {
+  --color-primary: #0066cc;
+  --spacing: 1rem;
+}
+
+.button {
+  background: var(--color-primary);
+  padding: var(--spacing);
+}
+
+/* ❌ WRONG: Hardcoded values */
+.button {
+  background: #0066cc;
+  padding: 1rem;
+}
+```
+
+### ✅ REQUIRED: Use Grid/Flexbox, Not Floats
+
+```css
+/* ✅ CORRECT: Flexbox for layout */
+.container {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+/* ❌ WRONG: Floats (legacy) */
+.container {
+  float: left;
+  clear: both;
+}
+```
+
+### ✅ REQUIRED: Respect prefers-reduced-motion
+
+```css
+/* ✅ CORRECT: Disable animations for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+---
 
 ## Conventions
 
@@ -41,6 +114,26 @@ Refer to a11y for:
 - Implement responsive design with container queries when appropriate
 - Avoid !important except for utilities
 - Use BEM or similar naming convention
+
+---
+
+## Decision Tree
+
+**One-dimensional layout?** → Use Flexbox with `flex-direction`, `justify-content`, `align-items`.
+
+**Two-dimensional layout?** → Use CSS Grid with `grid-template-columns`, `grid-template-rows`.
+
+**Responsive sizing?** → Use `clamp()`, `min()`, `max()` for fluid typography and spacing.
+
+**Theme values?** → Define in `:root` with custom properties, reference with `var(--name)`.
+
+**Center element?** → Flexbox: `display: flex; justify-content: center; align-items: center;` or Grid: `place-items: center`.
+
+**Hide element?** → Use `display: none` to remove from DOM, `visibility: hidden` to keep space, `opacity: 0` for transitions.
+
+**Responsive breakpoints?** → Use container queries for component-level, media queries for viewport-level.
+
+---
 
 ## Example
 

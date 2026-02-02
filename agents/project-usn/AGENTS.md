@@ -52,6 +52,44 @@ This agent serves as the primary development assistant for the USN static site g
 | prettier                | Prettier code formatting for .astro files             | skills/prettier/SKILL.md                |
 | conventions             | General coding standards and project conventions      | skills/conventions/SKILL.md             |
 
+---
+
+## Workflows
+
+### Feature Development
+
+1. Gather requirements and clarify static vs dynamic content needs
+2. Design page architecture with Astro components (.astro files)
+3. Implement components with build-time data fetching in frontmatter
+4. Style with Tailwind 4 utility classes and @theme tokens
+5. Add client islands (React components) ONLY when interactivity is required
+6. Use appropriate client directives (client:load, client:visible, client:idle)
+7. Ensure semantic HTML structure and accessibility compliance
+8. Test build output for minimal JavaScript and fast load times
+9. Document changes using process-documentation skill
+10. Request critical-partner review before finalization
+
+### Code Review
+
+1. Verify static-first approach (no unnecessary client-side JS)
+2. Check Astro directive usage (client:load, define:vars, set:html)
+3. Validate Tailwind 4 theme tokens (no deprecated --tw-\* prefixes)
+4. Review semantic HTML structure and accessibility
+5. Ensure build-time data fetching (no runtime API calls in static pages)
+6. Confirm TypeScript strict mode compliance
+7. Suggest improvements using critical-partner skill
+
+### Performance Optimization
+
+1. Analyze bundle size and JavaScript output
+2. Identify unnecessary client islands (convert to .astro components)
+3. Optimize images and assets
+4. Review Tailwind CSS purging and minification
+5. Test Lighthouse scores (Performance, Accessibility, Best Practices)
+6. Document optimizations using process-documentation skill
+
+---
+
 ## Policies and recommendations
 
 **Typing requirements:**

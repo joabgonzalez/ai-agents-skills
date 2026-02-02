@@ -1,6 +1,6 @@
 ---
 name: expo
-description: Skill for building, testing, and deploying cross-platform mobile applications using Expo with React Native, following modern best practices.
+description: Building, testing, and deploying cross-platform mobile applications using Expo with React Native. EAS Build, OTA updates, native modules. Trigger: When developing with Expo, configuring EAS services, or building cross-platform mobile apps.
 dependencies:
   expo: ">=50.0.0 <51.0.0"
   react-native: ">=0.73.0 <1.0.0"
@@ -21,6 +21,67 @@ This skill provides guidance for developing cross-platform mobile applications u
 
 Enable developers to build, test, and deploy mobile applications efficiently using Expo's managed workflow with proper TypeScript support and React Native best practices.
 
+---
+
+## When to Use
+
+Use this skill when:
+
+- Building cross-platform mobile apps (iOS + Android)
+- Using Expo managed workflow
+- Configuring EAS Build or EAS Update
+- Accessing native features via Expo SDK
+- Deploying OTA updates
+
+Don't use this skill for:
+
+- Bare React Native projects (use react-native skill)
+- Web-only applications
+- Custom native modules not supported by Expo
+
+---
+
+## Critical Patterns
+
+### ✅ REQUIRED: Use Expo SDK for Native Features
+
+```typescript
+// ✅ CORRECT: Expo SDK modules
+import * as Location from "expo-location";
+import { Camera } from "expo-camera";
+
+// ❌ WRONG: Direct React Native linking (use Expo modules)
+import { NativeModules } from "react-native";
+```
+
+### ✅ REQUIRED: Handle Permissions Properly
+
+```typescript
+// ✅ CORRECT: Request permissions before using
+const { status } = await Location.requestForegroundPermissionsAsync();
+if (status === "granted") {
+  const location = await Location.getCurrentPositionAsync();
+}
+
+// ❌ WRONG: No permission check
+const location = await Location.getCurrentPositionAsync(); // May crash
+```
+
+### ✅ REQUIRED: Use TypeScript
+
+```typescript
+// ✅ CORRECT: Typed props and state
+interface Props {
+  title: string;
+}
+
+const Component: React.FC<Props> = ({ title }) => {
+  const [count, setCount] = useState<number>(0);
+};
+```
+
+---
+
 ## Conventions
 
 - Use TypeScript for type safety
@@ -28,6 +89,26 @@ Enable developers to build, test, and deploy mobile applications efficiently usi
 - Leverage Expo SDK for native features
 - Use Expo Go for development testing
 - Implement proper error handling for native features
+
+---
+
+## Decision Tree
+
+**Need native feature?** → Check Expo SDK first, use managed module if available.
+
+**Custom native code needed?** → Use config plugins or eject to bare workflow.
+
+**Building for stores?** → Use EAS Build for cloud builds.
+
+**Need OTA updates?** → Use EAS Update for instant app updates.
+
+**Platform-specific code?** → Use `Platform.select()` or `.ios.tsx`/`.android.tsx` files.
+
+**Testing?** → Use Expo Go for development, physical devices or simulators for final testing.
+
+**Navigation?** → Use Expo Router or React Navigation.
+
+---
 
 ## Example
 
