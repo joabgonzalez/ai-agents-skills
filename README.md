@@ -26,12 +26,13 @@ This project provides three core capabilities:
 ai-agents-framework/
 ├── skills/                    # Reusable skill definitions
 │   ├── {skill-name}/
-│   │   ├── SKILL.md           # Main skill documentation
+│   │   ├── SKILL.md           # Main skill documentation (80% of cases)
 │   │   ├── assets/            # Templates, schemas, configs
 │   │   │   ├── SKILL-TEMPLATE.md
 │   │   │   └── frontmatter-schema.json
-│   │   └── references/        # Links to local documentation
-│   │       └── docs.md
+│   │   └── references/        # Deep-dive guides for complex skills (40+ patterns)
+│   │       ├── README.md      # Navigation and reading strategy
+│   │       └── {topic}.md     # Detailed pattern guides
 │   └── ...
 ├── agents/                    # Agent definitions
 │   ├── {project-name}/
@@ -60,6 +61,29 @@ Core skills for self-management, automatically included in all installations:
 - **a11y**: Universal accessibility standards
 - **skill-sync**: Synchronize changes across model directories
 
+### Extended Mandatory Read Protocol
+
+Complex skills (40+ patterns) use a **two-tier architecture**:
+
+1. **SKILL.md**: Critical patterns and decision tree (handles 80% of cases)
+2. **references/**: Deep-dive guides with 40+ patterns per topic (for complex scenarios)
+
+**When to read references:**
+
+- SKILL.md Decision Tree indicates "**MUST read** {reference}"
+- Critical Pattern says "**[CRITICAL] See** {reference} for..."
+- Task involves advanced features (e.g., Redux normalization, MUI theming, React Native navigation)
+
+**Skills with references/**:
+
+- **redux-toolkit**: 6 references (slices, async, selectors, normalization, TypeScript, RTK Query)
+- **mui**: 5 references (components, theming, customization, data-display, forms)
+- **react-native**: 5 references (navigation, gestures, platform-specific, performance, native-modules)
+- **astro**: 4 references (view-transitions, middleware, env-variables, prefetch)
+- **skill-creation**: 7 references (structure, content patterns, frontmatter, validation, token efficiency)
+
+See [AGENTS.md Extended Mandatory Read Protocol](AGENTS.md#extended-mandatory-read-protocol) for complete guidance.
+
 ## Skills Table
 
 | Skill Name              | Description                                                            | Path                                    |
@@ -84,8 +108,7 @@ Core skills for self-management, automatically included in all installations:
 | process-documentation   | Comprehensive documentation of processes and changes                   | skills/process-documentation/SKILL.md   |
 | prompt-creation         | Step-by-step guide for creating context prompts for AI assistants      | skills/prompt-creation/SKILL.md         |
 | react-native            | React Native conventions and best practices                            | skills/react-native/SKILL.md            |
-| redux-toolkit           | Redux Toolkit usage and conventions                                    | skills/redux-toolkit/SKILL.md           |
-| rtk-query               | RTK Query usage and conventions                                        | skills/rtk-query/SKILL.md               |
+| redux-toolkit           | Redux Toolkit + RTK Query state/data management                        | skills/redux-toolkit/SKILL.md           |
 | skill-creation          | Step-by-step guide for creating standards-compliant skills             | skills/skill-creation/SKILL.md          |
 | skill-sync              | Synchronization guide for multi-model directory maintenance            | skills/skill-sync/SKILL.md              |
 | tailwindcss             | TailwindCSS usage and conventions                                      | skills/tailwindcss/SKILL.md             |
