@@ -125,6 +125,11 @@ After the frontmatter, include the following sections:
    - Link to Mandatory Skills table
 4. **## Mandatory Skills** (REQUIRED): Table with triggers, required skills, and paths. Use format: `| Trigger (When to Read) | Required Skill | Path |`
 
+   **Critical trigger that MUST be included in all agents:**
+   - "Write commit messages, PRs, or documentation" → technical-communication
+
+   **Additional triggers based on agent's skills**: Add specific triggers for each skill the agent uses (e.g., "Create React components" → react, "Create TypeScript types" → typescript)
+
 **Important**: The Mandatory Skill Reading section must inform AI agents that when working with complex skills (40+ patterns), they should consult the skill's Decision Tree and Quick Reference Table to determine if reading references/ is required. See [AGENTS.md Extended Mandatory Read Protocol](../../AGENTS.md#extended-mandatory-read-protocol) for complete guidance. 5. **## Supported stack** (if applicable): List technologies, frameworks, libraries, and versions used in the project. 6. **## Skills Reference** (optional but recommended): Table listing all skills with descriptions and paths. 7. **## Workflows** (optional): Common workflows the agent handles (e.g., "Feature Development," "Code Review"). 8. **## Policies** (optional): Project-specific rules, constraints, or guidelines the agent must follow.
 
 ### Step 5: Writing Guidelines
@@ -181,6 +186,7 @@ Ready to create? → YES → Proceed with agent creation
 - [ ] I included ⚠️ Mandatory Skill Reading section with 5-step protocol
 - [ ] I referenced Extended Mandatory Read Protocol in AGENTS.md
 - [ ] I included Mandatory Skills table with triggers
+- [ ] Mandatory Skills table includes "Write commit messages, PRs, or documentation" → technical-communication
 - [ ] critical-partner is in skills list (REQUIRED for ALL agents)
 - [ ] process-documentation is in skills list (if technical/management agent)
 - [ ] All referenced skills exist in skills/ directory
@@ -292,6 +298,7 @@ Before finalizing an agent, verify:
   - [ ] Notification Policy for multi-skill tasks
   - [ ] **Reference to Extended Mandatory Read Protocol in AGENTS.md**
 - [ ] **Mandatory Skills table included** with triggers, skills, and paths
+  - [ ] Table includes "Write commit messages, PRs, or documentation" → technical-communication
 - [ ] Decision Tree present (if agent has complex workflows)
 - [ ] Self-Check Protocol consulted and completed
 

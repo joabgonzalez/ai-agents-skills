@@ -69,22 +69,22 @@ Example notification:
 
 **⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
 
-| Trigger (When to Read)                   | Required Skill          | Path                                                      |
-| ---------------------------------------- | ----------------------- | --------------------------------------------------------- |
-| Create TypeScript types/interfaces       | typescript              | [SKILL.md](../../skills/typescript/SKILL.md)              |
-| Write JavaScript (modern ES2020+)        | javascript              | [SKILL.md](../../skills/javascript/SKILL.md)              |
-| Design Astro pages or components         | astro                   | [SKILL.md](../../skills/astro/SKILL.md)                   |
-| Configure Vite build                     | vite                    | [SKILL.md](../../skills/vite/SKILL.md)                    |
-| Style with Tailwind utility classes      | tailwindcss             | [SKILL.md](../../skills/tailwindcss/SKILL.md)             |
-| Create React components (client islands) | react                   | [SKILL.md](../../skills/react/SKILL.md)                   |
-| Semantic HTML structure                  | html                    | [SKILL.md](../../skills/html/SKILL.md)                    |
-| Implement accessibility requirements     | a11y                    | [SKILL.md](../../skills/a11y/SKILL.md)                    |
-| Write technical documentation            | technical-communication | [SKILL.md](../../skills/technical-communication/SKILL.md) |
-| Code quality review                      | critical-partner        | [SKILL.md](../../skills/critical-partner/SKILL.md)        |
-| Document changes/processes               | process-documentation   | [SKILL.md](../../skills/process-documentation/SKILL.md)   |
-| Configure ESLint rules                   | eslint                  | [SKILL.md](../../skills/eslint/SKILL.md)                  |
-| Configure Prettier formatting            | prettier                | [SKILL.md](../../skills/prettier/SKILL.md)                |
-| Writing or reviewing general patterns    | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
+| Trigger (When to Read)                       | Required Skill          | Path                                                      |
+| -------------------------------------------- | ----------------------- | --------------------------------------------------------- |
+| Create TypeScript types/interfaces           | typescript              | [SKILL.md](../../skills/typescript/SKILL.md)              |
+| Write JavaScript (modern ES2020+)            | javascript              | [SKILL.md](../../skills/javascript/SKILL.md)              |
+| Design Astro pages or components             | astro                   | [SKILL.md](../../skills/astro/SKILL.md)                   |
+| Configure Vite build                         | vite                    | [SKILL.md](../../skills/vite/SKILL.md)                    |
+| Style with Tailwind utility classes          | tailwindcss             | [SKILL.md](../../skills/tailwindcss/SKILL.md)             |
+| Create React components (client islands)     | react                   | [SKILL.md](../../skills/react/SKILL.md)                   |
+| Semantic HTML structure                      | html                    | [SKILL.md](../../skills/html/SKILL.md)                    |
+| Implement accessibility requirements         | a11y                    | [SKILL.md](../../skills/a11y/SKILL.md)                    |
+| Write commit messages, PRs, or documentation | technical-communication | [SKILL.md](../../skills/technical-communication/SKILL.md) |
+| Code quality review                          | critical-partner        | [SKILL.md](../../skills/critical-partner/SKILL.md)        |
+| Document changes/processes                   | process-documentation   | [SKILL.md](../../skills/process-documentation/SKILL.md)   |
+| Configure ESLint rules                       | eslint                  | [SKILL.md](../../skills/eslint/SKILL.md)                  |
+| Configure Prettier formatting                | prettier                | [SKILL.md](../../skills/prettier/SKILL.md)                |
+| Writing or reviewing general patterns        | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
 
 ---
 

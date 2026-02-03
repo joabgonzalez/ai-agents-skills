@@ -60,16 +60,17 @@ Example notification:
 
 **⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
 
-| Trigger (When to Read)                         | Required Skill        | Path                                                    |
-| ---------------------------------------------- | --------------------- | ------------------------------------------------------- |
-| {Task trigger description}                     | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
-| {Task trigger description}                     | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
-| Create TypeScript types/interfaces             | typescript            | [SKILL.md](../../skills/typescript/SKILL.md)            |
-| Create React components with hooks             | react                 | [SKILL.md](../../skills/react/SKILL.md)                 |
-| Implement accessibility requirements           | a11y                  | [SKILL.md](../../skills/a11y/SKILL.md)                  |
-| Code quality review or improvement suggestions | critical-partner      | [SKILL.md](../../skills/critical-partner/SKILL.md)      |
-| Document changes, features, or decisions       | process-documentation | [SKILL.md](../../skills/process-documentation/SKILL.md) |
-| Writing or reviewing general code patterns     | conventions           | [SKILL.md](../../skills/conventions/SKILL.md)           |
+| Trigger (When to Read)                         | Required Skill          | Path                                                      |
+| ---------------------------------------------- | ----------------------- | --------------------------------------------------------- |
+| {Task trigger description}                     | {skill-name}            | [SKILL.md](../../skills/{skill-name}/SKILL.md)            |
+| {Task trigger description}                     | {skill-name}            | [SKILL.md](../../skills/{skill-name}/SKILL.md)            |
+| Create TypeScript types/interfaces             | typescript              | [SKILL.md](../../skills/typescript/SKILL.md)              |
+| Create React components with hooks             | react                   | [SKILL.md](../../skills/react/SKILL.md)                   |
+| Implement accessibility requirements           | a11y                    | [SKILL.md](../../skills/a11y/SKILL.md)                    |
+| Write commit messages, PRs, or documentation   | technical-communication | [SKILL.md](../../skills/technical-communication/SKILL.md) |
+| Code quality review or improvement suggestions | critical-partner        | [SKILL.md](../../skills/critical-partner/SKILL.md)        |
+| Document changes, features, or decisions       | process-documentation   | [SKILL.md](../../skills/process-documentation/SKILL.md)   |
+| Writing or reviewing general code patterns     | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
 
 **Example triggers for your specific agent:**
 

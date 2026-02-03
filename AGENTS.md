@@ -275,7 +275,7 @@ Use these skills for detailed patterns and guidance on-demand:
 | Validate or improve code quality                | critical-partner        | [SKILL.md](skills/critical-partner/SKILL.md)        |
 | Write JavaScript (modern ES2020+)               | javascript              | [SKILL.md](skills/javascript/SKILL.md)              |
 | Write TypeScript with strict typing             | typescript              | [SKILL.md](skills/typescript/SKILL.md)              |
-| Write technical documentation                   | technical-communication | [SKILL.md](skills/technical-communication/SKILL.md) |
+| Write commit messages, PRs, or documentation    | technical-communication | [SKILL.md](skills/technical-communication/SKILL.md) |
 | Writing or reviewing general code patterns      | conventions             | [SKILL.md](skills/conventions/SKILL.md)             |
 
 ---
