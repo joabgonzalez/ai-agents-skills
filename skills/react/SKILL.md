@@ -6,6 +6,7 @@ skills:
   - a11y
   - typescript
   - javascript
+  - architecture-patterns
 dependencies:
   react: ">=17.0.0 <19.0.0"
 allowed-tools:
@@ -255,6 +256,51 @@ useEffect(() => {
 **Batching updates:** React batches multiple setState calls in event handlers. In async code (setTimeout, promises), use `flushSync` for immediate updates (rare cases).
 
 **Children prop patterns:** When passing children, use `React.ReactNode` type. For render props, use function children: `{(data) => <Component data={data} />}`.
+
+---
+
+## Advanced Architecture Patterns
+
+**⚠️ Read This First**: Most React projects do NOT need advanced architecture patterns. Apply only when:
+
+1. **AGENTS.md explicitly specifies** architecture requirements
+2. **Codebase already uses** domain/, application/, infrastructure/ folders
+3. **User explicitly requests** architectural patterns
+
+**If none apply** → Skip this section, use React best practices above.
+
+### Quick Context Verification
+
+```bash
+# Check AGENTS.md
+cat agents/your-project/AGENTS.md | grep -i "architecture\|solid\|clean\|ddd"
+
+# Check codebase structure
+ls src/domain src/application src/infrastructure
+```
+
+- **AGENTS.md mentions patterns OR folders exist OR user requests** → Apply patterns
+- **None of above** → Use standard React patterns only
+
+### Applicable Patterns
+
+- **SRP**: Separate data fetching, logic, presentation (one responsibility per component/hook)
+- **DIP**: Abstract services (use Context API or hooks, not direct imports)
+- **Result Pattern**: Type-safe async error handling
+- **Clean Architecture**: Layer separation when business logic is complex
+
+### For Complete Guide
+
+**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
+
+- Complete React examples with Clean Architecture
+- SRP for components and hooks
+- DIP with Context API
+- Result Pattern in hooks
+- Layer separation (domain/, application/, infrastructure/, presentation/)
+- When to apply and when to stop
+
+**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for Decision Tree and pattern selection.
 
 ---
 

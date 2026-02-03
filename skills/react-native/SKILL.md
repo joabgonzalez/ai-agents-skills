@@ -6,6 +6,7 @@ skills:
   - a11y
   - react
   - typescript
+  - architecture-patterns
 dependencies:
   react-native: ">=0.70.0 <1.0.0"
   react: ">=17.0.0 <19.0.0"
@@ -228,6 +229,77 @@ const MyList = ({ items }) => (
   />
 );
 ```
+
+---
+
+## Advanced Architecture Patterns
+
+**⚠️ Context Check**: Architecture patterns apply to React Native the same way as React. Mobile apps with business logic benefit from architecture patterns.
+
+### When to Apply
+
+- **AGENTS.md mentions architecture**: Project specifies "Clean Architecture", "SOLID", "DDD"
+- **Enterprise mobile apps**: Banking, healthcare, fintech, ERP apps
+- **Complex business logic**: Authentication, payments, offline sync, data transformations
+- **Large teams**: >10 developers requiring consistent structure
+
+### When NOT to Apply
+
+- Simple apps (content display, basic forms)
+- Prototypes or MVPs
+- No mention in AGENTS.md
+
+### Architecture Integration
+
+**React Native uses same patterns as React**:
+
+- **SOLID Principles** → Service classes, custom hooks, components
+- **Clean Architecture** → `domain/`, `application/`, `infrastructure/`, `mobile/` (presentation)
+- **Result Pattern** → Async operations, API calls, local storage
+- **DIP** → Abstract services (API, storage, permissions) with adapters
+
+**Mobile-specific architecture**:
+
+```typescript
+// domain/entities/User.ts (same as web)
+export class User {
+  constructor(
+    public readonly id: string,
+    public readonly email: string
+  ) {}
+}
+
+// infrastructure/services/SecureStorageService.ts (mobile adapter)
+export class SecureStorageService implements IStorageService {
+  async save(key: string, value: string): Promise<Result<void>> {
+    try {
+      await SecureStore.setItemAsync(key, value); // Expo SecureStore
+      return Result.ok(undefined);
+    } catch (error) {
+      return Result.fail('Storage error');
+    }
+  }
+}
+
+// mobile/screens/LoginScreen.tsx (presentation)
+const LoginScreen = () => {
+  const { execute, result } = useLoginUser(); // Clean Architecture use case
+
+  return (
+    <View>
+      <TextInput onChangeText={setEmail} />
+      <Button onPress={() => execute(email, password)} title="Login" />
+      {result && !result.isSuccess && <Text>{result.error}</Text>}
+    </View>
+  );
+};
+```
+
+### For Complete Guide
+
+**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) - React Native uses same patterns as React.
+
+**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for pattern selection.
 
 ---
 

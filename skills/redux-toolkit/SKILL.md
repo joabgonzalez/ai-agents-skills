@@ -5,6 +5,7 @@ skills:
   - conventions
   - react
   - typescript
+  - architecture-patterns
 dependencies:
   "@reduxjs/toolkit": ">=2.0.0 <3.0.0"
   react-redux: ">=8.0.0 <10.0.0"
@@ -215,6 +216,36 @@ export const store = configureStore({
 **EntityAdapter sorting:** Provide `sortComparer` in adapter for consistent ordering. Updates re-sort automatically.
 
 **Hot reloading:** Use `module.hot` to preserve store state during development hot reloads.
+
+---
+
+## Advanced Architecture Patterns
+
+**⚠️ Context Check Required**: Advanced architecture patterns (Clean Architecture, DDD, SOLID) apply only when:
+
+1. **AGENTS.md explicitly specifies** architecture requirements
+2. **Codebase already uses** domain/, application/, infrastructure/ folders
+3. **User explicitly requests** architectural patterns
+
+**If none apply** → Use Redux Toolkit best practices above, skip architecture patterns.
+
+### Applicable Patterns for Redux
+
+- **SRP**: One slice per domain (user, order, product - not one appSlice)
+- **Clean Architecture**: RTK Query as Infrastructure, domain entities separate
+- **Result Pattern**: Wrap mutations/async thunks with Result<T> for type-safe errors
+
+### For Complete Guide
+
+**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
+
+- Redux Toolkit with Clean Architecture
+- SRP for slices (one responsibility per slice)
+- RTK Query as Infrastructure adapter
+- Result Pattern with mutations
+- Complete examples with layer separation
+
+**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for pattern selection guidance.
 
 ---
 

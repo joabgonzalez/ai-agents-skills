@@ -86,38 +86,39 @@ See [AGENTS.md Extended Mandatory Read Protocol](AGENTS.md#extended-mandatory-re
 
 ## Skills Table
 
-| Skill Name              | Description                                                            | Path                                    |
-| ----------------------- | ---------------------------------------------------------------------- | --------------------------------------- |
-| conventions             | General coding conventions and best practices                          | skills/conventions/SKILL.md             |
-| a11y                    | Universal accessibility standards for all technologies                 | skills/a11y/SKILL.md                    |
-| react                   | React-specific UI development guidelines                               | skills/react/SKILL.md                   |
-| mui                     | Material UI conventions for React                                      | skills/mui/SKILL.md                     |
-| astro                   | Astro framework best practices                                         | skills/astro/SKILL.md                   |
-| javascript              | Modern JavaScript conventions                                          | skills/javascript/SKILL.md              |
-| typescript              | TypeScript conventions and integration                                 | skills/typescript/SKILL.md              |
-| css                     | Modern, maintainable, and accessible CSS                               | skills/css/SKILL.md                     |
-| ag-grid                 | AG Grid integration and usage                                          | skills/ag-grid/SKILL.md                 |
-| agent-creation          | Step-by-step guide for creating standards-compliant agents             | skills/agent-creation/SKILL.md          |
-| critical-partner        | Rigorous review and improvement of code, skills, and agent definitions | skills/critical-partner/SKILL.md        |
-| eslint                  | ESLint configuration and linting best practices                        | skills/eslint/SKILL.md                  |
-| expo                    | Expo framework usage for React Native                                  | skills/expo/SKILL.md                    |
-| formik                  | Formik forms and validation                                            | skills/formik/SKILL.md                  |
-| html                    | HTML-specific conventions and best practices                           | skills/html/SKILL.md                    |
-| mui-x-charts            | MUI X Charts integration and usage                                     | skills/mui-x-charts/SKILL.md            |
-| prettier                | Prettier formatting conventions                                        | skills/prettier/SKILL.md                |
-| process-documentation   | Comprehensive documentation of processes and changes                   | skills/process-documentation/SKILL.md   |
-| prompt-creation         | Step-by-step guide for creating context prompts for AI assistants      | skills/prompt-creation/SKILL.md         |
-| react-native            | React Native conventions and best practices                            | skills/react-native/SKILL.md            |
-| redux-toolkit           | Redux Toolkit + RTK Query state/data management                        | skills/redux-toolkit/SKILL.md           |
-| skill-creation          | Step-by-step guide for creating standards-compliant skills             | skills/skill-creation/SKILL.md          |
-| skill-sync              | Synchronization guide for multi-model directory maintenance            | skills/skill-sync/SKILL.md              |
-| tailwindcss             | TailwindCSS usage and conventions                                      | skills/tailwindcss/SKILL.md             |
-| technical-communication | Technical communication best practices                                 | skills/technical-communication/SKILL.md |
-| translation             | Translation and localization best practices                            | skills/translation/SKILL.md             |
-| vite                    | Vite build tool usage and conventions                                  | skills/vite/SKILL.md                    |
-| webpack                 | Webpack build tool usage and conventions                               | skills/webpack/SKILL.md                 |
-| yup                     | Yup validation usage and conventions                                   | skills/yup/SKILL.md                     |
-| zod                     | Zod validation usage and conventions                                   | skills/zod/SKILL.md                     |
+| Skill Name              | Description                                                             | Path                                    |
+| ----------------------- | ----------------------------------------------------------------------- | --------------------------------------- |
+| conventions             | General coding conventions and best practices                           | skills/conventions/SKILL.md             |
+| a11y                    | Universal accessibility standards for all technologies                  | skills/a11y/SKILL.md                    |
+| architecture-patterns   | SOLID, Clean Architecture, DDD, Hexagonal patterns for backend/frontend | skills/architecture-patterns/SKILL.md   |
+| react                   | React-specific UI development guidelines                                | skills/react/SKILL.md                   |
+| mui                     | Material UI conventions for React                                       | skills/mui/SKILL.md                     |
+| astro                   | Astro framework best practices                                          | skills/astro/SKILL.md                   |
+| javascript              | Modern JavaScript conventions                                           | skills/javascript/SKILL.md              |
+| typescript              | TypeScript conventions and integration                                  | skills/typescript/SKILL.md              |
+| css                     | Modern, maintainable, and accessible CSS                                | skills/css/SKILL.md                     |
+| ag-grid                 | AG Grid integration and usage                                           | skills/ag-grid/SKILL.md                 |
+| agent-creation          | Step-by-step guide for creating standards-compliant agents              | skills/agent-creation/SKILL.md          |
+| critical-partner        | Rigorous review and improvement of code, skills, and agent definitions  | skills/critical-partner/SKILL.md        |
+| eslint                  | ESLint configuration and linting best practices                         | skills/eslint/SKILL.md                  |
+| expo                    | Expo framework usage for React Native                                   | skills/expo/SKILL.md                    |
+| formik                  | Formik forms and validation                                             | skills/formik/SKILL.md                  |
+| html                    | HTML-specific conventions and best practices                            | skills/html/SKILL.md                    |
+| mui-x-charts            | MUI X Charts integration and usage                                      | skills/mui-x-charts/SKILL.md            |
+| prettier                | Prettier formatting conventions                                         | skills/prettier/SKILL.md                |
+| process-documentation   | Comprehensive documentation of processes and changes                    | skills/process-documentation/SKILL.md   |
+| prompt-creation         | Step-by-step guide for creating context prompts for AI assistants       | skills/prompt-creation/SKILL.md         |
+| react-native            | React Native conventions and best practices                             | skills/react-native/SKILL.md            |
+| redux-toolkit           | Redux Toolkit + RTK Query state/data management                         | skills/redux-toolkit/SKILL.md           |
+| skill-creation          | Step-by-step guide for creating standards-compliant skills              | skills/skill-creation/SKILL.md          |
+| skill-sync              | Synchronization guide for multi-model directory maintenance             | skills/skill-sync/SKILL.md              |
+| tailwindcss             | TailwindCSS usage and conventions                                       | skills/tailwindcss/SKILL.md             |
+| technical-communication | Technical communication best practices                                  | skills/technical-communication/SKILL.md |
+| translation             | Translation and localization best practices                             | skills/translation/SKILL.md             |
+| vite                    | Vite build tool usage and conventions                                   | skills/vite/SKILL.md                    |
+| webpack                 | Webpack build tool usage and conventions                                | skills/webpack/SKILL.md                 |
+| yup                     | Yup validation usage and conventions                                    | skills/yup/SKILL.md                     |
+| zod                     | Zod validation usage and conventions                                    | skills/zod/SKILL.md                     |
 
 ## How It Works
 

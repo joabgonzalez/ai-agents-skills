@@ -6,6 +6,7 @@ skills:
   - a11y
   - react
   - typescript
+  - architecture-patterns
 dependencies:
   astro: ">=5.0.0 <6.0.0"
   typescript: ">=5.0.0 <6.0.0"
@@ -396,6 +397,156 @@ const user = Astro.locals.user; // Server-only data
 **Build vs runtime errors:** SSG errors appear at build time, SSR errors appear at request time. Test SSR pages locally with `npm run dev`.
 
 **Migration SSG → SSR:** Install adapter, change `output` to `'hybrid'` or `'server'`, add `prerender: false` to specific pages only.
+
+---
+
+## Advanced Architecture Patterns
+
+**⚠️ Conditional Application**: Architecture patterns (Clean Architecture, DDD, SOLID) apply to Astro projects only when:
+
+1. **AGENTS.md explicitly specifies** architecture requirements
+2. **Codebase already uses** domain/, application/, infrastructure/ folders
+3. **User explicitly requests** architectural patterns
+4. **Complex server-side business logic** exists (beyond static content rendering)
+
+**Most Astro projects** (marketing sites, blogs, documentation) → **Skip architecture patterns**, use Astro best practices.
+
+### When Astro Needs Architecture
+
+**SSR/API projects with**:
+
+- Complex authentication/authorization
+- Heavy business logic on server (not just content rendering)
+- Multiple API integrations
+- Domain-driven features (e-commerce, SaaS dashboards)
+
+**SSG projects typically don't need** architecture patterns (content-focused, minimal logic).
+
+### Applicable Patterns
+
+- **SRP**: Separate services, repositories, validation from .astro pages
+- **Result Pattern**: Type-safe error handling in server-side operations
+- **Layer Separation**: domain/, infrastructure/, pages/ when business logic is complex
+
+### For Complete Guide
+
+**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
+
+- Layer separation in Astro SSR
+- Service layer patterns
+- Result Pattern in .astro pages
+- When to apply and when to skip
+- Complete Astro examples with architecture
+
+**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for pattern selection.
+body: JSON.stringify({ email, name })
+});
+const data = await response.json();
+return Result.ok(new User(data.id, data.email, data.name));
+} catch (error) {
+return Result.fail('Failed to create user');
+}
+}
+};
+
+## // pages/register.astro (Presentation layer)
+
+import { userService } from '../infrastructure/services/userService';
+
+let result = null;
+
+if (Astro.request.method === 'POST') {
+const formData = await Astro.request.formData();
+const email = formData.get('email') as string;
+const name = formData.get('name') as string;
+
+result = await userService.createUser(email, name);
+}
+
+---
+
+<html>
+  <body>
+    <form method="POST">
+      <input type="email" name="email" required />
+      <input type="text" name="name" required />
+      <button type="submit">Register</button>
+    </form>
+
+    {result && !result.isSuccess && (
+      <p class="error">{result.error}</p>
+    )}
+
+    {result?.isSuccess && (
+      <p class="success">User registered: {result.value.name}</p>
+    )}
+
+  </body>
+</html>
+```
+
+#### Result Pattern in Astro
+
+```typescript
+// Result pattern for API calls
+export class Result<T> {
+  private constructor(
+    public readonly isSuccess: boolean,
+    public readonly value?: T,
+    public readonly error?: string
+  ) {}
+
+  static ok<T>(value: T): Result<T> {
+    return new Result(true, value);
+  }
+
+  static fail<T>(error: string): Result<T> {
+    return new Result(false, undefined, error);
+  }
+}
+
+// Usage in Astro page
+---
+const result = await dataService.getData();
+---
+
+<html>
+  {result.isSuccess ? (
+    <ul>
+      {result.value.map(item => <li>{item.name}</li>)}
+    </ul>
+  ) : (
+    <p>Error: {result.error}</p>
+  )}
+</html>
+```
+
+### When to Apply
+
+- **SSR project** with adapter (node, vercel, netlify)
+- **Complex server logic** (auth, business rules, data processing)
+- **Project specifies architecture** in `AGENTS.md`
+- **Multiple developers** need structure
+
+### When NOT to Apply
+
+- **SSG-only projects** (static blogs, docs, marketing sites)
+- **Content-focused sites** with minimal logic
+- **Prototypes or MVPs**
+- **Small projects** (<20 pages)
+
+### For Complete Guide
+
+**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
+
+- Astro-specific layer separation
+- Service layer patterns for SSR
+- Result Pattern in `.astro` pages
+- Complete examples with domain logic
+
+**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for Decision Tree and pattern applicability.
+
+---
 
 ## References
 

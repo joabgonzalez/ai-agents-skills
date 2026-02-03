@@ -253,7 +253,13 @@ Otherwise → Default
 
 ### Step 6: Delegate to Conventions
 
-Before adding rules, check if conventions/a11y covers them. Delegate first.
+Before adding rules, check if conventions/a11y/architecture-patterns covers them. Delegate first.
+
+- **General coding standards** → Delegate to [conventions](../conventions/SKILL.md)
+- **Accessibility rules** → Delegate to [a11y](../a11y/SKILL.md)
+- **Architecture patterns** (SOLID, Clean, DDD) → Delegate to [architecture-patterns](../architecture-patterns/SKILL.md)
+
+**Add only skill-specific rules** that don't exist elsewhere.
 
 ### Step 7: Validate
 
@@ -286,6 +292,14 @@ Refer to [a11y](../a11y/SKILL.md) for:
 
 - Semantic HTML
 - ARIA attributes
+
+Refer to [architecture-patterns](../architecture-patterns/SKILL.md) for:
+
+- SOLID principles (SRP, DIP, ISP, etc.)
+- Clean/Hexagonal Architecture
+- Domain-Driven Design patterns
+
+**Don't duplicate** content from these skills. Delegate with clear references.
 
 ### Skill-Creation-Specific
 

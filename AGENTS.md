@@ -182,16 +182,17 @@ Use these skills for detailed patterns and guidance on-demand:
 
 ### Generic Skills (Cross-Project)
 
-| Skill        | Description                                    | Path                                     |
-| ------------ | ---------------------------------------------- | ---------------------------------------- |
-| conventions  | General coding standards and best practices    | [SKILL.md](skills/conventions/SKILL.md)  |
-| a11y         | Universal accessibility standards (WCAG, ARIA) | [SKILL.md](skills/a11y/SKILL.md)         |
-| typescript   | TypeScript strict typing and patterns          | [SKILL.md](skills/typescript/SKILL.md)   |
-| javascript   | Modern JavaScript (ES2020+) patterns           | [SKILL.md](skills/javascript/SKILL.md)   |
-| react        | React component patterns and hooks             | [SKILL.md](skills/react/SKILL.md)        |
-| react-native | React Native mobile development                | [SKILL.md](skills/react-native/SKILL.md) |
-| html         | Semantic HTML5 and structure                   | [SKILL.md](skills/html/SKILL.md)         |
-| css          | Modern CSS (Grid, Flexbox, custom properties)  | [SKILL.md](skills/css/SKILL.md)          |
+| Skill                 | Description                                       | Path                                              |
+| --------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| conventions           | General coding standards and best practices       | [SKILL.md](skills/conventions/SKILL.md)           |
+| a11y                  | Universal accessibility standards (WCAG, ARIA)    | [SKILL.md](skills/a11y/SKILL.md)                  |
+| architecture-patterns | SOLID, Clean/Hexagonal Architecture, DDD patterns | [SKILL.md](skills/architecture-patterns/SKILL.md) |
+| typescript            | TypeScript strict typing and patterns             | [SKILL.md](skills/typescript/SKILL.md)            |
+| javascript            | Modern JavaScript (ES2020+) patterns              | [SKILL.md](skills/javascript/SKILL.md)            |
+| react                 | React component patterns and hooks                | [SKILL.md](skills/react/SKILL.md)                 |
+| react-native          | React Native mobile development                   | [SKILL.md](skills/react-native/SKILL.md)          |
+| html                  | Semantic HTML5 and structure                      | [SKILL.md](skills/html/SKILL.md)                  |
+| css                   | Modern CSS (Grid, Flexbox, custom properties)     | [SKILL.md](skills/css/SKILL.md)                   |
 
 ### UI Framework Skills
 
@@ -244,6 +245,7 @@ Use these skills for detailed patterns and guidance on-demand:
 | Add accessibility features (ARIA, keyboard nav) | a11y                    | [SKILL.md](skills/a11y/SKILL.md)                    |
 | Add validation schemas                          | zod or yup              | [SKILL.md](skills/zod/SKILL.md)                     |
 | After creating/modifying a skill                | skill-sync              | [SKILL.md](skills/skill-sync/SKILL.md)              |
+| Apply SOLID, Clean Architecture, DDD patterns   | architecture-patterns   | [SKILL.md](skills/architecture-patterns/SKILL.md)   |
 | Build or bundle configuration                   | vite or webpack         | [SKILL.md](skills/vite/SKILL.md)                    |
 | Code quality review or improvement suggestions  | critical-partner        | [SKILL.md](skills/critical-partner/SKILL.md)        |
 | Committing changes or documenting processes     | process-documentation   | [SKILL.md](skills/process-documentation/SKILL.md)   |

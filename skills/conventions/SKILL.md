@@ -34,6 +34,7 @@ Don't use this skill for:
 - Technology-specific patterns (use typescript, react, etc.)
 - Accessibility rules (use a11y skill)
 - Framework-specific conventions (use framework skill)
+- **Architecture patterns** (use [architecture-patterns](../architecture-patterns/SKILL.md) when project already uses SOLID, Clean Architecture, DDD)
 
 ---
 
