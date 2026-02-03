@@ -41,30 +41,48 @@ Don't use this skill for:
 
 ### ✅ REQUIRED: Write Descriptive Commit Messages
 
+**Two formats: Simple (default) and Descriptive**
+
+**Simple format (default - one line):**
+
 ```
-// ✅ CORRECT: With ticket ID
-[JIRA-123] feat: Add JWT refresh token mechanism
+// ✅ CORRECT: Simple with ticket ID
+[SM-14466] fix: handle API 500 error on service plan creation; add error handling for categoryIds; prevent premature Code Review
 
-Implements automatic token refresh when access token expires.
-Includes retry logic and error handling for failed refreshes.
+// ✅ CORRECT: Simple without ticket ID
+feat: add user authentication with JWT; implement refresh tokens; include login and logout endpoints
 
-// ✅ CORRECT: Without ticket ID (when no ticket provided)
-feat: Add JWT refresh token mechanism
+// ❌ WRONG: Missing semicolons between summaries
+[SM-123] feat: add feature update another thing do more stuff
+```
 
-Implements automatic token refresh when access token expires.
-Includes retry logic and error handling for failed refreshes.
+**Descriptive format (when requested):**
 
-// ❌ WRONG: Vague or no context
-fix stuff
+```
+// ✅ CORRECT: Descriptive with ticket ID
+[SM-14466] fix: handle API 500 error on service plan creation
 
-// ❌ WRONG: Including [TICKET-ID] placeholder when no ticket provided
-[TICKET-ID] feat: Add feature
+- Add error handling for 500 response when sending categoryIds
+- Prevents moving ticket to Code Review if plans are not listed
+- Adds explanatory comment for backend team
+
+// ✅ CORRECT: Descriptive without ticket ID
+feat: add user authentication with JWT
+
+- Implements JWT-based authentication system
+- Includes login, logout, and token refresh endpoints
+- Adds session management and error handling
 ```
 
 **Rules:**
 
-- If ticket ID is provided: Start with `[TICKET-ID]` (e.g., `[JIRA-123]`, `[SBD-456]`)
-- If NO ticket ID is provided: Omit `[TICKET-ID]` entirely, start directly with type (e.g., `feat:`, `fix:`)
+- **Default to simple format** unless user requests "descriptive commit"
+- **Simple**: `[TICKET-ID] type: summary; summary2; summary3` (one line, semicolons separate changes)
+- **Descriptive**: `[TICKET-ID] type: summary` + bullet list (one summary line + detailed changes)
+- Valid types: feat, fix, refactor, chore, docs, test, etc.
+- Use only ASCII apostrophes (') and hyphens (-)
+- If ticket ID provided: Start with `[TICKET-ID]` (e.g., `[SM-123]`, `[JIRA-456]`)
+- If NO ticket ID: Omit `[TICKET-ID]` entirely, start with type
 - Never use placeholder `[TICKET-ID]` without actual ticket number
 
 ### ✅ REQUIRED: Use Active Voice
@@ -126,11 +144,11 @@ Refer to conventions for:
 
 **Code comment?** → Explain "why" not "what". Avoid obvious comments.
 
-**Commit message?** → Use conventional commits: `type(scope): subject` or `[TICKET-ID] type(scope): subject`. Include body for complex changes. Omit `[TICKET-ID]` if no ticket provided.
+**Commit message?** → Use conventional commits format. **Default: simple format** (`[TICKET-ID] type: summary; summary2`). Use descriptive format only when user requests it (`[TICKET-ID] type: summary` + bullet list). Omit `[TICKET-ID]` if no ticket provided.
 
 **README?** → Include: purpose, installation, usage, examples, contributing guidelines.
 
-**Architecture decision?** → Write ADR with context, decision, consequences.
+**Technical decision?** → Document with context, rationale, and impact.
 
 **Complex concept?** → Use diagrams, examples, analogies. Break into smaller sections.
 
@@ -140,20 +158,32 @@ Refer to conventions for:
 
 ## Example
 
-Good commit message:
+Good commit message (simple format - default):
 
 ```
 // With ticket ID
-[JIRA-123] feat: Add user authentication with JWT
-
-Implements JWT-based authentication system with refresh tokens.
-Includes login, logout, and token refresh endpoints.
+[SM-14466] fix: handle API 500 error on service plan creation; add error handling for categoryIds; prevent premature Code Review
 
 // Without ticket ID
-feat: Add user authentication with JWT
+feat: add user authentication with JWT; implement refresh tokens; include login and logout endpoints
+```
 
-Implements JWT-based authentication system with refresh tokens.
-Includes login, logout, and token refresh endpoints.
+Good commit message (descriptive format - when requested):
+
+```
+// With ticket ID
+[SM-14466] fix: handle API 500 error on service plan creation
+
+- Add error handling for 500 response when sending categoryIds
+- Prevents moving ticket to Code Review if plans are not listed
+- Adds explanatory comment for backend team
+
+// Without ticket ID
+feat: add user authentication with JWT
+
+- Implements JWT-based authentication system
+- Includes login, logout, and token refresh endpoints
+- Adds session management and error handling
 ```
 
 Good documentation:

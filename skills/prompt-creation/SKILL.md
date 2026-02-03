@@ -1,24 +1,16 @@
 ---
 name: prompt-creation
-description: Guides agents to create context prompts for AI assistants using templates in JSON or markdown frontmatter format. Enforces mandatory context gathering through structured questions and validates compliance with JSON schema for technology stacks or behavioral configurations. Token-efficient documentation required. Trigger: When creating a new context prompt, defining AI assistant behavior, or documenting technology stack configuration.
+description: Create context prompts for AI assistants in JSON or markdown frontmatter. Enforces mandatory context gathering (10 questions), validates schema compliance, ensures token efficiency. Two types: technology-stack (project config) or behavioral (assistant persona). Trigger: When creating context prompts for AI assistants or documenting project configuration.
 skills:
   - critical-partner
   - conventions
-allowed-tools:
-  - documentation-reader
-  - web-search
-  - file-reader
 ---
 
 # Prompt Creation Skill
 
-## Overview
+## Purpose
 
-This skill provides step-by-step instructions for creating context prompts using templates. Prompts provide configuration, behavior, and technology stack information to AI assistants in either JSON or markdown frontmatter format, stored in the project's `prompts/` directory for reuse across AI tools.
-
-## Objective
-
-Enable agents to create well-structured context prompts using templates that effectively configure AI assistant behavior or provide technology stack context. Ensures proper format, naming conventions, JSON schema validation, and comprehensive coverage of project requirements while maintaining token efficiency.
+Create standardized context prompts for AI assistants in `prompts/` directory. Two types: technology-stack (project config with versions/policies) or behavioral (assistant persona/rules). Enforces context gathering, validates schema compliance, ensures token efficiency. Uses JSON or markdown frontmatter format.
 
 ---
 
@@ -26,303 +18,109 @@ Enable agents to create well-structured context prompts using templates that eff
 
 Use this skill when:
 
-- Creating a new context prompt for AI assistants
-- Defining technology stack configuration for a project
+- Creating context prompts for AI assistants
+- Defining technology stack configuration for projects
 - Documenting behavioral rules for AI assistant personas
 - Setting up language processing or communication guidelines
-- Providing examples and patterns for AI to follow
 
 Don't use this skill for:
 
 - Creating agent definitions (use agent-creation instead)
 - Creating skills (use skill-creation instead)
-- Modifying existing prompts without gathering full context
-
----
-
-## Step-by-Step Workflow
-
-### Step 1: Gather Context (CRITICAL - DO NOT SKIP)
-
-**Before creating a prompt, you MUST gather context. Do not proceed without sufficient information.**
-
-**For Technology Stack Prompts, ask:**
-
-1. **What is the project name?** (used for filename)
-2. **What technologies are used?** (languages, frameworks, libraries with versions)
-3. **What are the key architectural patterns?** (e.g., SSG, SPA, microservices)
-4. **Are there version constraints or compatibility requirements?**
-5. **What are the core policies or conventions?** (e.g., strict typing, accessibility)
-6. **Are there performance targets or optimization requirements?**
-7. **What build tools or development environment is used?**
-8. **Are there integration points or external dependencies?**
-9. **What warnings or common pitfalls should be highlighted?**
-10. **Should examples be included?** (common patterns, configurations)
-
-**For Behavioral Prompts, ask:**
-
-1. **What is the primary objective?** (what should the assistant help with?)
-2. **What persona should the assistant adopt?** (teacher, reviewer, translator, etc.)
-3. **What are the core behavioral rules?** (always/never do X)
-4. **What instruction types are supported?** (commands, modes, prefixes)
-5. **What is the default tone or communication style?**
-6. **What are the language processing rules?** (e.g., always output in English, translate Spanish input first)
-7. **What are the communication guidelines?** (e.g., tone, structure, formatting)
-8. **What are the evaluation criteria?** (e.g., accuracy, clarity, constructiveness)
-9. **Are there any runtime behaviors?** (e.g., how to handle missing context, version conflicts)
-10. **Should examples be included?** (e.g., Jira tickets, commit messages, translations)
-
-**Do not proceed until you have gathered sufficient context for the prompt type.**
-
----
-
-### Step 2: Copy Template and Confirm Format
-
-**Copy the appropriate template:**
-
-```bash
-# Copy template to prompts directory
-cp skills/prompt-creation/assets/PROMPT-TEMPLATE.md prompts/{prompt-name}.md
-```
-
-**Ask the user which format to use:**
-
-- **Markdown frontmatter format** (`.md`): Human-readable, combines YAML metadata with markdown content (RECOMMENDED)
-- **JSON format** (`.json`): Structured data, easier for programmatic parsing
-
-Wait for user confirmation before proceeding.
-
----
-
-### Step 3: Determine Prompt Type and Naming
-
-**Prompt types:**
-
-1. **Technology Stack Prompts** (project context):
-   - Naming convention: `{project-name}.md` or `{project-name}.json`
-   - Example: `sbd.md`, `usn.md`
-   - Type field: `technology-stack`
-   - Contains: stack, policies, versioning, warnings, examples
-
-2. **Behavioral Prompts** (assistant configuration):
-   - Naming convention: `{behavior-name}.md` or `{behavior-name}.json`
-   - Example: `english-practice.md`, `code-review.md`
-   - Type field: `behavioral`
-   - Contains: objective, persona, behavior, instructions, language_processing
-
-**Token efficiency**: Be precise and concise. Eliminate redundancy. Use YAML list syntax (`- item`) never `[]`. Omit empty fields.
-
-**Validation:** Use `skills/prompt-creation/assets/frontmatter-schema.json` to validate your frontmatter.
-
-**Ask the user for the prompt name and confirm the type.**
-
----
-
-### Step 4: Fill Template Placeholders
-
-Replace all placeholders in the template:
-
-- `{prompt-name}`: The prompt identifier
-- `{technology-stack | behavioral}`: Select appropriate type
-- `{description}`: Brief description of prompt purpose
-- `{When this prompt should be included}`: Context clause
-- `{high | medium | low}`: Priority level
-- All section-specific placeholders
-
----
-
-### Step 5: Structure the Prompt
-
-#### For Technology Stack Prompts (Markdown frontmatter):
-
-```json
-{
-  "name": "project-name",
-  "type": "tech-stack",
-  "description": "Brief description of the project",
-  "stack": {
-    "languages": ["TypeScript 5.x", "JavaScript"],
-    "frameworks": ["React 18.x", "Vite"],
-    "libraries": ["MUI 5.x", "Redux Toolkit 2.x"]
-  },
-  "policies": [
-    "Strict typing required (no any)",
-    "Accessibility compliance (WCAG 2.1 AA)",
-    "Follow MUI component patterns"
-  ],
-  "versioning": {
-    "typescript": ">=5.0.0 <6.0.0",
-    "react": ">=18.0.0 <19.0.0"
-  },
-  "warnings": ["Avoid legacy Redux patterns", "Always validate form inputs"],
-  "examples": {
-    "component": "// Example React component with TypeScript\nconst Example: React.FC = () => <div>Hello</div>;"
-  }
-}
-```
-
-#### For Technology Stack Prompts (Markdown frontmatter):
-
-```markdown
----
-name: project-name
-type: tech-stack
-description: Brief description
-stack:
-  languages:
-    - TypeScript 5.x
-    - JavaScript
-  frameworks:
-    - React 18.x
-    - Vite
-  libraries:
-    - MUI 5.x
-policies:
-  - Strict typing required
-  - Accessibility compliance
-versioning:
-  typescript: ">=5.0.0 <6.0.0"
-  react: ">=18.0.0 <19.0.0"
-warnings:
-  - Avoid legacy patterns
----
-
-# Project Name Stack
-
-[Additional markdown content if needed]
-```
-
-#### For Behavioral Prompts (JSON format):
-
-```json
-{
-  "objective": "Primary goal of the assistant",
-  "persona": {
-    "role": "Teacher, reviewer, etc.",
-    "traits": ["Patient", "Encouraging", "Detail-oriented"]
-  },
-  "general_rules": [
-    "Use only ASCII apostrophes",
-    "Always explain corrections",
-    "Ask for missing context"
-  ],
-  "instruction_types": {
-    "practice": {
-      "prefix": "practice:",
-      "behavior": "Correct and provide feedback"
-    },
-    "review": {
-      "prefix": "review:",
-      "behavior": "Review without treating as practice"
-    }
-  },
-  "tone_modifiers": {
-    "formal": "(formal)",
-    "casual": "(casual)",
-    "default": "semi-casual"
-  },
-  "examples": {
-    "input": "practice: example text",
-    "output": "Corrected version with explanations"
-  },
-  "evaluation_criteria": ["Accuracy", "Clarity", "Constructiveness"],
-  "output_format": "Description of expected output",
-  "language_processing": {
-    "default_output": "English",
-    "translation_mode": "Spanish to English",
-    "input_acceptance": "English or Spanish"
-  }
-}
-```
-
-#### For Behavioral Prompts (Markdown frontmatter):
-
-```markdown
----
-objective: Primary goal of the assistant
-persona:
-  role: Teacher, reviewer, etc.
-  traits:
-    - Patient
-    - Encouraging
-general_rules:
-  - Use only ASCII apostrophes
-  - Always explain corrections
-instruction_types:
-  practice:
-    prefix: "practice:"
-    behavior: Correct and provide feedback
-  review:
-    prefix: "review:"
-    behavior: Review without treating as practice
-evaluation_criteria:
-  - Accuracy
-  - Clarity
-output_format: Description of expected output
-language_processing:
-  default_output: English
-  translation_mode: Spanish to English
----
-
-# Behavioral Prompt Name
-
-[Additional documentation, examples, or usage instructions]
-```
-
----
-
-### Step 6: Validation
-
-**Validate the prompt against schema and criteria:**
-
-```bash
-# Validate frontmatter against schema
-cat prompts/{prompt-name}.md | yq eval '.frontmatter' - | \
-  yq eval-all '.' skills/prompt-creation/assets/frontmatter-schema.json -
-```
-
-**Validate against checklist:**
-
-- [ ] File created in `prompts/` directory
-- [ ] Correct naming convention used
-- [ ] Format chosen (JSON or markdown frontmatter)
-- [ ] All required fields present for prompt type
-- [ ] YAML/JSON syntax valid
-- [ ] Lists use `- item` syntax (not `[]`)
-- [ ] Empty fields omitted
-- [ ] Token-efficient: concise and precise
-- [ ] Examples included if helpful
-- [ ] Content in English with proper formatting
-- [ ] Validates against `assets/frontmatter-schema.json`
+- Modifying existing prompts without full context gathering
 
 ---
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Use Template for Consistency
+### Pattern 1: Mandatory Context Gathering (10 Questions)
+
+**CRITICAL**: NEVER create a prompt without gathering context first.
+
+**Technology Stack Prompts - Ask:**
+
+1. Project name? (filename)
+2. Technologies used? (languages, frameworks, libraries + versions)
+3. Key architectural patterns? (SSG, SPA, microservices)
+4. Version constraints or compatibility requirements?
+5. Core policies or conventions? (strict typing, accessibility)
+6. Performance targets or optimization requirements?
+7. Build tools or development environment?
+8. Integration points or external dependencies?
+9. Warnings or common pitfalls?
+10. Examples needed? (patterns, configurations)
+
+**Behavioral Prompts - Ask:**
+
+1. Primary objective? (what should assistant help with?)
+2. Persona to adopt? (teacher, reviewer, translator)
+3. Core behavioral rules? (always/never do X)
+4. Instruction types supported? (commands, modes, prefixes)
+5. Default tone or communication style?
+6. Language processing rules? (output language, translation)
+7. Communication guidelines? (tone, structure, formatting)
+8. Evaluation criteria? (accuracy, clarity, constructiveness)
+9. Runtime behaviors? (missing context, version conflicts)
+10. Examples needed? (Jira tickets, commit messages, translations)
 
 ```bash
-# Copy template to prompts directory
-cp skills/prompt-creation/assets/PROMPT-TEMPLATE.md prompts/{prompt-name}.md
-
-# Fill in placeholders: {prompt-name}, {type}, {description}, etc.
-```
-
-### ✅ REQUIRED: Gather Context First
-
-```
-# ❌ WRONG: Creating prompt without context
-# Create English practice prompt
+# ❌ WRONG: Skip context gathering
+Create English practice prompt
 # [Agent creates generic prompt]
 
 # ✅ CORRECT: Gather context first
 What is the primary objective?
 What persona should the assistant adopt?
-What are the core behavioral rules?
-[After gathering answers, create prompt]
+# [After gathering 10 answers, create prompt]
 ```
 
-### ✅ REQUIRED: Validate Against Schema
+### Pattern 2: Use Template from assets/
+
+```bash
+# Copy template to prompts directory
+cp skills/prompt-creation/assets/PROMPT-TEMPLATE.md prompts/{prompt-name}.md
+
+# Fill placeholders: {prompt-name}, {type}, {description}, etc.
+```
+
+### Pattern 3: Choose Prompt Type and Naming
+
+**Two types:**
+
+1. **technology-stack**: Project configuration
+   - Naming: `{project-name}.md` (e.g., `sbd.md`, `usn.md`)
+   - Contains: stack, policies, versioning, warnings, examples
+
+2. **behavioral**: Assistant persona/rules
+   - Naming: `{behavior-name}.md` (e.g., `english-practice.md`)
+   - Contains: objective, persona, general_rules, instruction_types
+
+### Pattern 4: Token Efficiency
+
+```yaml
+# ❌ WRONG: Empty fields waste tokens
+general_rules: []
+examples: {}
+warnings: []
+
+# ✅ CORRECT: Omit empty fields
+# (no general_rules, examples, or warnings field at all)
+
+# ❌ WRONG: Redundant nesting
+stack:
+  languages:
+    list:
+      - TypeScript
+
+# ✅ CORRECT: Direct lists
+stack:
+  languages:
+    - TypeScript
+
+# Always use YAML list syntax (- item), never JSON arrays []
+```
+
+### Pattern 5: Validate Against Schema
 
 ```bash
 # Always validate frontmatter structure
@@ -330,39 +128,170 @@ cat prompts/my-prompt.md | yq eval '.frontmatter' - | \
   yq eval-all '.' skills/prompt-creation/assets/frontmatter-schema.json -
 ```
 
-### ❌ NEVER: Use Empty Arrays or Objects
+### Pattern 6: Markdown Frontmatter (RECOMMENDED)
 
-```yaml
-# ❌ WRONG: Empty fields waste tokens
-general_rules: []
-examples: {}
+```markdown
+---
+name: project-name
+type: tech-stack
+stack:
+  languages:
+    - TypeScript 5.x
+policies:
+  - Strict typing required
+---
 
-# ✅ CORRECT: Omit empty fields completely
-# (no general_rules or examples field at all)
+# Additional markdown content if needed
 ```
+
+JSON format available but markdown frontmatter preferred (more readable, same validation).
 
 ---
 
 ## Decision Tree
 
 ```
-Technology stack prompt? → Use tech-stack type, include stack/policies/versioning
-Behavioral prompt?       → Use behavioral type, include objective/persona/rules
-Need examples?           → Add to examples section with clear context
-JSON format needed?      → Use .json extension, validate JSON syntax
-Markdown preferred?      → Use .md extension, YAML frontmatter (RECOMMENDED)
-Missing context?         → STOP and ask user for clarification
+New prompt needed?
+├─ Technology stack? → type: tech-stack, ask 10 tech questions
+├─ Behavioral rules? → type: behavioral, ask 10 behavioral questions
+├─ Missing context?  → STOP, ask user for clarification
+├─ Format choice?    → Markdown frontmatter (RECOMMENDED) or JSON
+├─ Need examples?    → Add to examples section with clear context
+└─ Ready to create?  → Copy template → Fill → Validate → Review
 ```
 
 ---
 
-## Naming Conventions
+## Edge Cases
 
-| Prompt Type      | Format          | Example                                 |
-| ---------------- | --------------- | --------------------------------------- |
-| Technology Stack | `{project}.md`  | `sbd.md`, `usn.md`                      |
-| Behavioral       | `{behavior}.md` | `english-practice.md`, `code-review.md` |
-| JSON format      | `{name}.json`   | `project.json`, `behavior.json`         |
+### Case 1: User Provides Incomplete Context
+
+```
+# ❌ WRONG: Proceed anyway
+User: "Create a prompt for my React project"
+Agent: [Creates generic React prompt]
+
+# ✅ CORRECT: Ask remaining questions
+User: "Create a prompt for my React project"
+Agent: "I need more context. Please answer:
+1. What is the project name?
+2. What React version?
+3. What other libraries? (state management, UI, routing)
+4. Any strict policies? (TypeScript, accessibility)
+# ... (ask all 10 questions)
+```
+
+### Case 2: Conflicting Technology Versions
+
+```yaml
+# ❌ WRONG: Ignore conflicts
+stack:
+  frameworks:
+    - React 18.x
+  libraries:
+    - react-router-dom 5.x  # Incompatible with React 18
+
+# ✅ CORRECT: Flag compatibility issues
+# Agent warns: "React Router 5 is incompatible with React 18. Use v6+"
+stack:
+  frameworks:
+    - React 18.x
+  libraries:
+    - react-router-dom 6.x
+warnings:
+  - React Router must be v6+ for React 18 compatibility
+```
+
+### Case 3: Behavioral Prompt Without Clear Persona
+
+```yaml
+# ❌ WRONG: Vague persona
+persona:
+  role: Helper
+  traits:
+    - Nice
+
+# ✅ CORRECT: Specific persona with actionable traits
+persona:
+  role: English teacher and technical writing coach
+  traits:
+    - Patient with explanations
+    - Encouraging but precise with corrections
+    - Detail-oriented in grammar feedback
+```
+
+### Case 4: Empty or Redundant Fields
+
+```yaml
+# ❌ WRONG: Include empty fields
+warnings: []
+examples: {}
+optional_field: null
+
+# ✅ CORRECT: Omit entirely (saves tokens)
+# (no warnings, examples, or optional_field at all)
+```
+
+---
+
+## Step-by-Step Workflow
+
+### Step 1: Gather Context
+
+**CRITICAL**: See [Pattern 1: Mandatory Context Gathering](#pattern-1-mandatory-context-gathering-10-questions) above.
+
+Ask all 10 questions for the prompt type. Do not proceed without sufficient context.
+
+---
+
+### Step 2: Copy Template
+
+See [Pattern 2: Use Template from assets/](#pattern-2-use-template-from-assets).
+
+```bash
+cp skills/prompt-creation/assets/PROMPT-TEMPLATE.md prompts/{prompt-name}.md
+```
+
+---
+
+### Step 3: Determine Type and Name
+
+See [Pattern 3: Choose Prompt Type and Naming](#pattern-3-choose-prompt-type-and-naming).
+
+- Technology stack: `{project-name}.md` (type: `tech-stack`)
+- Behavioral: `{behavior-name}.md` (type: `behavioral`)
+
+---
+
+### Step 4: Fill Template
+
+Replace placeholders:
+
+- `{prompt-name}`: Prompt identifier
+- `{technology-stack | behavioral}`: Select type
+- `{description}`: Brief purpose
+- All section-specific placeholders
+
+See [Examples](#examples) section below for complete templates.
+
+---
+
+### Step 5: Validate
+
+See [Pattern 5: Validate Against Schema](#pattern-5-validate-against-schema).
+
+**Validation checklist:**
+
+- [ ] File created in `prompts/` directory
+- [ ] Correct naming convention (see Pattern 3)
+- [ ] Format chosen (markdown frontmatter recommended)
+- [ ] All required fields present
+- [ ] YAML syntax valid
+- [ ] Lists use `- item` syntax (not `[]`)
+- [ ] Empty fields omitted (token efficiency)
+- [ ] Examples included if helpful
+- [ ] Validates against schema
+- [ ] Reviewed by critical-partner (recommended)
 
 ---
 
@@ -439,53 +368,80 @@ language_processing:
 
 ---
 
-## Compliance Checklist
+## 🔍 Self-Check Protocol (For AI Agents)
 
-Before finalizing a new prompt, verify:
+**Before completing prompt creation, verify you have:**
 
-### Context & Planning
+### 1. Context Gathering
 
-- [ ] Context gathered (10 questions for tech stack or behavioral)
-- [ ] Prompt type determined (technology-stack or behavioral)
-- [ ] Format confirmed (JSON or markdown frontmatter)
-- [ ] Template copied from `skills/prompt-creation/assets/`
+- [ ] Asked all 10 questions for prompt type (tech-stack or behavioral)
+- [ ] Received sufficient answers (not vague or incomplete)
+- [ ] Clarified ambiguous responses
+- [ ] Confirmed prompt type matches user intent
 
-### Structure
+### 2. Structure & Format
 
-- [ ] File created in `prompts/` directory
-- [ ] Correct naming convention followed
-- [ ] All placeholders replaced
+- [ ] Copied template from assets/
+- [ ] Chosen correct naming convention
+- [ ] Selected format (markdown frontmatter recommended)
+- [ ] Replaced all placeholders with actual content
+- [ ] Included only required fields (omitted empty ones)
 
-### Frontmatter
+### 3. Content Quality
 
-- [ ] Required fields present: `name`, `type`, `description`, `context`
-- [ ] Type is `technology-stack` or `behavioral`
-- [ ] Priority set (`high`, `medium`, or `low`)
-- [ ] YAML/JSON syntax valid
-- [ ] Lists use `- item` format (never `[]`)
-- [ ] Empty fields omitted
-- [ ] Validates against `assets/frontmatter-schema.json`
+- [ ] Technology versions specified (if tech-stack)
+- [ ] Persona is specific and actionable (if behavioral)
+- [ ] Policies/rules are clear and enforceable
+- [ ] Examples included if helpful (not mandatory)
+- [ ] Token-efficient (no redundancy)
 
-### Content Quality
+### 4. Validation & Review
 
-- [ ] Token-efficient: concise and precise
-- [ ] Examples included if helpful
-- [ ] Decision tree provided (if applicable)
-- [ ] Guidelines with ✅ Do / ❌ Don't sections
-- [ ] Content in English with proper formatting
+- [ ] YAML syntax validated
+- [ ] Lists use `- item` format (not `[]`)
+- [ ] Schema validation passed
+- [ ] Critical-partner review (recommended)
 
-### Post-Creation
+**Confidence check:**
 
-- [ ] Validated against JSON schema
-- [ ] Tested with target AI assistant
-- [ ] Reviewed by critical-partner skill (recommended)
+1. Does this prompt provide sufficient context for AI assistants?
+2. Are technology versions/policies specific enough to guide behavior?
+3. Would I understand the expected behavior if I were the AI assistant?
+
+**If you answered NO to any:** Gather more context or refine content before finalizing.
+
+**For complete validation:** See [Validation Checklist](#validation-checklist) below.
 
 ---
 
-## Resources
+## Validation Checklist
 
-- Templates: See [assets/](assets/) for PROMPT-TEMPLATE.md and frontmatter-schema.json
-- Documentation: See [references/](references/) for prompt usage guides (if applicable)
+Before finalizing:
+
+- [ ] Context gathered (10 questions)
+- [ ] Template copied from assets/
+- [ ] Type determined (tech-stack or behavioral)
+- [ ] File in `prompts/` with correct naming
+- [ ] Required fields present
+- [ ] YAML syntax valid
+- [ ] Lists use `- item` (not `[]`)
+- [ ] Empty fields omitted
+- [ ] Validates against schema
+- [ ] Reviewed by critical-partner
+
+---
+
+## Quick Reference
+
+| Aspect      | Technology Stack            | Behavioral                        |
+| ----------- | --------------------------- | --------------------------------- |
+| Type        | `tech-stack`                | `behavioral`                      |
+| Naming      | `{project}.md`              | `{behavior}.md`                   |
+| Key Fields  | stack, policies, versioning | objective, persona, general_rules |
+| Examples    | `sbd.md`, `usn.md`          | `english-practice.md`             |
+| Context Q's | 10 tech questions           | 10 behavioral questions           |
+
+---
 
 ## References
 

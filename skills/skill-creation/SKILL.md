@@ -1,22 +1,26 @@
 ---
 name: skill-creation
-description: Comprehensive guide for creating standards-compliant skills with templates, proper frontmatter, directory structure, naming conventions, and delegation patterns. Provides 6-step creation workflow with template scaffolding, JSON schema validation, compliance checklist, and examples. Ensures unique responsibilities, proper delegation, and token-efficient documentation. Trigger: When creating a new skill, adding agent instructions, or documenting patterns for AI.
+description: Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill or documenting patterns.
+skills:
+  - reference-creation
+  - critical-partner
+  - process-documentation
+  - skill-sync
 allowed-tools:
   - file-operations
   - read-file
   - write-file
-  - directory-operations
 ---
 
 # Skill Creation
 
 ## Overview
 
-This skill provides a structured approach to creating new skills that follow project standards. It covers directory setup, template usage, frontmatter requirements with JSON schema validation, content structure, delegation patterns, and multi-model synchronization.
+Create standards-compliant skills from simple single-file to complex multi-reference architectures. Covers directory setup, frontmatter requirements, content structure, inline examples, delegation patterns, and synchronization.
 
 ## Objective
 
-Enable agents and users to create skills that are discoverable, reusable, compliant with project conventions, and optimized for token efficiency. Each skill must have a unique responsibility and delegate appropriately to conventions and a11y skills. Use the provided template for faster, more consistent skill creation.
+Enable creation of skills at ANY complexity level (simple <15 patterns to complex 40+) that are discoverable, reusable, token-efficient, and follow project conventions. Each skill must have unique responsibility and delegate appropriately to conventions/a11y.
 
 ---
 
@@ -24,455 +28,454 @@ Enable agents and users to create skills that are discoverable, reusable, compli
 
 Use this skill when:
 
-- Creating a new skill from scratch
-- A pattern is used repeatedly and AI needs guidance
-- Project-specific conventions differ from generic best practices
-- Complex workflows need step-by-step instructions
-- Decision trees help AI choose the right approach
+- Creating new skill from scratch
+- Pattern is used repeatedly and AI needs guidance
+- Project conventions differ from generic best practices
+- Complex workflows need structured instructions
+- Technology has multiple sub-topics requiring organization
 
-Don't create a skill when:
+Don't create when:
 
-- Documentation already exists (create a reference instead)
+- Documentation already exists (create reference instead)
 - Pattern is trivial or self-explanatory
 - It's a one-off task
 
 ---
 
-## Step-by-Step Workflow
+## Quick Reference
 
-### Step 1: Directory and File Structure
+| Complexity | Indicators                 | Structure                        | Read                                                                    |
+| ---------- | -------------------------- | -------------------------------- | ----------------------------------------------------------------------- |
+| Simple     | <15 patterns, single topic | SKILL.md only                    | This file                                                               |
+| Medium     | 15-40 patterns, 2-3 topics | SKILL.md + assets/               | [structure.md](references/structure.md)                                 |
+| Complex    | 40+ patterns, 4+ topics    | SKILL.md + assets/ + references/ | ✅ **MUST invoke** [reference-creation](../reference-creation/SKILL.md) |
 
-- Create a new directory under `skills/` named after your skill (lowercase, hyphens, no spaces).
-- Copy the template from `skills/skill-creation/assets/SKILL-TEMPLATE.md` to `skills/{skill-name}/SKILL.md`.
-- Create optional subdirectories:
-  - `assets/` for templates, schemas, or config examples
-  - `references/` for links to local documentation (not external URLs)
-
-Example structure:
-
-```
-skills/{skill-name}/
-├── SKILL.md              # Required - main skill file
-├── assets/               # Optional - templates, schemas, examples
-│   ├── template.py
-│   └── schema.json
-└── references/           # Optional - links to local docs
-    └── docs.md           # Points to docs/developer-guide/*.mdx
-```
-
-### Step 2: Frontmatter with Trigger Inline
-
-The frontmatter is enclosed in triple dashes (`---`) and includes:
-
-**Required fields:**
-
-- **name** (required): Skill identifier (lowercase, hyphens). Keep concise.
-- **description** (required): Clear, precise summary including **Trigger:** clause. Format: `"{Brief description}. Trigger: {When AI should invoke this skill}."` Optimize for tokens while maintaining clarity.
-
-**Optional fields (include only when they add specificity):**
-
-- **input** (optional): Only include if it adds specificity beyond description. Format: `"description | data_type"`.
-- **output** (optional): Only include if it adds specificity beyond description. Format: `"description | data_type"`.
-- **dependencies** (optional): External libraries/packages with version ranges. **Omit if empty**. Format as YAML object.
-- **skills** (optional): Internal skill references. **Omit if empty**. Use YAML list with `- item` syntax.
-- **allowed-tools** (optional): Tools the agent can use. **Omit if empty**. Use YAML list with `- item` syntax.
-
-**Critical formatting rules:**
-
-- Use `dependencies` for external libraries/packages with version ranges
-- Use `skills` for internal skill references
-- **Trigger clause REQUIRED** in description (helps AI auto-invoke)
-- Arrays: Always use `- item` syntax, never `[]`
-- Objects: Use proper YAML indentation, never `{}`
-- **Empty arrays/objects: OMIT completely** (saves tokens)
-- Be precise and token-efficient: every word must add value
-
-**Validation:** Use `skills/skill-creation/assets/frontmatter-schema.json` to validate your frontmatter.
-
-Example frontmatter:
-
-```yaml
----
-name: example-skill
-description: Brief, precise description without redundancy. Trigger: When implementing example patterns or demonstrating skill structure.
-skills:
-  - conventions
-  - a11y
-dependencies:
-  library-name: ">=1.0.0 <2.0.0"
-allowed-tools:
-  - documentation-reader
----
-```
-
-### Step 3: Content Structure with Decision Tree
-
-After the frontmatter, include the following sections:
-
-1. **# Skill Name** (h1): Title matching the skill name.
-2. **## Overview**: Brief summary of purpose and scope (2-3 sentences).
-3. **## Objective**: Clear statement of purpose, expected behavior, and boundaries. Critical for AI interpretation.
-4. **## When to Use**: Bullet points of when to use/not use this skill.
-5. **## Critical Patterns**: The MOST important rules marked as REQUIRED/NEVER with ✅/❌ visual markers.
-6. **## Decision Tree** (REQUIRED): Question→Action format for AI decision-making.
-7. **## Conventions**: Core rules and best practices. If using `conventions` or `a11y` skills, start with "Refer to [skill name] for:" followed by a list, then add skill-specific conventions.
-8. **## Example**: Practical examples with code blocks using triple backticks and language specifier.
-9. **## Edge Cases**: Special scenarios, limitations, or boundary conditions.
-10. **## Commands** (if applicable): Common shell commands with descriptions.
-11. **## Resources**: Links to assets/ and references/ directories.
-12. **## References**: Links to official documentation (when applicable).
-
-### Step 4: Decision Tree Pattern
-
-Every skill MUST include a Decision Tree section to help AI choose the right approach:
-
-```
-## Decision Tree
-
-```
-
-{Condition or question}? → {Action A}
-{Condition or question}? → {Action B}
-Otherwise → {Default action}
-
-```
-
-```
-
-Example:
-
-```
-## Decision Tree
-
-```
-
-Tailwind class exists? → className="..."
-Dynamic value? → style={{ width: `${x}%` }}
-Conditional styles? → cn("base", condition && "variant")
-Static only? → className="..." (no cn() needed)
-
-```
-
-```
-
-### Step 5: Conventions and Delegation
-
-- **Before adding conventions**, verify if `conventions` or `a11y` already covers the topic.
-- If yes, reference that skill in the `skills` field and delegate with "Refer to [skill] for:" in the Conventions section.
-- Only add skill-specific rules that are unique to your technology or framework.
-- This ensures each skill has a unique responsibility and prevents overlap.
-
-### Step 6: Writing Guidelines
-
-- Write all content in English with American spelling.
-- Use only ASCII apostrophes (') and hyphens (-); avoid typographic dashes except em dashes (—).
-- Ensure consistent punctuation, spacing, and capitalization.
-- Avoid non-ASCII characters in skill names, metadata, and content.
-- Do not use emojis except ✅/❌ for visual contrast in Critical Patterns.
-- Use horizontal rules (`---`) to separate major sections for readability.
-
-**Token Efficiency:**
-
-- Be precise and concise: eliminate filler words and redundancy
-- Every sentence must provide unique, actionable information
-- Omit empty arrays and objects from frontmatter
-- Include `input`/`output` only when they add specificity
-- Use clear, direct language that serves both AI and human readers
-- Optimize for context size without sacrificing precision
-
-### Step 7: Validation
-
-- Review the Compliance Checklist at the end of this skill.
-- Validate frontmatter against `assets/frontmatter-schema.json`.
-- Validate structure, content sections, and conventions.
-- Ensure all referenced skills exist and are correctly listed.
-- Verify that external dependencies include version ranges.
-- **After validation, use skill-sync** to synchronize the new skill to all installed model directories.
+**CRITICAL**: For complex skills (40+ patterns), **MUST invoke** [reference-creation](../reference-creation/SKILL.md) skill for creating references/ directory.
 
 ---
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Use Template for Consistency
+### ✅ REQUIRED [CRITICAL]: Use Template for Consistency
 
 ```bash
-# Copy template to new skill directory
 cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/{skill-name}/SKILL.md
-
-# Fill in placeholders: {skill-name}, {description}, {Trigger}, etc.
+# Fill placeholders: {skill-name}, {description}, {Trigger}, etc.
 ```
 
-### ✅ REQUIRED: Include Trigger in Description
+### ✅ REQUIRED [CRITICAL]: Include Trigger in Description
 
 ```yaml
-# ✅ CORRECT: Includes Trigger clause
-description: TypeScript strict patterns and best practices. Trigger: When implementing or refactoring TypeScript in .ts/.tsx files.
+# ✅ CORRECT
+description: TypeScript strict patterns. Trigger: When implementing TypeScript in .ts/.tsx files.
 
 # ❌ WRONG: Missing Trigger
-description: TypeScript strict patterns and best practices.
+description: TypeScript strict patterns.
 ```
 
-### ✅ REQUIRED: Add Decision Tree Section
+**See** [frontmatter.md](references/frontmatter.md) for complete frontmatter guide.
 
-Every skill must help AI make decisions with clear condition→action mappings.
+### ✅ REQUIRED [CRITICAL]: Add Decision Tree
 
-### ❌ NEVER: Duplicate Conventions
+Every skill MUST include Decision Tree for AI guidance.
 
-```yaml
-# ❌ WRONG: Duplicating conventions skill content
-## Conventions
-- Use camelCase for variables
-- Use PascalCase for classes
-- ...
-
-# ✅ CORRECT: Delegate to conventions
-## Conventions
-Refer to conventions for:
-- Naming patterns
-- Code organization
-
-### Skill-Specific
-- TypeScript strict mode required
-- ...
-```
-
----
-
+```markdown
 ## Decision Tree
-
-```
-Creating generic skill?     → Use conventions delegation, omit project-specific rules
-Creating project skill?     → Include project context, reference generic skills
-Need templates/schemas?     → Add to assets/ directory
-Need local doc links?       → Add to references/ directory
-Skill modifies framework?   → Mark for skill-sync after creation
 ```
 
----
-
----
-
-## Responsibility and Dependency Guidance
-
-Before adding new conventions, rules, or best practices to a skill, always verify if an existing skill (such as conventions, a11y, or others) already covers the topic.  
-If so, add that skill as a dependency and reference its guidelines, instead of duplicating or redefining them.  
-This ensures each skill has a unique responsibility and prevents overlap or redundancy across the codebase.
-
----
-
-## Naming Conventions
-
-| Type             | Pattern                        | Examples                                             |
-| ---------------- | ------------------------------ | ---------------------------------------------------- |
-| Generic skill    | `{technology}`                 | `typescript`, `react`, `playwright`                  |
-| Framework skill  | `{action}-{target}`            | `skill-creation`, `agent-creation`                   |
-| Version-specific | `{technology}-{major-version}` | `react-19`, `tailwind-4` (only for breaking changes) |
-
----
-
-## assets/ vs references/ Decision
+Condition? → Action
+Otherwise → Default
 
 ```
-Need code templates? → assets/
-Need JSON schemas? → assets/
-Need example configs? → assets/
-Link to existing docs? → references/
-Link to local project docs? → references/ (with local path)
+
 ```
 
-**Key Rule**: `references/` should point to LOCAL files (`docs/...`), not web URLs. Web URLs go in References section.
+### ✅ REQUIRED [CRITICAL]: Include Inline Examples
 
----
-
-## Example: Standards-Compliant Skill Definition
+Place focused example (<15 lines) immediately after each Critical Pattern.
 
 ````markdown
----
-name: example-skill
-description: Demonstrates standards-compliant skill structure with token-efficient documentation. Trigger: When demonstrating best practices or creating skill examples.
-skills:
-  - conventions
-  - a11y
-allowed-tools:
-  - documentation-reader
-  - web-search
----
+### ✅ REQUIRED: Hook Dependencies
 
-# Example Skill
+Always include dependencies.
 
-## Overview
+```typescript
+useEffect(() => {
+  fetchData(userId);
+}, [userId]);
+```
+````
 
-Template for creating skills following project conventions. Demonstrates proper structure, delegation, and token efficiency with all required sections.
+```
 
-## Objective
+**See** [content-patterns.md](references/content-patterns.md) for writing patterns and examples.
 
-Provide a reference implementation of skill structure and documentation standards that can be copied and adapted for new skills.
+### ✅ REQUIRED: Create References for Complex Skills
 
----
+**When skill has 40+ patterns or 4+ natural sub-topics**, use `references/` directory.
 
-## When to Use
+```
 
-Use this skill when:
+skills/{skill-name}/
+├── SKILL.md (300 lines max)
+└── references/
+├── {sub-topic-1}.md
+├── {sub-topic-2}.md
+└── {sub-topic-3}.md
 
-- Creating a new skill as a reference
-- Demonstrating proper skill structure
-- Teaching skill creation patterns
+````
 
----
-
-## Critical Patterns
+**For complex skills (40+ patterns):** Invoke [reference-creation](../reference-creation/SKILL.md) skill.
 
 ### ✅ REQUIRED: Delegate to General Skills
 
 ```yaml
+# ✅ CORRECT: Delegate to conventions
 skills:
-  - conventions # For general coding standards
-  - a11y # For accessibility concerns
-```
+  - conventions
+  - a11y
+
+## Conventions
+Refer to conventions for:
+- Naming patterns
+
+### Skill-Specific
+- TypeScript strict mode required
 ````
 
-### ❌ NEVER: Duplicate Content
+```yaml
+# ❌ WRONG: Duplicating conventions content
+## Conventions
+- Use camelCase for variables...
+```
 
-Don't rewrite rules that exist in conventions or a11y.
+### ✅ REQUIRED: Token Efficiency
+
+- Omit empty frontmatter arrays/objects
+- Description under 150 characters
+- Remove filler words ("comprehensive", "detailed")
+- Every word adds unique value
+
+**For skills with 40+ patterns: MUST read** [token-efficiency.md](references/token-efficiency.md) for compression strategies and organization techniques.
+
+**For simpler skills: CHECK** [token-efficiency.md](references/token-efficiency.md) for optional optimization techniques.
+
+### ✅ REQUIRED: Validate Structure
+
+Before finalizing:
+
+```bash
+# Validate frontmatter
+cat SKILL.md | yq eval '.frontmatter' -
+
+# Validate against schema
+yq eval-o=json SKILL.md | \
+  yq eval-all '.' skills/skill-creation/assets/frontmatter-schema.json -
+```
+
+**See** [validation.md](references/validation.md) for complete checklist.
+
+### ❌ NEVER: Duplicate Conventions
+
+Don't rewrite rules that exist in conventions or a11y. Delegate first, then add skill-specific rules.
 
 ---
 
 ## Decision Tree
 
 ```
-Need general coding rules? → Delegate to conventions
-Need accessibility rules?  → Delegate to a11y
-Need tech-specific rules?  → Document in skill
+How many patterns?
+  → <15 patterns? → Simple (SKILL.md only)
+  → 15-40 patterns? → Medium (consider assets/ if templates needed)
+  → 40+ patterns? → Complex (references/ required, MUST invoke reference-creation skill)
+
+Has 2+ natural sub-topics? → Use references/ (even if <40 patterns)
+SKILL.md will exceed 300 lines? → Use references/
+
+Need templates/schemas? → Create assets/ directory
+Need validation schema? → Add to assets/, reference in frontmatter
+
+Generic rules? → Delegate to conventions
+Accessibility rules? → Delegate to a11y
+
+After creation? → Run skill-sync or make sync to propagate
+```
+
+---
+
+## Workflow
+
+### Step 1: Determine Complexity
+
+| Patterns | Sub-Topics | Structure                        | Reference                                                               |
+| -------- | ---------- | -------------------------------- | ----------------------------------------------------------------------- |
+| <15      | 1          | SKILL.md only                    | This file                                                               |
+| 15-40    | 2-3        | SKILL.md + assets/               | [structure.md](references/structure.md)                                 |
+| 40+      | 4+         | SKILL.md + assets/ + references/ | ✅ **MUST invoke** [reference-creation](../reference-creation/SKILL.md) |
+
+### Step 2: Create Structure
+
+```bash
+# Simple
+mkdir skills/{skill-name}
+cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/{skill-name}/SKILL.md
+
+# Medium
+mkdir -p skills/{skill-name}/assets
+
+# Complex (MUST read references-overview.md first)
+mkdir -p skills/{skill-name}/{assets,references}
+```
+
+### Step 3: Fill Template
+
+- Copy SKILL-TEMPLATE.md to new directory
+- Replace all placeholders
+- Add frontmatter (name, description with Trigger, skills, dependencies)
+- Fill required sections (Overview, Objective, When to Use, Critical Patterns, Decision Tree, Conventions, Example, Edge Cases)
+
+**See** [frontmatter.md](references/frontmatter.md) for frontmatter requirements.
+
+### Step 4: Add Inline Examples
+
+Place example (<15 lines) after each Critical Pattern.
+
+**See** [content-patterns.md](references/content-patterns.md) for example patterns.
+
+### Step 5: Add Decision Tree
+
+Use condition→action format.
+
+```
+Condition? → Action
+Otherwise → Default
+```
+
+### Step 6: Delegate to Conventions
+
+Before adding rules, check if conventions/a11y covers them. Delegate first.
+
+### Step 7: Validate
+
+- Use Compliance Checklist (below)
+- Validate frontmatter against schema
+- Check all sections present
+- Verify token efficiency
+
+**See** [validation.md](references/validation.md) for complete validation guide.
+
+### Step 8: Sync
+
+```bash
+make sync
+# or
+npm run sync
 ```
 
 ---
 
 ## Conventions
 
-Refer to conventions for:
+Refer to [conventions](../conventions/SKILL.md) for:
 
-- Code organization
 - Naming patterns
+- Code organization
 - Documentation standards
 
-Refer to a11y for:
+Refer to [a11y](../a11y/SKILL.md) for:
 
 - Semantic HTML
 - ARIA attributes
 
-### Skill-Specific Rules
+### Skill-Creation-Specific
 
-- Use descriptive examples
-- Keep scope focused
-- Delegate to general skills
+- Use lowercase-with-hyphens for directory/file names
+- Include Trigger clause in description
+- Add Decision Tree to every skill
+- Inline examples under 15 lines
+- Complex skills (40+): Use references/
+- SKILL.md max 300 lines (complex skills)
+- Omit empty frontmatter arrays/objects
 
 ---
 
 ## Example
 
-\`\`\`typescript
-// Example code demonstrating skill application
-const example: string = "clear and concise";
-console.log(example);
-\`\`\`
+See [examples.md](references/examples.md) for complete examples:
+
+- Simple skill (Prettier, <15 patterns)
+- Medium skill (Formik, 15-40 patterns)
+- Complex skill (React, 40+ patterns with references/)
 
 ---
 
 ## Edge Cases
 
-- Handle missing dependencies gracefully
-- Validate input before processing
-- Provide fallbacks for optional features
+### Migrating Existing Skill to Complex
+
+If skill grows beyond 40 patterns:
+
+1. Read [references-overview.md](references/references-overview.md)
+2. Identify natural sub-topics
+3. Create references/ directory
+4. Follow [references-implementation.md](references/references-implementation.md)
+5. Keep top 10-15 patterns in SKILL.md
+6. Link to references throughout
+
+### Version-Specific Patterns
+
+For breaking changes across versions:
+
+```
+references/
+├── current.md (v3)
+├── legacy.md (v2)
+└── migration.md
+```
+
+### Transversal Topics
+
+Topics that apply across skill (like token-efficiency in skill-creation):
+
+- Create separate reference file
+- Link from multiple Critical Patterns
+- Mark as "transversal" in overview
 
 ---
 
-## Commands
+## Self-Check Protocol
 
-```bash
-# Validate frontmatter against schema
-cat SKILL.md | yq eval '.frontmatter' - | yq eval-all '.' frontmatter-schema.json -
+Before creating skill, verify:
 
-# Create new skill from template
-cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/new-skill/SKILL.md
-```
+### Planning
 
----
+- [ ] I identified skill complexity (simple/medium/complex)
+- [ ] I read this SKILL.md completely
+- [ ] If complex (40+ patterns), I will invoke [reference-creation](../reference-creation/SKILL.md) skill
+- [ ] I understand references/ creation is delegated to reference-creation skill
+- [ ] I checked if conventions/a11y already covers topic
 
-## Resources
+### Structure
 
-- Templates: See [assets/](assets/) for SKILL-TEMPLATE.md and frontmatter-schema.json
-- Documentation: See [references/](references/) for local documentation links (if applicable)
+- [ ] I used SKILL-TEMPLATE.md as starting point
+- [ ] Directory name is lowercase-with-hyphens
+- [ ] Created assets/ if templates/schemas needed
+- [ ] Created references/ if 40+ patterns or 4+ sub-topics
 
-## References
+### Content
 
-- [conventions skill](../conventions/SKILL.md): General coding conventions
-- [a11y skill](../a11y/SKILL.md): Universal accessibility standards
+- [ ] Frontmatter includes required fields (name, description with Trigger)
+- [ ] Empty frontmatter arrays/objects omitted
+- [ ] All sections present (Overview, Objective, When to Use, Critical Patterns, Decision Tree, Conventions, Example, Edge Cases)
+- [ ] Each Critical Pattern has inline example (<15 lines)
+- [ ] Decision Tree uses condition→action format
+- [ ] Delegated to conventions/a11y before adding rules
+- [ ] Token-efficient (no filler, every word adds value)
 
-```
+### Validation
+
+- [ ] SKILL.md under 300 lines (complex skills)
+- [ ] Frontmatter validates against schema
+- [ ] All referenced skills exist
+- [ ] Compliance Checklist completed (see below)
+
+**Confidence Check:**
+
+1. Can AI create skill in ANY topic using this guide?
+2. Are conditions clear when to read each reference?
+3. Is SKILL.md focused (top patterns only for complex)?
+
+If NO to any: Re-read relevant sections.
 
 ---
 
 ## Compliance Checklist
 
-Before finalizing a new skill, verify:
+Before finalizing:
 
 ### Structure
-- [ ] Directory created under `skills/` with correct naming (lowercase, hyphens)
-- [ ] `SKILL.md` file created from template
-- [ ] Optional `assets/` directory for templates/schemas (if needed)
-- [ ] Optional `references/` directory for local docs (if needed)
+
+- [ ] Directory under `skills/` (lowercase, hyphens)
+- [ ] SKILL.md created from template
+- [ ] Complexity assessed (simple/medium/complex)
+- [ ] assets/ if templates/schemas (optional)
+- [ ] references/ if 40+ patterns or 4+ sub-topics (required for complex)
 
 ### Frontmatter
-- [ ] Required fields: `name`, `description` (with Trigger clause)
-- [ ] Description includes "Trigger: {when to invoke}"
-- [ ] Optional fields included only when adding value
+
+- [ ] Required: `name`, `description` (with Trigger clause)
+- [ ] Optional fields add value (not obvious)
 - [ ] Empty arrays/objects omitted
 - [ ] Arrays use `- item` syntax (never `[]`)
 - [ ] External libraries in `dependencies` with version ranges
 - [ ] Internal skills in `skills` field
-- [ ] All referenced skills exist in `skills/` directory
-- [ ] Frontmatter validates against `assets/frontmatter-schema.json`
+- [ ] All referenced skills exist
+- [ ] Validates against [frontmatter-schema.json](assets/frontmatter-schema.json)
 
-### Content Sections
-- [ ] Overview (2-3 sentences)
-- [ ] Objective (clear purpose statement)
-- [ ] When to Use (bullet points)
-- [ ] Critical Patterns (with ✅/❌ markers)
+### Content
+
+- [ ] Overview (2-5 sentences)
+- [ ] Objective (clear purpose)
+- [ ] When to Use (with Don't use when)
+- [ ] Critical Patterns (✅/❌ markers)
+- [ ] Inline examples after EACH pattern (<15 lines)
 - [ ] Decision Tree (condition→action format)
-- [ ] Conventions (with delegation)
-- [ ] Example (with code blocks and language specifiers)
-- [ ] Edge Cases
-- [ ] Commands (if applicable)
-- [ ] Resources (links to assets/ and references/)
-- [ ] References (external documentation)
+- [ ] Conventions (delegate to conventions/a11y first)
+- [ ] Example (practical demonstration)
+- [ ] Edge Cases (boundary conditions)
+- [ ] Resources (if assets/ or references/ exist)
 
 ### Quality
-- [ ] Delegation to conventions/a11y where appropriate
-- [ ] No duplicated content from other skills
-- [ ] Content in English with American spelling
-- [ ] Only ASCII apostrophes and hyphens used
-- [ ] Token-efficient: no redundancy, precise language
-- [ ] Examples are minimal and focused
-- [ ] Decision tree helps AI choose patterns
+
+- [ ] Delegates to conventions/a11y (not duplicated)
+- [ ] Token-efficient (no redundancy, filler removed)
+- [ ] SKILL.md under 300 lines (complex skills)
+- [ ] Complex skills: references/ properly structured
+- [ ] Each reference links back to SKILL.md
+- [ ] Cross-links between references
 
 ### Post-Creation
+
 - [ ] Added to AGENTS.md Available Skills table
-- [ ] Added to AGENTS.md Auto-invoke table (if applicable)
-- [ ] Ready for skill-sync to propagate to model directories
-- [ ] Reviewed by critical-partner skill (recommended)
+- [ ] Added to AGENTS.md Mandatory Skills table (if auto-invoke)
+- [ ] Synced to model directories (make sync)
+- [ ] Reviewed by critical-partner (recommended)
 
 ---
 
 ## Resources
 
-- Templates: See [assets/](assets/) for SKILL-TEMPLATE.md and frontmatter-schema.json
-- Documentation: See [references/](references/) for local documentation links (create if needed)
+### Templates
+
+- [SKILL-TEMPLATE.md](assets/SKILL-TEMPLATE.md) - Main skill template
+- [REFERENCE-TEMPLATE.md](assets/REFERENCE-TEMPLATE.md) - Reference file template (complex skills)
+- [frontmatter-schema.json](assets/frontmatter-schema.json) - Validation schema
+
+### Detailed Guides (Read When Needed)
+
+| Reference                                             | When to Read              | Required?   |
+| ----------------------------------------------------- | ------------------------- | ----------- |
+| [frontmatter.md](references/frontmatter.md)           | Creating any skill        | Recommended |
+| [structure.md](references/structure.md)               | Medium/complex skills     | Recommended |
+| [content-patterns.md](references/content-patterns.md) | Writing patterns/examples | Recommended |
+| [token-efficiency.md](references/token-efficiency.md) | Optimizing content        | Optional    |
+| [examples.md](references/examples.md)                 | Learning from examples    | Optional    |
+| [validation.md](references/validation.md)             | Pre-finalization checks   | Recommended |
+
+**For complex skills (40+ patterns):** Invoke [reference-creation](../reference-creation/SKILL.md) skill instead of reading references above.
+
+**Reading Protocol:**
+
+- **Simple skills (<15 patterns)**: Read this SKILL.md only
+- **Medium skills (15-40 patterns)**: Read SKILL.md + structure.md, frontmatter.md
+- **Complex skills (40+ patterns)**: Read SKILL.md + **MUST read** references-overview.md + references-implementation.md
+
+---
 
 ## References
 
-- [conventions skill](../conventions/SKILL.md): General coding conventions
-- [a11y skill](../a11y/SKILL.md): Universal accessibility standards
-- [skill-sync](../skill-sync/SKILL.md): Multi-model synchronization after creation
-- [Agent Skills Home](https://agentskills.io/home): Official specification
-- [SKILL.md Format](https://agents.md/): Agents.md specification
-```
+- [conventions skill](../conventions/SKILL.md) - General coding conventions
+- [a11y skill](../a11y/SKILL.md) - Universal accessibility standards
+- [skill-sync](../skill-sync/SKILL.md) - Multi-model synchronization
+- [Agent Skills Home](https://agentskills.io/home) - Official specification
+- [SKILL.md Format](https://agents.md/) - Agents.md specification

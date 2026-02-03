@@ -56,7 +56,6 @@ Enable the agent to provide critical, thoughtful feedback on code, architecture,
 Invoke this skill when:
 
 - Reviewing pull requests or code submissions
-- Evaluating architectural decisions
 - Analyzing implementation approaches
 - Identifying potential improvements
 - Validating technical solutions

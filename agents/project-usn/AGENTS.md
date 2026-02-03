@@ -35,10 +35,17 @@ This agent serves as the primary development assistant for the USN static site g
 1. **Identify task context** from user request
 2. **Match task to trigger** in Mandatory Skills table below
 3. **Read the ENTIRE skill file** before proceeding with implementation
-4. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
-5. **Follow skill guidelines** strictly during execution
+4. **Check Extended Mandatory Read Protocol** in [AGENTS.md](../../AGENTS.md#extended-mandatory-read-protocol) if:
+   - Skill has `references/` directory
+   - Decision Tree indicates "MUST read {reference}"
+   - Critical Pattern says "[CRITICAL] See {reference}"
+   - Task involves 40+ patterns or complex edge cases
+5. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
+6. **Follow skill guidelines** strictly during execution
 
 **⚠️ WARNING**: Do NOT proceed with tasks without reading the skill file first. Skill tables provide reference only—actual patterns, decision trees, and edge cases are in the skill files themselves.
+
+**⚠️ CRITICAL**: For complex skills with references, consult [Extended Mandatory Read Protocol](../../AGENTS.md#extended-mandatory-read-protocol) to determine which reference files are required vs optional.
 
 ### Notification Policy
 
@@ -101,7 +108,7 @@ Example notification:
 | tailwindcss             | TailwindCSS 4 theming and utility class patterns      | skills/tailwindcss/SKILL.md             |
 | react                   | React component patterns for client islands           | skills/react/SKILL.md                   |
 | html                    | Semantic HTML structure and best practices            | skills/html/SKILL.md                    |
-| a11y                    | Accessibility standards and WCAG compliance           | skills/html-a11y/SKILL.md               |
+| a11y                    | Accessibility standards and WCAG compliance           | skills/a11y/SKILL.md                    |
 | technical-communication | Professional technical writing and communication      | skills/technical-communication/SKILL.md |
 | critical-partner        | Code review and quality improvement suggestions       | skills/critical-partner/SKILL.md        |
 | process-documentation   | Comprehensive documentation of processes and changes  | skills/process-documentation/SKILL.md   |

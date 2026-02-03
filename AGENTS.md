@@ -49,6 +49,88 @@ Example notification:
 > - `react` for component structure
 > - `a11y` for accessibility compliance"
 
+---
+
+## Extended Mandatory Read Protocol
+
+### Reading Skills and References
+
+**Skills with references/ directory** (complex skills with 40+ patterns) require additional reading when indicated by their internal structure.
+
+### Skill Components to Read
+
+1. **ALWAYS read**: `SKILL.md` (contains critical path for 80% of cases)
+
+2. **Read references/ when**:
+   - SKILL.md Decision Tree indicates "**MUST read** {reference}"
+   - SKILL.md Quick Reference Table marks it "Required Reading: ✅"
+   - Critical Pattern says "**[CRITICAL] See** {reference} for..."
+   - Task is complex/advanced (40+ patterns, edge cases, optimization)
+
+3. **Optional references/** (deep-dive only):
+   - Marked "Optional" in Quick Reference Table
+   - For learning/understanding, not required for execution
+   - Examples and advanced techniques
+
+### Reading Order
+
+```
+User request → Read SKILL.md → Check Decision Tree → Read required references → Execute
+```
+
+### Conditional Language Guide
+
+When reading skill files, follow this language precisely:
+
+- **"MUST read"** → **Obligatory** - Read immediately before proceeding
+- **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
+- **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
+
+### Example: Creating Complex Skill (50+ patterns)
+
+```
+1. User: "Create a TypeScript skill with 50+ patterns"
+2. Read: skills/skill-creation/SKILL.md (300 lines)
+3. Check Decision Tree: "40+ patterns? → MUST read references/references-overview.md"
+4. Read: skills/skill-creation/references/references-overview.md (REQUIRED)
+5. Read: skills/skill-creation/references/references-implementation.md (REQUIRED)
+6. Check: skills/skill-creation/references/examples.md (OPTIONAL - but helpful)
+7. Execute: Create skill with proper references/ architecture
+```
+
+### Example: Simple Task (10 patterns)
+
+```
+1. User: "Add a pattern to React skill"
+2. Read: skills/skill-creation/SKILL.md (300 lines)
+3. Check Decision Tree: "<15 patterns? → Use SKILL.md only (no references needed)"
+4. Execute: Add pattern with inline example
+```
+
+### Quick Reference: When to Read References
+
+| Situation                    | Read SKILL.md | Read references/ | How to Know                                |
+| ---------------------------- | ------------- | ---------------- | ------------------------------------------ |
+| Simple task (<15 patterns)   | ✅ Yes        | ❌ No            | Decision Tree says "no references needed"  |
+| Medium task (15-40 patterns) | ✅ Yes        | ⚠️ Maybe         | Decision Tree says "consider references/"  |
+| Complex task (40+ patterns)  | ✅ Yes        | ✅ Yes           | Decision Tree says "MUST read references/" |
+| Edge case/optimization       | ✅ Yes        | ✅ Yes           | SKILL.md directs to specific reference     |
+| Learning/exploration         | ✅ Yes        | ⚠️ Optional      | Quick Reference Table marks "Optional"     |
+
+### Validation Checkpoint
+
+Before executing any task, verify:
+
+- [ ] I read the ENTIRE SKILL.md file
+- [ ] I consulted the Decision Tree for my specific case
+- [ ] I read all REQUIRED references (if Decision Tree indicated MUST)
+- [ ] I understand when references are optional vs required
+- [ ] I know which conditional language means what (MUST/CHECK/OPTIONAL)
+
+**If you answered NO to any item**: Stop, read the missing content, then restart.
+
+---
+
 ## Core Responsibilities
 
 - **Creation orchestration**: Guide users through skill-creation, agent-creation, and prompt-creation workflows with step-by-step instructions and mandatory context gathering
@@ -88,14 +170,15 @@ Use these skills for detailed patterns and guidance on-demand:
 
 ### Framework Skills (Agent Management)
 
-| Skill                 | Description                                      | Path                                              |
-| --------------------- | ------------------------------------------------ | ------------------------------------------------- |
-| skill-creation        | Create standards-compliant skills with templates | [SKILL.md](skills/skill-creation/SKILL.md)        |
-| agent-creation        | Create agent definitions with context gathering  | [SKILL.md](skills/agent-creation/SKILL.md)        |
-| prompt-creation       | Create context prompts for AI assistants         | [SKILL.md](skills/prompt-creation/SKILL.md)       |
-| skill-sync            | Synchronize skills across model directories      | [SKILL.md](skills/skill-sync/SKILL.md)            |
-| critical-partner      | Rigorous review and improvement of code/skills   | [SKILL.md](skills/critical-partner/SKILL.md)      |
-| process-documentation | Document processes, features, and decisions      | [SKILL.md](skills/process-documentation/SKILL.md) |
+| Skill                 | Description                                                              | Path                                              |
+| --------------------- | ------------------------------------------------------------------------ | ------------------------------------------------- |
+| skill-creation        | Create standards-compliant skills with templates, references, validation | [SKILL.md](skills/skill-creation/SKILL.md)        |
+| agent-creation        | Create agent definitions with context gathering                          | [SKILL.md](skills/agent-creation/SKILL.md)        |
+| prompt-creation       | Create context prompts for AI assistants                                 | [SKILL.md](skills/prompt-creation/SKILL.md)       |
+| reference-creation    | Create reference files for complex skills (40+ patterns)                 | [SKILL.md](skills/reference-creation/SKILL.md)    |
+| skill-sync            | Synchronize skills across model directories                              | [SKILL.md](skills/skill-sync/SKILL.md)            |
+| critical-partner      | Rigorous review and improvement of code/skills                           | [SKILL.md](skills/critical-partner/SKILL.md)      |
+| process-documentation | Document processes, features, and decisions                              | [SKILL.md](skills/process-documentation/SKILL.md) |
 
 ### Generic Skills (Cross-Project)
 
@@ -149,7 +232,6 @@ Use these skills for detailed patterns and guidance on-demand:
 
 | Skill                   | Description                         | Path                                                |
 | ----------------------- | ----------------------------------- | --------------------------------------------------- |
-| translation             | i18n and translation patterns       | [SKILL.md](skills/translation/SKILL.md)             |
 | technical-communication | Technical writing and documentation | [SKILL.md](skills/technical-communication/SKILL.md) |
 
 ---
@@ -175,14 +257,14 @@ Use these skills for detailed patterns and guidance on-demand:
 | Create a new agent definition                   | agent-creation          | [SKILL.md](skills/agent-creation/SKILL.md)          |
 | Create a new context prompt                     | prompt-creation         | [SKILL.md](skills/prompt-creation/SKILL.md)         |
 | Create a new skill                              | skill-creation          | [SKILL.md](skills/skill-creation/SKILL.md)          |
+| Create reference files for complex skills (40+) | reference-creation      | [SKILL.md](skills/reference-creation/SKILL.md)      |
 | Create forms with validation                    | formik                  | [SKILL.md](skills/formik/SKILL.md)                  |
 | Design Astro pages or components                | astro                   | [SKILL.md](skills/astro/SKILL.md)                   |
-| Document features, bugs, refactors, ADRs        | process-documentation   | [SKILL.md](skills/process-documentation/SKILL.md)   |
+| Document features, bugs, refactors              | process-documentation   | [SKILL.md](skills/process-documentation/SKILL.md)   |
 | Implement Redux state management                | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
 | Implement RTK Query data fetching               | rtk-query               | [SKILL.md](skills/rtk-query/SKILL.md)               |
 | Implement accessibility requirements            | a11y                    | [SKILL.md](skills/a11y/SKILL.md)                    |
 | Implement data fetching with caching            | rtk-query               | [SKILL.md](skills/rtk-query/SKILL.md)               |
-| Implement i18n or translations                  | translation             | [SKILL.md](skills/translation/SKILL.md)             |
 | Mobile development with Expo                    | expo                    | [SKILL.md](skills/expo/SKILL.md)                    |
 | Mobile development with React Native            | react-native            | [SKILL.md](skills/react-native/SKILL.md)            |
 | Semantic HTML structure                         | html                    | [SKILL.md](skills/html/SKILL.md)                    |
@@ -258,14 +340,15 @@ Use these skills for detailed patterns and guidance on-demand:
 ## Policies and recommendations
 
 - **Mandatory skill reading**: MUST read skill file BEFORE executing tasks that match triggers in Mandatory Skills table; do NOT proceed without reading skill content
+- **Extended reading protocol**: When skill has references/ directory, follow Extended Mandatory Read Protocol above to determine if references must be read (check Decision Tree, Quick Reference Table, and conditional language: MUST/CHECK/OPTIONAL)
 - **Skill notification**: For multi-skill tasks (2+ skills), notify user which skills are being used, then proceed immediately without waiting for confirmation
 - **Modular architecture**: Each skill must have unique responsibility; no overlapping concerns between skills
 - **Delegation pattern**: General coding standards delegate to conventions skill; accessibility concerns delegate to a11y skill
 - **Frontmatter compliance**: Skills use `dependencies` for external libraries; agents use `skills` for internal skill references
 - **Naming conventions**: All directories and names use lowercase with hyphens (no spaces, no uppercase, no special characters)
 - **Mandatory context gathering**: Agent creation must gather 9 key context elements before proceeding (purpose, input, output, skills, workflows, audience, technologies, project context, tone)
-- **Agent skill reading protocol**: All agents must include mandatory skill reading section with triggers and confirmation policy
-- **Comprehensive documentation**: Use process-documentation skill for all significant changes, features, refactors, and architectural decisions
+- **Agent skill reading protocol**: All agents must include mandatory skill reading section with triggers, confirmation policy, and reference to Extended Mandatory Read Protocol
+- **Comprehensive documentation**: Use process-documentation skill for all significant changes, features, and refactors
 - **Quality validation**: All new skills and agents must pass critical-partner review before finalization
 - **Token efficiency**: Eliminate redundant fields, omit empty arrays/objects, be precise and concise in all documentation
 - **Synchronization**: After modifications, use skill-sync for manual updates or `make sync` for bulk synchronization across model directories

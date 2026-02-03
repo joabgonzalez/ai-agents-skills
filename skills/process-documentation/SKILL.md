@@ -1,6 +1,6 @@
 ---
 name: process-documentation
-description: Comprehensive documentation of all processes and changes. Templates for features, bug fixes, refactors, ADRs with structured format and validation. Trigger: When completing features, fixing bugs, refactoring code, making architectural decisions, or before committing changes.
+description: Comprehensive documentation of all processes and changes. Templates for features, bug fixes, refactors with structured format and validation. Trigger: When completing features, fixing bugs, refactoring code, or before committing changes.
 allowed-tools:
   - file-operations
   - read-file
@@ -11,7 +11,7 @@ allowed-tools:
 
 ## Overview
 
-This skill ensures that all significant changes, features, bug fixes, refactors, and architectural decisions are properly documented with context, rationale, and impact analysis.
+This skill ensures that all significant changes, features, bug fixes, and refactors are properly documented with context, rationale, and impact analysis.
 
 ## Objective
 
@@ -91,32 +91,6 @@ Enable comprehensive documentation of development processes to maintain clear pr
 [If any]
 ```
 
-### ADR (Architectural Decision Record)
-
-```markdown
-# ADR: [Decision Title]
-
-## Status
-
-[Proposed | Accepted | Deprecated | Superseded]
-
-## Context
-
-[The issue requiring a decision]
-
-## Decision
-
-[The chosen solution]
-
-## Consequences
-
-[Positive and negative outcomes]
-
-## Alternatives Considered
-
-[Other options evaluated]
-```
-
 ## Conventions
 
 ### When to Document
@@ -124,7 +98,6 @@ Enable comprehensive documentation of development processes to maintain clear pr
 - New features or capabilities
 - Bug fixes (especially non-trivial ones)
 - Refactors affecting multiple files
-- Architectural decisions
 - Breaking changes
 - Performance optimizations
 

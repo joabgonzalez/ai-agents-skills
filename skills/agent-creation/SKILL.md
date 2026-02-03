@@ -121,12 +121,11 @@ After the frontmatter, include the following sections:
    - Skill Reading Protocol (5-step process)
    - Warning about not proceeding without reading skills
    - Notification Policy for multi-skill tasks (2+ skills)
+   - **Reference to Extended Mandatory Read Protocol** in AGENTS.md
    - Link to Mandatory Skills table
 4. **## Mandatory Skills** (REQUIRED): Table with triggers, required skills, and paths. Use format: `| Trigger (When to Read) | Required Skill | Path |`
-5. **## Supported stack** (if applicable): List technologies, frameworks, libraries, and versions used in the project.
-6. **## Skills Reference** (optional but recommended): Table listing all skills with descriptions and paths.
-7. **## Workflows** (optional): Common workflows the agent handles (e.g., "Feature Development," "Code Review").
-8. **## Policies** (optional): Project-specific rules, constraints, or guidelines the agent must follow.
+
+**Important**: The Mandatory Skill Reading section must inform AI agents that when working with complex skills (40+ patterns), they should consult the skill's Decision Tree and Quick Reference Table to determine if reading references/ is required. See [AGENTS.md Extended Mandatory Read Protocol](../../AGENTS.md#extended-mandatory-read-protocol) for complete guidance. 5. **## Supported stack** (if applicable): List technologies, frameworks, libraries, and versions used in the project. 6. **## Skills Reference** (optional but recommended): Table listing all skills with descriptions and paths. 7. **## Workflows** (optional): Common workflows the agent handles (e.g., "Feature Development," "Code Review"). 8. **## Policies** (optional): Project-specific rules, constraints, or guidelines the agent must follow.
 
 ### Step 5: Writing Guidelines
 
@@ -152,6 +151,56 @@ Before finalizing, verify:
 - [ ] Content sections present: Purpose, and others as appropriate
 - [ ] Token-efficient documentation: no redundancy
 - [ ] Content in English with American spelling
+
+---
+
+## Decision Tree
+
+```
+Context gathered (9 questions answered)? → NO → Stop: Ask clarifying questions
+All required skills identified? → NO → Ask: Which skills needed?
+Agent for technical/management? → YES → Include process-documentation in skills
+Creating first agent? → YES → Use AGENT-TEMPLATE.md as starting point
+Agent has complex workflows (3+ phases)? → YES → Add detailed Workflow section
+Agent needs skill reference reading? → YES → Include Extended Protocol reference
+Mandatory Skill Reading section included? → NO → Stop: Must include (REQUIRED)
+critical-partner in skills list? → NO → Stop: Must include (mandatory)
+All referenced skills exist in skills/? → NO → Stop: Verify skill paths
+Ready to create? → YES → Proceed with agent creation
+```
+
+---
+
+## 🔍 Self-Check Protocol (For AI Agents)
+
+**Before finalizing agent creation, verify:**
+
+- [ ] I gathered all 9 context questions (purpose, input, output, skills, workflows, audience, technologies, project context, tone)
+- [ ] I read the entire agent-creation SKILL.md (this file)
+- [ ] I consulted the Decision Tree for my specific case
+- [ ] I included ⚠️ Mandatory Skill Reading section with 5-step protocol
+- [ ] I referenced Extended Mandatory Read Protocol in AGENTS.md
+- [ ] I included Mandatory Skills table with triggers
+- [ ] critical-partner is in skills list (REQUIRED for ALL agents)
+- [ ] process-documentation is in skills list (if technical/management agent)
+- [ ] All referenced skills exist in skills/ directory
+- [ ] YAML syntax correct (lists use `- item`, not `[]`)
+- [ ] Empty fields omitted from frontmatter
+- [ ] Agent has unique, clear purpose statement
+
+**Confidence check:** Can you answer these questions?
+
+1. What is this agent's primary responsibility? (Answer: Should be in Purpose section)
+2. Which skills will this agent use most frequently? (Answer: Should be in Mandatory Skills table)
+3. When should the agent read skill references? (Answer: When Decision Tree indicates MUST or [CRITICAL] pattern says so)
+
+**If you answered NO to any checklist item or cannot answer the confidence questions:**
+
+1. Stop immediately
+2. Re-read the missing section or gather missing context
+3. Restart from Step 1 of the workflow
+
+**For complete validation:** See [Compliance Checklist](#compliance-checklist) below.
 
 ---
 
@@ -214,19 +263,44 @@ This agent serves as the primary development assistant for the Example Project, 
 
 ## Compliance Checklist
 
-- [ ] Context gathered (9 key questions answered)
-- [ ] Directory and AGENTS.md file created
-- [ ] Frontmatter includes required fields
-- [ ] `critical-partner` in skills list
-- [ ] `process-documentation` in skills (if technical/management agent)
-- [ ] All skills exist in `skills/` directory
-- [ ] YAML syntax correct (lists use `- item`)
-- [ ] Empty fields omitted
-- [ ] Token-efficient documentation
+Before finalizing an agent, verify:
+
+### Structure & Files
+
+- [ ] Directory created under `agents/` with correct naming (lowercase, hyphens)
+- [ ] `AGENTS.md` file exists with proper frontmatter
+- [ ] All sections present: Purpose, Mandatory Skill Reading, Mandatory Skills table
+
+### Frontmatter Compliance
+
+- [ ] Required fields: `name`, `description`, `skills`
+- [ ] Description clear and precise without redundancy
+- [ ] `critical-partner` included in skills (mandatory for ALL agents)
+- [ ] `process-documentation` included for technical/management agents
+- [ ] All referenced skills exist in `skills/` directory
+- [ ] Skills use YAML list syntax (`- item`), not arrays (`[]`)
+- [ ] Empty fields omitted completely
+- [ ] Token-efficient: every word adds value
+
+### Content Quality
+
+- [ ] Context gathered (9 key questions answered before creation)
 - [ ] Purpose section clear and actionable
-- [ ] **⚠️ Mandatory Skill Reading section included** with protocol and confirmation policy
+- [ ] ⚠️ **Mandatory Skill Reading section included** with:
+  - [ ] 5-step Skill Reading Protocol
+  - [ ] Warning about not proceeding without reading
+  - [ ] Notification Policy for multi-skill tasks
+  - [ ] **Reference to Extended Mandatory Read Protocol in AGENTS.md**
 - [ ] **Mandatory Skills table included** with triggers, skills, and paths
-- [ ] Content in English with proper formatting
+- [ ] Decision Tree present (if agent has complex workflows)
+- [ ] Self-Check Protocol consulted and completed
+
+### Post-Creation Steps
+
+- [ ] Agent added to AGENTS.md Available Agents section (if applicable)
+- [ ] Agent reviewed by critical-partner skill
+- [ ] Changes documented with process-documentation skill
+- [ ] Ready for sync with `make sync` (if applicable)
 
 ---
 

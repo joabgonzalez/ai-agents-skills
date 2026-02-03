@@ -145,7 +145,7 @@ fi
 echo "== Installing agent files for project '$PROJECT' at '$DEST_PATH' =="
 
 # Define meta-skills that should always be copied (self-management capabilities)
-META_SKILLS="skill-creation agent-creation prompt-creation process-documentation critical-partner conventions a11y skill-sync"
+META_SKILLS="skill-creation agent-creation prompt-creation reference-creation process-documentation critical-partner conventions a11y skill-sync"
 
 # Copy the AGENTS.md
 cp "agents/$PROJECT/AGENTS.md" "$DEST_PATH/AGENTS.md"

@@ -27,10 +27,17 @@ output: "{description of expected output | data_type}"
 1. **Identify task context** from user request
 2. **Match task to trigger** in Mandatory Skills table below
 3. **Read the ENTIRE skill file** before proceeding with implementation
-4. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
-5. **Follow skill guidelines** strictly during execution
+4. **Check Extended Mandatory Read Protocol** in [AGENTS.md](../../../AGENTS.md#extended-mandatory-read-protocol) if:
+   - Skill has `references/` directory
+   - Decision Tree indicates "MUST read {reference}"
+   - Critical Pattern says "[CRITICAL] See {reference}"
+   - Task involves 40+ patterns or complex edge cases
+5. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
+6. **Follow skill guidelines** strictly during execution
 
 **⚠️ WARNING**: Do NOT proceed with tasks without reading the skill file first. Skill tables provide reference only—actual patterns, decision trees, and edge cases are in the skill files themselves.
+
+**⚠️ CRITICAL**: For complex skills with references, consult [Extended Mandatory Read Protocol](../../../AGENTS.md#extended-mandatory-read-protocol) to determine which reference files are required vs optional.
 
 ### Notification Policy
 
@@ -53,12 +60,24 @@ Example notification:
 
 **⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
 
-| Trigger (When to Read)     | Required Skill        | Path                                                    |
-| -------------------------- | --------------------- | ------------------------------------------------------- |
-| {Task trigger description} | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
-| {Task trigger description} | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
-| Code quality review        | critical-partner      | [SKILL.md](../../skills/critical-partner/SKILL.md)      |
-| Document changes/processes | process-documentation | [SKILL.md](../../skills/process-documentation/SKILL.md) |
+| Trigger (When to Read)                         | Required Skill        | Path                                                    |
+| ---------------------------------------------- | --------------------- | ------------------------------------------------------- |
+| {Task trigger description}                     | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
+| {Task trigger description}                     | {skill-name}          | [SKILL.md](../../skills/{skill-name}/SKILL.md)          |
+| Create TypeScript types/interfaces             | typescript            | [SKILL.md](../../skills/typescript/SKILL.md)            |
+| Create React components with hooks             | react                 | [SKILL.md](../../skills/react/SKILL.md)                 |
+| Implement accessibility requirements           | a11y                  | [SKILL.md](../../skills/a11y/SKILL.md)                  |
+| Code quality review or improvement suggestions | critical-partner      | [SKILL.md](../../skills/critical-partner/SKILL.md)      |
+| Document changes, features, or decisions       | process-documentation | [SKILL.md](../../skills/process-documentation/SKILL.md) |
+| Writing or reviewing general code patterns     | conventions           | [SKILL.md](../../skills/conventions/SKILL.md)           |
+
+**Example triggers for your specific agent:**
+
+- Replace generic "{Task trigger description}" with specific actions like:
+  - "Configure build tool" → webpack/vite skill
+  - "Implement state management" → redux-toolkit skill
+  - "Style with Material-UI" → mui skill
+  - "Create form validation" → formik + yup skills
 
 ---
 
