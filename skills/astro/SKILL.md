@@ -48,6 +48,59 @@ Don't use this skill for:
 
 ---
 
+## 📚 Extended Mandatory Read Protocol
+
+**This skill has a `references/` directory with detailed guides for rendering strategies, content, and interactivity.**
+
+### Reading Rules
+
+**Read references/ when:**
+
+- **MUST read [ssg-patterns.md](references/ssg-patterns.md)** when:
+  - Building static sites (no adapter)
+  - Using getStaticPaths for dynamic routes
+  - Fetching data at build time
+
+- **MUST read [ssr-patterns.md](references/ssr-patterns.md)** when:
+  - Building dynamic pages with user-specific data
+  - Using Astro.locals, server endpoints
+  - Implementing authentication
+
+- **MUST read [hybrid-strategies.md](references/hybrid-strategies.md)** when:
+  - Combining SSG + SSR in same project
+  - Migrating from SSG to Hybrid
+  - Deciding which pages should be static vs dynamic
+
+- **MUST read [client-directives.md](references/client-directives.md)** when:
+  - Adding interactivity to static pages
+  - Choosing load/visible/idle/only strategies
+  - Optimizing JavaScript bundle size
+
+- **CHECK [content-collections.md](references/content-collections.md)** when:
+  - Managing blog posts, documentation
+  - Type-safe content with schemas
+
+- **CHECK [actions.md](references/actions.md)** when:
+  - Handling form submissions
+  - Server-side validation
+
+**Quick reference only:** Use this SKILL.md for project type detection and quick decisions. Decision Tree below directs you to specific references.
+
+### Reading Priority
+
+| Situation                | Read This                           | Why                            |
+| ------------------------ | ----------------------------------- | ------------------------------ |
+| Static site (no adapter) | **ssg-patterns.md** (REQUIRED)      | 50+ SSG-specific patterns      |
+| Dynamic site (adapter)   | **ssr-patterns.md** (REQUIRED)      | Authentication, server context |
+| Mixing SSG + SSR         | **hybrid-strategies.md** (REQUIRED) | Decision matrix, migration     |
+| Adding interactivity     | **client-directives.md** (REQUIRED) | 6 hydration strategies         |
+| Content management       | **content-collections.md** (CHECK)  | Type-safe schemas              |
+| Form handling            | **actions.md** (CHECK)              | Server validation              |
+
+**See [references/README.md](references/README.md)** for complete navigation guide.
+
+---
+
 ## Critical Patterns
 
 ### ✅ REQUIRED: Detect Project Type First
@@ -208,35 +261,41 @@ Refer to a11y for:
 
 ## Decision Tree
 
-**First: Check astro.config.mjs** → Identify project type (SSG-only, SSR, or Hybrid).
+**First: CHECK astro.config.mjs** → Identify project type. **MUST read** corresponding reference file.
 
-**SSG-only project (no adapter)?** → Use ONLY: `getStaticPaths()`, build-time data fetching. DON'T use: `prerender: false`, `Astro.locals`, server endpoints.
+**No adapter (SSG-only)?** → **MUST read [ssg-patterns.md](references/ssg-patterns.md)** for getStaticPaths, build-time data fetching, pagination.
 
-**SSR project (output: 'server')?** → All pages render on request. Use: `Astro.locals`, server endpoints, `prerender: true` to opt-in to SSG.
+**Has adapter + output: 'server'?** → **MUST read [ssr-patterns.md](references/ssr-patterns.md)** for Astro.locals, server endpoints, authentication.
 
-**Hybrid project (output: 'hybrid')?** → Default to SSG, use `prerender: false` only for pages needing fresh data.
+**Has adapter + output: 'hybrid'?** → **MUST read [hybrid-strategies.md](references/hybrid-strategies.md)** for SSG vs SSR decision matrix, then check both ssg-patterns.md and ssr-patterns.md as needed.
 
-**Static content that rarely changes?** → Use SSG with `getStaticPaths()` (if dynamic) or static pages.
+**Adding interactivity?** → **MUST read [client-directives.md](references/client-directives.md)** to choose: client:load (immediate), client:visible (lazy), client:idle (low priority), client:only (CSR), or no directive (static).
 
-**Content needs to be fresh on every request?** → Use SSR with `prerender: false` (only if adapter installed).
+**Managing content (blog, docs)?** → **CHECK [content-collections.md](references/content-collections.md)** for type-safe schemas and querying.
 
-**Dynamic routes with pre-known paths?** → Use `getStaticPaths()` for SSG.
+**Building forms?** → **CHECK [actions.md](references/actions.md)** for server-side validation and progressive enhancement.
 
-**Dynamic routes with user-specific data?** → Use SSR with `prerender: false` (requires adapter).
+**Need smooth page transitions?** → **CHECK [view-transitions.md](references/view-transitions.md)** for animations, lifecycle events, and accessibility.
 
-**Static content component?** → Use `.astro` component, no client directive.
+**Need authentication or request logging?** → **CHECK [middleware.md](references/middleware.md)** for auth, redirects, and request interception.
 
-**Interactive component?** → Use framework component (React/Vue) with appropriate client directive.
+**Need to manage API keys or secrets?** → **CHECK [env-variables.md](references/env-variables.md)** for .env files, PUBLIC\_ prefix, and security.
 
-**Immediately visible interaction?** → Use `client:load`.
+**Want faster navigation?** → **CHECK [prefetch.md](references/prefetch.md)** for hover, tap, viewport, and load strategies.
 
-**Below fold interaction?** → Use `client:visible` for lazy loading.
+**Static content that rarely changes?** → Use SSG. See [ssg-patterns.md](references/ssg-patterns.md).
 
-**Non-critical interaction?** → Use `client:idle` to wait for main thread.
+**Content needs fresh data on every request?** → Use SSR with prerender: false. See [ssr-patterns.md](references/ssr-patterns.md).
 
-**Framework-specific component?** → Use `client:only="react"` (no SSR).
+**Dynamic routes with pre-known paths?** → Use getStaticPaths (SSG). See [ssg-patterns.md#getstaticpaths-for-dynamic-routes](references/ssg-patterns.md#getstaticpaths-for-dynamic-routes).
 
-**Shared state?** → Use `nanostores` for framework-agnostic state management.
+**Dynamic routes with user-specific data?** → Use SSR with prerender: false. See [ssr-patterns.md#database-queries](references/ssr-patterns.md#database-queries).
+
+**Immediately visible interaction?** → Use client:load. See [client-directives.md#clientload-immediate](references/client-directives.md#clientload-immediate).
+
+**Below fold interaction?** → Use client:visible. See [client-directives.md#clientvisible-lazy-load](references/client-directives.md#clientvisible-lazy-load).
+
+**Non-critical interaction?** → Use client:idle. See [client-directives.md#clientidle-low-priority](references/client-directives.md#clientidle-low-priority).
 
 ---
 

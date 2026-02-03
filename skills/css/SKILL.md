@@ -91,6 +91,92 @@ Don't use this skill for:
 }
 ```
 
+### ✅ REQUIRED: Use Modern Responsive Patterns
+
+```css
+/* ✅ CORRECT: Fluid typography with clamp() */
+h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+/* ✅ CORRECT: Container queries for component-level responsive */
+@container (min-width: 400px) {
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+/* ✅ CORRECT: Modern aspect ratio */
+.video-container {
+  aspect-ratio: 16 / 9;
+}
+
+/* ❌ WRONG: Padding hack for aspect ratio */
+.video-container {
+  padding-bottom: 56.25%; /* Old technique */
+}
+```
+
+### ✅ REQUIRED: Use Modern Selectors
+
+```css
+/* ✅ CORRECT: :is() for grouping selectors */
+:is(h1, h2, h3) {
+  color: var(--color-heading);
+}
+
+/* ✅ CORRECT: :where() for zero specificity */
+:where(ul, ol) {
+  padding-left: 1rem;
+}
+
+/* ✅ CORRECT: :has() for parent selection (modern browsers) */
+.card:has(img) {
+  display: grid;
+}
+
+/* ❌ WRONG: Verbose selector duplication */
+h1,
+h2,
+h3 {
+  color: var(--color-heading);
+}
+```
+
+### ✅ REQUIRED: Use @layer for Cascade Control
+
+```css
+/* ✅ CORRECT: Define cascade layers */
+@layer reset, base, components, utilities;
+
+@layer reset {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
+
+@layer base {
+  body {
+    font-family: system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .button {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@layer utilities {
+  .text-center {
+    text-align: center;
+  }
+}
+```
+
 ---
 
 ## Conventions
@@ -114,6 +200,10 @@ Refer to a11y for:
 - Implement responsive design with container queries when appropriate
 - Avoid !important except for utilities
 - Use BEM or similar naming convention
+- **Use modern selectors** (`:is()`, `:where()`, `:has()`)
+- **Use `aspect-ratio`** for consistent image/video sizing
+- **Use `@layer`** for cascade control (Cascade Layers)
+- **Use `clamp()`, `min()`, `max()`** for fluid responsive values
 
 ---
 

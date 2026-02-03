@@ -162,6 +162,11 @@ Refer to css for:
 - Use @apply for component classes sparingly
 - Leverage JIT mode for performance
 - Use responsive modifiers (sm:, md:, lg:)
+- **Enable dark mode** with `class` or `media` strategy
+- **Configure content paths** properly to avoid purging used classes
+- **Use arbitrary values** `[value]` only when necessary (prefer theme extension)
+- **Combine utilities** with `@apply` for reusable component patterns
+- **Optimize bundle size** with proper content configuration
 
 ---
 
@@ -180,6 +185,12 @@ Refer to css for:
 **Responsive design?** → Use breakpoint prefixes: `md:flex lg:grid`.
 
 **Dark mode?** → Enable in config, use `dark:` prefix: `dark:bg-gray-800`.
+
+**Production build?** → Ensure all template paths in `content` array or classes will be purged. Check for dynamic class names.
+
+**Custom animations?** → Extend `theme.animation` and `theme.keyframes` in tailwind.config rather than custom CSS.
+
+**Complex component style?** → Use `@apply` with `@layer components` for reusable patterns, but keep most styles as utilities in HTML.
 
 ---
 
@@ -200,6 +211,8 @@ tailwind.config.js:
 
 ```javascript
 module.exports = {
+  content: ["./src/**/*.{astro,html,js,jsx,ts,tsx,vue,svelte}"], // ⚠️ CRITICAL
+  darkMode: "class", // or 'media'
   theme: {
     extend: {
       colors: {
@@ -208,6 +221,23 @@ module.exports = {
     },
   },
 };
+```
+
+### Dark Mode
+
+```html
+<!-- Enable with 'class' strategy -->
+<html class="dark">
+  <!-- dark: prefix works -->
+  <div class="bg-white dark:bg-gray-900 text-black dark:text-white">
+    Content adapts to dark mode
+  </div>
+</html>
+```
+
+```javascript
+// Toggle dark mode
+document.documentElement.classList.toggle("dark");
 ```
 
 ---

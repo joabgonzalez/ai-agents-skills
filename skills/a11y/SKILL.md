@@ -1,6 +1,6 @@
 ---
 name: a11y
-description: Universal accessibility best practices and standards across all technologies (HTML, CSS, React, MUI, Astro, React Native). WCAG 2.1 Level AA compliance, semantic HTML, ARIA, keyboard navigation, color contrast. Trigger: When implementing UI components, adding interactive elements, or ensuring accessibility compliance.
+description: Universal accessibility best practices and standards across all technologies (HTML, CSS, React, MUI, Astro, React Native). WCAG 2.1/2.2 Level AA compliance, semantic HTML, ARIA, keyboard navigation, color contrast. Trigger: When implementing UI components, adding interactive elements, or ensuring accessibility compliance.
 allowed-tools:
   - documentation-reader
   - web-search
@@ -15,7 +15,7 @@ This skill centralizes accessibility guidelines and best practices for all techn
 
 ## Objective
 
-Ensure all user interfaces meet accessibility standards (WCAG 2.1 Level AA minimum) across all technologies. This skill provides universal accessibility guidance that technology-specific skills can reference.
+Ensure all user interfaces meet accessibility standards (WCAG 2.1/2.2 Level AA minimum) across all technologies. This skill provides universal accessibility guidance that technology-specific skills can reference.
 
 ---
 
@@ -131,6 +131,15 @@ Don't use this skill for:
 - Large text (18pt+) minimum 3:1
 - Don't rely solely on color to convey information
 - Test with color blindness simulators
+- **UI component contrast 3:1** (WCAG 2.1)
+- **Focus indicators contrast 3:1** (WCAG 2.2)
+
+### Touch Targets & Interaction
+
+- **Touch target size minimum 24x24px** (WCAG 2.2)
+- Recommend 44x44px for better usability (WCAG 2.1 AAA)
+- Adequate spacing between targets
+- **No dragging movements required** unless essential (WCAG 2.2)
 
 ### Screen Readers
 
@@ -161,6 +170,15 @@ Don't use this skill for:
 
 ## Edge Cases
 
+WCAG 2.2 updates:\*\*
+
+- **24x24px minimum target size** (lowered from 44x44, but 44x44 still recommended)
+- **Focus appearance:** Focus indicators must have 3:1 contrast ratio
+- **Dragging movements:** Provide single-pointer alternatives for drag operations
+- **Redundant entry:** Don't make users re-enter information already provided
+- **Accessible authentication:** Don't require cognitive function tests (CAPTCHAs should have alternatives)
+
+\*\*
 **Skip links:** Provide "Skip to main content" link as first focusable element for keyboard users to bypass navigation.
 
 **Focus trap issues:** Libraries like React may interfere with focus management. Test focus trap explicitly in modals.

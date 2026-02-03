@@ -26,6 +26,60 @@ Enable developers to build consistent, accessible UIs using MUI components with 
 
 ---
 
+## Extended Mandatory Read Protocol
+
+This skill uses the **Extended Mandatory Read Protocol** for complex MUI patterns (40+ patterns total).
+
+### Reading Strategy
+
+1. **ALWAYS read**: This main SKILL.md (covers 80% of common MUI cases)
+2. **Read references/ when**:
+   - Decision Tree indicates "**MUST read** {reference}"
+   - Quick Reference Table marks it "Required Reading: ✅"
+   - Critical Pattern says "**[CRITICAL] See** {reference} for..."
+   - Working with advanced MUI features (DataGrid, complex forms, theming)
+
+### When to Read References
+
+| Situation                             | Read SKILL.md | Read references/ | Which References                    |
+| ------------------------------------- | ------------- | ---------------- | ----------------------------------- |
+| Basic MUI components (Button, Box)    | ✅ Yes        | ❌ No            | SKILL.md covers all needed patterns |
+| Component library patterns            | ✅ Yes        | ✅ Yes           | components.md (required)            |
+| Theme customization / dark mode       | ✅ Yes        | ✅ Yes           | theming.md (required)               |
+| Advanced styling (sx, styled API)     | ✅ Yes        | ✅ Yes           | customization.md (required)         |
+| Tables, DataGrid, Lists               | ✅ Yes        | ✅ Yes           | data-display.md (required)          |
+| Form validation, Select, Autocomplete | ✅ Yes        | ✅ Yes           | forms.md (required)                 |
+| Multiple advanced features            | ✅ Yes        | ✅ Yes           | All relevant references             |
+
+### Available References
+
+All reference files located in `skills/mui/references/`:
+
+- **README.md**: Overview of all MUI references and navigation guide
+- **components.md**: Button, TextField, Typography, layouts, navigation (required for component patterns)
+- **theming.md**: createTheme, palette, dark mode, component overrides (required for theme customization)
+- **customization.md**: sx prop, styled API, custom variants, performance (required for advanced styling)
+- **data-display.md**: Table, DataGrid, List, Card patterns (required for data display)
+- **forms.md**: TextField validation, Select, Autocomplete, Formik integration (required for forms)
+
+### Conditional Language
+
+- **"MUST read"** → **Obligatory** - Read immediately before proceeding
+- **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
+- **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
+
+### Example: Theme Customization Task
+
+```
+1. User: "Set up dark mode with custom palette"
+2. Read: skills/mui/SKILL.md (this file)
+3. Check Decision Tree: "Dark mode? → MUST read theming.md"
+4. Read: skills/mui/references/theming.md (REQUIRED)
+5. Execute: Implement dark mode with createTheme and ThemeProvider
+```
+
+---
+
 ## When to Use
 
 Use this skill when:
@@ -114,17 +168,21 @@ Refer to react for:
 
 **One-off styling?** → Use `sx` prop with theme values: `sx={{ p: 2, bgcolor: 'primary.main' }}`.
 
-**Reusable styled component?** → Use `styled()` API to create custom components.
+**Reusable styled component?** → Use `styled()` API to create custom components. **[CRITICAL] See** `references/customization.md` for styled API patterns.
 
-**Global theme change?** → Configure in `createTheme()`, apply via `ThemeProvider`.
+**Global theme change?** → Configure in `createTheme()`, apply via `ThemeProvider`. **[CRITICAL] See** `references/theming.md` for theme setup.
 
-**Need custom variant?** → Extend theme with component variants in theme configuration.
+**Need custom variant?** → Extend theme with component variants in theme configuration. **[CRITICAL] See** `references/customization.md` for variant patterns.
 
 **Responsive styling?** → Use theme breakpoints: `sx={{ p: { xs: 1, md: 2 } }}` or `theme.breakpoints.up('md')`.
 
-**Dark mode?** → Create separate light/dark themes, toggle via ThemeProvider.
+**Dark mode?** → Create separate light/dark themes, toggle via ThemeProvider. **[CRITICAL] See** `references/theming.md` for dark mode implementation.
 
-**Custom component?** → Extend MUI component with styled API or composition pattern.
+**Custom component?** → Extend MUI component with styled API or composition pattern. **[CRITICAL] See** `references/components.md` for component patterns.
+
+**Building forms?** → Use TextField, Select, Autocomplete with validation. **[CRITICAL] See** `references/forms.md` for form patterns.
+
+**Displaying tables/lists?** → Use Table, DataGrid, List components. **[CRITICAL] See** `references/data-display.md` for data display patterns.
 
 ---
 

@@ -26,6 +26,60 @@ Guide developers in building cross-platform mobile apps with React Native using 
 
 ---
 
+## Extended Mandatory Read Protocol
+
+This skill uses the **Extended Mandatory Read Protocol** for complex React Native patterns (40+ patterns total).
+
+### Reading Strategy
+
+1. **ALWAYS read**: This main SKILL.md (covers 80% of common React Native cases)
+2. **Read references/ when**:
+   - Decision Tree indicates "**MUST read** {reference}"
+   - Quick Reference Table marks it "Required Reading: ✅"
+   - Critical Pattern says "**[CRITICAL] See** {reference} for..."
+   - Working with advanced features (navigation, animations, native modules)
+
+### When to Read References
+
+| Situation                            | Read SKILL.md | Read references/ | Which References                    |
+| ------------------------------------ | ------------- | ---------------- | ----------------------------------- |
+| Basic React Native components        | ✅ Yes        | ❌ No            | SKILL.md covers all needed patterns |
+| Navigation (Stack/Tab/Drawer)        | ✅ Yes        | ✅ Yes           | navigation-patterns.md (required)   |
+| Gestures, animations                 | ✅ Yes        | ✅ Yes           | gestures-animations.md (required)   |
+| Platform-specific code (iOS/Android) | ✅ Yes        | ✅ Yes           | platform-specific.md (required)     |
+| Performance optimization             | ✅ Yes        | ✅ Yes           | performance-rn.md (required)        |
+| Native modules integration           | ✅ Yes        | ✅ Yes           | native-modules.md (required)        |
+| Multiple advanced features           | ✅ Yes        | ✅ Yes           | All relevant references             |
+
+### Available References
+
+All reference files located in `skills/react-native/references/`:
+
+- **README.md**: Overview of all React Native references and navigation guide
+- **navigation-patterns.md**: React Navigation Stack/Tab/Drawer, deep linking (required for navigation)
+- **gestures-animations.md**: Gesture Handler, Animated API, Reanimated (required for animations)
+- **platform-specific.md**: Platform.select, iOS/Android differences (required for platform code)
+- **performance-rn.md**: FlatList optimization, memory management (required for optimization)
+- **native-modules.md**: Linking native code, bridges (required for native integration)
+
+### Conditional Language
+
+- **"MUST read"** → **Obligatory** - Read immediately before proceeding
+- **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
+- **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
+
+### Example: Navigation Task
+
+```
+1. User: "Set up Stack and Tab navigation"
+2. Read: skills/react-native/SKILL.md (this file)
+3. Check Decision Tree: "Navigation? → MUST read navigation-patterns.md"
+4. Read: skills/react-native/references/navigation-patterns.md (REQUIRED)
+5. Execute: Implement Stack and Tab navigators with React Navigation
+```
+
+---
+
 ## When to Use
 
 Use this skill when:
@@ -137,19 +191,21 @@ Refer to react for:
 
 ## Decision Tree
 
-**Long list?** → Use `FlatList` with `keyExtractor` and `getItemLayout` for optimization.
+**Long list?** → Use `FlatList` with `keyExtractor` and `getItemLayout` for optimization. **[CRITICAL] See** `references/performance-rn.md` for FlatList optimization.
 
-**Platform-specific styling?** → Use `Platform.select()` or `Platform.OS === 'ios'`.
+**Platform-specific styling?** → Use `Platform.select()` or `Platform.OS === 'ios'`. **[CRITICAL] See** `references/platform-specific.md` for platform patterns.
 
-**Navigation?** → Use React Navigation library.
+**Navigation?** → Use React Navigation library. **[CRITICAL] See** `references/navigation-patterns.md` for Stack/Tab/Drawer setup.
+
+**Gestures/Animations?** → Use Gesture Handler + Reanimated. **[CRITICAL] See** `references/gestures-animations.md` for gesture and animation patterns.
 
 **Forms?** → Use controlled components, consider `react-hook-form` for complex forms.
 
 **State management?** → Context for simple, Redux/Zustand for complex.
 
-**Native feature needed?** → Check if React Native API exists, otherwise use native module or library.
+**Native feature needed?** → Check if React Native API exists, otherwise use native module or library. **[CRITICAL] See** `references/native-modules.md` for native integration.
 
-**Performance issue?** → Enable Hermes, use `React.memo()`, avoid inline functions in renders, profile with Flipper.
+**Performance issue?** → Enable Hermes, use `React.memo()`, avoid inline functions in renders, profile with Flipper. **[CRITICAL] See** `references/performance-rn.md` for optimization strategies.
 
 **Testing?** → Use Jest + React Native Testing Library, test on real devices.
 

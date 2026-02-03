@@ -93,6 +93,39 @@ Don't use this skill for:
 <a href="#" onclick="doSomething()">Click</a>
 ```
 
+### ✅ REQUIRED: Essential Meta Tags
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Page description for SEO (150-160 chars)"
+    />
+    <title>Page Title - Site Name</title>
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Page Title" />
+    <meta property="og:description" content="Description for social sharing" />
+    <meta property="og:image" content="https://example.com/image.jpg" />
+    <meta property="og:url" content="https://example.com/page" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Page Title" />
+    <meta name="twitter:description" content="Description" />
+    <meta name="twitter:image" content="https://example.com/image.jpg" />
+  </head>
+  <body>
+    <!-- Content -->
+  </body>
+</html>
+```
+
 ---
 
 ## Conventions
@@ -115,6 +148,10 @@ Refer to a11y for:
 - Include alt text for images
 - Use `<button>` for actions, `<a>` for navigation
 - Validate HTML markup
+- **Always set `lang` attribute on `<html>`**
+- **Include essential meta tags** (viewport, description, charset)
+- **Use Open Graph and Twitter Card meta tags** for social sharing
+- **Ensure valid document structure** (one `<main>`, proper nesting)
 
 ---
 

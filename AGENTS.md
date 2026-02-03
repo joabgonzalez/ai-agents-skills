@@ -204,11 +204,10 @@ Use these skills for detailed patterns and guidance on-demand:
 
 ### State Management & Forms
 
-| Skill         | Description                         | Path                                      |
-| ------------- | ----------------------------------- | ----------------------------------------- |
-| redux-toolkit | Redux Toolkit state management      | [SKILL.md](skills/redux-toolkit/SKILL.md) |
-| rtk-query     | RTK Query data fetching and caching | [SKILL.md](skills/rtk-query/SKILL.md)     |
-| formik        | Formik form handling patterns       | [SKILL.md](skills/formik/SKILL.md)        |
+| Skill         | Description                                              | Path                                      |
+| ------------- | -------------------------------------------------------- | ----------------------------------------- |
+| redux-toolkit | Redux Toolkit state management + RTK Query data fetching | [SKILL.md](skills/redux-toolkit/SKILL.md) |
+| formik        | Formik form handling patterns                            | [SKILL.md](skills/formik/SKILL.md)        |
 
 ### Validation & Build Tools
 
@@ -262,9 +261,9 @@ Use these skills for detailed patterns and guidance on-demand:
 | Design Astro pages or components                | astro                   | [SKILL.md](skills/astro/SKILL.md)                   |
 | Document features, bugs, refactors              | process-documentation   | [SKILL.md](skills/process-documentation/SKILL.md)   |
 | Implement Redux state management                | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
-| Implement RTK Query data fetching               | rtk-query               | [SKILL.md](skills/rtk-query/SKILL.md)               |
+| Implement RTK Query data fetching               | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
 | Implement accessibility requirements            | a11y                    | [SKILL.md](skills/a11y/SKILL.md)                    |
-| Implement data fetching with caching            | rtk-query               | [SKILL.md](skills/rtk-query/SKILL.md)               |
+| Implement data fetching with caching            | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
 | Mobile development with Expo                    | expo                    | [SKILL.md](skills/expo/SKILL.md)                    |
 | Mobile development with React Native            | react-native            | [SKILL.md](skills/react-native/SKILL.md)            |
 | Semantic HTML structure                         | html                    | [SKILL.md](skills/html/SKILL.md)                    |

@@ -45,6 +45,55 @@ Don't use this skill for:
 
 ---
 
+## 📚 Extended Mandatory Read Protocol
+
+**This skill has a `references/` directory with detailed guides for complex React patterns.**
+
+### Reading Rules
+
+**Read references/ when:**
+
+- **MUST read [hooks-advanced.md](references/hooks-advanced.md)** when:
+  - Deciding useState vs useReducer (4+ related state values)
+  - Creating custom hooks or composing hooks
+  - Dealing with stale closures or hook dependencies
+- **MUST read [useEffect-patterns.md](references/useEffect-patterns.md)** when:
+  - Implementing data fetching, subscriptions, or side effects
+  - Handling cleanup, race conditions, or async operations
+  - Debugging dependency array issues
+
+- **MUST read [performance.md](references/performance.md)** when:
+  - Components re-rendering unnecessarily
+  - Working with expensive computations or large lists
+  - Profiling and optimizing React applications
+
+- **MUST read [context-patterns.md](references/context-patterns.md)** when:
+  - Sharing state across multiple components
+  - Building compound components or component APIs
+  - Optimizing context performance (preventing re-renders)
+
+- **MUST read [forms-state.md](references/forms-state.md)** when:
+  - Building forms with validation
+  - Choosing controlled vs uncontrolled inputs
+  - Implementing multi-step forms or file uploads
+
+**Quick reference only:** Use this SKILL.md for simple components and quick lookups. Decision Tree below directs you to specific references when needed.
+
+### Reading Priority
+
+| Situation                           | Read This                            | Why                                 |
+| ----------------------------------- | ------------------------------------ | ----------------------------------- |
+| Simple component (<3 state values)  | SKILL.md only                        | No deep dive needed                 |
+| Complex state (useReducer decision) | **hooks-advanced.md** (REQUIRED)     | 40+ patterns for state management   |
+| Data fetching or subscriptions      | **useEffect-patterns.md** (REQUIRED) | Race conditions, cleanup patterns   |
+| Performance optimization            | **performance.md** (REQUIRED)        | Profile first, optimize correctly   |
+| State sharing across components     | **context-patterns.md** (REQUIRED)   | Performance pitfalls avoided        |
+| Form implementation                 | **forms-state.md** (REQUIRED)        | Controlled vs uncontrolled decision |
+
+**See [references/README.md](references/README.md)** for complete navigation guide.
+
+---
+
 ## Critical Patterns
 
 ### ✅ REQUIRED: Use Functional Components with Hooks
@@ -126,21 +175,33 @@ Refer to a11y for:
 
 ## Decision Tree
 
-**State needed?** → Use local (`useState`) if component-specific, lift to parent if shared, use context for deeply nested sharing, Redux for global app state.
+**Simple state (<3 values)?** → Use `useState`. **[See hooks-advanced.md](references/hooks-advanced.md#usestate-patterns)** for patterns.
 
-**Side effect needed?** → Use `useEffect` with proper dependency array. Empty array `[]` for mount-only, specific deps for reactive effects.
+**Complex state (4+ related values)?** → Use `useReducer` for centralized logic. **MUST read [hooks-advanced.md](references/hooks-advanced.md#usereducer-patterns)** for reducer patterns.
 
-**Expensive computation?** → Use `useMemo` if calculation is costly and depends on specific inputs. Profile first with React DevTools.
+**Side effect needed?** → Use `useEffect` with proper dependency array. **MUST read [useEffect-patterns.md](references/useEffect-patterns.md)** for cleanup, race conditions, and async patterns.
 
-**Callback prop to optimized child?** → Use `useCallback` to prevent unnecessary re-renders when passing functions to `memo()` components.
+**Data fetching?** → Use `useEffect` with AbortController. **MUST read [useEffect-patterns.md#async-patterns](references/useEffect-patterns.md#async-patterns)** for race condition handling.
+
+**Performance issue?** → Profile first with React DevTools Profiler. **MUST read [performance.md](references/performance.md)** for useMemo, useCallback, React.memo patterns.
+
+**Expensive computation?** → Use `useMemo` if calculation is costly. **CHECK [performance.md#usememo](references/performance.md#usememo)** to decide if worth it.
+
+**Passing callbacks to memoized children?** → Use `useCallback`. **CHECK [performance.md#usecallback](references/performance.md#usecallback)** for stable references.
+
+**Sharing state across components?** → Use Context API or lift state. **MUST read [context-patterns.md](references/context-patterns.md)** for performance optimization and splitting contexts.
+
+**Building component API?** → Use compound components pattern. **CHECK [context-patterns.md#compound-components](references/context-patterns.md#compound-components)** for implicit state sharing.
+
+**Form with validation?** → Use controlled components. **MUST read [forms-state.md](references/forms-state.md)** for controlled vs uncontrolled and validation patterns.
+
+**Multi-step form?** → Use wizard pattern with step state. **CHECK [forms-state.md#multi-step-forms](references/forms-state.md#multi-step-forms)**.
+
+**File upload?** → Use controlled input with File API. **CHECK [forms-state.md#file-uploads](references/forms-state.md#file-uploads)** for single/multiple uploads with progress.
+
+**List rendering?** → Always provide stable `key` prop (use unique IDs, not indices). For large lists (1000+), **MUST read [performance.md#list-rendering-optimization](references/performance.md#list-rendering-optimization)** for virtualization.
 
 **Conditional rendering?** → Use `&&` for simple conditions, ternary `? :` for if-else, early return for complex logic.
-
-**List rendering?** → Always provide stable `key` prop. Use unique IDs, not array indices for dynamic lists.
-
-**Form handling?** → Use controlled components with `value` + `onChange`, or consider Formik/React Hook Form for complex forms.
-
-**Performance issue?** → Profile with React DevTools Profiler, wrap expensive components in `React.memo()`, split large components.
 
 ---
 

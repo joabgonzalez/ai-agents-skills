@@ -7,7 +7,6 @@ skills:
   - react
   - webpack
   - redux-toolkit
-  - rtk-query
   - mui
   - ag-grid
   - mui-x-charts
@@ -27,7 +26,7 @@ skills:
 
 ## Purpose
 
-This agent serves as the primary development assistant for the SBD web application, ensuring all code meets strict typing requirements, follows MUI component best practices, maintains accessibility standards, and adheres to defined versioning policies. Provides expert guidance on complex integrations involving Redux Toolkit, RTK Query, AG Grid, MUI X Charts, and Formik forms while facilitating clear technical communication and rigorous code review.
+This agent serves as the primary development assistant for the SBD web application, ensuring all code meets strict typing requirements, follows MUI component best practices, maintains accessibility standards, and adheres to defined versioning policies. Provides expert guidance on complex integrations involving Redux Toolkit (including RTK Query), AG Grid, MUI X Charts, and Formik forms while facilitating clear technical communication and rigorous code review.
 
 ---
 
@@ -81,7 +80,7 @@ Example notification:
 | Create React components with hooks    | react                   | [SKILL.md](../../skills/react/SKILL.md)                   |
 | Configure Webpack build               | webpack                 | [SKILL.md](../../skills/webpack/SKILL.md)                 |
 | Implement Redux state management      | redux-toolkit           | [SKILL.md](../../skills/redux-toolkit/SKILL.md)           |
-| Implement RTK Query data fetching     | rtk-query               | [SKILL.md](../../skills/rtk-query/SKILL.md)               |
+| Implement RTK Query data fetching     | redux-toolkit           | [SKILL.md](../../skills/redux-toolkit/SKILL.md)           |
 | Style with Material-UI components     | mui                     | [SKILL.md](../../skills/mui/SKILL.md)                     |
 | Configure AG Grid tables              | ag-grid                 | [SKILL.md](../../skills/ag-grid/SKILL.md)                 |
 | Create MUI X Charts visualizations    | mui-x-charts            | [SKILL.md](../../skills/mui-x-charts/SKILL.md)            |
@@ -118,8 +117,7 @@ Example notification:
 | javascript              | JavaScript language patterns and ES2020+ features     | skills/javascript/SKILL.md              |
 | react                   | React component patterns and best practices           | skills/react/SKILL.md                   |
 | webpack                 | Webpack configuration and build optimization          | skills/webpack/SKILL.md                 |
-| redux-toolkit           | Redux Toolkit store configuration and slice patterns  | skills/redux-toolkit/SKILL.md           |
-| rtk-query               | RTK Query API integration and data fetching           | skills/rtk-query/SKILL.md               |
+| redux-toolkit           | Redux Toolkit + RTK Query state/data management       | skills/redux-toolkit/SKILL.md           |
 | mui                     | Material-UI component library and theming             | skills/mui/SKILL.md                     |
 | ag-grid                 | AG Grid data table configuration and usage            | skills/ag-grid/SKILL.md                 |
 | mui-x-charts            | MUI X Charts data visualization components            | skills/mui-x-charts/SKILL.md            |

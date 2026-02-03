@@ -25,6 +25,27 @@ Enable developers to implement predictable state management with Redux Toolkit's
 
 ---
 
+## 📚 Extended Mandatory Read Protocol
+
+**CRITICAL**: This skill uses the extended protocol with references/ directory for deep-dive guides.
+
+### Reading Rules
+
+- **SKILL.md (this file)**: Critical patterns and decision tree (handles 80% of cases)
+- **references/ directory**: Detailed guides for complex scenarios (40+ patterns per topic)
+
+### When to Read References
+
+Check the Decision Tree below. When it says **"MUST read [reference]"**, you must read that file before proceeding.
+
+**Conditional language guide:**
+
+- **"MUST read"** → Obligatory reading
+- **"CHECK"** → Suggested for deeper understanding
+- **"OPTIONAL"** → For learning only
+
+---
+
 ## When to Use
 
 Use this skill when:
@@ -34,11 +55,11 @@ Use this skill when:
 - Setting up Redux store with middleware
 - Implementing async operations with thunks
 - Normalizing state with EntityAdapter
+- Data fetching and caching with RTK Query
 
 Don't use this skill for:
 
 - Component-local state (use React useState)
-- API data fetching (prefer rtk-query skill)
 - Non-React Redux (general Redux patterns)
 
 ---
@@ -125,17 +146,21 @@ Refer to react for:
 
 ## Decision Tree
 
+**Setting up Redux?** → **MUST read [typescript-integration.md](references/typescript-integration.md)** for store setup, typed hooks (useAppDispatch, useAppSelector), RootState/AppDispatch types.
+
+**Creating slice?** → **MUST read [slices-patterns.md](references/slices-patterns.md)** for createSlice, reducers, extraReducers, immer patterns, prepare callbacks.
+
 **Need global state?** → Create slice with `createSlice`, define initial state and reducers. Use typed hooks `useAppSelector`/`useAppDispatch`.
 
-**Async operation (API call)?** → Use RTK Query for data fetching (preferred) or `createAsyncThunk` for custom async logic.
+**Async operation (API call)?** → Use RTK Query for data fetching (preferred). **MUST read [rtk-query.md](references/rtk-query.md)** for createApi, queries, mutations, cache invalidation. For manual async: **CHECK [async-patterns.md](references/async-patterns.md)** for createAsyncThunk patterns.
+
+**Derived/computed state?** → **CHECK [selectors.md](references/selectors.md)** for createSelector (memoization), selector composition, preventing re-renders.
+
+**Managing collections (users, posts, products)?** → **MUST read [normalization.md](references/normalization.md)** for createEntityAdapter, normalized state, CRUD operations, relationships.
 
 **State normalization needed?** → Use `createEntityAdapter` for managing collections with IDs (automatic CRUD reducers, selectors).
 
-**Derived data from state?** → Create selector with `createSelector` (memoized), use in components with `useAppSelector`.
-
-**Middleware needed?** → Add to `configureStore` middleware array. RTK includes thunk by default.
-
-**Performance issue with re-renders?** → Use granular selectors (select only needed data), `React.memo()` on components, `shallowEqual` in useAppSelector.
+**Performance issue with re-renders?** → Use granular selectors (select only needed data), `React.memo()` on components, `shallowEqual` in useAppSelector. **CHECK [selectors.md](references/selectors.md)** for memoization patterns.
 
 **Cross-slice logic?** → Use extraReducers in slice or dispatch actions from async thunks. Avoid direct slice imports (circular deps).
 

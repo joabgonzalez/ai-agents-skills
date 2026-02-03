@@ -74,11 +74,71 @@ function fetchData() {
 ### ✅ REQUIRED: Optional Chaining and Nullish Coalescing
 
 ```javascript
-// ✅ CORRECT: Safe property access
+// ✅ CORRECT: Safe property access with optional chaining (?.)
 const name = user?.profile?.name ?? "Anonymous";
+const result = obj?.method?.(); // Safe method call
+
+// ✅ CORRECT: Nullish coalescing (??) only for null/undefined
+const port = config.port ?? 3000; // 0 is valid, won't fallback
+
+// ❌ WRONG: OR operator (|| treats 0, '', false as falsy)
+const port = config.port || 3000; // 0 would fallback to 3000!
 
 // ❌ WRONG: Manual null checks
 const name = (user && user.profile && user.profile.name) || "Anonymous";
+```
+
+### ✅ REQUIRED: Use Double Negation (!!) for Boolean Coercion
+
+```javascript
+// ✅ CORRECT: Explicit boolean conversion
+const hasData = !!data; // true if data exists, false otherwise
+const isValid = Boolean(value); // Alternative explicit conversion
+
+// ❌ WRONG: Implicit coercion (unclear intent)
+if (data) {
+} // Unclear if checking existence or truthiness
+```
+
+### ✅ REQUIRED: Promise.all for Parallel Operations
+
+```javascript
+// ✅ CORRECT: Parallel execution with Promise.all
+const [users, posts, comments] = await Promise.all([
+  fetchUsers(),
+  fetchPosts(),
+  fetchComments(),
+]);
+
+// ❌ WRONG: Sequential awaits (3x slower!)
+const users = await fetchUsers();
+const posts = await fetchPosts();
+const comments = await fetchComments();
+```
+
+### ✅ REQUIRED: Prefer async/await Over Promise Chains
+
+```javascript
+// ✅ CORRECT: async/await (readable, easier error handling)
+async function processData() {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const processed = await transform(data);
+    return processed;
+  } catch (error) {
+    console.error("Processing failed:", error);
+    throw error;
+  }
+}
+
+// ❌ WRONG: Promise chains (harder to read and debug)
+function processData() {
+  return fetch(url)
+    .then((res) => res.json())
+    .then((data) => transform(data))
+    .catch((error) => console.error(error));
+}
 ```
 
 ---
@@ -99,6 +159,10 @@ Refer to conventions for:
 - Leverage destructuring for objects and arrays
 - Use async/await for asynchronous operations
 - Apply optional chaining (?.) and nullish coalescing (??)
+- **Use `!!` for explicit boolean conversion**
+- **Prefer `Promise.all()` for parallel async operations**
+- **Use `===` for strict equality, never `==`**
+- **Prefer modern array methods** (`.map()`, `.filter()`, `.reduce()`) over loops
 
 ---
 
