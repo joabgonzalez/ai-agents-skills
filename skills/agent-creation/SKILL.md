@@ -1,6 +1,6 @@
 ---
 name: agent-creation
-description: Guides agents and users to create standards-compliant agent definitions using templates in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required. Trigger: When creating a new agent definition, setting up project agents, or documenting agent workflows.
+description: "Guides agents and users to create standards-compliant agent definitions using templates in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required. Trigger: When creating a new agent definition, setting up project agents, or documenting agent workflows."
 ---
 
 # Agent Creation Skill

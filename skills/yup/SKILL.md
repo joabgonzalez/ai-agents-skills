@@ -1,6 +1,6 @@
 ---
 name: yup
-description: Schema validation for JavaScript objects with expressive API. Object schemas, async validation, type inference, custom validators. Trigger: When creating validation schemas with Yup, validating forms, or implementing schema-based validation.
+description: "Schema validation for JavaScript objects with expressive API. Object schemas, async validation, type inference, custom validators. Trigger: When creating validation schemas with Yup, validating forms, or implementing schema-based validation."
 skills:
   - conventions
   - typescript

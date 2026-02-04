@@ -1,6 +1,6 @@
 ---
 name: webpack
-description: Webpack module bundler configuration and optimization. Loaders, plugins, code splitting, build optimization. Trigger: When configuring Webpack bundler, setting up loaders/plugins, or optimizing bundle size.
+description: "Webpack module bundler configuration and optimization. Loaders, plugins, code splitting, build optimization. Trigger: When configuring Webpack bundler, setting up loaders/plugins, or optimizing bundle size."
 skills:
   - conventions
 dependencies:

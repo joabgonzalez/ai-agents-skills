@@ -1,6 +1,6 @@
 ---
 name: critical-partner
-description: Rigorous, constructive, and analytical partner for code generation, review, and improvement. Provides counterarguments, identifies issues, ensures best practices. Trigger: When validating code quality, reviewing implementations, or providing critical feedback before finalizing changes.
+description: "Rigorous, constructive, and analytical partner for code generation, review, and improvement. Provides counterarguments, identifies issues, ensures best practices. Trigger: When validating code quality, reviewing implementations, or providing critical feedback before finalizing changes."
 allowed-tools:
   - documentation-reader
   - web-search

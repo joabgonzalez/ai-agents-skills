@@ -1,6 +1,6 @@
 ---
 name: eslint
-description: Enforcing code quality and best practices using ESLint in JavaScript and TypeScript projects. Configuration, rules, plugins, auto-fix. Trigger: When configuring ESLint rules, fixing linting errors, or enforcing code quality standards.
+description: "Enforcing code quality and best practices using ESLint in JavaScript and TypeScript projects. Configuration, rules, plugins, auto-fix. Trigger: When configuring ESLint rules, fixing linting errors, or enforcing code quality standards."
 dependencies:
   eslint: ">=8.0.0 <9.0.0"
 allowed-tools:

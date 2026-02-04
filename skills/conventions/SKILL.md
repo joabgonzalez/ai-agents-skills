@@ -1,6 +1,6 @@
 ---
 name: conventions
-description: General coding conventions and best practices shared across multiple skills (organization, documentation, naming, type imports). Trigger: When writing or reviewing general code patterns, establishing project structure, or defining cross-technology conventions.
+description: "General coding conventions and best practices shared across multiple skills (organization, documentation, naming, type imports). Trigger: When writing or reviewing general code patterns, establishing project structure, or defining cross-technology conventions."
 allowed-tools:
   - documentation-reader
   - web-search

@@ -1,6 +1,6 @@
 ---
 name: redux-toolkit
-description: Redux Toolkit for predictable state management in React applications. Slices, async thunks, RTK Query integration, store configuration. Trigger: When implementing Redux state management, creating slices, or managing global application state.
+description: "Redux Toolkit for predictable state management in React applications. Slices, async thunks, RTK Query integration, store configuration. Trigger: When implementing Redux state management, creating slices, or managing global application state."
 skills:
   - conventions
   - react

@@ -1,6 +1,6 @@
 ---
 name: typescript
-description: TypeScript best practices with strict typing for type-safe development. Avoid any, use unknown, leverage generics and utility types. Trigger: When implementing or refactoring TypeScript in .ts/.tsx files, adding types/interfaces, or enforcing type safety.
+description: "TypeScript best practices with strict typing for type-safe development. Avoid any, use unknown, leverage generics and utility types. Trigger: When implementing or refactoring TypeScript in .ts/.tsx files, adding types/interfaces, or enforcing type safety."
 skills:
   - conventions
   - javascript

@@ -1,6 +1,6 @@
 ---
 name: vite
-description: Vite build tool and dev server for fast modern web development. Configuration, plugins, optimization, HMR. Trigger: When configuring Vite build tool, setting up dev server, or optimizing build performance.
+description: "Vite build tool and dev server for fast modern web development. Configuration, plugins, optimization, HMR. Trigger: When configuring Vite build tool, setting up dev server, or optimizing build performance."
 skills:
   - conventions
 dependencies:

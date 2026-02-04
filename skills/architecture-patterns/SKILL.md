@@ -1,6 +1,6 @@
 ---
 name: architecture-patterns
-description: Software architecture patterns (SOLID, DDD, Clean/Hexagonal Architecture, Mediator, Result). Backend-first, frontend when context justifies. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements in AGENTS.md.
+description: "Software architecture patterns (SOLID, DDD, Clean/Hexagonal Architecture, Mediator, Result). Backend-first, frontend when context justifies. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements in AGENTS.md."
 skills:
   - conventions
   - typescript

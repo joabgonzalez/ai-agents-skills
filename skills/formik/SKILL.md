@@ -1,6 +1,6 @@
 ---
 name: formik
-description: Building and managing forms in React with Formik. Validation, accessibility, error handling, form submission. Trigger: When creating forms in React, implementing form validation, or managing form state with Formik.
+description: "Building and managing forms in React with Formik. Validation, accessibility, error handling, form submission. Trigger: When creating forms in React, implementing form validation, or managing form state with Formik."
 skills:
   - conventions
   - a11y

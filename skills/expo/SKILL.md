@@ -1,6 +1,6 @@
 ---
 name: expo
-description: Building, testing, and deploying cross-platform mobile applications using Expo with React Native. EAS Build, OTA updates, native modules. Trigger: When developing with Expo, configuring EAS services, or building cross-platform mobile apps.
+description: "Building, testing, and deploying cross-platform mobile applications using Expo with React Native. EAS Build, OTA updates, native modules. Trigger: When developing with Expo, configuring EAS services, or building cross-platform mobile apps."
 dependencies:
   expo: ">=50.0.0 <51.0.0"
   react-native: ">=0.73.0 <1.0.0"

@@ -1,6 +1,6 @@
 ---
 name: astro
-description: Building fast, optimized websites using Astro with TypeScript and optional React islands. SSG, SSR, partial hydration, component islands. Trigger: When building Astro websites, implementing component islands, or configuring SSG/SSR.
+description: "Building fast, optimized websites using Astro with TypeScript and optional React islands. SSG, SSR, partial hydration, component islands. Trigger: When building Astro websites, implementing component islands, or configuring SSG/SSR."
 skills:
   - conventions
   - a11y

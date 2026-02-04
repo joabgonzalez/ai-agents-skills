@@ -1,6 +1,6 @@
 ---
 name: mui
-description: Material UI component library best practices for React applications. Component patterns, theming, styling with sx prop, custom components. Trigger: When using Material-UI components, implementing MUI theming, or creating custom MUI-based components.
+description: "Material UI component library best practices for React applications. Component patterns, theming, styling with sx prop, custom components. Trigger: When using Material-UI components, implementing MUI theming, or creating custom MUI-based components."
 skills:
   - conventions
   - a11y

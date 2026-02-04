@@ -1,6 +1,6 @@
 ---
 name: technical-communication
-description: Clear and effective technical communication for documentation, code comments, and team collaboration. Writing standards, documentation structure, commit messages. Trigger: When writing technical documentation, creating code comments, or communicating technical concepts.
+description: "Clear and effective technical communication for documentation, code comments, and team collaboration. Writing standards, documentation structure, commit messages. Trigger: When writing technical documentation, creating code comments, or communicating technical concepts."
 skills:
   - conventions
 allowed-tools:

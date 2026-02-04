@@ -1,6 +1,6 @@
 ---
 name: process-documentation
-description: Comprehensive documentation of all processes and changes. Templates for features, bug fixes, refactors with structured format and validation. Trigger: When completing features, fixing bugs, refactoring code, or before committing changes.
+description: "Comprehensive documentation of all processes and changes. Templates for features, bug fixes, refactors with structured format and validation. Trigger: When completing features, fixing bugs, refactoring code, or before committing changes."
 allowed-tools:
   - file-operations
   - read-file

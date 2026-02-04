@@ -1,6 +1,6 @@
 ---
 name: tailwindcss
-description: Utility-first CSS framework for rapid UI development. Responsive design, custom utilities, configuration, component composition. Trigger: When styling with Tailwind CSS utility classes, creating responsive designs, or configuring Tailwind.
+description: "Utility-first CSS framework for rapid UI development. Responsive design, custom utilities, configuration, component composition. Trigger: When styling with Tailwind CSS utility classes, creating responsive designs, or configuring Tailwind."
 skills:
   - conventions
   - a11y

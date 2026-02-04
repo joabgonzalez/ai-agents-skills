@@ -1,6 +1,6 @@
 ---
 name: reference-creation
-description: Create and organize reference files for complex skills with 40+ patterns. Guides sub-topic identification, file structure, README creation, and cross-linking. Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics.
+description: "Create and organize reference files for complex skills with 40+ patterns. Guides sub-topic identification, file structure, README creation, and cross-linking. Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics."
 skills:
   - conventions
   - critical-partner

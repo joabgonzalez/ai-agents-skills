@@ -1,6 +1,6 @@
 ---
 name: mui-x-charts
-description: MUI X Charts for data visualization in React applications. Line charts, bar charts, pie charts, customization, theming. Trigger: When creating data visualizations with MUI X Charts, implementing charts, or customizing chart appearance.
+description: "MUI X Charts for data visualization in React applications. Line charts, bar charts, pie charts, customization, theming. Trigger: When creating data visualizations with MUI X Charts, implementing charts, or customizing chart appearance."
 skills:
   - mui
   - react

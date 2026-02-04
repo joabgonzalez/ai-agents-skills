@@ -1,6 +1,6 @@
 ---
 name: react
-description: React component patterns, hooks, and best practices for modern React development. Functional components, proper hook usage, memoization, and performance optimization. Trigger: When creating React components, implementing hooks, managing state, or optimizing React performance.
+description: "React component patterns, hooks, and best practices for modern React development. Functional components, proper hook usage, memoization, and performance optimization. Trigger: When creating React components, implementing hooks, managing state, or optimizing React performance."
 skills:
   - conventions
   - a11y

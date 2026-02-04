@@ -1,6 +1,6 @@
 ---
 name: skill-creation
-description: Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill or documenting patterns.
+description: "Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill or documenting patterns."
 skills:
   - reference-creation
   - critical-partner
