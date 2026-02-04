@@ -4,13 +4,21 @@
 
 This project uses agents and skills to modularize code actions. All global rules are in AGENTS.md.
 
+## Reasoning Policy
+
+- Use Internal Monologue (# Reasoning) ONLY if the task requires multi-step reasoning, complex decision-making, or explicit justification.
+- For simple, direct actions, omit the reasoning block and proceed directly.
+
 ## Output Format
 
 Always return a JSON object with:
+
+```json
 {
-"explanation": "Describe the reasoning and impact.",
-"code_diff": "Show the code changes as a diff."
+  "explanation": "Describe the reasoning and impact.",
+  "code_diff": "Show the code changes as a diff."
 }
+```
 
 ## Skills and Agents
 
@@ -20,10 +28,10 @@ Always return a JSON object with:
 
 ## Example Prompt
 
-```xml
-<thinking>
+```markdown
+# Reasoning
+
 Apply refactor-logic.md and return the result in JSON format.
-</thinking>
 ```
 
 ## Example Output

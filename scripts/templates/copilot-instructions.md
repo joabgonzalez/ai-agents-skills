@@ -4,20 +4,24 @@
 
 This project uses an agent and skill system to modularize reasoning and code actions. All global rules and context are in AGENTS.md.
 
+## Reasoning Policy
+
+- Use Internal Monologue (/_ Reasoning _/ or markdown blocks) ONLY if the task requires multi-step reasoning, complex decision-making, or explicit justification.
+- For simple, direct actions, omit the reasoning block and proceed directly.
+
 ## Structure and Equivalent Conventions
 
 - Always use reasoning blocks before making changes:
-  - Claude: <thinking>
-  - Gemini: <thinking> or # Reasoning
   - Copilot: /_ Reasoning _/ or markdown blocks
 - Always consult skills for migrations, refactors, or audits.
 - Consult agents when the task requires orchestration or workflow.
 
 ## Example Prompt
 
-<thinking>
+```text
+/_ Reasoning _/
 Analyze the impact of applying refactor-logic.md on the current module dependencies.
-</thinking>
+```
 
 ## Example Output
 

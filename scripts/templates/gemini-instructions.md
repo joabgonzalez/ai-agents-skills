@@ -4,6 +4,11 @@
 
 This project uses agents and skills to modularize code analysis and actions. All global rules are in AGENTS.md.
 
+## Reasoning Policy
+
+- Use Internal Monologue (<thinking> or # Reasoning) ONLY if the task requires multi-step reasoning, complex decision-making, or explicit justification.
+- For simple, direct actions, omit the reasoning block and proceed directly.
+
 ## Context Strategy
 
 - Use <thinking> blocks or # Reasoning before making changes.
@@ -21,6 +26,14 @@ This project uses agents and skills to modularize code analysis and actions. All
 <thinking>
 Analyze the consistency of all modules in /src using repo-audit.md.
 </thinking>
+```
+
+or
+
+```markdown
+# Reasoning
+
+Analyze the consistency of all modules in /src using repo-audit.md.
 ```
 
 ## Example Output

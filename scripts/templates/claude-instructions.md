@@ -4,6 +4,11 @@
 
 This project uses agents and skills to modularize reasoning and code actions. All global rules are in AGENTS.md.
 
+## Reasoning Policy
+
+- Use Internal Monologue (<thinking>) ONLY if the task requires multi-step reasoning, complex decision-making, or explicit justification.
+- For simple, direct actions, omit the reasoning block and proceed directly.
+
 ## Thinking Protocol
 
 - Always use <thinking> blocks before making changes.
