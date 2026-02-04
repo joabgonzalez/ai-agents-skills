@@ -4,6 +4,7 @@ description: Modern, maintainable, and accessible CSS using latest features and 
 skills:
   - conventions
   - a11y
+  - humanizer
 allowed-tools:
   - documentation-reader
   - web-search

@@ -9,6 +9,15 @@ allowed-tools:
 
 # Process Documentation Skill
 
+## [2026-02-04] New Skills Creation, Compliance, and Integration
+
+- Created and integrated new skills: frontend-design, frontend-dev, backend-dev, humanizer, unit-testing, e2e-testing, next, nodejs, bun, express, nest, hono, jest, react-testing-library, react-native-testing-library, playwright, stagehand.
+- All new skills follow the project compliance checklist: correct frontmatter, unique responsibility, token efficiency, decision tree, inline examples, and proper delegation to conventions/a11y/humanizer.
+- No skill requires references/ (none exceeds 40 patterns or 4+ sub-topics).
+- No overlap in responsibilities: each skill covers a unique domain.
+- README updated and simplified in English, listing all new skills and summarizing the project objective and structure.
+- All documentation and commit messages are now in English as per project policy.
+
 ## Overview
 
 This skill ensures that all significant changes, features, bug fixes, and refactors are properly documented with context, rationale, and impact analysis.

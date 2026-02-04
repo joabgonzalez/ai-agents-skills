@@ -1,10 +1,11 @@
 ---
 name: reference-creation
-description: "Create and organize reference files for complex skills with 40+ patterns. Guides sub-topic identification, file structure, README creation, and cross-linking. Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics."
+description: "Create and organize reference files for complex skills with 40+ patterns. Guides sub-topic identification, file structure, README creation, and cross-linking. All content must be in English. Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics."
 skills:
   - conventions
   - critical-partner
   - process-documentation
+  - english-writing
 allowed-tools:
   - file-operations
   - read-file
@@ -21,8 +22,6 @@ This skill guides the creation of reference files for complex skills (40+ patter
 
 Enable creation of well-structured `references/` directories with README navigation, proper file naming, cross-linking, and validation for complex skills.
 
----
-
 ## When to Use
 
 Use this skill when:
@@ -33,8 +32,6 @@ Use this skill when:
 - Skill has **natural sub-topics** that can be independently learned
 - Skill covers **multiple contexts** (browser vs Node vs Edge)
 - **Advanced techniques** would overwhelm beginners in main SKILL.md
-
----
 
 ## Critical Patterns
 
@@ -53,8 +50,6 @@ At least 2 indicators → Create references/
 ```
 
 **Anti-pattern**: Creating references for simple skills (<15 patterns).
-
----
 
 ### ✅ REQUIRED: Identify Sub-Topics
 
@@ -79,8 +74,6 @@ Process:
   - server-features.md (12 patterns: SSR, RSC, data fetching)
 ```
 
----
-
 ### ✅ REQUIRED: Name Files Descriptively
 
 Follow strict naming conventions:
@@ -100,8 +93,6 @@ ReactAdvanced.md   # Wrong case
 ```
 
 **Rule**: `{topic-description}.md` (lowercase, hyphens, descriptive)
-
----
 
 ### ✅ REQUIRED [CRITICAL]: Create README.md
 
@@ -141,8 +132,6 @@ Every `references/` directory MUST have README.md:
 
 **Purpose**: Acts as GPS for 4-9 reference files.
 
----
-
 ### ✅ REQUIRED: Distribute Content
 
 **SKILL.md should contain (300 lines max):**
@@ -172,8 +161,6 @@ Every `references/` directory MUST have README.md:
 See [references/hooks.md](references/hooks.md).
 ```
 
----
-
 ### ✅ REQUIRED: Cross-Link Files
 
 **Link from SKILL.md to references:**
@@ -198,8 +185,6 @@ See [references/hooks.md](references/hooks.md).
 - See [components.md](components.md) for component composition patterns
 - See [performance.md](performance.md) for optimization techniques
 ```
-
----
 
 ### ✅ REQUIRED: Reference File Structure
 
@@ -256,8 +241,6 @@ Each reference file MUST follow this structure:
 - See [other-reference.md](other-reference.md) for...
 ```
 
----
-
 ### ✅ REQUIRED: Validate Structure
 
 Before finalizing:
@@ -286,8 +269,6 @@ grep -r "references/" skills/{skill-name}/SKILL.md
 - [ ] References cross-link to each other
 - [ ] Resources section has "See README.md" link
 
----
-
 ### ✅ REQUIRED: Update Main SKILL.md
 
 After creating references:
@@ -308,8 +289,6 @@ After creating references:
 - [skill-creation](../skill-creation/SKILL.md) - Creating skills
 - [conventions](../conventions/SKILL.md) - Coding standards
 ```
-
----
 
 ### ❌ NEVER: Create Catch-All References
 
@@ -332,8 +311,6 @@ references/server-actions.md   # Specific: SSR feature
 references/type-inference.md   # Specific: TS feature
 ```
 
----
-
 ### ❌ NEVER: Duplicate Content
 
 References should EXPAND on SKILL.md, not repeat it:
@@ -347,8 +324,6 @@ References should EXPAND on SKILL.md, not repeat it:
 
 - SKILL.md has basic useState example (5 lines)
 - hooks.md has 5-7 useState patterns NOT in SKILL.md
-
----
 
 ### ❌ NEVER: Create Too Many Small Files
 
@@ -372,8 +347,6 @@ references/hooks.md (400 lines)
 ```
 
 **Guideline**: 4-9 references optimal. More = harder to discover.
-
----
 
 ## Decision Tree
 
@@ -403,8 +376,6 @@ README.md created with navigation?
 → Yes: Validate cross-links and sync
 ```
 
----
-
 ## Conventions
 
 Refer to [conventions](../conventions/SKILL.md) for:
@@ -425,8 +396,6 @@ Refer to [skill-creation](../skill-creation/SKILL.md) for:
 - **README mandatory**: Every references/ MUST have README.md
 - **Cross-linking**: Link from SKILL.md, between references, back to SKILL.md
 - **Naming**: lowercase-with-hyphens.md, descriptive (no "advanced")
-
----
 
 ## Example: React Skill References
 
@@ -491,8 +460,6 @@ skills/react/
 - **Optional**: server-features.md
 ```
 
----
-
 ## Edge Cases
 
 - **Version-specific patterns**: Create separate files (`hooks-react-17.md`, `hooks-react-18.md`) or sections within file
@@ -500,8 +467,6 @@ skills/react/
 - **Migration from monolithic**: Use 8-step workflow, create references incrementally
 - **Too few patterns per sub-topic**: Merge sub-topics or keep inline in SKILL.md
 - **References exceeding 800 lines**: Split into sub-references (`hooks-state.md`, `hooks-effects.md`)
-
----
 
 ## 🔍 Self-Check Protocol (For AI Agents)
 
@@ -548,8 +513,6 @@ skills/react/
 
 **For complete validation:** See [Validation Checklist](#validation-checklist) below.
 
----
-
 ## Validation Checklist
 
 Before finalizing references/:
@@ -568,8 +531,6 @@ Before finalizing references/:
 - [ ] **Validation commands**: Run wc -l, grep for links, check README exists
 - [ ] **Critical-partner review**: Run quality check
 - [ ] **Sync**: Run `make sync` to propagate to model directories
-
----
 
 ## Resources
 

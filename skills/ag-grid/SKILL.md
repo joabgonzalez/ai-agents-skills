@@ -1,6 +1,11 @@
 ---
 name: ag-grid
 description: "Standards-compliant best practices for implementing advanced data tables with AG Grid in React and TypeScript. Configuration, accessibility, column definitions, cell renderers. Trigger: When implementing AG Grid data tables, configuring grid features, or creating custom cell renderers."
+skills:
+  - conventions
+  - react
+  - typescript
+  - a11y
 allowed-tools:
   - documentation-reader
   - web-search

@@ -13,51 +13,6 @@ extract_skills() {
   awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$agents_file" | tr -d '\r'
 }
 
-# Detect installed models in destination path
-detect_models() {
-  local dest="$1"
-  local models=()
-  [ -d "$dest/.github" ] && models+=("copilot")
-  [ -d "$dest/.claude" ] && models+=("claude")
-  [ -d "$dest/.codex" ] && models+=("codex")
-  [ -d "$dest/.gemini" ] && models+=("gemini")
-  echo "${models[@]}"
-}
-
-# Update registry file with installation info
-update_registry() {
-  local install_type="$1"  # "local" or "external"
-  local project="$2"
-  local dest_path="$3"
-  local skills="$4"
-  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-  # Always remove and recreate registry for a clean state
-  if [ -f "$REGISTRY_FILE" ]; then
-    rm "$REGISTRY_FILE"
-  fi
-  cat > "$REGISTRY_FILE" << EOF
-# AI Agents Installation Registry
-# Auto-generated - DO NOT EDIT MANUALLY
-version: "1.0"
-installations:
-EOF
-
-  # Append new entry
-  cat >> "$REGISTRY_FILE" << EOF
-  - type: "$install_type"
-    project: "$project"
-    path: "$dest_path"
-    installed_at: "$timestamp"
-    skills:
-EOF
-
-  # Add skills (deduplicate)
-  echo "$skills" | tr ' ' '\n' | sort -u | while read -r skill; do
-    [ -n "$skill" ] && echo "      - $skill" >> "$REGISTRY_FILE"
-  done
-}
-
 # Extracts skills from the frontmatter of a SKILL.md file
 extract_skill_dependencies() {
   local skill_file="$1"
@@ -98,6 +53,50 @@ copy_skill_and_dependencies() {
   fi
 }
 
+# Update registry file with installation info
+update_registry() {
+  local install_type="$1"  # "local" or "external"
+  local skills="$2"
+  local project="$3"
+  local dest_path="$4"
+  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+  # Always remove and recreate registry for a clean state
+  if [ -f "$REGISTRY_FILE" ]; then
+    rm "$REGISTRY_FILE"
+  fi
+  cat > "$REGISTRY_FILE" << EOF
+# AI Agents Installation Registry
+# Auto-generated - DO NOT EDIT MANUALLY
+version: "1.0"
+installations:
+EOF
+
+  if [ "$install_type" = "local" ]; then
+    cat >> "$REGISTRY_FILE" << EOF
+  - type: "local"
+    installed_at: "$timestamp"
+    skills:
+EOF
+    echo "$skills" | tr ' ' '\n' | sort -u | while read -r skill; do
+      [ -n "$skill" ] && echo "      - $skill" >> "$REGISTRY_FILE"
+    done
+  elif [ "$install_type" = "external" ]; then
+    cat >> "$REGISTRY_FILE" << EOF
+  - type: "external"
+    project: "$project"
+    path: "$dest_path"
+    installed_at: "$timestamp"
+    skills:
+EOF
+    echo "$skills" | tr ' ' '\n' | sort -u | while read -r skill; do
+      [ -n "$skill" ] && echo "      - $skill" >> "$REGISTRY_FILE"
+    done
+  fi
+}
+
+# Parse arguments
+MODE=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --project)
@@ -108,6 +107,10 @@ while [[ $# -gt 0 ]]; do
       DEST_PATH="$2"
       shift 2
       ;;
+    --local)
+      MODE="local"
+      shift
+      ;;
     *)
       echo "Unknown parameter: $1"
       exit 1
@@ -115,14 +118,27 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Local installation: only update registry with minimal info
+if [[ "$MODE" == "local" ]]; then
+  if [ -f "AGENTS.md" ]; then
+    skills=$(extract_skills "AGENTS.md")
+    update_registry "local" "$skills"
+    echo "✓ Local installation registry updated."
+    exit 0
+  else
+    echo "AGENTS.md not found in root. Cannot update local registry."
+    exit 1
+  fi
+fi
+
 if [[ -z "$PROJECT" || -z "$DEST_PATH" ]]; then
-  echo "Usage: $0 --project <project> --path <destination>"
+  echo "Usage: $0 --project <project> --path <destination> | --local"
   exit 1
 fi
 
 echo "== Installing agent files for project '$PROJECT' at '$DEST_PATH' =="
 
-# Define meta-skills that should always be copied (self-management capabilities)
+# Meta-skills always included for self-management
 META_SKILLS="skill-creation agent-creation prompt-creation reference-creation process-documentation critical-partner conventions a11y skill-sync"
 
 # Copy the AGENTS.md
@@ -131,7 +147,7 @@ cp "agents/$PROJECT/AGENTS.md" "$DEST_PATH/AGENTS.md"
 # Extract and copy required skills
 mkdir -p "$DEST_PATH/skills"
 
-# First, copy all meta-skills (always included for self-management)
+# Copy all meta-skills first
 echo "Installing meta-skills for project self-management..."
 for skill in $META_SKILLS; do
   copy_skill_and_dependencies "$skill" "$DEST_PATH"
@@ -174,19 +190,10 @@ if [ -f "scripts/templates/GEMINI.md" ]; then
   echo "  - Copied GEMINI.md (static config)"
 fi
 
-# Detect installed models in destination
-echo "Detecting installed models..."
-models=$(detect_models "$DEST_PATH")
-if [ -z "$models" ]; then
-  echo "  - No models detected"
-else
-  echo "  - Detected models: $models"
-fi
-
 # Update registry with installation info
 echo "Updating installation registry..."
 all_skills=$(echo "$META_SKILLS $COPIED_SKILLS" | tr ',' ' ' | tr ' ' '\n' | sort -u | tr '\n' ' ')
-update_registry "external" "$PROJECT" "$DEST_PATH" "$all_skills"
+update_registry "external" "$all_skills" "$PROJECT" "$DEST_PATH"
 
 echo ""
 echo "✓ Installation complete and registry updated!"

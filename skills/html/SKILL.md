@@ -4,6 +4,7 @@ description: Semantic HTML best practices for web development. Proper element us
 skills:
   - conventions
   - a11y
+  - humanizer
 allowed-tools:
   - documentation-reader
   - web-search

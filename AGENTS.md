@@ -2,13 +2,15 @@
 name: agents
 description: Central management agent for creating, validating, and maintaining skills, agents, and context prompts. Orchestrates skill-creation, agent-creation, prompt-creation workflows, enforces standards compliance, ensures optimal modular architecture. Trigger: When creating or modifying skills/agents/prompts, enforcing standards, or managing framework architecture.
 skills:
-  - critical-partner
-  - skill-creation
-  - agent-creation
-  - prompt-creation
-  - process-documentation
-  - skill-sync
-  - technical-communication
+   - critical-partner
+   - skill-creation
+   - agent-creation
+   - prompt-creation
+   - process-documentation
+   - skill-sync
+   - technical-communication
+   - english-writing
+   - humanizer
 ---
 
 # Agents Management Agent
@@ -131,6 +133,10 @@ Before executing any task, verify:
 
 ---
 
+## English Writing Policy
+
+All generated code, documentation, comments, and prompt content must be written in English and follow the [skills/english-writing/SKILL.md](skills/english-writing/SKILL.md) rules. This policy does not apply to conversational responses or user-facing explanations unless they are part of generated documentation, code comments, or prompt content.
+
 ## Core Responsibilities
 
 - **Creation orchestration**: Guide users through skill-creation, agent-creation, and prompt-creation workflows with step-by-step instructions and mandatory context gathering
@@ -226,13 +232,46 @@ Use these skills for detailed patterns and guidance on-demand:
 | Skill | Description                   | Path                              |
 | ----- | ----------------------------- | --------------------------------- |
 | astro | Astro static site generation  | [SKILL.md](skills/astro/SKILL.md) |
+| next  | Next.js fullstack framework   | [SKILL.md](skills/next/SKILL.md)  |
 | expo  | Expo React Native development | [SKILL.md](skills/expo/SKILL.md)  |
 
-### Specialized Skills
+### Backend Frameworks & Runtimes
+
+| Skill   | Description                    | Path                                |
+| ------- | ------------------------------ | ----------------------------------- |
+| nodejs  | Node.js backend runtime        | [SKILL.md](skills/nodejs/SKILL.md)  |
+| bun     | Bun fast JavaScript runtime    | [SKILL.md](skills/bun/SKILL.md)     |
+| express | Express.js server framework    | [SKILL.md](skills/express/SKILL.md) |
+| nest    | NestJS modular framework       | [SKILL.md](skills/nest/SKILL.md)    |
+| hono    | Hono edge/serverless framework | [SKILL.md](skills/hono/SKILL.md)    |
+
+### Testing Skills
+
+| Skill                        | Description                           | Path                                                     |
+| ---------------------------- | ------------------------------------- | -------------------------------------------------------- |
+| jest                         | Jest testing framework                | [SKILL.md](skills/jest/SKILL.md)                         |
+| react-testing-library        | React Testing Library                 | [SKILL.md](skills/react-testing-library/SKILL.md)        |
+| react-native-testing-library | React Native Testing Library          | [SKILL.md](skills/react-native-testing-library/SKILL.md) |
+| playwright                   | Playwright E2E testing                | [SKILL.md](skills/playwright/SKILL.md)                   |
+| stagehand                    | Stagehand test automation             | [SKILL.md](skills/stagehand/SKILL.md)                    |
+| unit-testing                 | Unit testing patterns (frontend/back) | [SKILL.md](skills/unit-testing/SKILL.md)                 |
+| e2e-testing                  | E2E testing patterns                  | [SKILL.md](skills/e2e-testing/SKILL.md)                  |
+
+### Development Workflow Skills
+
+| Skill           | Description                    | Path                                        |
+| --------------- | ------------------------------ | ------------------------------------------- |
+| frontend-dev    | Frontend development workflow  | [SKILL.md](skills/frontend-dev/SKILL.md)    |
+| backend-dev     | Backend development workflow   | [SKILL.md](skills/backend-dev/SKILL.md)     |
+| frontend-design | Frontend UI/UX design patterns | [SKILL.md](skills/frontend-design/SKILL.md) |
+
+### Communication & Writing Skills
 
 | Skill                   | Description                         | Path                                                |
 | ----------------------- | ----------------------------------- | --------------------------------------------------- |
 | technical-communication | Technical writing and documentation | [SKILL.md](skills/technical-communication/SKILL.md) |
+| english-writing         | English writing rules for all code  | [SKILL.md](skills/english-writing/SKILL.md)         |
+| humanizer               | Human-centric communication         | [SKILL.md](skills/humanizer/SKILL.md)               |
 
 ---
 
@@ -240,45 +279,63 @@ Use these skills for detailed patterns and guidance on-demand:
 
 **⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
 
-| Trigger (When to Read)                          | Required Skill          | Path                                                |
-| ----------------------------------------------- | ----------------------- | --------------------------------------------------- |
-| Add accessibility features (ARIA, keyboard nav) | a11y                    | [SKILL.md](skills/a11y/SKILL.md)                    |
-| Add validation schemas                          | zod or yup              | [SKILL.md](skills/zod/SKILL.md)                     |
-| After creating/modifying a skill                | skill-sync              | [SKILL.md](skills/skill-sync/SKILL.md)              |
-| Apply SOLID, Clean Architecture, DDD patterns   | architecture-patterns   | [SKILL.md](skills/architecture-patterns/SKILL.md)   |
-| Build or bundle configuration                   | vite or webpack         | [SKILL.md](skills/vite/SKILL.md)                    |
-| Code quality review or improvement suggestions  | critical-partner        | [SKILL.md](skills/critical-partner/SKILL.md)        |
-| Committing changes or documenting processes     | process-documentation   | [SKILL.md](skills/process-documentation/SKILL.md)   |
-| Configure AG Grid tables                        | ag-grid                 | [SKILL.md](skills/ag-grid/SKILL.md)                 |
-| Configure ESLint rules                          | eslint                  | [SKILL.md](skills/eslint/SKILL.md)                  |
-| Configure Prettier formatting                   | prettier                | [SKILL.md](skills/prettier/SKILL.md)                |
-| Create MUI X Charts visualizations              | mui-x-charts            | [SKILL.md](skills/mui-x-charts/SKILL.md)            |
-| Create React components with hooks              | react                   | [SKILL.md](skills/react/SKILL.md)                   |
-| Create TypeScript types/interfaces              | typescript              | [SKILL.md](skills/typescript/SKILL.md)              |
-| Create a new agent definition                   | agent-creation          | [SKILL.md](skills/agent-creation/SKILL.md)          |
-| Create a new context prompt                     | prompt-creation         | [SKILL.md](skills/prompt-creation/SKILL.md)         |
-| Create a new skill                              | skill-creation          | [SKILL.md](skills/skill-creation/SKILL.md)          |
-| Create reference files for complex skills (40+) | reference-creation      | [SKILL.md](skills/reference-creation/SKILL.md)      |
-| Create forms with validation                    | formik                  | [SKILL.md](skills/formik/SKILL.md)                  |
-| Design Astro pages or components                | astro                   | [SKILL.md](skills/astro/SKILL.md)                   |
-| Document features, bugs, refactors              | process-documentation   | [SKILL.md](skills/process-documentation/SKILL.md)   |
-| Implement Redux state management                | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
-| Implement RTK Query data fetching               | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
-| Implement accessibility requirements            | a11y                    | [SKILL.md](skills/a11y/SKILL.md)                    |
-| Implement data fetching with caching            | redux-toolkit           | [SKILL.md](skills/redux-toolkit/SKILL.md)           |
-| Mobile development with Expo                    | expo                    | [SKILL.md](skills/expo/SKILL.md)                    |
-| Mobile development with React Native            | react-native            | [SKILL.md](skills/react-native/SKILL.md)            |
-| Semantic HTML structure                         | html                    | [SKILL.md](skills/html/SKILL.md)                    |
-| Set up or modify build tools                    | vite or webpack         | [SKILL.md](skills/vite/SKILL.md)                    |
-| Style with CSS (Grid, Flexbox, custom props)    | css                     | [SKILL.md](skills/css/SKILL.md)                     |
-| Style with Material-UI components               | mui                     | [SKILL.md](skills/mui/SKILL.md)                     |
-| Style with Tailwind utility classes             | tailwindcss             | [SKILL.md](skills/tailwindcss/SKILL.md)             |
-| Sync skills to model directories                | skill-sync              | [SKILL.md](skills/skill-sync/SKILL.md)              |
-| Validate or improve code quality                | critical-partner        | [SKILL.md](skills/critical-partner/SKILL.md)        |
-| Write JavaScript (modern ES2020+)               | javascript              | [SKILL.md](skills/javascript/SKILL.md)              |
-| Write TypeScript with strict typing             | typescript              | [SKILL.md](skills/typescript/SKILL.md)              |
-| Write commit messages, PRs, or documentation    | technical-communication | [SKILL.md](skills/technical-communication/SKILL.md) |
-| Writing or reviewing general code patterns      | conventions             | [SKILL.md](skills/conventions/SKILL.md)             |
+| Trigger (When to Read)                          | Required Skill               | Path                                                     |
+| ----------------------------------------------- | ---------------------------- | -------------------------------------------------------- |
+| Add accessibility features (ARIA, keyboard nav) | a11y                         | [SKILL.md](skills/a11y/SKILL.md)                         |
+| Add validation schemas                          | zod or yup                   | [SKILL.md](skills/zod/SKILL.md)                          |
+| After creating/modifying a skill                | skill-sync                   | [SKILL.md](skills/skill-sync/SKILL.md)                   |
+| Apply SOLID, Clean Architecture, DDD patterns   | architecture-patterns        | [SKILL.md](skills/architecture-patterns/SKILL.md)        |
+| Build or bundle configuration                   | vite or webpack              | [SKILL.md](skills/vite/SKILL.md)                         |
+| Code quality review or improvement suggestions  | critical-partner             | [SKILL.md](skills/critical-partner/SKILL.md)             |
+| Committing changes or documenting processes     | process-documentation        | [SKILL.md](skills/process-documentation/SKILL.md)        |
+| Configure AG Grid tables                        | ag-grid                      | [SKILL.md](skills/ag-grid/SKILL.md)                      |
+| Configure ESLint rules                          | eslint                       | [SKILL.md](skills/eslint/SKILL.md)                       |
+| Configure Prettier formatting                   | prettier                     | [SKILL.md](skills/prettier/SKILL.md)                     |
+| Create MUI X Charts visualizations              | mui-x-charts                 | [SKILL.md](skills/mui-x-charts/SKILL.md)                 |
+| Create React components with hooks              | react                        | [SKILL.md](skills/react/SKILL.md)                        |
+| Create TypeScript types/interfaces              | typescript                   | [SKILL.md](skills/typescript/SKILL.md)                   |
+| Create a new agent definition                   | agent-creation               | [SKILL.md](skills/agent-creation/SKILL.md)               |
+| Create a new context prompt                     | prompt-creation              | [SKILL.md](skills/prompt-creation/SKILL.md)              |
+| Create a new skill                              | skill-creation               | [SKILL.md](skills/skill-creation/SKILL.md)               |
+| Create reference files for complex skills (40+) | reference-creation           | [SKILL.md](skills/reference-creation/SKILL.md)           |
+| Create forms with validation                    | formik                       | [SKILL.md](skills/formik/SKILL.md)                       |
+| Design Astro pages or components                | astro                        | [SKILL.md](skills/astro/SKILL.md)                        |
+| Document features, bugs, refactors              | process-documentation        | [SKILL.md](skills/process-documentation/SKILL.md)        |
+| Implement Redux state management                | redux-toolkit                | [SKILL.md](skills/redux-toolkit/SKILL.md)                |
+| Implement RTK Query data fetching               | redux-toolkit                | [SKILL.md](skills/redux-toolkit/SKILL.md)                |
+| Implement accessibility requirements            | a11y                         | [SKILL.md](skills/a11y/SKILL.md)                         |
+| Implement data fetching with caching            | redux-toolkit                | [SKILL.md](skills/redux-toolkit/SKILL.md)                |
+| Mobile development with Expo                    | expo                         | [SKILL.md](skills/expo/SKILL.md)                         |
+| Mobile development with React Native            | react-native                 | [SKILL.md](skills/react-native/SKILL.md)                 |
+| Semantic HTML structure                         | html                         | [SKILL.md](skills/html/SKILL.md)                         |
+| Set up or modify build tools                    | vite or webpack              | [SKILL.md](skills/vite/SKILL.md)                         |
+| Style with CSS (Grid, Flexbox, custom props)    | css                          | [SKILL.md](skills/css/SKILL.md)                          |
+| Style with Material-UI components               | mui                          | [SKILL.md](skills/mui/SKILL.md)                          |
+| Style with Tailwind utility classes             | tailwindcss                  | [SKILL.md](skills/tailwindcss/SKILL.md)                  |
+| Sync skills to model directories                | skill-sync                   | [SKILL.md](skills/skill-sync/SKILL.md)                   |
+| Validate or improve code quality                | critical-partner             | [SKILL.md](skills/critical-partner/SKILL.md)             |
+| Write JavaScript (modern ES2020+)               | javascript                   | [SKILL.md](skills/javascript/SKILL.md)                   |
+| Write TypeScript with strict typing             | typescript                   | [SKILL.md](skills/typescript/SKILL.md)                   |
+| Write commit messages, PRs, or documentation    | technical-communication      | [SKILL.md](skills/technical-communication/SKILL.md)      |
+| Writing or reviewing general code patterns      | conventions                  | [SKILL.md](skills/conventions/SKILL.md)                  |
+| Building Next.js applications (SSR/SSG/API)     | next                         | [SKILL.md](skills/next/SKILL.md)                         |
+| Building Node.js backend services               | nodejs                       | [SKILL.md](skills/nodejs/SKILL.md)                       |
+| Using Bun runtime or tooling                    | bun                          | [SKILL.md](skills/bun/SKILL.md)                          |
+| Building Express.js APIs                        | express                      | [SKILL.md](skills/express/SKILL.md)                      |
+| Building NestJS applications                    | nest                         | [SKILL.md](skills/nest/SKILL.md)                         |
+| Building Hono edge/serverless apps              | hono                         | [SKILL.md](skills/hono/SKILL.md)                         |
+| Writing tests with Jest                         | jest                         | [SKILL.md](skills/jest/SKILL.md)                         |
+| Testing React components with RTL               | react-testing-library        | [SKILL.md](skills/react-testing-library/SKILL.md)        |
+| Testing React Native with RNTL                  | react-native-testing-library | [SKILL.md](skills/react-native-testing-library/SKILL.md) |
+| Writing E2E tests with Playwright               | playwright                   | [SKILL.md](skills/playwright/SKILL.md)                   |
+| Automating flows with Stagehand                 | stagehand                    | [SKILL.md](skills/stagehand/SKILL.md)                    |
+| Writing unit tests (frontend/backend)           | unit-testing                 | [SKILL.md](skills/unit-testing/SKILL.md)                 |
+| Writing E2E tests                               | e2e-testing                  | [SKILL.md](skills/e2e-testing/SKILL.md)                  |
+| Frontend development workflow                   | frontend-dev                 | [SKILL.md](skills/frontend-dev/SKILL.md)                 |
+| Backend development workflow                    | backend-dev                  | [SKILL.md](skills/backend-dev/SKILL.md)                  |
+| Designing UI/UX or design systems               | frontend-design              | [SKILL.md](skills/frontend-design/SKILL.md)              |
+| Writing English content or code                 | english-writing              | [SKILL.md](skills/english-writing/SKILL.md)              |
+| Improving empathy/clarity in communication      | humanizer                    | [SKILL.md](skills/humanizer/SKILL.md)                    |
 
 ---
 

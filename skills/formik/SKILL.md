@@ -6,6 +6,7 @@ skills:
   - a11y
   - react
   - yup
+  - humanizer
 dependencies:
   formik: ">=2.0.0 <3.0.0"
   yup: ">=1.0.0 <2.0.0"

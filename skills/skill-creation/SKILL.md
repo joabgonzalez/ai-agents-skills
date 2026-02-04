@@ -1,11 +1,12 @@
 ---
 name: skill-creation
-description: "Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill or documenting patterns."
+description: "Guide for creating standards-compliant skills with templates, references, and validation. All content must be in English. Trigger: When creating a new skill or documenting patterns."
 skills:
   - reference-creation
   - critical-partner
   - process-documentation
   - skill-sync
+  - english-writing
 allowed-tools:
   - file-operations
   - read-file
@@ -42,15 +43,62 @@ Don't create when:
 
 ---
 
+## English Writing
+
+All generated code, documentation, comments, and prompt content must follow the [english-writing](../english-writing/SKILL.md) skill. Do not duplicate these rules here.
+
+---
+
+## 📚 Extended Mandatory Read Protocol
+
+**This skill has a `references/` directory with detailed guides for skill creation.**
+
+### Reading Rules
+
+**MUST read [references/dependencies-matrix.md](references/dependencies-matrix.md)** when:
+
+- Creating ANY new skill (required for all skill types)
+- Determining skills field in frontmatter
+- Validating existing skill dependencies
+- Adding new skill categories
+
+**CHECK [references/structure.md](references/structure.md)** when:
+
+- Creating medium/complex skills (15+ patterns)
+- Deciding if assets/ or references/ needed
+- Organizing multiple examples or templates
+
+**CHECK [references/frontmatter.md](references/frontmatter.md)** when:
+
+- Validating frontmatter format
+- Understanding required vs optional fields
+- Troubleshooting schema validation errors
+
+**CHECK [references/content-patterns.md](references/content-patterns.md)** when:
+
+- Writing Critical Patterns section
+- Creating inline examples
+- Structuring Decision Trees
+
+**CHECK [references/validation.md](references/validation.md)** when:
+
+- Finalizing skill before sync
+- Running compliance checks
+- Debugging validation errors
+
+---
+
 ## Quick Reference
 
 | Complexity | Indicators                 | Structure                        | Read                                                                    |
 | ---------- | -------------------------- | -------------------------------- | ----------------------------------------------------------------------- |
-| Simple     | <15 patterns, single topic | SKILL.md only                    | This file                                                               |
+| Simple     | <15 patterns, single topic | SKILL.md only                    | This file + dependencies-matrix.md                                      |
 | Medium     | 15-40 patterns, 2-3 topics | SKILL.md + assets/               | [structure.md](references/structure.md)                                 |
 | Complex    | 40+ patterns, 4+ topics    | SKILL.md + assets/ + references/ | ✅ **MUST invoke** [reference-creation](../reference-creation/SKILL.md) |
 
 **CRITICAL**: For complex skills (40+ patterns), **MUST invoke** [reference-creation](../reference-creation/SKILL.md) skill for creating references/ directory.
+
+**ALL skills MUST read**: [dependencies-matrix.md](references/dependencies-matrix.md) to determine correct frontmatter dependencies.
 
 ---
 
@@ -195,8 +243,16 @@ SKILL.md will exceed 300 lines? → Use references/
 Need templates/schemas? → Create assets/ directory
 Need validation schema? → Add to assets/, reference in frontmatter
 
+Determining skill dependencies (CRITICAL)?
+  → MUST read references/dependencies-matrix.md first
+  → Find category in matrix (Frontend/Backend/Testing/etc.)
+  → Copy exact dependencies from category pattern
+  → Update matrix with new skill example (Auto-Maintenance Protocol)
+
 Generic rules? → Delegate to conventions
 Accessibility rules? → Delegate to a11y
+Generates user-facing content/UI? → Add humanizer to skills
+Architecture patterns needed? → Delegate to architecture-patterns
 
 After creation? → Run skill-sync or make sync to propagate
 ```
@@ -251,15 +307,31 @@ Condition? → Action
 Otherwise → Default
 ```
 
-### Step 6: Delegate to Conventions
+### Step 6: Delegate to Conventions and Add Dependencies
 
-Before adding rules, check if conventions/a11y/architecture-patterns covers them. Delegate first.
+Before adding rules, check if conventions/a11y/humanizer/architecture-patterns covers them. Delegate first.
 
 - **General coding standards** → Delegate to [conventions](../conventions/SKILL.md)
 - **Accessibility rules** → Delegate to [a11y](../a11y/SKILL.md)
+- **Human-centric communication** → Delegate to [humanizer](../humanizer/SKILL.md)
 - **Architecture patterns** (SOLID, Clean, DDD) → Delegate to [architecture-patterns](../architecture-patterns/SKILL.md)
 
 **Add only skill-specific rules** that don't exist elsewhere.
+
+#### **CRITICAL**: Determine Skill Dependencies
+
+**MUST read [references/dependencies-matrix.md](references/dependencies-matrix.md)** to determine correct skills field for frontmatter.
+
+The matrix provides exact dependencies by category:
+
+- Frontend frameworks (React, Vue) → conventions, a11y, typescript, javascript, architecture-patterns, humanizer
+- Backend frameworks (Express, Nest) → conventions, nodejs, typescript, architecture-patterns (NO humanizer)
+- UI libraries (MUI, Chakra) → conventions, a11y, react, typescript, humanizer
+- Testing tools (Jest, Playwright) → conventions, typescript, javascript (NO humanizer)
+- Build tools (Vite, Webpack) → conventions only
+- And 17 more categories with exact patterns
+
+**After creating your skill**: Update dependencies-matrix.md with your new skill example (Auto-Maintenance Protocol in matrix).
 
 ### Step 7: Validate
 
@@ -292,6 +364,12 @@ Refer to [a11y](../a11y/SKILL.md) for:
 
 - Semantic HTML
 - ARIA attributes
+
+Refer to [humanizer](../humanizer/SKILL.md) for:
+
+- Human-centric communication
+- Empathy in user-facing content
+- Clear error messages and feedback
 
 Refer to [architecture-patterns](../architecture-patterns/SKILL.md) for:
 
@@ -380,10 +458,13 @@ Before creating skill, verify:
 
 - [ ] Frontmatter includes required fields (name, description with Trigger)
 - [ ] Empty frontmatter arrays/objects omitted
+- [ ] **CRITICAL**: Used Skill Dependencies Matrix (Step 6) to determine skills field
+- [ ] **Verified**: Skills field matches skill type (frontend/backend/testing/etc.)
 - [ ] All sections present (Overview, Objective, When to Use, Critical Patterns, Decision Tree, Conventions, Example, Edge Cases)
 - [ ] Each Critical Pattern has inline example (<15 lines)
 - [ ] Decision Tree uses condition→action format
-- [ ] Delegated to conventions/a11y before adding rules
+- [ ] Delegated to conventions/a11y/humanizer/architecture-patterns before adding rules
+- [ ] **If user-facing UI/content**: Added humanizer to skills
 - [ ] Token-efficient (no filler, every word adds value)
 
 ### Validation
@@ -422,7 +503,9 @@ Before finalizing:
 - [ ] Empty arrays/objects omitted
 - [ ] Arrays use `- item` syntax (never `[]`)
 - [ ] External libraries in `dependencies` with version ranges
-- [ ] Internal skills in `skills` field
+- [ ] **CRITICAL**: Internal skills in `skills` field follow Dependencies Matrix (Step 6)
+- [ ] **Verified**: Frontend skill has conventions, a11y, typescript, humanizer
+- [ ] **Verified**: Backend skill has conventions, nodejs, typescript, architecture-patterns (NO humanizer)
 - [ ] All referenced skills exist
 - [ ] Validates against [frontmatter-schema.json](assets/frontmatter-schema.json)
 
@@ -434,14 +517,16 @@ Before finalizing:
 - [ ] Critical Patterns (✅/❌ markers)
 - [ ] Inline examples after EACH pattern (<15 lines)
 - [ ] Decision Tree (condition→action format)
-- [ ] Conventions (delegate to conventions/a11y first)
+- [ ] Conventions (delegate to conventions/a11y/humanizer first)
+- [ ] **User-facing UI/content**: humanizer delegation added
 - [ ] Example (practical demonstration)
 - [ ] Edge Cases (boundary conditions)
 - [ ] Resources (if assets/ or references/ exist)
 
 ### Quality
 
-- [ ] Delegates to conventions/a11y (not duplicated)
+- [ ] Delegates to conventions/a11y/humanizer/architecture-patterns (not duplicated)
+- [ ] **User-facing UI/content skill**: Includes humanizer in skills field
 - [ ] Token-efficient (no redundancy, filler removed)
 - [ ] SKILL.md under 300 lines (complex skills)
 - [ ] Complex skills: references/ properly structured

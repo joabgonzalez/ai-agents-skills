@@ -69,22 +69,42 @@ sync_model() {
   
   # Extract skills from AGENTS.md
   local skills=$(awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "AGENTS.md" | tr -d '\r')
-  
-  # Remove old skills directory and recreate with symlinks
-  if [ -d "$model_dir/skills" ]; then
-    rm -rf "$model_dir/skills"
-  fi
+
+  # Create skills directory if it does not exist
   mkdir -p "$model_dir/skills"
-  
-  # Create individual symlinks for each skill
-  for skill in $skills; do
-    if [ -d "skills/$skill" ]; then
-      ln -sf "$(pwd)/skills/$skill" "$model_dir/skills/$skill"
+
+  # Get currently linked skills in the model directory
+  local current_symlinks=()
+  if [ -d "$model_dir/skills" ]; then
+    while IFS= read -r entry; do
+      [ -z "$entry" ] && continue
+      current_symlinks+=("$entry")
+    done <<< "$(ls -1 "$model_dir/skills" 2>/dev/null || true)"
+  fi
+
+  # Remove symlinks for skills that are no longer in AGENTS.md
+  for link in "${current_symlinks[@]}"; do
+    found=0
+    for skill in $skills; do
+      if [ "$link" = "$skill" ]; then
+        found=1
+        break
+      fi
+    done
+    if [ $found -eq 0 ]; then
+      rm -rf "$model_dir/skills/$link"
+      print_info "Removed obsolete symlink: $model_dir/skills/$link"
     fi
   done
-  
-  # Do not sync static template/configuration files. Only synchronize skills and agents.
-  
+
+  # Create or update symlinks for declared skills
+  for skill in $skills; do
+    if [ -d "skills/$skill" ]; then
+      ln -snf "$(pwd)/skills/$skill" "$model_dir/skills/$skill"
+      print_info "Linked skill: $skill -> $model_dir/skills/$skill"
+    fi
+  done
+
   print_success "Synced skills and agents to $model_dir/."
 }
 
@@ -103,11 +123,38 @@ sync_external_project() {
   
   print_info "Syncing external project: $project_name to $dest_path."
   
-  # 1. Sync skills directory to external root
-  if [ -d "$dest_path/skills" ]; then
-    rm -rf "$dest_path/skills"
-  fi
-  cp -R skills "$dest_path/skills"
+  # 1. Sync skills directory to external root (remove skills not declared in AGENTS.md)
+  # Extract declared skills from the external project's AGENTS.md
+  local declared_skills=$(awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$dest_path/AGENTS.md" | tr -d '\r')
+
+  # Create skills/ if it does not exist
+  mkdir -p "$dest_path/skills"
+
+  # Remove skills from the external root that are no longer in AGENTS.md
+  for skill_dir in "$dest_path/skills"/*; do
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    found=0
+    for skill in $declared_skills; do
+      if [ "$skill_name" = "$skill" ]; then
+        found=1
+        break
+      fi
+    done
+    if [ $found -eq 0 ]; then
+      rm -rf "$skill_dir"
+      print_info "Removed obsolete skill from external root: $skill_dir"
+    fi
+  done
+
+  # Copy required skills (update or add)
+  for skill in $declared_skills; do
+    if [ -d "skills/$skill" ]; then
+      rsync -a --delete "skills/$skill/" "$dest_path/skills/$skill/"
+      print_info "Updated/copied skill: $skill -> $dest_path/skills/$skill"
+    fi
+  done
+
   print_info "Synced skills/ to external root."
   
   # 2. Sync AGENTS.md from agents/<project>/

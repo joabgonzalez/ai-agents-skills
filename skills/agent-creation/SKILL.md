@@ -1,6 +1,8 @@
 ---
 name: agent-creation
-description: "Guides agents and users to create standards-compliant agent definitions using templates in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required. Trigger: When creating a new agent definition, setting up project agents, or documenting agent workflows."
+description: "Guides agents and users to create standards-compliant agent definitions using templates in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required. All content must be in English. Trigger: When creating a new agent definition, setting up project agents, or documenting agent workflows."
+skills:
+  - english-writing
 ---
 
 # Agent Creation Skill
@@ -134,12 +136,10 @@ After the frontmatter, include the following sections:
 
 ### Step 5: Writing Guidelines
 
-- Write all content in English with American spelling
-- Use only ASCII apostrophes (') and hyphens (-)
-- Ensure consistent punctuation, spacing, and capitalization
+All generated code, documentation, comments, and prompt content must follow the [english-writing](../english-writing/SKILL.md) skill. Do not duplicate these rules here.
+
 - Be token-efficient: precise and concise without losing specificity
-- Use clear, direct language for both AI and human readers
-- Organize content with proper markdown structure
+- Organize content with proper markdown structure (headings, lists, code blocks, tables)
 
 ### Step 6: Validation
 

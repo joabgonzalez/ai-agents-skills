@@ -16,6 +16,9 @@ skills:
   - eslint
   - prettier
   - conventions
+  - frontend-design
+  - frontend-dev
+  - humanizer
 ---
 
 # USN Project Agent
@@ -85,6 +88,11 @@ Example notification:
 | Configure ESLint rules                       | eslint                  | [SKILL.md](../../skills/eslint/SKILL.md)                  |
 | Configure Prettier formatting                | prettier                | [SKILL.md](../../skills/prettier/SKILL.md)                |
 | Writing or reviewing general patterns        | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
+| Designing UI/UX or design systems            | frontend-design         | [SKILL.md](../../skills/frontend-design/SKILL.md)         |
+| Frontend development workflow                | frontend-dev            | [SKILL.md](../../skills/frontend-dev/SKILL.md)            |
+| Writing E2E tests                            | e2e-testing             | [SKILL.md](../../skills/e2e-testing/SKILL.md)             |
+| Testing with Playwright                      | playwright              | [SKILL.md](../../skills/playwright/SKILL.md)              |
+| Improving empathy/clarity in communication   | humanizer               | [SKILL.md](../../skills/humanizer/SKILL.md)               |
 
 ---
 
@@ -115,6 +123,11 @@ Example notification:
 | eslint                  | ESLint configuration for Astro and TypeScript         | skills/eslint/SKILL.md                  |
 | prettier                | Prettier code formatting for .astro files             | skills/prettier/SKILL.md                |
 | conventions             | General coding standards and project conventions      | skills/conventions/SKILL.md             |
+| frontend-design         | Frontend UI/UX design patterns and best practices     | skills/frontend-design/SKILL.md         |
+| frontend-dev            | Frontend development workflow and best practices      | skills/frontend-dev/SKILL.md            |
+| e2e-testing             | End-to-end testing patterns                           | skills/e2e-testing/SKILL.md             |
+| playwright              | Playwright E2E browser testing automation             | skills/playwright/SKILL.md              |
+| humanizer               | Human-centric communication and empathy patterns      | skills/humanizer/SKILL.md               |
 
 ---
 

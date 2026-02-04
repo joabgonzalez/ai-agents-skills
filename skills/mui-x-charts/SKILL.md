@@ -5,6 +5,7 @@ skills:
   - mui
   - react
   - typescript
+  - humanizer
 dependencies:
   "@mui/x-charts": ">=6.0.0 <8.0.0"
   react: ">=17.0.0 <19.0.0"

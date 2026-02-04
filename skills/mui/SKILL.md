@@ -6,6 +6,7 @@ skills:
   - a11y
   - react
   - typescript
+  - humanizer
 dependencies:
   "@mui/material": ">=5.0.0 <6.0.0"
   react: ">=17.0.0 <19.0.0"

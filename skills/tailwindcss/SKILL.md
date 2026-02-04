@@ -5,6 +5,7 @@ skills:
   - conventions
   - a11y
   - css
+  - humanizer
 dependencies:
   tailwindcss: ">=3.0.0 <5.0.0"
 allowed-tools:

@@ -20,6 +20,9 @@ skills:
   - html
   - a11y
   - conventions
+  - frontend-design
+  - frontend-dev
+  - humanizer
 ---
 
 # SBD Project Agent
@@ -94,6 +97,11 @@ Example notification:
 | Semantic HTML structure                      | html                    | [SKILL.md](../../skills/html/SKILL.md)                    |
 | Implement accessibility requirements         | a11y                    | [SKILL.md](../../skills/a11y/SKILL.md)                    |
 | Writing or reviewing general patterns        | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
+| Frontend development workflow                | frontend-dev            | [SKILL.md](../../skills/frontend-dev/SKILL.md)            |
+| Writing unit tests (frontend)                | unit-testing            | [SKILL.md](../../skills/unit-testing/SKILL.md)            |
+| Testing with Jest                            | jest                    | [SKILL.md](../../skills/jest/SKILL.md)                    |
+| Testing React components with RTL            | react-testing-library   | [SKILL.md](../../skills/react-testing-library/SKILL.md)   |
+| Improving empathy/clarity in communication   | humanizer               | [SKILL.md](../../skills/humanizer/SKILL.md)               |
 
 ---
 
@@ -131,6 +139,11 @@ Example notification:
 | html                    | Semantic HTML structure and best practices            | skills/html/SKILL.md                    |
 | a11y                    | Accessibility standards and WCAG compliance           | skills/a11y/SKILL.md                    |
 | conventions             | General coding standards and project conventions      | skills/conventions/SKILL.md             |
+| frontend-dev            | Frontend development workflow and best practices      | skills/frontend-dev/SKILL.md            |
+| unit-testing            | Unit testing patterns for frontend/backend            | skills/unit-testing/SKILL.md            |
+| jest                    | Jest testing framework patterns                       | skills/jest/SKILL.md                    |
+| react-testing-library   | React Testing Library user-centric testing            | skills/react-testing-library/SKILL.md   |
+| humanizer               | Human-centric communication and empathy patterns      | skills/humanizer/SKILL.md               |
 
 ---
 
