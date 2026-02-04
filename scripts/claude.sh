@@ -48,13 +48,13 @@ done
 if [[ "$MODE" == "local" ]]; then
   printf "\n  📦 Configuring Claude...\n"
   mkdir -p .claude
-  cp AGENTS.md CLAUDE.md
+  cp scripts/templates/CLAUDE.md CLAUDE.md
   skills=$(extract_skills "AGENTS.md")
   link_skills "$skills" ".claude/skills" "$(pwd)/skills"
   # Copy claude-instructions.md to the target directory
   if [ -f scripts/templates/claude-instructions.md ]; then
     cp scripts/templates/claude-instructions.md .claude/instructions.md
-    printf "  ⬇︎  Synced claude-instructions.md\n"
+    printf "  ⬇️  Synced claude-instructions.md\n"
   fi
   printf "  ✓ Claude configured successfully\n"
   exit 0
@@ -65,14 +65,8 @@ elif [[ "$MODE" == "external" ]]; then
   fi
   printf "\n  📦 Configuring Claude at %s...\n" "$DEST_PATH"
   mkdir -p "$DEST_PATH/.claude"
-  # Add source comment to AGENTS.md
-  {
-    echo "<!-- Generated from agents/$(basename $(dirname $DEST_PATH/AGENTS.md))/AGENTS.md -->"
-    echo "<!-- To update, modify the source and re-run installation -->"
-    echo ""
-    cat "$DEST_PATH/AGENTS.md"
-  } > "$DEST_PATH/CLAUDE.md"
-  skills=$(extract_skills "$DEST_PATH/CLAUDE.md")
+  cp scripts/templates/CLAUDE.md "$DEST_PATH/CLAUDE.md"
+  skills=$(extract_skills "$DEST_PATH/AGENTS.md")
   link_skills "$skills" "$DEST_PATH/.claude/skills" "$DEST_PATH/skills"
   # Copy claude-instructions.md to the target directory
   if [ -f scripts/templates/claude-instructions.md ]; then

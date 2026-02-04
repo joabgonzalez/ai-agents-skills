@@ -48,13 +48,13 @@ done
 if [[ "$MODE" == "local" ]]; then
   printf "\n  📦 Configuring Gemini...\n"
   mkdir -p .gemini
-  cp AGENTS.md GEMINI.md
+  cp scripts/templates/GEMINI.md GEMINI.md
   skills=$(extract_skills "AGENTS.md")
   link_skills "$skills" ".gemini/skills" "$(pwd)/skills"
   # Copy gemini-instructions.md to the target directory
   if [ -f scripts/templates/gemini-instructions.md ]; then
     cp scripts/templates/gemini-instructions.md .gemini/instructions.md
-    printf "  ⬇︎  Synced gemini-instructions.md\n"
+    printf "  ⬇️  Synced gemini-instructions.md\n"
   fi
   printf "  ✓ Gemini configured successfully\n"
   exit 0
@@ -65,14 +65,8 @@ elif [[ "$MODE" == "external" ]]; then
   fi
   printf "\n  📦 Configuring Gemini at %s...\n" "$DEST_PATH"
   mkdir -p "$DEST_PATH/.gemini"
-  # Add source comment to AGENTS.md
-  {
-    echo "<!-- Generated from agents/$(basename $(dirname $DEST_PATH/AGENTS.md))/AGENTS.md -->"
-    echo "<!-- To update, modify the source and re-run installation -->"
-    echo ""
-    cat "$DEST_PATH/AGENTS.md"
-  } > "$DEST_PATH/GEMINI.md"
-  skills=$(extract_skills "$DEST_PATH/GEMINI.md")
+  cp scripts/templates/GEMINI.md "$DEST_PATH/GEMINI.md"
+  skills=$(extract_skills "$DEST_PATH/AGENTS.md")
   link_skills "$skills" "$DEST_PATH/.gemini/skills" "$DEST_PATH/skills"
   # Copy gemini-instructions.md to the target directory
   if [ -f scripts/templates/gemini-instructions.md ]; then

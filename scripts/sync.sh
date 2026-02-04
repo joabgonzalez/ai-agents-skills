@@ -2,7 +2,7 @@
 
 set -e
 
-REGISTRY_FILE=".ai-agents.registry.yml"
+REGISTRY_FILE="registry.yml"
 
  # Output colors
 RED='\033[0;31m'

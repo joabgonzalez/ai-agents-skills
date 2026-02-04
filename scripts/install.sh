@@ -4,7 +4,7 @@ set -e
 
 PROJECT=""
 DEST_PATH=""
-REGISTRY_FILE=".ai-agents.registry.yml"
+REGISTRY_FILE="registry.yml"
 SOURCE_PATH=$(pwd)
 
 # Extracts skills from the frontmatter of AGENTS.md
@@ -31,40 +31,18 @@ update_registry() {
   local dest_path="$3"
   local skills="$4"
   local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  
-  # Create registry if it doesn't exist
-  if [ ! -f "$REGISTRY_FILE" ]; then
-    cat > "$REGISTRY_FILE" << EOF
+
+  # Always remove and recreate registry for a clean state
+  if [ -f "$REGISTRY_FILE" ]; then
+    rm "$REGISTRY_FILE"
+  fi
+  cat > "$REGISTRY_FILE" << EOF
 # AI Agents Installation Registry
 # Auto-generated - DO NOT EDIT MANUALLY
 version: "1.0"
 installations:
 EOF
-  fi
-  
-  # Check if installation already exists in registry
-  local search_pattern="type: \"$install_type\".*project: \"$project\""
-  if grep -Pzo "$search_pattern" "$REGISTRY_FILE" >/dev/null 2>&1 || grep -A1 "type: \"$install_type\"" "$REGISTRY_FILE" | grep -q "project: \"$project\"" 2>/dev/null; then
-    echo "  - Updating registry entry for $install_type/$project"
-    # Remove old entry
-    awk -v type="$install_type" -v proj="$project" '
-      BEGIN { skip=0 }
-      /^  - type:/ { 
-        if (skip) skip=0
-        getline; 
-        if ($0 ~ "project: \""proj"\"" && prev ~ "type: \""type"\"") {
-          skip=1; next
-        } else {
-          print prev; print $0
-        }
-        next
-      }
-      { if (!skip) print; prev=$0 }
-    ' "$REGISTRY_FILE" > "${REGISTRY_FILE}.tmp" && mv "${REGISTRY_FILE}.tmp" "$REGISTRY_FILE"
-  else
-    echo "  - Adding new registry entry for $install_type/$project"
-  fi
-  
+
   # Append new entry
   cat >> "$REGISTRY_FILE" << EOF
   - type: "$install_type"
@@ -73,7 +51,7 @@ EOF
     installed_at: "$timestamp"
     skills:
 EOF
-  
+
   # Add skills (deduplicate)
   echo "$skills" | tr ' ' '\n' | sort -u | while read -r skill; do
     [ -n "$skill" ] && echo "      - $skill" >> "$REGISTRY_FILE"
