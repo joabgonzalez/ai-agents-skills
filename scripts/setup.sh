@@ -10,7 +10,6 @@ MAGENTA='\033[0;35m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
-# Function to print colored messages
 print_header() {
   printf "\n${CYAN}${BOLD}╔════════════════════════════════════════════════════════╗${RESET}\n"
   printf "${CYAN}${BOLD}║${RESET}  %-54s${CYAN}${BOLD}║${RESET}\n" "$1"
@@ -70,24 +69,19 @@ printf "${RESET}\n"
 # Ask for installation type
 while true; do
   print_header "Select Installation Type"
-  printf "  ${BOLD}[L]${RESET} Local Installation\n"
-  printf "      ${CYAN}→${RESET} Install in current workspace\n"
-  printf "      ${CYAN}→${RESET} Ideal for developing agents and skills\n"
-  printf "\n"
-  printf "  ${BOLD}[E]${RESET} External Installation\n"
-  printf "      ${CYAN}→${RESET} Install in an external project\n"
-  printf "      ${CYAN}→${RESET} Copies agent and all required skills\n"
+  printf "  ${BOLD}[L]${RESET} Local: Install in this workspace\n"
+  printf "  ${BOLD}[E]${RESET} External: Install in another project\n"
   printf "\n"
   read -p "$(printf "${BOLD}Select option${RESET} [L/e]: ")" install_type
   install_type=${install_type:-L}
 
   if [[ "$install_type" =~ ^[Ll]$ ]]; then
     param="--local"
-    print_success "Local installation selected"
+    print_success "Local installation selected."
     break
   elif [[ "$install_type" =~ ^[Ee]$ ]]; then
     param="--external"
-    print_success "External installation selected"
+    print_success "External installation selected."
     
     # List and select project by number
     print_header "Select Project"
@@ -104,7 +98,7 @@ while true; do
     printf "\n"
     read -p "$(printf "${BOLD}Select project number${RESET}: ")" proj_num
     while ! [[ "$proj_num" =~ ^[0-9]+$ ]] || [ "$proj_num" -lt 1 ] || [ "$proj_num" -gt "${#projects[@]}" ]; do
-      print_error "Invalid selection. Please enter a number between 1 and ${#projects[@]}."
+      print_error "Invalid selection. Enter a number between 1 and ${#projects[@]}."
       read -p "$(printf "${BOLD}Select project number${RESET}: ")" proj_num
     done
     project_name="${projects[$((proj_num-1))]}"
@@ -132,7 +126,7 @@ while true; do
     # Run install.sh once to prepare AGENTS.md and skills
     print_info "Preparing agent and skills..."
     bash scripts/install.sh --project "$project_name" --path "$dest_path"
-    print_success "Agent and skills prepared"
+    print_success "Agent and skills prepared."
     
     # Set param for model scripts (only --external --path, no --project)
     param="--external --path $dest_path"
@@ -158,7 +152,7 @@ while true; do
 
   case "$model_option" in
     [Aa])
-      print_success "Installing all models"
+      print_success "Installing all models."
       echo
       run_model_script "scripts/copilot.sh" "$param" "GitHub Copilot"
       run_model_script "scripts/claude.sh" "$param" "Claude"
@@ -188,25 +182,9 @@ while true; do
   esac
 done
 
-# Update registry for local installations
-if [[ "$install_type" =~ ^[Ll]$ ]]; then
-  print_info "Updating installation registry..."
-  
-  # Extract skills from AGENTS.md
-  skills=$(awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "AGENTS.md" | tr '\n' ' ')
-  
-  # Source install.sh functions
-  source scripts/install.sh
-  
-  # Update registry
-  timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  update_registry "local" "agents" "." "$skills"
-  
-  print_success "Registry updated"
-fi
 
 printf "\n"
 print_header "Installation Complete!"
 print_success "All selected models have been configured."
-print_info "You can now use your AI agents with the configured models."
+print_info "You can now use your AI agents with the selected models."
 printf "\n"

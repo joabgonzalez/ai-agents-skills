@@ -1,17 +1,51 @@
-# GitHub Copilot Instructions
+# Copilot Instructions
 
-## Tool Discovery & Skill Execution
+## Framework Purpose
 
-- **Explicit Invocation:** To invoke specific repository tools or skills, use the `#tool:<tool-name>` prefix.
-- **Skill Discovery:** You have access to custom skills located in `.github/skills/`. Before performing complex tasks, scan this directory to identify the appropriate tool for the context.
-- **Precedence:** Instructions within a specific `SKILL.md` file take precedence over general instructions when that tool is active.
+This project uses an agent and skill system to modularize reasoning and code actions. All global rules and context are in AGENTS.md.
 
-## Contextual Guidance
+## Structure and Equivalent Conventions
 
-- **Workflow Baseline:** Always refer to the `AGENTS.md` file at the root to understand the global architectural patterns and general workflow.
-- **Specific Tasks:** If the user requests a task of **[X type]**, you must prefer using the **#tool:[skill-name]** skill.
+- Always use reasoning blocks before making changes:
+  - Claude: <thinking>
+  - Gemini: <thinking> or # Reasoning
+  - Copilot: /_ Reasoning _/ or markdown blocks
+- Always consult skills for migrations, refactors, or audits.
+- Consult agents when the task requires orchestration or workflow.
 
-## Operational Rules
+## Example Prompt
 
-- Check for existing scripts or templates within the folder of the invoked `#tool` before generating new code.
-- Ensure all outputs align with the style guides defined in the active skill's documentation.
+<thinking>
+Analyze the impact of applying refactor-logic.md on the current module dependencies.
+</thinking>
+
+## Example Output
+
+```json
+{
+  "explanation": "Refactor applied to improve modularity.",
+  "code_diff": "--- old.js\n+++ new.js\n..."
+}
+```
+
+## Coding Standards
+
+Follow the rules in AGENTS.md.
+
+- BAD: function getData(id) { ... }
+- GOOD: export const getSpecificData = async (id: string): Promise<Data> => { ... }
+
+## Context
+
+Prioritize files in the active tab and their imports.
+
+## Synchronization and Versioning
+
+- If AGENTS.md changes, re-sync instructions.md using the scripts.
+- This file is auto-generated. Do not edit manually.
+
+## Fallback
+
+If you have questions about the structure, consult AGENTS.md or request additional context.
+
+# Generated from AGENTS.md + templates. Do not edit manually.

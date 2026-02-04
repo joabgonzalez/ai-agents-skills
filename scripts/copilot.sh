@@ -2,13 +2,13 @@
 
 set -e
 
-# Function to extract skills from the frontmatter of AGENTS.md
+ # Extract skills from the frontmatter of AGENTS.md
 extract_skills() {
   local agents_file="$1"
   awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$agents_file" | tr -d '\r'
 }
 
-# Function to create symbolic links for skills
+ # Create symbolic links for required skills
 link_skills() {
   local skills_list="$1"
   local skills_dir="$2"
@@ -20,13 +20,13 @@ link_skills() {
   done
 }
 
-# Function to create copilot-instructions.md
+ # Copy copilot-instructions.md to the target directory
 create_copilot_instructions() {
   local target_dir="$1"
   cp scripts/templates/copilot-instructions.md "$target_dir/copilot-instructions.md"
 }
 
-# Parse arguments
+ # Parse command-line arguments
 MODE=""
 DEST_PATH=""
 
@@ -57,7 +57,7 @@ if [[ "$MODE" == "local" ]]; then
   skills=$(extract_skills "AGENTS.md")
   link_skills "$skills" ".github/skills" "$(pwd)/skills"
   create_copilot_instructions ".github"
-  printf "  ✅ GitHub Copilot configured successfully\n"
+  printf "  ✓ GitHub Copilot configured successfully\n"
   exit 0
 elif [[ "$MODE" == "external" ]]; then
   if [[ -z "$DEST_PATH" ]]; then
@@ -69,7 +69,7 @@ elif [[ "$MODE" == "external" ]]; then
   skills=$(extract_skills "$DEST_PATH/AGENTS.md")
   link_skills "$skills" "$DEST_PATH/.github/skills" "$DEST_PATH/skills"
   create_copilot_instructions "$DEST_PATH/.github"
-  printf "  ✅ GitHub Copilot configured successfully\n"
+  printf "  ✓ GitHub Copilot configured successfully\n"
   exit 0
 else
   echo "Usage: $0 --local | --external --path <destination>"

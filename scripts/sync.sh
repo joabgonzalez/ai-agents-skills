@@ -4,12 +4,12 @@ set -e
 
 REGISTRY_FILE=".ai-agents.registry.yml"
 
-# Colors for output
+ # Output colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m' # No color
 
 print_header() {
   printf "${BLUE}╔═══════════════════════════════════╗${NC}\n"
@@ -50,7 +50,7 @@ if [ ${#MODELS[@]} -eq 0 ]; then
   exit 1
 fi
 
-print_info "Found ${#MODELS[@]} installed model(s): ${MODELS[*]}"
+  print_info "Found ${#MODELS[@]} installed model(s): ${MODELS[*]}."
 printf "\n"
 
 # Function to sync skills for a specific model
@@ -83,32 +83,9 @@ sync_model() {
     fi
   done
   
-  # Sync model-specific files
-  case "$model" in
-    copilot)
-      # Update copilot-instructions.md
-      if [ -f "scripts/templates/copilot-instructions.md" ]; then
-        cp scripts/templates/copilot-instructions.md "$model_dir/copilot-instructions.md"
-        print_info "  Synced copilot-instructions.md"
-      fi
-      ;;
-    claude)
-      # Update CLAUDE.md from AGENTS.md
-      if [ -f "AGENTS.md" ]; then
-        cp AGENTS.md CLAUDE.md
-        print_info "  Synced agents: AGENTS.md → CLAUDE.md"
-      fi
-      ;;
-    gemini)
-      # Update GEMINI.md from AGENTS.md
-      if [ -f "AGENTS.md" ]; then
-        cp AGENTS.md GEMINI.md
-        print_info "  Synced agents: AGENTS.md → GEMINI.md"
-      fi
-      ;;
-  esac
+  # Do not sync static template/configuration files. Only synchronize skills and agents.
   
-  print_success "Synced skills and agents to $model_dir/"
+  print_success "Synced skills and agents to $model_dir/."
 }
 
 # Sync all installed models
@@ -117,26 +94,26 @@ for model in "${MODELS[@]}"; do
 done
 
 printf "\n"
-print_success "Local sync completed!"
+print_success "Local sync completed."
 
 # Function to sync skills for external project
 sync_external_project() {
   local project_name=$1
   local dest_path=$2
   
-  print_info "Syncing external project: $project_name → $dest_path"
+  print_info "Syncing external project: $project_name to $dest_path."
   
   # 1. Sync skills directory to external root
   if [ -d "$dest_path/skills" ]; then
     rm -rf "$dest_path/skills"
   fi
   cp -R skills "$dest_path/skills"
-  print_info "  ✓ Synced skills/ to external root"
+  print_info "Synced skills/ to external root."
   
   # 2. Sync AGENTS.md from agents/<project>/
   if [ -f "agents/$project_name/AGENTS.md" ]; then
     cp "agents/$project_name/AGENTS.md" "$dest_path/AGENTS.md"
-    print_info "  ✓ Synced AGENTS.md for $project_name"
+    print_info "Synced AGENTS.md for $project_name."
   fi
   
   # 3. Extract skills from project AGENTS.md
@@ -183,18 +160,29 @@ sync_external_project() {
           if [ -f "$dest_path/AGENTS.md" ]; then
             cp "$dest_path/AGENTS.md" "$dest_path/CLAUDE.md"
           fi
+          if [ -f "scripts/templates/claude-instructions.md" ]; then
+            cp scripts/templates/claude-instructions.md "$model_dir/instructions.md"
+          fi
           ;;
         gemini)
           if [ -f "$dest_path/AGENTS.md" ]; then
             cp "$dest_path/AGENTS.md" "$dest_path/GEMINI.md"
           fi
+          if [ -f "scripts/templates/gemini-instructions.md" ]; then
+            cp scripts/templates/gemini-instructions.md "$model_dir/instructions.md"
+          fi
+          ;;
+        codex)
+          if [ -f "scripts/templates/codex-instructions.md" ]; then
+            cp scripts/templates/codex-instructions.md "$model_dir/instructions.md"
+          fi
           ;;
       esac
     done
-    print_info "  ✓ Updated ${#ext_models[@]} model directory(ies)"
+    print_info "Updated ${#ext_models[@]} model directory(ies)."
   fi
   
-  print_success "External project synced: $dest_path"
+  print_success "External project synced: $dest_path."
 }
 
 # Sync external projects if registry exists
@@ -247,5 +235,5 @@ else
 fi
 
 printf "\n"
-print_success "All syncs completed!"
+print_success "All syncs completed."
 print_info "Skills and agents have been updated in all locations."

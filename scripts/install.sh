@@ -168,6 +168,34 @@ done
 
 echo "Agent and required skills installed in $DEST_PATH"
 
+# Copy instruction files for each model if the directories exist
+if [ -d "$DEST_PATH/.github" ] && [ -f "scripts/templates/copilot-instructions.md" ]; then
+  cp scripts/templates/copilot-instructions.md "$DEST_PATH/.github/copilot-instructions.md"
+  echo "  - Copied copilot-instructions.md"
+fi
+if [ -d "$DEST_PATH/.claude" ] && [ -f "scripts/templates/claude-instructions.md" ]; then
+  cp scripts/templates/claude-instructions.md "$DEST_PATH/.claude/instructions.md"
+  echo "  - Copied claude-instructions.md"
+fi
+if [ -d "$DEST_PATH/.gemini" ] && [ -f "scripts/templates/gemini-instructions.md" ]; then
+  cp scripts/templates/gemini-instructions.md "$DEST_PATH/.gemini/instructions.md"
+  echo "  - Copied gemini-instructions.md"
+fi
+if [ -d "$DEST_PATH/.codex" ] && [ -f "scripts/templates/codex-instructions.md" ]; then
+  cp scripts/templates/codex-instructions.md "$DEST_PATH/.codex/instructions.md"
+  echo "  - Copied codex-instructions.md"
+fi
+
+# Copy static configuration files to root
+if [ -f "scripts/templates/CLAUDE.md" ]; then
+  cp scripts/templates/CLAUDE.md "$DEST_PATH/CLAUDE.md"
+  echo "  - Copied CLAUDE.md (static config)"
+fi
+if [ -f "scripts/templates/GEMINI.md" ]; then
+  cp scripts/templates/GEMINI.md "$DEST_PATH/GEMINI.md"
+  echo "  - Copied GEMINI.md (static config)"
+fi
+
 # Detect installed models in destination
 echo "Detecting installed models..."
 models=$(detect_models "$DEST_PATH")

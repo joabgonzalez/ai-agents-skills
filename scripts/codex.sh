@@ -2,13 +2,13 @@
 
 set -e
 
-# Function to extract skills from the frontmatter of AGENTS.md
+# Extract skills from the frontmatter of AGENTS.md
 extract_skills() {
   local agents_file="$1"
   awk '/^skills:/{flag=1;next}/^[a-z-]+:/{flag=0}flag && /^  -/{gsub(/^  - /, ""); print}' "$agents_file" | tr -d '\r'
 }
 
-# Function to create symbolic links for skills
+# Create symbolic links for required skills
 link_skills() {
   local skills_list="$1"
   local skills_dir="$2"
@@ -20,7 +20,7 @@ link_skills() {
   done
 }
 
-# Parse arguments
+# Parse command-line arguments
 MODE=""
 DEST_PATH=""
 
@@ -50,7 +50,12 @@ if [[ "$MODE" == "local" ]]; then
   mkdir -p .codex/skills
   skills=$(extract_skills "AGENTS.md")
   link_skills "$skills" ".codex/skills" "$(pwd)/skills"
-  printf "  ✅ Codex configured successfully\n"
+  # Copy codex-instructions.md to the target directory
+  if [ -f scripts/templates/codex-instructions.md ]; then
+    cp scripts/templates/codex-instructions.md .codex/instructions.md
+    printf "  ⬇︎  Synced codex-instructions.md\n"
+  fi
+  printf "  ✓ Codex configured successfully\n"
   exit 0
 elif [[ "$MODE" == "external" ]]; then
   if [[ -z "$DEST_PATH" ]]; then
@@ -61,7 +66,12 @@ elif [[ "$MODE" == "external" ]]; then
   mkdir -p "$DEST_PATH/.codex/skills"
   skills=$(extract_skills "$DEST_PATH/AGENTS.md")
   link_skills "$skills" "$DEST_PATH/.codex/skills" "$DEST_PATH/skills"
-  printf "  ✅ Codex configured successfully\n"
+  # Copy codex-instructions.md to the target directory
+  if [ -f scripts/templates/codex-instructions.md ]; then
+    cp scripts/templates/codex-instructions.md "$DEST_PATH/.codex/instructions.md"
+    printf "  ⬇︎  Synced codex-instructions.md\n"
+  fi
+  printf "  ✓ Codex configured successfully\n"
   exit 0
 else
   echo "Usage: $0 --local | --external --path <destination>"
