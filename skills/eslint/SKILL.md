@@ -1,16 +1,20 @@
 ---
 name: eslint
-description: "Enforcing code quality and best practices using ESLint in JavaScript and TypeScript projects. Configuration, rules, plugins, auto-fix. Trigger: When configuring ESLint rules, fixing linting errors, or enforcing code quality standards."
-skills:
-  - conventions
-  - typescript
-  - javascript
-dependencies:
-  eslint: ">=8.0.0 <9.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
-  - file-reader
+description: "Code quality enforcement with ESLint. Trigger: When configuring ESLint rules, fixing linting errors, or enforcing quality standards."
+compatibility: "javascript"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - javascript
+  dependencies:
+    eslint: ">=8.0.0 <9.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
+    - file-reader
 ---
 
 # ESLint Skill

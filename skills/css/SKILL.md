@@ -1,14 +1,18 @@
 ---
 name: css
-description: Modern, maintainable, and accessible CSS using latest features and best practices. Grid, Flexbox, custom properties, container queries, cascade layers. Trigger: When writing CSS styles, implementing layouts with Grid/Flexbox, or using modern CSS features.
-skills:
-  - conventions
-  - a11y
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
-  - file-reader
+description: "Modern CSS with Grid, Flexbox, and custom properties. Trigger: When writing CSS styles, implementing layouts, or using modern features."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
+    - file-reader
 ---
 
 # CSS Modern Skill

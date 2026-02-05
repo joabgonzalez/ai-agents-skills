@@ -1,6 +1,10 @@
 ---
 name: english-writing
-description: English writing rules for all generated content and code. Trigger: When generating, editing, or reviewing any content, code, documentation, or prompts.
+description: "English writing rules for generated content and code. Trigger: When generating, editing, or reviewing content, code, documentation, or prompts."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
 ---
 
 # English Writing

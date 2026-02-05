@@ -1,0 +1,5 @@
+{
+  "name": "test-skill",
+  "description": "A test skill for validation. Trigger: When testing schema validation.",
+  "version": "1.0"
+}

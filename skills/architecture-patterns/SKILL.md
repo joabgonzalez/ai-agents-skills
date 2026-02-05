@@ -1,14 +1,18 @@
 ---
 name: architecture-patterns
-description: "Software architecture patterns (SOLID, DDD, Clean/Hexagonal Architecture, Mediator, Result). Backend-first, frontend when context justifies. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements in AGENTS.md."
-skills:
-  - conventions
-  - typescript
-dependencies:
-  typescript: ">=4.5.0"
-allowed-tools:
-  - documentation-reader
-  - read-file
+description: "SOLID, DDD, and Clean Architecture patterns. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+  dependencies:
+    typescript: ">=4.5.0"
+  allowed-tools:
+    - documentation-reader
+    - read-file
 ---
 
 # Architecture Patterns

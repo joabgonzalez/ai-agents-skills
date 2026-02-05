@@ -1,17 +1,21 @@
 ---
 name: mui-x-charts
-description: "MUI X Charts for data visualization in React applications. Line charts, bar charts, pie charts, customization, theming. Trigger: When creating data visualizations with MUI X Charts, implementing charts, or customizing chart appearance."
-skills:
-  - mui
-  - react
-  - typescript
-  - humanizer
-dependencies:
-  "@mui/x-charts": ">=6.0.0 <8.0.0"
-  react: ">=17.0.0 <19.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Data visualization with MUI X Charts. Trigger: When creating visualizations with MUI X Charts, implementing charts, or customizing."
+compatibility: "react"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - mui
+    - react
+    - typescript
+    - humanizer
+  dependencies:
+    "@mui/x-charts": ">=6.0.0 <8.0.0"
+    react: ">=17.0.0 <19.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # MUI X Charts Skill

@@ -1,8 +1,10 @@
 ---
 name: skill-sync
-description: "Maintains synchronization across model directories after modifying skills, agents, or prompts. Ensures consistency between AGENTS.md, CLAUDE.md, GEMINI.md. Trigger: After creating or modifying any skill, agent, or prompt to synchronize changes across all model directories."
-input: "modification type (skill/agent/prompt), affected files, validation queries | string"
-output: "sync instructions, validation checklist, affected paths, manual steps | markdown"
+description: "Synchronization across model directories. Trigger: After creating or modifying skills, agents, or prompts to sync across directories."
+compatibility: "meta"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
 ---
 
 # Skill Sync

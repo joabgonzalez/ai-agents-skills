@@ -1,20 +1,24 @@
 ---
 name: ag-grid
-description: "Standards-compliant best practices for implementing advanced data tables with AG Grid in React and TypeScript. Configuration, accessibility, column definitions, cell renderers. Trigger: When implementing AG Grid data tables, configuring grid features, or creating custom cell renderers."
-skills:
-  - conventions
-  - react
-  - typescript
-  - a11y
-allowed-tools:
-  - documentation-reader
-  - web-search
-  - file-reader
-dependencies:
-  ag-grid-community: ">=29.0.0 <31.0.0"
-  ag-grid-react: ">=29.0.0 <31.0.0"
-  react: ">=17.0.0 <19.0.0"
-  typescript: ">=5.0.0 <6.0.0"
+description: "Advanced data tables with AG Grid. Trigger: When implementing AG Grid tables, configuring features, or creating custom cell renderers."
+compatibility: "react"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - react
+    - typescript
+    - a11y
+  dependencies:
+    ag-grid-community: ">=29.0.0 <31.0.0"
+    ag-grid-react: ">=29.0.0 <31.0.0"
+    react: ">=17.0.0 <19.0.0"
+    typescript: ">=5.0.0 <6.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
+    - file-reader
 ---
 
 # AG Grid Skill

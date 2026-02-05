@@ -1,21 +1,29 @@
 ---
 name: unit-testing
-description: "Unit testing patterns and best practices for frontend and backend. Test isolation, mocks, coverage, and structure. Trigger: When writing or reviewing unit tests for any layer."
-skills:
-  - conventions
-  - jest
-  - react-testing-library
-  - react-native-testing-library
-  - typescript
-  - frontend-dev
-  - backend-dev
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Unit testing patterns for frontend and backend. Trigger: When writing or reviewing unit tests for any layer."
+compatibility: "testing"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - jest
+    - react-testing-library
+    - react-native-testing-library
+    - typescript
+    - frontend-dev
+    - backend-dev
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Unit Testing Skill
+
+## Objective
+
+Provide unit testing patterns and best practices. This skill ORCHESTRATES jest, react-testing-library, and react-native-testing-library for implementation details. Use this skill for testing strategy and patterns; delegate to specific tools for syntax and APIs.
 
 ## When to Use
 

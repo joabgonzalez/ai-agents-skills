@@ -1,16 +1,20 @@
 ---
 name: nest
-description: "NestJS framework patterns and best practices. Modular architecture, dependency injection, controllers, providers. Trigger: When building scalable server-side apps with NestJS."
-skills:
-  - conventions
-  - nodejs
-  - typescript
-  - architecture-patterns
-dependencies:
-  "@nestjs/core": ">=10.0.0 <11.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "NestJS modular architecture with dependency injection. Trigger: When building scalable server apps with NestJS."
+compatibility: "nodejs"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - nodejs
+    - typescript
+    - architecture-patterns
+  dependencies:
+    "@nestjs/core": ">=10.0.0 <11.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # NestJS Skill

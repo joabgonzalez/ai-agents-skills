@@ -1,19 +1,23 @@
 ---
 name: formik
-description: "Building and managing forms in React with Formik. Validation, accessibility, error handling, form submission. Trigger: When creating forms in React, implementing form validation, or managing form state with Formik."
-skills:
-  - conventions
-  - a11y
-  - react
-  - yup
-  - humanizer
-dependencies:
-  formik: ">=2.0.0 <3.0.0"
-  yup: ">=1.0.0 <2.0.0"
-  react: ">=17.0.0 <19.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Form management in React with validation. Trigger: When creating forms in React, implementing validation, or managing form state."
+compatibility: "react"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - react
+    - yup
+    - humanizer
+  dependencies:
+    formik: ">=2.0.0 <3.0.0"
+    yup: ">=1.0.0 <2.0.0"
+    react: ">=17.0.0 <19.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Formik Skill

@@ -1,17 +1,21 @@
 ---
 name: redux-toolkit
-description: "Redux Toolkit for predictable state management in React applications. Slices, async thunks, RTK Query integration, store configuration. Trigger: When implementing Redux state management, creating slices, or managing global application state."
-skills:
-  - conventions
-  - react
-  - typescript
-  - architecture-patterns
-dependencies:
-  "@reduxjs/toolkit": ">=2.0.0 <3.0.0"
-  react-redux: ">=8.0.0 <10.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Predictable state management with Redux Toolkit. Trigger: When implementing Redux, creating slices, or managing global state."
+compatibility: "react"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - react
+    - typescript
+    - architecture-patterns
+  dependencies:
+    "@reduxjs/toolkit": ">=2.0.0 <3.0.0"
+    react-redux: ">=8.0.0 <10.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Redux Toolkit Skill

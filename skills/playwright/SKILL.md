@@ -1,15 +1,19 @@
 ---
 name: playwright
-description: "Playwright E2E testing patterns and best practices. Cross-browser automation, selectors, fixtures, and CI integration. Trigger: When writing or running end-to-end tests with Playwright."
-skills:
-  - conventions
-  - typescript
-  - javascript
-dependencies:
-  playwright: ">=1.40.0 <2.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Cross-browser E2E testing with Playwright. Trigger: When writing or running end-to-end tests with Playwright."
+compatibility: "browser"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - javascript
+  dependencies:
+    playwright: ">=1.40.0 <2.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Playwright Skill

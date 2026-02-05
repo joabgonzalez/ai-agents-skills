@@ -1,15 +1,19 @@
 ---
 name: react-native-testing-library
-description: "React Native Testing Library patterns and best practices. User-centric testing, queries, events, and assertions for React Native. Trigger: When testing React Native components with RNTL."
-skills:
-  - conventions
-  - react-native
-  - jest
-dependencies:
-  "@testing-library/react-native": ">=12.0.0 <13.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "User-centric React Native component testing. Trigger: When testing React Native components with RNTL."
+compatibility: "react-native"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - react-native
+    - jest
+  dependencies:
+    "@testing-library/react-native": ">=12.0.0 <13.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # React Native Testing Library Skill

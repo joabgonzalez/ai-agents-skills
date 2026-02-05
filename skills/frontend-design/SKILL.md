@@ -1,13 +1,17 @@
 ---
 name: frontend-design
-description: "Front-end design patterns and best practices. UI/UX principles, layout, color, typography, and interaction. Trigger: When designing user interfaces, creating design systems, or improving usability."
-skills:
-  - conventions
-  - a11y
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "UI/UX principles with layout and typography. Trigger: When designing interfaces, creating design systems, or improving usability."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Frontend Design Skill

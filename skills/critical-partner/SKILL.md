@@ -1,10 +1,14 @@
 ---
 name: critical-partner
-description: "Rigorous, constructive, and analytical partner for code generation, review, and improvement. Provides counterarguments, identifies issues, ensures best practices. Trigger: When validating code quality, reviewing implementations, or providing critical feedback before finalizing changes."
-allowed-tools:
-  - documentation-reader
-  - web-search
-  - file-reader
+description: "Rigorous code review and improvement partner. Trigger: When validating code quality, reviewing implementations, or providing critical feedback."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
+    - file-reader
 ---
 
 # Critical Partner Skill

@@ -1,16 +1,20 @@
 ---
 name: express
-description: "Express.js server patterns and best practices. Routing, middleware, error handling, async flows. Trigger: When building REST APIs, middleware stacks, or server-side logic with Express."
-skills:
-  - conventions
-  - nodejs
-  - typescript
-  - architecture-patterns
-dependencies:
-  express: ">=4.18.0 <5.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Express.js routing, middleware, and error handling. Trigger: When building REST APIs or server logic with Express."
+compatibility: "nodejs"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - nodejs
+    - typescript
+    - architecture-patterns
+  dependencies:
+    express: ">=4.18.0 <5.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Express.js Skill

@@ -1,16 +1,20 @@
 ---
 name: stagehand
-description: "Stagehand automation patterns and best practices. Scripted browser flows, data seeding, and test orchestration. Trigger: When automating browser flows or test setup with Stagehand."
-skills:
-  - conventions
-  - typescript
-  - javascript
-  - playwright
-dependencies:
-  stagehand: ">=1.0.0 <2.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Browser automation and test orchestration. Trigger: When automating browser flows or test setup with Stagehand."
+compatibility: "browser"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - javascript
+    - playwright
+  dependencies:
+    stagehand: ">=1.0.0 <2.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Stagehand Skill

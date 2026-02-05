@@ -1,18 +1,22 @@
 ---
 name: react
-description: "React component patterns, hooks, and best practices for modern React development. Functional components, proper hook usage, memoization, and performance optimization. Trigger: When creating React components, implementing hooks, managing state, or optimizing React performance."
-skills:
-  - conventions
-  - a11y
-  - typescript
-  - javascript
-  - architecture-patterns
-  - humanizer
-dependencies:
-  react: ">=17.0.0 <19.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Modern React with hooks and functional components. Trigger: When creating components, implementing hooks, managing state, or optimizing."
+compatibility: "react"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - typescript
+    - javascript
+    - architecture-patterns
+    - humanizer
+  dependencies:
+    react: ">=17.0.0 <19.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # React Skill

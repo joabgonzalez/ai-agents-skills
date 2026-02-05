@@ -1,13 +1,17 @@
 ---
 name: webpack
-description: "Webpack module bundler configuration and optimization. Loaders, plugins, code splitting, build optimization. Trigger: When configuring Webpack bundler, setting up loaders/plugins, or optimizing bundle size."
-skills:
-  - conventions
-dependencies:
-  webpack: ">=5.0.0 <6.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Module bundler with loaders, plugins, and code splitting. Trigger: When configuring Webpack, setting up loaders, or optimizing bundles."
+compatibility: "build-tool"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+  dependencies:
+    webpack: ">=5.0.0 <6.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Webpack Skill

@@ -1,20 +1,28 @@
 ---
 name: e2e-testing
-description: "End-to-end testing patterns and best practices. Full-stack flows, browser automation, CI integration, and reporting. Trigger: When writing or reviewing E2E tests for any layer."
-skills:
-  - conventions
-  - playwright
-  - stagehand
-  - typescript
-  - frontend-dev
-  - backend-dev
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "End-to-end testing patterns and best practices. Trigger: When writing or reviewing E2E tests for any layer."
+compatibility: "testing"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - playwright
+    - stagehand
+    - typescript
+    - frontend-dev
+    - backend-dev
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # End-to-End Testing Skill
+
+## Objective
+
+Provide end-to-end testing patterns and architecture. This skill ORCHESTRATES playwright and stagehand for implementation. Use this skill for test architecture and strategy; delegate to specific tools for browser automation and test execution.
 
 ## When to Use
 

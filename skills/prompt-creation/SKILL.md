@@ -1,10 +1,14 @@
 ---
 name: prompt-creation
-description: Create context prompts for AI assistants in JSON or markdown frontmatter. Enforces mandatory context gathering (10 questions), validates schema compliance, ensures token efficiency. All content must be in English. Two types: technology-stack (project config) or behavioral (assistant persona). Trigger: When creating context prompts for AI assistants or documenting project configuration.
-skills:
-  - critical-partner
-  - conventions
-  - english-writing
+description: "Context prompts for AI assistants with schema validation. Trigger: When creating context prompts for AI assistants or documenting project config."
+compatibility: "meta"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - critical-partner
+    - conventions
+    - english-writing
 ---
 
 # Prompt Creation Skill
@@ -50,6 +54,7 @@ All generated code, documentation, comments, and prompt content must follow the 
 name: english-practice
 type: behavioral
 description: English language teacher and technical writing coach
+version: "1.0"
 priority: high
 ---
 
@@ -153,6 +158,7 @@ general_rules:
 name: prompt-identifier
 type: behavioral | technology-stack
 description: Single-line purpose statement
+version: "1.0"
 context: When and why to use this prompt
 priority: low | medium | high
 tags: [optional, comma-separated]
@@ -279,6 +285,7 @@ cp skills/prompt-creation/assets/PROMPT-TEMPLATE.md prompts/{prompt-name}.md
 name: example-prompt
 type: behavioral
 description: Quick task handler with validation
+version: "1.0"
 priority: medium
 ---
 
@@ -564,6 +571,7 @@ See [Examples](#examples) section below for complete templates.
 name: sbd
 type: technology-stack
 description: SBD web application stack configuration with strict typing and MUI patterns
+version: "1.0"
 context: Apply when working on SBD project codebase
 ---
 
@@ -634,6 +642,7 @@ Web application for supply business distribution using React + TypeScript + MUI.
 name: english-practice
 type: behavioral
 description: English language teacher and technical writing coach for software developers
+version: "1.0"
 priority: high
 ---
 
