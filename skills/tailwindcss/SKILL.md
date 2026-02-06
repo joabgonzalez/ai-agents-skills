@@ -1,16 +1,20 @@
 ---
 name: tailwindcss
-description: "Utility-first CSS framework for rapid UI development. Responsive design, custom utilities, configuration, component composition. Trigger: When styling with Tailwind CSS utility classes, creating responsive designs, or configuring Tailwind."
-skills:
-  - conventions
-  - a11y
-  - css
-  - humanizer
-dependencies:
-  tailwindcss: ">=3.0.0 <5.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Utility-first CSS with responsive design. Trigger: When styling with Tailwind utilities, creating responsive designs, or configuring Tailwind."
+compatibility: "build-tool"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - css
+    - humanizer
+  dependencies:
+    tailwindcss: ">=3.0.0 <5.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Tailwind CSS Skill

@@ -1,15 +1,19 @@
 ---
 name: hono
-description: "Hono framework patterns and best practices. Lightweight edge/serverless routing, middleware, and API design. Trigger: When building edge APIs or lightweight serverless apps with Hono."
-skills:
-  - conventions
-  - typescript
-  - javascript
-dependencies:
-  hono: ">=3.0.0 <4.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Lightweight edge/serverless APIs with Hono. Trigger: When building edge APIs or lightweight serverless apps."
+compatibility: "nodejs"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - javascript
+  dependencies:
+    hono: ">=3.0.0 <4.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Hono Skill

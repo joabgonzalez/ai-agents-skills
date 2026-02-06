@@ -1,13 +1,17 @@
 ---
 name: prettier
-description: Code formatting with Prettier for consistent style across the codebase. Auto-formatting, configuration, editor integration. Trigger: When configuring Prettier formatting, setting up auto-format, or ensuring consistent code style.
-skills:
-  - conventions
-dependencies:
-  prettier: ">=3.0.0 <4.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Automatic code formatting with Prettier. Trigger: When configuring Prettier, setting up auto-format, or ensuring consistent style."
+compatibility: "javascript"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+  dependencies:
+    prettier: ">=3.0.0 <4.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Prettier Skill

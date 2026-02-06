@@ -1,15 +1,19 @@
 ---
 name: jest
-description: "Jest testing patterns and best practices. Unit, integration, and snapshot testing for JavaScript/TypeScript. Trigger: When writing or running tests with Jest."
-skills:
-  - conventions
-  - typescript
-  - javascript
-dependencies:
-  jest: ">=29.0.0 <30.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Unit, integration, and snapshot testing with Jest. Trigger: When writing or running tests with Jest."
+compatibility: "javascript"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - javascript
+  dependencies:
+    jest: ">=29.0.0 <30.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Jest Skill

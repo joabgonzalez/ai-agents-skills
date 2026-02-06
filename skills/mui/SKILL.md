@@ -1,18 +1,22 @@
 ---
 name: mui
-description: "Material UI component library best practices for React applications. Component patterns, theming, styling with sx prop, custom components. Trigger: When using Material-UI components, implementing MUI theming, or creating custom MUI-based components."
-skills:
-  - conventions
-  - a11y
-  - react
-  - typescript
-  - humanizer
-dependencies:
-  "@mui/material": ">=5.0.0 <6.0.0"
-  react: ">=17.0.0 <19.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Material UI components with theming and sx prop. Trigger: When using MUI components, implementing theming, or creating custom components."
+compatibility: "react"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - react
+    - typescript
+    - humanizer
+  dependencies:
+    "@mui/material": ">=5.0.0 <6.0.0"
+    react: ">=17.0.0 <19.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # MUI (Material UI) Skill

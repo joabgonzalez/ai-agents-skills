@@ -1,10 +1,14 @@
 ---
 name: process-documentation
-description: "Comprehensive documentation of all processes and changes. Templates for features, bug fixes, refactors with structured format and validation. Trigger: When completing features, fixing bugs, refactoring code, or before committing changes."
-allowed-tools:
-  - file-operations
-  - read-file
-  - write-file
+description: "Process documentation with templates for features and fixes. Trigger: When completing features, fixing bugs, refactoring, or before committing."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  allowed-tools:
+    - file-operations
+    - read-file
+    - write-file
 ---
 
 # Process Documentation Skill

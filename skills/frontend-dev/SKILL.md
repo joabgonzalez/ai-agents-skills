@@ -1,16 +1,20 @@
 ---
 name: frontend-dev
-description: "Front-end development workflow and best practices. Componentization, state management, testing, and deployment. Trigger: When building, refactoring, or scaling front-end applications."
-skills:
-  - conventions
-  - typescript
-  - react
-  - architecture-patterns
-  - a11y
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Frontend workflow with componentization and state management. Trigger: When building, refactoring, or scaling frontend apps."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - react
+    - architecture-patterns
+    - a11y
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Frontend Development Skill

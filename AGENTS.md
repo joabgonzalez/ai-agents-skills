@@ -1,412 +1,257 @@
 ---
-name: agents
-description: Central management agent for creating, validating, and maintaining skills, agents, and context prompts. Orchestrates skill-creation, agent-creation, prompt-creation workflows, enforces standards compliance, ensures optimal modular architecture. Trigger: When creating or modifying skills/agents/prompts, enforcing standards, or managing framework architecture.
+name: ai-agents-skills
+description: CLI framework for managing and distributing AI agent skills across multiple models (Copilot, Claude, Gemini, Codex, Cursor). With local-first architecture and planned npx distribution.
+version: "1.0"
 skills:
-   - critical-partner
-   - skill-creation
-   - agent-creation
-   - prompt-creation
-   - process-documentation
-   - skill-sync
-   - technical-communication
-   - english-writing
-   - humanizer
+  - skill-creation
+  - agent-creation
+  - critical-partner
+  - process-documentation
+  - conventions
+  - typescript
+  - nodejs
 ---
 
-# Agents Management Agent
+# AI Agents Skills Framework
 
 ## Purpose
 
-This agent serves as the central orchestrator for all skill, agent, and context prompt management in the jg-ai-agents project. It ensures that every new skill, agent, and prompt follows established standards, maintains modular architecture, enforces unique responsibilities per component, and provides comprehensive guidance for creation, validation, and documentation workflows.
+This framework provides a standardized system for creating, managing, and distributing AI agent skills across multiple AI models. Currently in Phase 1 (local mode), it enables skill reuse through symlink-based installation with dependency resolution, intelligent skip logic, and token-efficient model instructions.
 
----
+**Primary responsibilities:**
 
-## ⚠️ MANDATORY SKILL READING
+- Maintain 49+ skills across frameworks, testing, backend, and standards
+- Provide TypeScript CLI for local skill management (`ai-agents-skills local`)
+- Enable dependency resolution with cycle detection
+- Support 5 AI models: GitHub Copilot, Claude, Gemini, Codex, Cursor
+- Future: npx-based distribution system (Phase 2) and Astro documentation site (Phase 3)
 
-**CRITICAL INSTRUCTION: You MUST read the corresponding skill file BEFORE executing any task that matches a trigger below.**
+## ⚠️ Mandatory Skill Reading
+
+**CRITICAL**: Before performing ANY task, you MUST read the relevant skill files from `.claude/skills/` to understand requirements, patterns, and constraints. Do NOT rely on general knowledge alone.
 
 ### Skill Reading Protocol
 
-1. **Identify task context** from user request
-2. **Match task to trigger** in Mandatory Skills table below
-3. **Read the ENTIRE skill file** before proceeding with implementation
-4. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
-5. **Follow skill guidelines** strictly during execution
+1. **Identify task type** - Determine which skill(s) apply to your current task
+2. **Consult Mandatory Skills table below** - Check triggers to find required skills
+3. **Read SKILL.md first** - Always start with the skill's main documentation
+4. **Check for references/** - If skill has `references/` directory, read relevant files
+5. **Apply learned patterns** - Follow skill instructions strictly
 
-**⚠️ WARNING**: Do NOT proceed with tasks without reading the skill file first. Skill tables provide reference only—actual patterns, decision trees, and edge cases are in the skill files themselves.
+**WARNING**: Proceeding without reading skills leads to:
+
+- Non-compliant code patterns
+- Missed critical requirements
+- Inconsistent architecture decisions
+- Violations of project conventions
 
 ### Notification Policy
 
-For multi-skill tasks (2+ skills):
+When a task requires 2+ skills, notify the user which skills you're consulting before proceeding.
 
-- **Notify user** which skills you're using at the start
-- **Proceed immediately** after notification (no confirmation needed)
-- **Skip notification** for trivial single-skill tasks
+### Extended Mandatory Read Protocol
 
-Example notification:
+For skills with 40+ patterns or complex decision trees, consult the skill's **Decision Tree** and **Quick Reference Table** sections to determine if reading `references/` is required. These sections indicate:
 
-> "Using these skills for your request:
->
-> - `typescript` for strict typing patterns
-> - `react` for component structure
-> - `a11y` for accessibility compliance"
+- When to read reference files ([CRITICAL], MUST, SHOULD, MAY, RARELY)
+- Which reference files are essential vs. optional
+- Project-specific requirements
 
----
+## Mandatory Skills
 
-## Extended Mandatory Read Protocol
+| Trigger (When to Read)                       | Required Skill          | Path                                              |
+| -------------------------------------------- | ----------------------- | ------------------------------------------------- |
+| Create or modify skills                      | skill-creation          | `.claude/skills/skill-creation/SKILL.md`          |
+| Create or modify agent definitions           | agent-creation          | `.claude/skills/agent-creation/SKILL.md`          |
+| Write commit messages, PRs, or documentation | technical-communication | `.claude/skills/technical-communication/SKILL.md` |
+| Code review or suggest improvements          | critical-partner        | `.claude/skills/critical-partner/SKILL.md`        |
+| Document changes or processes                | process-documentation   | `.claude/skills/process-documentation/SKILL.md`   |
+| Define coding standards                      | conventions             | `.claude/skills/conventions/SKILL.md`             |
+| Work with TypeScript code                    | typescript              | `.claude/skills/typescript/SKILL.md`              |
+| Work with Node.js or CLI development         | nodejs                  | `.claude/skills/nodejs/SKILL.md`                  |
 
-### Reading Skills and References
+## Skills Reference
 
-**Skills with references/ directory** (complex skills with 40+ patterns) require additional reading when indicated by their internal structure.
+49 skills organized by category:
 
-### Skill Components to Read
+### Framework Skills
 
-1. **ALWAYS read**: `SKILL.md` (contains critical path for 80% of cases)
-
-2. **Read references/ when**:
-   - SKILL.md Decision Tree indicates "**MUST read** {reference}"
-   - SKILL.md Quick Reference Table marks it "Required Reading: ✅"
-   - Critical Pattern says "**[CRITICAL] See** {reference} for..."
-   - Task is complex/advanced (40+ patterns, edge cases, optimization)
-
-3. **Optional references/** (deep-dive only):
-   - Marked "Optional" in Quick Reference Table
-   - For learning/understanding, not required for execution
-   - Examples and advanced techniques
-
-### Reading Order
-
-```
-User request → Read SKILL.md → Check Decision Tree → Read required references → Execute
-```
-
-### Conditional Language Guide
-
-When reading skill files, follow this language precisely:
-
-- **"MUST read"** → **Obligatory** - Read immediately before proceeding
-- **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
-- **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
-
-### Example: Creating Complex Skill (50+ patterns)
-
-```
-1. User: "Create a TypeScript skill with 50+ patterns"
-2. Read: skills/skill-creation/SKILL.md (300 lines)
-3. Check Decision Tree: "40+ patterns? → MUST read references/references-overview.md"
-4. Read: skills/skill-creation/references/references-overview.md (REQUIRED)
-5. Read: skills/skill-creation/references/references-implementation.md (REQUIRED)
-6. Check: skills/skill-creation/references/examples.md (OPTIONAL - but helpful)
-7. Execute: Create skill with proper references/ architecture
-```
-
-### Example: Simple Task (10 patterns)
-
-```
-1. User: "Add a pattern to React skill"
-2. Read: skills/skill-creation/SKILL.md (300 lines)
-3. Check Decision Tree: "<15 patterns? → Use SKILL.md only (no references needed)"
-4. Execute: Add pattern with inline example
-```
-
-### Quick Reference: When to Read References
-
-| Situation                    | Read SKILL.md | Read references/ | How to Know                                |
-| ---------------------------- | ------------- | ---------------- | ------------------------------------------ |
-| Simple task (<15 patterns)   | ✅ Yes        | ❌ No            | Decision Tree says "no references needed"  |
-| Medium task (15-40 patterns) | ✅ Yes        | ⚠️ Maybe         | Decision Tree says "consider references/"  |
-| Complex task (40+ patterns)  | ✅ Yes        | ✅ Yes           | Decision Tree says "MUST read references/" |
-| Edge case/optimization       | ✅ Yes        | ✅ Yes           | SKILL.md directs to specific reference     |
-| Learning/exploration         | ✅ Yes        | ⚠️ Optional      | Quick Reference Table marks "Optional"     |
-
-### Validation Checkpoint
-
-Before executing any task, verify:
-
-- [ ] I read the ENTIRE SKILL.md file
-- [ ] I consulted the Decision Tree for my specific case
-- [ ] I read all REQUIRED references (if Decision Tree indicated MUST)
-- [ ] I understand when references are optional vs required
-- [ ] I know which conditional language means what (MUST/CHECK/OPTIONAL)
-
-**If you answered NO to any item**: Stop, read the missing content, then restart.
-
----
-
-## English Writing Policy
-
-All generated code, documentation, comments, and prompt content must be written in English and follow the [skills/english-writing/SKILL.md](skills/english-writing/SKILL.md) rules. This policy does not apply to conversational responses or user-facing explanations unless they are part of generated documentation, code comments, or prompt content.
-
-## Core Responsibilities
-
-- **Creation orchestration**: Guide users through skill-creation, agent-creation, and prompt-creation workflows with step-by-step instructions and mandatory context gathering
-- **Standards enforcement**: Validate that all skills, agents, and prompts comply with frontmatter requirements, naming conventions, and structural standards
-- **Architecture maintenance**: Ensure unique responsibilities per skill, proper delegation to conventions and a11y, and clear separation of concerns
-- **Documentation**: Maintain discoverable structure for all agent, skill, and prompt definitions, reference tables, and usage examples
-- **Quality assurance**: Leverage critical-partner for rigorous review and process-documentation for comprehensive change tracking
-- **Synchronization**: Use skill-sync to maintain consistency across all model directories after modifications
-
-## How to Create a New Skill
-
-- Use the `skill-creation` skill for step-by-step guidance.
-- Create a new directory under `skills/` named after your skill (lowercase, hyphens).
-- Add a `SKILL.md` file with the required frontmatter and markdown body.
-- Follow the conventions and examples in `skills/skill-creation/SKILL.md`.
-- After creation, use `skill-sync` to synchronize across model directories.
-
-## How to Create a New Agent
-
-- Use the `agent-creation` skill for step-by-step guidance.
-- Create a new directory under `agents/` named after your project or agent (lowercase, hyphens).
-- Add an `AGENTS.md` file with the required frontmatter and markdown body.
-- Reference the skills your agent will use in the `skills` field.
-- Follow the conventions and examples in `skills/agent-creation/SKILL.md`.
-
-## How to Create a New Context Prompt
-
-- Use the `prompt-creation` skill for step-by-step guidance.
-- Context prompts are stored in the `prompts/` directory within the project.
-- Choose between JSON or markdown frontmatter format.
-- Two types: Technology Stack Prompts (`2 <project>.md`) or Behavioral Prompts (`1 <behavior>.md`).
-- Follow the conventions and examples in `skills/prompt-creation/SKILL.md`.
-
-## Available Skills
-
-Use these skills for detailed patterns and guidance on-demand:
-
-### Framework Skills (Agent Management)
-
-| Skill                 | Description                                                              | Path                                              |
-| --------------------- | ------------------------------------------------------------------------ | ------------------------------------------------- |
-| skill-creation        | Create standards-compliant skills with templates, references, validation | [SKILL.md](skills/skill-creation/SKILL.md)        |
-| agent-creation        | Create agent definitions with context gathering                          | [SKILL.md](skills/agent-creation/SKILL.md)        |
-| prompt-creation       | Create context prompts for AI assistants                                 | [SKILL.md](skills/prompt-creation/SKILL.md)       |
-| reference-creation    | Create reference files for complex skills (40+ patterns)                 | [SKILL.md](skills/reference-creation/SKILL.md)    |
-| skill-sync            | Synchronize skills across model directories                              | [SKILL.md](skills/skill-sync/SKILL.md)            |
-| critical-partner      | Rigorous review and improvement of code/skills                           | [SKILL.md](skills/critical-partner/SKILL.md)      |
-| process-documentation | Document processes, features, and decisions                              | [SKILL.md](skills/process-documentation/SKILL.md) |
-
-### Generic Skills (Cross-Project)
-
-| Skill                 | Description                                       | Path                                              |
-| --------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| conventions           | General coding standards and best practices       | [SKILL.md](skills/conventions/SKILL.md)           |
-| a11y                  | Universal accessibility standards (WCAG, ARIA)    | [SKILL.md](skills/a11y/SKILL.md)                  |
-| architecture-patterns | SOLID, Clean/Hexagonal Architecture, DDD patterns | [SKILL.md](skills/architecture-patterns/SKILL.md) |
-| typescript            | TypeScript strict typing and patterns             | [SKILL.md](skills/typescript/SKILL.md)            |
-| javascript            | Modern JavaScript (ES2020+) patterns              | [SKILL.md](skills/javascript/SKILL.md)            |
-| react                 | React component patterns and hooks                | [SKILL.md](skills/react/SKILL.md)                 |
-| react-native          | React Native mobile development                   | [SKILL.md](skills/react-native/SKILL.md)          |
-| html                  | Semantic HTML5 and structure                      | [SKILL.md](skills/html/SKILL.md)                  |
-| css                   | Modern CSS (Grid, Flexbox, custom properties)     | [SKILL.md](skills/css/SKILL.md)                   |
-
-### UI Framework Skills
-
-| Skill        | Description                            | Path                                     |
-| ------------ | -------------------------------------- | ---------------------------------------- |
-| mui          | Material-UI component library patterns | [SKILL.md](skills/mui/SKILL.md)          |
-| mui-x-charts | MUI X Charts visualization patterns    | [SKILL.md](skills/mui-x-charts/SKILL.md) |
-| tailwindcss  | Tailwind CSS utility-first styling     | [SKILL.md](skills/tailwindcss/SKILL.md)  |
-| ag-grid      | AG Grid data table implementation      | [SKILL.md](skills/ag-grid/SKILL.md)      |
-
-### State Management & Forms
-
-| Skill         | Description                                              | Path                                      |
-| ------------- | -------------------------------------------------------- | ----------------------------------------- |
-| redux-toolkit | Redux Toolkit state management + RTK Query data fetching | [SKILL.md](skills/redux-toolkit/SKILL.md) |
-| formik        | Formik form handling patterns                            | [SKILL.md](skills/formik/SKILL.md)        |
-
-### Validation & Build Tools
-
-| Skill    | Description                    | Path                                 |
-| -------- | ------------------------------ | ------------------------------------ |
-| zod      | Zod schema validation patterns | [SKILL.md](skills/zod/SKILL.md)      |
-| yup      | Yup schema validation patterns | [SKILL.md](skills/yup/SKILL.md)      |
-| eslint   | ESLint configuration and rules | [SKILL.md](skills/eslint/SKILL.md)   |
-| prettier | Prettier code formatting       | [SKILL.md](skills/prettier/SKILL.md) |
-| vite     | Vite build tool configuration  | [SKILL.md](skills/vite/SKILL.md)     |
-| webpack  | Webpack bundler configuration  | [SKILL.md](skills/webpack/SKILL.md)  |
-
-### Framework & Mobile
-
-| Skill | Description                   | Path                              |
-| ----- | ----------------------------- | --------------------------------- |
-| astro | Astro static site generation  | [SKILL.md](skills/astro/SKILL.md) |
-| next  | Next.js fullstack framework   | [SKILL.md](skills/next/SKILL.md)  |
-| expo  | Expo React Native development | [SKILL.md](skills/expo/SKILL.md)  |
-
-### Backend Frameworks & Runtimes
-
-| Skill   | Description                    | Path                                |
-| ------- | ------------------------------ | ----------------------------------- |
-| nodejs  | Node.js backend runtime        | [SKILL.md](skills/nodejs/SKILL.md)  |
-| bun     | Bun fast JavaScript runtime    | [SKILL.md](skills/bun/SKILL.md)     |
-| express | Express.js server framework    | [SKILL.md](skills/express/SKILL.md) |
-| nest    | NestJS modular framework       | [SKILL.md](skills/nest/SKILL.md)    |
-| hono    | Hono edge/serverless framework | [SKILL.md](skills/hono/SKILL.md)    |
+React, Next.js, Vue, Angular, Astro, Express, Nest, Hono, React Native, Expo
 
 ### Testing Skills
 
-| Skill                        | Description                           | Path                                                     |
-| ---------------------------- | ------------------------------------- | -------------------------------------------------------- |
-| jest                         | Jest testing framework                | [SKILL.md](skills/jest/SKILL.md)                         |
-| react-testing-library        | React Testing Library                 | [SKILL.md](skills/react-testing-library/SKILL.md)        |
-| react-native-testing-library | React Native Testing Library          | [SKILL.md](skills/react-native-testing-library/SKILL.md) |
-| playwright                   | Playwright E2E testing                | [SKILL.md](skills/playwright/SKILL.md)                   |
-| stagehand                    | Stagehand test automation             | [SKILL.md](skills/stagehand/SKILL.md)                    |
-| unit-testing                 | Unit testing patterns (frontend/back) | [SKILL.md](skills/unit-testing/SKILL.md)                 |
-| e2e-testing                  | E2E testing patterns                  | [SKILL.md](skills/e2e-testing/SKILL.md)                  |
+Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
 
-### Development Workflow Skills
+### Standards Skills
 
-| Skill           | Description                    | Path                                        |
-| --------------- | ------------------------------ | ------------------------------------------- |
-| frontend-dev    | Frontend development workflow  | [SKILL.md](skills/frontend-dev/SKILL.md)    |
-| backend-dev     | Backend development workflow   | [SKILL.md](skills/backend-dev/SKILL.md)     |
-| frontend-design | Frontend UI/UX design patterns | [SKILL.md](skills/frontend-design/SKILL.md) |
+TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y, Conventions
 
-### Communication & Writing Skills
+### Backend Skills
 
-| Skill                   | Description                         | Path                                                |
-| ----------------------- | ----------------------------------- | --------------------------------------------------- |
-| technical-communication | Technical writing and documentation | [SKILL.md](skills/technical-communication/SKILL.md) |
-| english-writing         | English writing rules for all code  | [SKILL.md](skills/english-writing/SKILL.md)         |
-| humanizer               | Human-centric communication         | [SKILL.md](skills/humanizer/SKILL.md)               |
+Node.js, Express, Nest, Hono, Backend Development
 
----
+### Build Tools
 
-## Mandatory Skills (READ BEFORE EXECUTION)
+Vite, Webpack, Bun
 
-**⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
+### Libraries
 
-| Trigger (When to Read)                          | Required Skill               | Path                                                     |
-| ----------------------------------------------- | ---------------------------- | -------------------------------------------------------- |
-| Add accessibility features (ARIA, keyboard nav) | a11y                         | [SKILL.md](skills/a11y/SKILL.md)                         |
-| Add validation schemas                          | zod or yup                   | [SKILL.md](skills/zod/SKILL.md)                          |
-| After creating/modifying a skill                | skill-sync                   | [SKILL.md](skills/skill-sync/SKILL.md)                   |
-| Apply SOLID, Clean Architecture, DDD patterns   | architecture-patterns        | [SKILL.md](skills/architecture-patterns/SKILL.md)        |
-| Build or bundle configuration                   | vite or webpack              | [SKILL.md](skills/vite/SKILL.md)                         |
-| Code quality review or improvement suggestions  | critical-partner             | [SKILL.md](skills/critical-partner/SKILL.md)             |
-| Committing changes or documenting processes     | process-documentation        | [SKILL.md](skills/process-documentation/SKILL.md)        |
-| Configure AG Grid tables                        | ag-grid                      | [SKILL.md](skills/ag-grid/SKILL.md)                      |
-| Configure ESLint rules                          | eslint                       | [SKILL.md](skills/eslint/SKILL.md)                       |
-| Configure Prettier formatting                   | prettier                     | [SKILL.md](skills/prettier/SKILL.md)                     |
-| Create MUI X Charts visualizations              | mui-x-charts                 | [SKILL.md](skills/mui-x-charts/SKILL.md)                 |
-| Create React components with hooks              | react                        | [SKILL.md](skills/react/SKILL.md)                        |
-| Create TypeScript types/interfaces              | typescript                   | [SKILL.md](skills/typescript/SKILL.md)                   |
-| Create a new agent definition                   | agent-creation               | [SKILL.md](skills/agent-creation/SKILL.md)               |
-| Create a new context prompt                     | prompt-creation              | [SKILL.md](skills/prompt-creation/SKILL.md)              |
-| Create a new skill                              | skill-creation               | [SKILL.md](skills/skill-creation/SKILL.md)               |
-| Create reference files for complex skills (40+) | reference-creation           | [SKILL.md](skills/reference-creation/SKILL.md)           |
-| Create forms with validation                    | formik                       | [SKILL.md](skills/formik/SKILL.md)                       |
-| Design Astro pages or components                | astro                        | [SKILL.md](skills/astro/SKILL.md)                        |
-| Document features, bugs, refactors              | process-documentation        | [SKILL.md](skills/process-documentation/SKILL.md)        |
-| Implement Redux state management                | redux-toolkit                | [SKILL.md](skills/redux-toolkit/SKILL.md)                |
-| Implement RTK Query data fetching               | redux-toolkit                | [SKILL.md](skills/redux-toolkit/SKILL.md)                |
-| Implement accessibility requirements            | a11y                         | [SKILL.md](skills/a11y/SKILL.md)                         |
-| Implement data fetching with caching            | redux-toolkit                | [SKILL.md](skills/redux-toolkit/SKILL.md)                |
-| Mobile development with Expo                    | expo                         | [SKILL.md](skills/expo/SKILL.md)                         |
-| Mobile development with React Native            | react-native                 | [SKILL.md](skills/react-native/SKILL.md)                 |
-| Semantic HTML structure                         | html                         | [SKILL.md](skills/html/SKILL.md)                         |
-| Set up or modify build tools                    | vite or webpack              | [SKILL.md](skills/vite/SKILL.md)                         |
-| Style with CSS (Grid, Flexbox, custom props)    | css                          | [SKILL.md](skills/css/SKILL.md)                          |
-| Style with Material-UI components               | mui                          | [SKILL.md](skills/mui/SKILL.md)                          |
-| Style with Tailwind utility classes             | tailwindcss                  | [SKILL.md](skills/tailwindcss/SKILL.md)                  |
-| Sync skills to model directories                | skill-sync                   | [SKILL.md](skills/skill-sync/SKILL.md)                   |
-| Validate or improve code quality                | critical-partner             | [SKILL.md](skills/critical-partner/SKILL.md)             |
-| Write JavaScript (modern ES2020+)               | javascript                   | [SKILL.md](skills/javascript/SKILL.md)                   |
-| Write TypeScript with strict typing             | typescript                   | [SKILL.md](skills/typescript/SKILL.md)                   |
-| Write commit messages, PRs, or documentation    | technical-communication      | [SKILL.md](skills/technical-communication/SKILL.md)      |
-| Writing or reviewing general code patterns      | conventions                  | [SKILL.md](skills/conventions/SKILL.md)                  |
-| Building Next.js applications (SSR/SSG/API)     | next                         | [SKILL.md](skills/next/SKILL.md)                         |
-| Building Node.js backend services               | nodejs                       | [SKILL.md](skills/nodejs/SKILL.md)                       |
-| Using Bun runtime or tooling                    | bun                          | [SKILL.md](skills/bun/SKILL.md)                          |
-| Building Express.js APIs                        | express                      | [SKILL.md](skills/express/SKILL.md)                      |
-| Building NestJS applications                    | nest                         | [SKILL.md](skills/nest/SKILL.md)                         |
-| Building Hono edge/serverless apps              | hono                         | [SKILL.md](skills/hono/SKILL.md)                         |
-| Writing tests with Jest                         | jest                         | [SKILL.md](skills/jest/SKILL.md)                         |
-| Testing React components with RTL               | react-testing-library        | [SKILL.md](skills/react-testing-library/SKILL.md)        |
-| Testing React Native with RNTL                  | react-native-testing-library | [SKILL.md](skills/react-native-testing-library/SKILL.md) |
-| Writing E2E tests with Playwright               | playwright                   | [SKILL.md](skills/playwright/SKILL.md)                   |
-| Automating flows with Stagehand                 | stagehand                    | [SKILL.md](skills/stagehand/SKILL.md)                    |
-| Writing unit tests (frontend/backend)           | unit-testing                 | [SKILL.md](skills/unit-testing/SKILL.md)                 |
-| Writing E2E tests                               | e2e-testing                  | [SKILL.md](skills/e2e-testing/SKILL.md)                  |
-| Frontend development workflow                   | frontend-dev                 | [SKILL.md](skills/frontend-dev/SKILL.md)                 |
-| Backend development workflow                    | backend-dev                  | [SKILL.md](skills/backend-dev/SKILL.md)                  |
-| Designing UI/UX or design systems               | frontend-design              | [SKILL.md](skills/frontend-design/SKILL.md)              |
-| Writing English content or code                 | english-writing              | [SKILL.md](skills/english-writing/SKILL.md)              |
-| Improving empathy/clarity in communication      | humanizer                    | [SKILL.md](skills/humanizer/SKILL.md)                    |
+MUI, MUI X Charts, AG Grid, Formik, Yup, Zod, Redux Toolkit
 
----
+### Meta Skills
+
+Critical Partner, Architecture Patterns, Process Documentation, Technical Communication, English Writing, Humanizer
+
+### Specialized
+
+Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync, Stagehand
+
+**Complete list**: See `.claude/skills/` directory or future documentation site.
+
+## Project Structure
+
+```
+ai-agents-skills/
+├── skills/               # 49 skill definitions (SKILL.md format)
+├── presets/             # Agent presets (e.g., backend-dev, frontend-dev)
+├── src/                 # TypeScript CLI source
+│   ├── commands/        # CLI commands (local, validate, sync)
+│   ├── core/            # Dependency resolver, installer, registry
+│   └── utils/           # Logger, YAML parser, file system
+├── templates/           # Model instruction templates (5 models)
+├── scripts/             # Setup, install, sync scripts
+├── registry.yml         # Skill installation registry
+└── AGENTS.md           # This file
+```
 
 ## Workflows
 
-### Create New Skill
+### Skill Creation
 
-1. **Read `skills/skill-creation/SKILL.md` FIRST** - Do not skip this step
-2. Follow skill-creation step-by-step guidance
-3. Gather context: purpose, patterns, examples, dependencies
-4. Create directory under `skills/<skill-name>/`
-5. Create `SKILL.md` with frontmatter and required sections (When to Use, Critical Patterns, Decision Tree, Edge Cases)
-6. Validate frontmatter compliance (name, description, dependencies format)
-7. Ensure unique responsibility (no overlap with existing skills)
-8. Request critical-partner review
-9. Run `skill-sync` or `make sync` to propagate to model directories
+1. Read `skills/skill-creation/SKILL.md` for structure requirements
+2. Create skill directory under `skills/`
+3. Write `SKILL.md` with frontmatter and sections
+4. Add references if needed
+5. Validate with `npm run validate`
+6. Test locally with `ai-agents-skills local`
 
-### Create New Agent
+### Agent Creation
 
-1. **Read `skills/agent-creation/SKILL.md` FIRST** - Do not skip this step
-2. Follow agent-creation step-by-step guidance
-3. Gather 9 key context elements (purpose, input, output, skills, workflows, audience, technologies, project context, tone)
-4. Create directory under `agents/<project-name>/`
-5. Create `AGENTS.md` with frontmatter and required sections
-6. Ensure mandatory skill reading section included in agent
-7. Ensure `critical-partner` and `process-documentation` in skills list
-8. Validate all referenced skills exist in `skills/` directory
-9. Request critical-partner review
-10. Document creation using process-documentation skill
+1. Read `skills/agent-creation/SKILL.md` for standards
+2. Gather context (9 required questions)
+3. Create agent directory under `presets/`
+4. Write `AGENTS.md` with frontmatter
+5. Include Mandatory Skill Reading section
+6. Add to registry
 
-### Create New Context Prompt
+### Local Installation
 
-1. **Read `skills/prompt-creation/SKILL.md` FIRST** - Do not skip this step
-2. Follow prompt-creation step-by-step guidance
-3. Determine prompt type (Technology Stack or Behavioral)
-4. Create file in `prompts/` directory (naming: `1 <behavior>.md` or `2 <project>.md`)
-5. Choose format (JSON or markdown frontmatter)
-6. Validate structure and metadata
-7. Request critical-partner review
+1. Run `ai-agents-skills local --models <model-names>`
+2. CLI resolves dependencies and installs skills as symlinks
+3. Generates model-specific instructions in `.claude/`, `.copilot/`, etc.
+4. Updates `registry.yml` with installation metadata
+5. Intelligently skips already-installed symlinks (always up-to-date)
 
-### Validate Existing Skill/Agent
+### Skill Sync
 
-1. Check frontmatter compliance (required fields, YAML syntax)
-2. Verify naming conventions (lowercase, hyphens)
-3. Ensure unique responsibility (no overlap)
-4. Validate skill references (all exist in `skills/`)
-5. Check required sections present (When to Use, Critical Patterns, etc.)
-6. Confirm token efficiency (no redundancy)
-7. Run critical-partner for quality review
+1. Modify skills or add new ones
+2. Run `make sync` or `ai-agents-skills sync`
+3. Updates all installed model directories
+4. Regenerates instruction files with current skill count
 
-### Synchronize Skills
+## Policies
 
-1. Invoke `skill-sync` skill
-2. Run `make sync` command
-3. Verify synchronization to `.github/`, `.claude/`, `.codex/`, `.gemini/`
-4. Confirm all modified skills propagated successfully
+### Token Efficiency
 
----
+- All instruction templates optimized for minimal token usage (73% reduction achieved)
+- Dynamic skill counts (`{{SKILL_COUNT}}` placeholder)
+- Skills grouped by category, not listed individually
+- No timestamps or verbose metadata
 
-## Policies and recommendations
+### Dependency Management
 
-- **Mandatory skill reading**: MUST read skill file BEFORE executing tasks that match triggers in Mandatory Skills table; do NOT proceed without reading skill content
-- **Extended reading protocol**: When skill has references/ directory, follow Extended Mandatory Read Protocol above to determine if references must be read (check Decision Tree, Quick Reference Table, and conditional language: MUST/CHECK/OPTIONAL)
-- **Skill notification**: For multi-skill tasks (2+ skills), notify user which skills are being used, then proceed immediately without waiting for confirmation
-- **Modular architecture**: Each skill must have unique responsibility; no overlapping concerns between skills
-- **Delegation pattern**: General coding standards delegate to conventions skill; accessibility concerns delegate to a11y skill
-- **Frontmatter compliance**: Skills use `dependencies` for external libraries; agents use `skills` for internal skill references
-- **Naming conventions**: All directories and names use lowercase with hyphens (no spaces, no uppercase, no special characters)
-- **Mandatory context gathering**: Agent creation must gather 9 key context elements before proceeding (purpose, input, output, skills, workflows, audience, technologies, project context, tone)
-- **Agent skill reading protocol**: All agents must include mandatory skill reading section with triggers, confirmation policy, and reference to Extended Mandatory Read Protocol
-- **Comprehensive documentation**: Use process-documentation skill for all significant changes, features, and refactors
-- **Quality validation**: All new skills and agents must pass critical-partner review before finalization
-- **Token efficiency**: Eliminate redundant fields, omit empty arrays/objects, be precise and concise in all documentation
-- **Synchronization**: After modifications, use skill-sync for manual updates or `make sync` for bulk synchronization across model directories
+- Skills declare dependencies in frontmatter
+- Installer auto-resolves and installs dependencies
+- Cycle detection prevents infinite loops
+- Topological sort ensures correct installation order
+
+### Skip Logic (Local Mode)
+
+- If skill already installed as symlink → skip (always up-to-date)
+- Track statistics: installed vs. skipped
+- Display clear UI: "Installed (X)" for existing, "Installing (Y)" for new
+
+### Model Support
+
+- GitHub Copilot (`.github/copilot-instructions.md`)
+- Claude (`.claude/instructions.md`)
+- Gemini (`.gemini/instructions.md`)
+- Codex (`.codex/instructions.md`)
+- Cursor (`.cursor/instructions.md`)
+
+### Multi-Phase Roadmap
+
+- **Phase 1 (COMPLETE)**: Local mode - manage skills in this repo
+- **Phase 2 (PLANNED)**: npx distribution - `npx ai-agents-skills add <repo>`
+  - Remote repository fetching
+  - Project auto-detection
+  - Interactive UI with @clack/prompts
+  - Install agents/skills from any GitHub repo
+- **Phase 3 (FUTURE)**: Astro documentation site
+  - Searchable skill catalog
+  - Agent browsing
+  - Installation guides
+  - Live examples
+
+**Note**: Astro documentation will provide comprehensive skill discovery and installation guides. See roadmap in README.md for implementation timeline.
+
+## Development
+
+### Commands
+
+```bash
+# Local management (current repo)
+npm run local -- --models copilot,claude
+
+# Validate all skills
+npm run validate
+
+# Sync skills to installed models
+npm run sync
+
+# Build CLI
+npm run build
+
+# Clean generated directories
+make clean
+```
+
+### Adding New Skills
+
+1. Follow `skills/skill-creation/SKILL.md` structure
+2. Include proper frontmatter (name, description, version, dependencies)
+3. Add Decision Tree and Self-Check Protocol
+4. Test with validation
+5. Update this AGENTS.md if skill is meta/foundational
+
+### Registry Format (v2.0)
+
+```yaml
+schema_version: "2.0"
+installations:
+  main:
+    installed_at: "2026-02-05T20:00:00.000Z"
+    models:
+      - copilot
+      - claude
+    skills:
+      - name: react
+        version: "1.0"
+        path: skills/react
+```
+
+## References
+
+- [AGENTS.md Spec](https://agents.md/) - Agent definition standards
+- [Agent Skills](https://agentskills.io/) - Community skill repository
+- Future documentation: Astro site (Phase 3)

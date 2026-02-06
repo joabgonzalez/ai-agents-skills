@@ -1,159 +1,410 @@
-# AI Agents Framework
+# ai-agents-skills
 
-A modular framework for building, managing, and deploying intelligent agents, reusable skills, and context prompts for AI assistants. Focused on maintainability, scalability, and standards compliance.
+A modular AI agent and skill distribution framework for managing reusable skills across AI coding assistants.
 
-## Objective
+---
 
-Enable the construction and orchestration of AI agents through:
+## Overview
 
-- **Skills**: Modular guides for technologies, frameworks, and best practices (e.g., TypeScript, React, Next, Node.js, Testing, Humanizer, etc.)
-- **Agents**: Combinations of skills with project-defined responsibilities and workflows
-- **Prompts**: Configuration files (markdown/JSON) that define technology stack or behavioral context
+**ai-agents-skills** is a CLI framework that enables developers to create, manage, and distribute modular skills across multiple AI coding assistants (Claude, GitHub Copilot, Cursor, Gemini, OpenAI Codex). It provides:
+
+- **49+ curated skills** for frameworks, testing, standards, and best practices
+- **Dependency resolution** with automatic cycle detection
+- **Multi-model support** with a single installation
+- **Agent presets** for common development workflows
+- **Stateless architecture** for reliable skill management
+
+---
+
+## Quick Start
+
+### Local Installation (Manage This Repository)
+
+```bash
+# Install dependencies
+npm install
+
+# Build CLI
+npm run build
+
+# Install skills locally
+npm run local -- --models claude,copilot
+
+# Or use make
+make install
+```
+
+### Remote Installation (Install from GitHub)
+
+```bash
+# Install agent preset
+npx ai-agents-skills add <user>/<repo> --preset backend-dev
+
+# Install specific skills
+npx ai-agents-skills add <user>/<repo> --skill react --skill typescript
+
+# Interactive mode
+npx ai-agents-skills add <user>/<repo>
+```
+
+---
+
+## Features
+
+### ✅ Multi-Model Support
+
+Install skills to **5 AI assistants** simultaneously:
+- **Claude** (`.claude/`)
+- **GitHub Copilot** (`.github/copilot/`)
+- **Cursor** (`.cursor/`)
+- **Gemini** (`.gemini/`)
+- **OpenAI Codex** (`.codex/`)
+
+### ✅ Dependency Resolution
+
+Automatically resolves and installs skill dependencies:
+```bash
+npx ai-agents-skills add repo --skill react
+# Installs: react, javascript, typescript, conventions (4 total)
+```
+
+- Topological sorting ensures correct installation order
+- Cycle detection prevents infinite loops
+- Transitive dependency handling
+
+### ✅ Agent Presets
+
+Pre-configured skill bundles for common workflows:
+```bash
+npx ai-agents-skills add repo --preset backend-dev
+# Installs: nodejs, typescript, express, jest, + dependencies
+```
+
+### ✅ Stateless Architecture
+
+No registry files to maintain:
+- Skills stored in `.agents/skills/`
+- Detects installed models automatically
+- Symlink-based (always up-to-date)
+- Clean `rm -rf .agents/` to reset
+
+### ✅ Token-Optimized Templates
+
+Model instruction files are optimized for minimal token usage:
+- 73% smaller than verbose alternatives
+- Dynamic skill counts
+- Grouped categorization
+- No redundant metadata
+
+---
+
+## Commands
+
+### `local` - Manage Local Installation
+
+For managing skills within this repository:
+
+```bash
+# Interactive model selection
+npm run local
+
+# Specific models
+npm run local -- --models claude,copilot
+
+# Specific skills only
+npm run local -- --skills react,typescript --no-meta
+
+# Dry run
+npm run local -- --dry-run
+```
+
+### `add` - Install from Remote Repository
+
+Install skills from any GitHub repository:
+
+```bash
+# Install agent preset
+npx ai-agents-skills add user/repo --preset backend-dev
+
+# Install specific skill
+npx ai-agents-skills add user/repo --skill react --models claude
+
+# Interactive mode (select preset or skills)
+npx ai-agents-skills add user/repo
+```
+
+**Options:**
+- `-p, --preset <preset>` - Install agent preset by ID
+- `-s, --skill <skill>` - Install specific skill
+- `-m, --models <models>` - Target models (comma-separated)
+- `-d, --dry-run` - Preview changes without installing
+
+### `list` - Show Installed Skills
+
+```bash
+npx ai-agents-skills list
+
+# Output:
+# 📦 Installed Skills (15 total)
+#   ✓ react
+#   ✓ typescript
+#   ...
+# 🤖 Models (2 total)
+#   ✓ Claude
+#   ✓ GitHub Copilot
+```
+
+### `sync` - Add Models to Existing Installation
+
+Add new models without reinstalling skills:
+
+```bash
+# Already have skills in Claude, add to Copilot
+npx ai-agents-skills sync --add-models copilot
+
+# Interactive mode
+npx ai-agents-skills sync
+```
+
+### `validate` - Validate Skills
+
+```bash
+# Validate all skills
+npm run validate
+
+# Validate specific skill
+npm run validate -- --skill react
+
+# Validate installed skills
+npm run validate -- --installed
+```
+
+### `uninstall` - Remove Skills
+
+```bash
+# Remove all skills
+make uninstall
+
+# Remove specific skills
+npx ai-agents-skills uninstall --skills react,typescript
+
+# Remove from all models
+npx ai-agents-skills uninstall --all --confirm
+```
+
+---
 
 ## Project Structure
 
 ```
-ai-agents-framework/
-├── skills/                    # Reusable skill definitions
-│   ├── {skill-name}/
-│   │   ├── SKILL.md           # Main skill documentation (80% of cases)
-│   │   ├── assets/            # Templates, schemas, configs
-│   │   │   ├── SKILL-TEMPLATE.md
-│   │   │   └── frontmatter-schema.json
-│   │   └── references/        # Deep-dive guides for complex skills (40+ patterns)
-│   │       ├── README.md      # Navigation and reading strategy
-│   │       └── {topic}.md     # Detailed pattern guides
-│   └── ...
-├── agents/                    # Agent definitions
-│   ├── {project-name}/
-│   │   └── AGENTS.md          # Agent configuration
-│   └── ...
-├── prompts/                   # Context prompts
-│   ├── {behavior}.md
-│   └── {project}.md
-└── scripts/                   # Installation utilities
-    ├── setup.sh               # Interactive wizard
-    ├── install.sh             # Core installation
-    ├── sync.sh                # Multi-model sync
-    └── uninstall.sh           # Removal wizard
+ai-agents-skills/
+├── skills/              # 49 skill definitions (SKILL.md format)
+├── presets/             # Agent presets (pre-configured skill bundles)
+├── src/                 # TypeScript CLI source
+│   ├── commands/        # CLI commands (local, add, sync, list)
+│   ├── core/            # Core logic (resolver, installer, detector)
+│   └── utils/           # Utilities (logger, fs, yaml)
+├── templates/           # Model instruction templates
+├── package.json         # NPM package configuration
+└── tsconfig.json        # TypeScript configuration
 ```
 
-### Core Skills (always included)
+---
 
-- **skill-creation**: Create skills with validation and templates
-- **agent-creation**: Create agents with mandatory context
-- **prompt-creation**: Create context prompts
-- **process-documentation**: Document changes and processes
-- **critical-partner**: Rigorous review of code and skills
-- **conventions**: General coding standards
-- **a11y**: Universal accessibility
-- **skill-sync**: Multi-model synchronization
+## Skill Categories
 
-### Extended Mandatory Read Protocol
+**49 skills** organized by domain:
 
-Complex skills (40+ patterns) use a **two-tier architecture**:
+### Frameworks
+React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
 
-1. **SKILL.md**: Critical patterns and decision tree (handles 80% of cases)
-2. **references/**: Deep-dive guides with 40+ patterns per topic (for complex scenarios)
+### Testing
+Jest, Playwright, React Testing Library, E2E Testing, Unit Testing
 
-**When to read references:**
+### Standards
+TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y
 
-- SKILL.md Decision Tree indicates "**MUST read** {reference}"
-- Critical Pattern says "**[CRITICAL] See** {reference} for..."
-- Task involves advanced features (e.g., Redux normalization, MUI theming, React Native navigation)
+### Backend
+Node.js, Express, Nest, Hono, Backend Development
 
-**Skills with references/**:
+### Build Tools
+Vite, Webpack, Bun
 
-- **redux-toolkit**: 6 references (slices, async, selectors, normalization, TypeScript, RTK Query)
-- **mui**: 5 references (components, theming, customization, data-display, forms)
-- **react-native**: 5 references (navigation, gestures, platform-specific, performance, native-modules)
-- **astro**: 4 references (view-transitions, middleware, env-variables, prefetch)
-- **skill-creation**: 7 references (structure, content patterns, frontmatter, validation, token efficiency)
+### Libraries
+MUI, AG Grid, Formik, Yup, Zod, Redux Toolkit
 
-See [AGENTS.md Extended Mandatory Read Protocol](AGENTS.md#extended-mandatory-read-protocol) for complete guidance.
+### Meta Skills
+Critical Partner, Architecture Patterns, Technical Communication, Process Documentation
 
-## Featured Skills
+### Specialized
+Skill Creation, Agent Creation, Skill Sync, Stagehand
 
-| Skill                        | Brief Description                                        |
-| ---------------------------- | -------------------------------------------------------- |
-| conventions                  | General coding standards                                 |
-| a11y                         | Universal accessibility                                  |
-| architecture-patterns        | SOLID, Clean, DDD, Hexagonal for backend/frontend        |
-| frontend-design              | UI/UX patterns, layout, color, typography, accessibility |
-| frontend-dev                 | Frontend workflow, components, testing                   |
-| backend-dev                  | Backend workflow, API, data modeling, deployment         |
-| humanizer                    | Empathy, clarity, and human-centric communication        |
-| unit-testing                 | Unit testing for frontend/backend                        |
-| e2e-testing                  | End-to-end testing, automation, CI                       |
-| next                         | Next.js fullstack, SSR/SSG, routing, middleware          |
-| nodejs                       | Node.js backend, async, processes, CLI                   |
-| bun                          | Bun runtime, bundling, testing, edge                     |
-| express                      | Express.js, routing, middleware, errors                  |
-| nest                         | NestJS modular, DI, controllers, providers               |
-| hono                         | Hono edge/serverless, routing, middleware                |
-| jest                         | JS/TS testing, unit/integration                          |
-| react-testing-library        | React user-centric testing                               |
-| react-native-testing-library | React Native user-centric testing                        |
-| playwright                   | E2E browser automation, selectors, CI                    |
-| stagehand                    | Flow automation, data seeding, orchestration             |
-| react                        | React UI, hooks, advanced patterns                       |
-| mui                          | Material UI for React                                    |
-| astro                        | Astro SSG/SSR, modern integration                        |
-| javascript                   | Modern JavaScript                                        |
-| typescript                   | Strict TypeScript and integration                        |
-| css                          | Modern, accessible CSS                                   |
-| ag-grid                      | AG Grid integration and usage                            |
-| agent-creation               | Create agents with context                               |
-| critical-partner             | Rigorous review and improvement of skills/agents         |
-| eslint                       | Linting configuration and best practices                 |
-| expo                         | Expo for React Native                                    |
-| formik                       | Forms and validation with Formik                         |
-| html                         | Semantic HTML and best practices                         |
-| mui-x-charts                 | Visualization with MUI X Charts                          |
-| prettier                     | Code formatting with Prettier                            |
-| process-documentation        | Process and change documentation                         |
-| prompt-creation              | Create context prompts for AI                            |
-| react-native                 | React Native, navigation, performance                    |
-| redux-toolkit                | Redux Toolkit and RTK Query                              |
-| skill-creation               | Create skills with standards                             |
-| skill-sync                   | Multi-model synchronization                              |
-| tailwindcss                  | TailwindCSS usage and conventions                        |
-| technical-communication      | Technical communication best practices                   |
-| translation                  | Translation and localization                             |
-| vite                         | Vite build tool                                          |
-| webpack                      | Webpack build tool                                       |
-| yup                          | Validation with Yup                                      |
-| zod                          | Validation with Zod                                      |
+---
 
-## How it works
+## Creating Skills
 
-- The system auto-invokes the appropriate skill based on the detected task (e.g., "Create React component" → react skill).
-- All skills, agents, and prompts use templates validated by JSON/YAML schema.
-- Complex skills may have assets/ and references/ for advanced patterns.
-- Changes to skills are synced to all models with `make sync`.
+### Skill Structure
 
-## Usage Example
+Each skill is a directory with a `SKILL.md` file:
 
-- "Create a skill for Playwright" → skill-creation is auto-invoked and structure is generated.
-- "Add validation with Zod" → zod skill is auto-invoked.
-- "Review this code" → critical-partner is auto-invoked.
+```
+skills/
+└── react/
+    ├── SKILL.md           # Skill definition (required)
+    └── references/        # Optional detailed guides
+        ├── hooks.md
+        └── patterns.md
+```
 
-## Installation and synchronization
+### SKILL.md Format
 
-- Run `make` for the interactive setup.
-- Use `make sync` to update skills in all models (Copilot, Claude, Codex, Gemini).
-- Installation and uninstall scripts are in `scripts/`.
+```markdown
+---
+name: react
+description: "React best practices and patterns"
+version: "1.0"
+dependencies:
+  - javascript
+  - typescript
+---
 
-## References and contributing
+# React Skill
 
-- [AGENTS.md](AGENTS.md): Central documentation for agents and skills.
-- [skills/conventions/SKILL.md](skills/conventions/SKILL.md): Coding standards.
-- [skills/skill-creation/SKILL.md](skills/skill-creation/SKILL.md): How to create new skills.
-- [skills/agent-creation/SKILL.md](skills/agent-creation/SKILL.md): How to create new agents.
+## When to Use
+- Building React components
+- Managing state and effects
 
-**Notes:**
+## Critical Patterns
+- Use functional components
+- Prefer hooks over classes
 
-- Each skill has a unique responsibility and delegates to conventions/a11y when appropriate.
-- Scripts ensure dependencies and multi-model configuration.
-- Meta-skills are always included for self-management and consistency.
-- Prompts use descriptive names and efficient YAML.
+## Decision Tree
+**New component?** → Use function component + hooks
+**State management?** → useState for local, Context for global
+```
+
+See [skills/skill-creation/SKILL.md](skills/skill-creation/SKILL.md) for complete guide.
+
+---
+
+## Creating Agent Presets
+
+Agent presets are pre-configured skill bundles in `presets/`:
+
+```
+presets/
+└── backend-dev/
+    └── AGENTS.md
+```
+
+### AGENTS.md Format
+
+```markdown
+---
+name: backend-dev
+description: "Backend development with Node.js"
+skills:
+  - nodejs
+  - typescript
+  - express
+  - jest
+---
+
+# Backend Development Agent
+
+Specialized for Node.js backend development...
+```
+
+See [skills/agent-creation/SKILL.md](skills/agent-creation/SKILL.md) for complete guide.
+
+---
+
+## Architecture
+
+### Installation Flow
+
+```
+1. User runs: npx ai-agents-skills add repo --skill react
+2. Repository Manager clones repo to ~/.cache/ai-agents-skills/repos/
+3. Dependency Resolver builds graph (react → javascript, typescript, conventions)
+4. Skills copied to .agents/skills/
+5. Symlinks created in model directories (.claude/skills/, .github/copilot/skills/)
+```
+
+### Directory Structure (Installed Project)
+
+```
+project/
+├── .agents/
+│   └── skills/              # Installed skills (real files)
+│       ├── react/
+│       ├── typescript/
+│       └── ...
+├── .claude/
+│   └── skills/              # Symlinks to .agents/skills/
+│       ├── react -> ../../.agents/skills/react
+│       └── typescript -> ../../.agents/skills/typescript
+└── .github/copilot/
+    └── skills/              # Symlinks to .agents/skills/
+        └── react -> ../../../.agents/skills/react
+```
+
+### Benefits
+
+- **Single source**: Skills stored once in `.agents/skills/`
+- **Multi-model**: All models share the same skills via symlinks
+- **Stateless**: No registry to maintain
+- **Clean**: `rm -rf .agents/` removes everything
+
+---
+
+## Development
+
+### Build
+
+```bash
+npm run build
+```
+
+### Test
+
+```bash
+npm test
+npm run test:watch
+npm run test:coverage
+```
+
+### Validate Skills
+
+```bash
+npm run validate
+```
+
+### Clean
+
+```bash
+make clean  # Remove all generated directories
+```
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create skill following [skill-creation](skills/skill-creation/SKILL.md) guide
+3. Validate: `npm run validate`
+4. Test locally: `npm run local`
+5. Submit pull request
+
+---
+
+## License
+
+Apache 2.0
+
+---
+
+## Links
+
+- [AGENTS.md Spec](https://agents.md/)
+- [Agent Skills Community](https://agentskills.io/)

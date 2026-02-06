@@ -1,0 +1,52 @@
+{
+  "name": "ai-agents-skills",
+  "version": "1.0.0",
+  "description": "AI Agent and Skill Distribution System",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-agents-skills": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "skills",
+    "distribution",
+    "cli"
+  ],
+  "author": "Joab Gonzalez",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@clack/prompts": "^1.0.0",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "inquirer": "^13.2.2",
+    "js-yaml": "^4.1.1",
+    "picocolors": "^1.1.1",
+    "simple-git": "^3.30.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.2.1",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

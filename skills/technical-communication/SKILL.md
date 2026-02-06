@@ -1,12 +1,16 @@
 ---
 name: technical-communication
-description: "Clear and effective technical communication for documentation, code comments, and team collaboration. Writing standards, documentation structure, commit messages. Trigger: When writing technical documentation, creating code comments, or communicating technical concepts."
-skills:
-  - conventions
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Clear technical writing for documentation and commits. Trigger: When writing documentation, code comments, or communicating technical concepts."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - english-writing
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Technical Communication Skill

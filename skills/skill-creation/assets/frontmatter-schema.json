@@ -16,44 +16,53 @@
       "pattern": ".*Trigger:.*",
       "description": "Precise description including 'Trigger:' clause for when AI should invoke"
     },
-    "input": {
+    "compatibility": {
       "type": "string",
-      "pattern": ".+\\s*\\|\\s*.+",
-      "description": "Optional: Expected input format as 'description | data_type'"
+      "description": "Optional: Compatibility info (e.g., universal, nodejs, browser)"
     },
-    "output": {
+    "license": {
       "type": "string",
-      "pattern": ".+\\s*\\|\\s*.+",
-      "description": "Optional: Expected output format as 'description | data_type'"
+      "description": "Optional: License info (e.g., MIT, Apache-2.0)"
     },
-    "skills": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
-      },
-      "uniqueItems": true,
-      "description": "Optional: List of internal skill dependencies"
-    },
-    "dependencies": {
+    "metadata": {
       "type": "object",
-      "patternProperties": {
-        "^[a-z0-9@/-]+$": {
+      "properties": {
+        "version": {
           "type": "string",
-          "pattern": "^(\\^|~|>=|>|<|<=|\\*|[0-9])",
-          "description": "Version range for external library"
+          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+          "description": "Semantic version (major.minor or major.minor.patch format, e.g., '1.0' or '1.0.0'). Start at 1.0 for new skills."
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "uniqueItems": true,
+          "description": "Optional: List of internal skill dependencies"
+        },
+        "allowed-tools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Optional: Tools agent can use with this skill"
+        },
+        "dependencies": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9@/-]+$": {
+              "type": "string",
+              "pattern": "^(\\^|~|>=|>|<|<=|\\*|[0-9]+(\\.[0-9]+){0,2})",
+              "description": "Version range for external library (e.g., ^1.0.0, ~2.3.4, >=1.0, 1.0.0)"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Optional: External libraries with version ranges"
         }
       },
-      "additionalProperties": false,
-      "description": "Optional: External libraries with version ranges"
-    },
-    "allowed-tools": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "uniqueItems": true,
-      "description": "Optional: Tools agent can use with this skill"
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

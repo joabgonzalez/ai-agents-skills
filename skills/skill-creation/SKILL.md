@@ -1,16 +1,20 @@
 ---
 name: skill-creation
-description: "Guide for creating standards-compliant skills with templates, references, and validation. All content must be in English. Trigger: When creating a new skill or documenting patterns."
-skills:
-  - reference-creation
-  - critical-partner
-  - process-documentation
-  - skill-sync
-  - english-writing
-allowed-tools:
-  - file-operations
-  - read-file
-  - write-file
+description: "Standards-compliant skill creation with templates and validation. Trigger: When creating a new skill or documenting patterns."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - reference-creation
+    - critical-partner
+    - process-documentation
+    - skill-sync
+    - english-writing
+  allowed-tools:
+    - file-operations
+    - read-file
+    - write-file
 ---
 
 # Skill Creation
@@ -116,9 +120,13 @@ cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/{skill-name}/SKILL.md
 ```yaml
 # ✅ CORRECT
 description: TypeScript strict patterns. Trigger: When implementing TypeScript in .ts/.tsx files.
+metadata:
+  version: "1.0"
 
 # ❌ WRONG: Missing Trigger
 description: TypeScript strict patterns.
+metadata:
+  version: "1.0"
 ```
 
 **See** [frontmatter.md](references/frontmatter.md) for complete frontmatter guide.
@@ -287,8 +295,29 @@ mkdir -p skills/{skill-name}/{assets,references}
 
 - Copy SKILL-TEMPLATE.md to new directory
 - Replace all placeholders
-- Add frontmatter (name, description with Trigger, skills, dependencies)
+- Add frontmatter (name, description with Trigger, **version: "1.0"**, skills, dependencies)
 - Fill required sections (Overview, Objective, When to Use, Critical Patterns, Decision Tree, Conventions, Example, Edge Cases)
+
+**Version Management**:
+
+- **New skills**: Always start with `version: "1.0"`
+- **Minor updates** (increment 1.0 → 1.1 → 1.2):
+  - Adding/updating patterns or examples
+  - Refactoring content structure
+  - Adding/updating reference files (references/)
+  - Improving documentation or Decision Trees
+- **Major updates** (increment 1.x → 2.0, 2.x → 3.0):
+  - Breaking changes to skill interface
+  - Removing critical patterns
+  - Changing skill responsibility
+- **Special case**: Current system establishment (all skills at 1.0) doesn't require retroactive versioning
+
+**Examples**:
+- Adding new pattern → 1.0 → 1.1
+- Updating Decision Tree → 1.1 → 1.2
+- Adding reference file → 1.2 → 1.3
+- Removing critical pattern → 1.3 → 2.0
+- Changing skill responsibility → 2.x → 3.0
 
 **See** [frontmatter.md](references/frontmatter.md) for frontmatter requirements.
 

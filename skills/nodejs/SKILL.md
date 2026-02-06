@@ -1,15 +1,19 @@
 ---
 name: nodejs
-description: "Node.js backend patterns and best practices. Server setup, async I/O, process management, environment configuration. Trigger: When building backend services, CLI tools, or server-side scripts with Node.js."
-skills:
-  - conventions
-  - typescript
-  - architecture-patterns
-dependencies:
-  node: ">=18.0.0 <21.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Node.js backend patterns with async I/O and process management. Trigger: When building backend services, CLI tools, or server scripts."
+compatibility: "nodejs"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - architecture-patterns
+  dependencies:
+    node: ">=18.0.0 <21.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Node.js Skill

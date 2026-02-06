@@ -1,15 +1,19 @@
 ---
 name: reference-creation
-description: "Create and organize reference files for complex skills with 40+ patterns. Guides sub-topic identification, file structure, README creation, and cross-linking. All content must be in English. Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics."
-skills:
-  - conventions
-  - critical-partner
-  - process-documentation
-  - english-writing
-allowed-tools:
-  - file-operations
-  - read-file
-  - write-file
+description: "Reference files for complex skills (40+ patterns). Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics."
+compatibility: "meta"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - critical-partner
+    - process-documentation
+    - english-writing
+  allowed-tools:
+    - file-operations
+    - read-file
+    - write-file
 ---
 
 # Reference Creation Skill
@@ -273,6 +277,15 @@ grep -r "references/" skills/{skill-name}/SKILL.md
 
 After creating references:
 
+**1. Increment parent skill version** (minor bump):
+
+```yaml
+# In parent SKILL.md frontmatter
+version: "1.1" # Was 1.0 before adding references
+```
+
+**2. Add References section**:
+
 ```markdown
 ## Resources
 
@@ -528,6 +541,7 @@ Before finalizing references/:
 - [ ] **No duplication**: References expand, not repeat SKILL.md
 - [ ] **No catch-alls**: No "advanced.md", "misc.md", "other.md"
 - [ ] **Structure consistency**: All references follow template structure
+- [ ] **Version increment**: Increment parent skill minor version (e.g., 1.0 → 1.1) when creating/updating references
 - [ ] **Validation commands**: Run wc -l, grep for links, check README exists
 - [ ] **Critical-partner review**: Run quality check
 - [ ] **Sync**: Run `make sync` to propagate to model directories

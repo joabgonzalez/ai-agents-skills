@@ -1,13 +1,17 @@
 ---
 name: html
-description: Semantic HTML best practices for web development. Proper element usage, document structure, forms, metadata. Trigger: When writing HTML markup, creating document structure, or implementing semantic HTML elements.
-skills:
-  - conventions
-  - a11y
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Semantic HTML with proper elements and structure. Trigger: When writing HTML markup, creating structure, or implementing semantic elements."
+compatibility: "browser"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # HTML Skill

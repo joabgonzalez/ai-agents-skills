@@ -1,11 +1,15 @@
 ---
 name: javascript
-description: "Modern JavaScript (ES2020+) patterns and best practices. ES modules, async/await, destructuring, optional chaining, nullish coalescing. Trigger: When writing modern JavaScript code, using ES2020+ features, or refactoring legacy JavaScript."
-skills:
-  - conventions
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Modern JavaScript (ES2020+) patterns. Trigger: When writing JavaScript code, using ES2020+ features, or refactoring legacy JS."
+compatibility: "javascript"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # JavaScript Skill

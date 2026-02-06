@@ -1,19 +1,23 @@
 ---
 name: react-native
-description: React Native mobile development patterns and best practices. Platform-specific code, navigation, native modules, performance optimization. Trigger: When developing React Native mobile apps, implementing platform-specific features, or optimizing mobile performance.
-skills:
-  - conventions
-  - a11y
-  - react
-  - typescript
-  - architecture-patterns
-  - humanizer
-dependencies:
-  react-native: ">=0.70.0 <1.0.0"
-  react: ">=17.0.0 <19.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Cross-platform mobile development with React Native. Trigger: When developing mobile apps, implementing platform features, or optimizing performance."
+compatibility: "react-native"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - react
+    - typescript
+    - architecture-patterns
+    - humanizer
+  dependencies:
+    react-native: ">=0.70.0 <1.0.0"
+    react: ">=17.0.0 <19.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # React Native Skill

@@ -1,14 +1,18 @@
 ---
 name: {skill-name}
 description: {Brief description}. Trigger: {When AI should invoke - be specific about actions/tasks/contexts}.
-skills:
-  - conventions
-  - a11y
-dependencies:
-  {package-name}: "{version-range}"
-allowed-tools:
-  - documentation-reader
-  - web-search
+compatibility: "{compatibility-info}"
+license: "{license-info}"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+  allowed-tools:
+    - documentation-reader
+    - web-search
+  dependencies:
+    {package-name}: "{version-range}"
 ---
 
 # {Skill Name}

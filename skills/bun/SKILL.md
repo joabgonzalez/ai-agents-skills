@@ -1,15 +1,19 @@
 ---
 name: bun
-description: "Bun runtime patterns and best practices. Fast JavaScript/TypeScript execution, bundling, testing, and edge deployment. Trigger: When using Bun for server-side apps, scripts, or tooling."
-skills:
-  - conventions
-  - typescript
-  - javascript
-dependencies:
-  bun: ">=1.0.0 <2.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Fast JavaScript/TypeScript runtime with bundling and testing. Trigger: When using Bun for server apps, scripts, or tooling."
+compatibility: "nodejs"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - javascript
+  dependencies:
+    bun: ">=1.0.0 <2.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Bun Skill

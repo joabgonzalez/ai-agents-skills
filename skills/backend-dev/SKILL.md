@@ -1,15 +1,19 @@
 ---
 name: backend-dev
-description: "Back-end development workflow and best practices. API design, data modeling, error handling, and deployment. Trigger: When building, refactoring, or scaling back-end applications."
-skills:
-  - conventions
-  - typescript
-  - nodejs
-  - architecture-patterns
-  - humanizer
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Backend development workflow with API design and data modeling. Trigger: When building, refactoring, or scaling backend apps."
+compatibility: "universal"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - typescript
+    - nodejs
+    - architecture-patterns
+    - humanizer
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Backend Development Skill

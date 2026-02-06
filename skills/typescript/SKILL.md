@@ -1,14 +1,18 @@
 ---
 name: typescript
-description: "TypeScript best practices with strict typing for type-safe development. Avoid any, use unknown, leverage generics and utility types. Trigger: When implementing or refactoring TypeScript in .ts/.tsx files, adding types/interfaces, or enforcing type safety."
-skills:
-  - conventions
-  - javascript
-dependencies:
-  typescript: ">=5.0.0 <6.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Strict typing and type-safe development. Trigger: When implementing TypeScript in .ts/.tsx files, adding types, or enforcing safety."
+compatibility: "typescript"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - javascript
+  dependencies:
+    typescript: ">=5.0.0 <6.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # TypeScript Skill

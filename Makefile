@@ -1,38 +1,47 @@
-.PHONY: setup clean sync uninstall help all
+.PHONY: install clean uninstall validate validate-installed help all
 
 # Default target
-all: setup
+all: install
 
-# Interactive setup for local or external installation
-setup:
-	@sh scripts/setup.sh
+# Install skills locally using Node.js CLI (interactive model selection)
+install:
+	@echo "Building CLI..."
+	@npm run build
+	@echo ""
+	@echo "Installing skills locally..."
+	@node dist/index.js local
 
-# Interactive uninstall for local or external projects
+# Validate all skills
+validate:
+	@echo "Validating all skills..."
+	@node dist/index.js validate --all
+
+# Validate installed skills
+validate-installed:
+	@echo "Validating installed skills..."
+	@node dist/index.js validate --installed
+
+# Uninstall all skills from all models
 uninstall:
-	@sh scripts/uninstall.sh
+	@echo "Uninstalling all skills..."
+	@node dist/index.js uninstall --all --confirm
 
 # Clean generated model configuration directories
 clean:
 	@echo "Cleaning model configuration directories..."
-	@rm -rf .github .claude .codex .gemini
-	@rm -f CLAUDE.md GEMINI.md
+	@rm -rf .github/skills .github/copilot-instructions.md .claude .codex .gemini .cursor .agents
 	@echo "Clean complete!"
-
-# Sync skills to installed model directories (local installation only)
-sync:
-	@if [ -d ".github" ] || [ -d ".claude" ] || [ -d ".codex" ] || [ -d ".gemini" ]; then \
-		echo "Syncing skills to model directories..."; \
-		sh scripts/sync.sh; \
-	else \
-		echo "No model directories found. Run 'make setup' first."; \
-		exit 1; \
-	fi
 
 # Show available commands
 help:
 	@echo "Available commands:"
-	@echo "  make setup      - Run interactive installation setup"
-	@echo "  make uninstall  - Run interactive uninstall wizard"
-	@echo "  make clean      - Remove all model configuration directories"
-	@echo "  make sync       - Sync skills to installed model directories"
-	@echo "  make help       - Show this help message"
+	@echo "  make install            - Install skills locally with interactive model selection (default)"
+	@echo "  make validate           - Validate all skills in ./skills/"
+	@echo "  make validate-installed - Validate installed skills"
+	@echo "  make uninstall          - Uninstall all skills from all models"
+	@echo "  make clean              - Remove all model configuration directories"
+	@echo "  make help               - Show this help message"
+	@echo ""
+	@echo "Examples:"
+	@echo "  node dist/index.js local --models copilot,claude    # Non-interactive with specific models"
+	@echo "  node dist/index.js local --dry-run                  # Test without making changes"

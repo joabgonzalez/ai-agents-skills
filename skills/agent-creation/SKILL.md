@@ -1,8 +1,12 @@
 ---
 name: agent-creation
-description: "Guides agents and users to create standards-compliant agent definitions using templates in markdown frontmatter format, ensuring context gathering, clarity, and proper metadata. Forces agents to ask clarifying questions when context is insufficient. Token-efficient documentation required. All content must be in English. Trigger: When creating a new agent definition, setting up project agents, or documenting agent workflows."
-skills:
-  - english-writing
+description: "Standards-compliant agent definitions with templates. Trigger: When creating agent definitions, setting up project agents, or documenting workflows."
+compatibility: "meta"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - english-writing
 ---
 
 # Agent Creation Skill
@@ -70,7 +74,7 @@ Don't use this skill for:
 
 ### Step 2: Directory and File Structure
 
-- Create a new directory under `agents/` named after the project or agent (lowercase, hyphens, no spaces).
+- Create a new directory under `presets/` named after the project or agent (lowercase, hyphens, no spaces).
 - Add an `AGENTS.md` file inside the directory.
 
 ### Step 3: YAML Frontmatter
@@ -102,6 +106,7 @@ Example frontmatter:
 ---
 name: my-project-agent
 description: Development assistant for Project X. Expert in TypeScript, React, and MUI.
+version: "1.0"
 skills:
   - typescript
   - react
@@ -145,7 +150,7 @@ All generated code, documentation, comments, and prompt content must follow the 
 
 Before finalizing, verify:
 
-- [ ] Directory created under `agents/` with correct naming
+- [ ] Directory created under `presets/` with correct naming
 - [ ] `AGENTS.md` file exists with proper frontmatter
 - [ ] Required fields: `name`, `description`, `skills`
 - [ ] `critical-partner` included in skills (mandatory for ALL agents)
@@ -216,6 +221,7 @@ Ready to create? → YES → Proceed with agent creation
 ---
 name: example-agent
 description: Development assistant for Example Project. Provides guidance on TypeScript, React, and accessibility standards.
+version: "1.0"
 skills:
   - typescript
   - react
@@ -273,7 +279,7 @@ Before finalizing an agent, verify:
 
 ### Structure & Files
 
-- [ ] Directory created under `agents/` with correct naming (lowercase, hyphens)
+- [ ] Directory created under `presets/` with correct naming (lowercase, hyphens)
 - [ ] `AGENTS.md` file exists with proper frontmatter
 - [ ] All sections present: Purpose, Mandatory Skill Reading, Mandatory Skills table
 

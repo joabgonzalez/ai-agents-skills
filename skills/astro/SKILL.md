@@ -1,20 +1,24 @@
 ---
 name: astro
-description: "Building fast, optimized websites using Astro with TypeScript and optional React islands. SSG, SSR, partial hydration, component islands. Trigger: When building Astro websites, implementing component islands, or configuring SSG/SSR."
-skills:
-  - conventions
-  - a11y
-  - react
-  - typescript
-  - architecture-patterns
-  - humanizer
-dependencies:
-  astro: ">=5.0.0 <6.0.0"
-  typescript: ">=5.0.0 <6.0.0"
-  react: ">=18.0.0 <19.0.0"
-allowed-tools:
-  - documentation-reader
-  - web-search
+description: "Fast static sites with SSG/SSR and component islands. Trigger: When building Astro websites, implementing islands, or configuring SSG/SSR."
+compatibility: "fullstack"
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
+    - a11y
+    - react
+    - typescript
+    - architecture-patterns
+    - humanizer
+  dependencies:
+    astro: ">=5.0.0 <6.0.0"
+    typescript: ">=5.0.0 <6.0.0"
+    react: ">=18.0.0 <19.0.0"
+  allowed-tools:
+    - documentation-reader
+    - web-search
 ---
 
 # Astro Skill
