@@ -1,7 +1,6 @@
 ---
 name: vite
 description: "Fast build tool with HMR for modern web development. Trigger: When configuring Vite, setting up dev server, or optimizing builds."
-compatibility: "build-tool"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -9,9 +8,6 @@ metadata:
     - conventions
   dependencies:
     vite: ">=5.0.0 <6.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Vite Skill

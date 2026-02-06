@@ -1,7 +1,6 @@
 ---
 name: expo
 description: "Managed workflow for cross-platform mobile apps with EAS. Trigger: When developing with Expo, configuring EAS services, or building mobile apps."
-compatibility: "react-native"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -15,8 +14,6 @@ metadata:
     react-native: ">=0.73.0 <1.0.0"
     react: ">=18.0.0 <19.0.0"
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 

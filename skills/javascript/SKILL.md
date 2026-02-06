@@ -1,63 +1,45 @@
 ---
 name: javascript
 description: "Modern JavaScript (ES2020+) patterns. Trigger: When writing JavaScript code, using ES2020+ features, or refactoring legacy JS."
-compatibility: "javascript"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
     - conventions
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # JavaScript Skill
 
-## Overview
-
-Modern JavaScript patterns and best practices for ES2020+ development.
-
-## Objective
-
-Guide developers in writing clean, efficient JavaScript using modern language features and patterns.
-
----
+Modern JavaScript patterns and best practices for ES2020+ development, emphasizing clean async code, safe property access, and modern syntax.
 
 ## When to Use
 
-Use this skill when:
+Use when:
 
-- Writing JavaScript code with ES2020+ features
-- Refactoring legacy JavaScript to modern syntax
-- Implementing async operations with promises/async-await
+- Writing JavaScript with ES2020+ features
+- Refactoring legacy JS to modern syntax
+- Implementing async operations (promises, async/await)
 - Using destructuring, optional chaining, nullish coalescing
 
-Don't use this skill for:
-
-- TypeScript-specific patterns (use typescript skill)
-- React patterns (use react skill)
-- Node.js backend specifics (general JS only)
-
----
+Don't use for TypeScript-specific patterns (use typescript skill), React patterns (use react skill), or Node.js backend specifics.
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Use const/let, Never var
+### const/let, Never var
 
 ```javascript
-// ✅ CORRECT: const for immutable, let for mutable
+// CORRECT
 const API_URL = "https://api.example.com";
 let count = 0;
 
-// ❌ WRONG: var (function-scoped, causes issues)
+// WRONG: var is function-scoped, causes hoisting issues
 var count = 0;
 ```
 
-### ✅ REQUIRED: Use async/await for Async Operations
+### async/await for Async Operations
 
 ```javascript
-// ✅ CORRECT: async/await
+// CORRECT
 async function fetchData() {
   try {
     const response = await fetch(url);
@@ -67,7 +49,7 @@ async function fetchData() {
   }
 }
 
-// ❌ WRONG: Promise chains (less readable)
+// WRONG: promise chains (less readable)
 function fetchData() {
   return fetch(url)
     .then((res) => res.json())
@@ -75,118 +57,67 @@ function fetchData() {
 }
 ```
 
-### ✅ REQUIRED: Optional Chaining and Nullish Coalescing
+### Optional Chaining and Nullish Coalescing
 
 ```javascript
-// ✅ CORRECT: Safe property access with optional chaining (?.)
+// CORRECT: safe access + nullish coalescing
 const name = user?.profile?.name ?? "Anonymous";
-const result = obj?.method?.(); // Safe method call
-
-// ✅ CORRECT: Nullish coalescing (??) only for null/undefined
+const result = obj?.method?.();
 const port = config.port ?? 3000; // 0 is valid, won't fallback
 
-// ❌ WRONG: OR operator (|| treats 0, '', false as falsy)
-const port = config.port || 3000; // 0 would fallback to 3000!
+// WRONG: || treats 0, '', false as falsy
+const port = config.port || 3000; // 0 fallbacks to 3000!
 
-// ❌ WRONG: Manual null checks
+// WRONG: verbose manual checks
 const name = (user && user.profile && user.profile.name) || "Anonymous";
 ```
 
-### ✅ REQUIRED: Use Double Negation (!!) for Boolean Coercion
+### Explicit Boolean Coercion
 
 ```javascript
-// ✅ CORRECT: Explicit boolean conversion
-const hasData = !!data; // true if data exists, false otherwise
-const isValid = Boolean(value); // Alternative explicit conversion
+// CORRECT
+const hasData = !!data;
+const isValid = Boolean(value);
 
-// ❌ WRONG: Implicit coercion (unclear intent)
-if (data) {
-} // Unclear if checking existence or truthiness
+// WRONG: implicit coercion hides intent
+if (data) { /* unclear: existence or truthiness? */ }
 ```
 
-### ✅ REQUIRED: Promise.all for Parallel Operations
+### Promise.all for Parallel Operations
 
 ```javascript
-// ✅ CORRECT: Parallel execution with Promise.all
+// CORRECT: parallel
 const [users, posts, comments] = await Promise.all([
   fetchUsers(),
   fetchPosts(),
   fetchComments(),
 ]);
 
-// ❌ WRONG: Sequential awaits (3x slower!)
+// WRONG: sequential (3x slower)
 const users = await fetchUsers();
 const posts = await fetchPosts();
 const comments = await fetchComments();
 ```
 
-### ✅ REQUIRED: Prefer async/await Over Promise Chains
-
-```javascript
-// ✅ CORRECT: async/await (readable, easier error handling)
-async function processData() {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    const processed = await transform(data);
-    return processed;
-  } catch (error) {
-    console.error("Processing failed:", error);
-    throw error;
-  }
-}
-
-// ❌ WRONG: Promise chains (harder to read and debug)
-function processData() {
-  return fetch(url)
-    .then((res) => res.json())
-    .then((data) => transform(data))
-    .catch((error) => console.error(error));
-}
-```
-
----
-
-## Conventions
-
-Refer to conventions for:
-
-- Code organization
-- Naming patterns
-- Documentation
-
-### JavaScript Specific
-
-- Use const/let instead of var
-- Prefer arrow functions for callbacks
-- Use template literals for string interpolation
-- Leverage destructuring for objects and arrays
-- Use async/await for asynchronous operations
-- Apply optional chaining (?.) and nullish coalescing (??)
-- **Use `!!` for explicit boolean conversion**
-- **Prefer `Promise.all()` for parallel async operations**
-- **Use `===` for strict equality, never `==`**
-- **Prefer modern array methods** (`.map()`, `.filter()`, `.reduce()`) over loops
-
----
+Conventions: follow **conventions** skill for naming, organization, and documentation.
 
 ## Decision Tree
 
-**Async operation?** → Use `async/await` with try/catch for error handling.
+**Async operation?** -> `async/await` with try/catch.
 
-**String concatenation?** → Use template literals: `string ${variable}`.
+**String concatenation?** -> Template literals: `` `Hello ${name}` ``.
 
-**Default value needed?** → Use nullish coalescing `??` for null/undefined, `||` for any falsy value.
+**Default value?** -> `??` for null/undefined; `||` for any falsy.
 
-**Property might not exist?** → Use optional chaining: `obj?.prop?.nested`.
+**Property might not exist?** -> Optional chaining: `obj?.prop?.nested`.
 
-**Iterate array?** → Use `.map()`, `.filter()`, `.reduce()` over for loops. Use `for...of` for early breaks.
+**Iterate array?** -> `.map()`, `.filter()`, `.reduce()`. Use `for...of` for early breaks.
 
-**Copy object/array?** → Use spread operator: `{...obj}`, `[...arr]`.
+**Copy object/array?** -> Spread: `{...obj}`, `[...arr]`.
 
-**Function as callback?** → Use arrow function unless you need `this` context.
+**Callback?** -> Arrow function unless `this` context is needed.
 
----
+**Multiple independent awaits?** -> `Promise.all()` for parallel execution.
 
 ## Example
 
@@ -206,23 +137,28 @@ const { name, age = 18 } = user;
 const greeting = `Hello, ${name}!`;
 ```
 
----
-
 ## Edge Cases
 
-**Parallel async operations:** Use `Promise.all()` for concurrent execution, not sequential awaits.
+- **Parallel async:** Use `Promise.all()` for concurrent execution, not sequential awaits
+- **Array holes:** Sparse arrays behave differently in `.map()` vs `.forEach()`; use `.filter(Boolean)` to clean
+- **Number precision:** Floating point is imprecise; use decimal.js for financial calculations
+- **Equality:** Always `===`; never `==` (type coercion causes bugs)
+- **this binding:** Arrow functions don't bind `this`; use regular functions for methods needing `this`
 
-**Array holes:** Sparse arrays with holes behave differently in `.map()` vs `.forEach()`. Use `.filter(Boolean)` to remove.
+## Checklist
 
-**Number precision:** Floating point math may be imprecise. Use libraries like decimal.js for financial calculations.
+- [ ] `const`/`let` only (no `var`)
+- [ ] `async/await` with try/catch for async code
+- [ ] `?.` and `??` for safe access and defaults
+- [ ] `Promise.all()` for independent parallel fetches
+- [ ] `===` for all equality checks
+- [ ] Template literals for string interpolation
+- [ ] Destructuring for objects and arrays
+- [ ] Arrow functions for callbacks
+- [ ] Modern array methods (`.map`, `.filter`, `.reduce`)
+- [ ] `!!` or `Boolean()` for explicit coercion
 
-**Equality:** Use `===` for strict equality. `==` coerces types and causes bugs.
-
-**this binding:** Arrow functions don't bind `this`. Use regular functions for methods that need `this` context.
-
----
-
-## References
+## Resources
 
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript
 - https://tc39.es/ecma262/

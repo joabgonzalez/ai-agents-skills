@@ -1,7 +1,6 @@
 ---
 name: frontend-design
 description: "UI/UX principles with layout and typography. Trigger: When designing interfaces, creating design systems, or improving usability."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -9,9 +8,6 @@ metadata:
     - conventions
     - a11y
     - humanizer
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Frontend Design Skill

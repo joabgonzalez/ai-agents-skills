@@ -1,7 +1,6 @@
 ---
 name: ag-grid
 description: "Advanced data tables with AG Grid. Trigger: When implementing AG Grid tables, configuring features, or creating custom cell renderers."
-compatibility: "react"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -16,8 +15,6 @@ metadata:
     react: ">=17.0.0 <19.0.0"
     typescript: ">=5.0.0 <6.0.0"
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 

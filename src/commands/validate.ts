@@ -70,7 +70,6 @@ async function validateSkill(skillName: string, baseDir: string): Promise<void> 
     logger.newline();
     logger.keyValue('Name', metadata.name);
     logger.keyValue('Version', metadata.metadata.version);
-    logger.keyValue('Compatibility', metadata.compatibility || 'N/A');
     logger.keyValue('License', metadata.license || 'N/A');
 
     if (metadata.metadata.skills && metadata.metadata.skills.length > 0) {

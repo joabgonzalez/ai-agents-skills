@@ -1,7 +1,6 @@
 ---
 name: nodejs
 description: "Node.js backend patterns with async I/O and process management. Trigger: When building backend services, CLI tools, or server scripts."
-compatibility: "nodejs"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -11,9 +10,6 @@ metadata:
     - architecture-patterns
   dependencies:
     node: ">=18.0.0 <21.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Node.js Skill

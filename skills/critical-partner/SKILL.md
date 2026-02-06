@@ -1,13 +1,10 @@
 ---
 name: critical-partner
 description: "Rigorous code review and improvement partner. Trigger: When validating code quality, reviewing implementations, or providing critical feedback."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 

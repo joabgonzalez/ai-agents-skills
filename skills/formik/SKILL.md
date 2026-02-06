@@ -1,7 +1,6 @@
 ---
 name: formik
 description: "Form management in React with validation. Trigger: When creating forms in React, implementing validation, or managing form state."
-compatibility: "react"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -15,9 +14,6 @@ metadata:
     formik: ">=2.0.0 <3.0.0"
     yup: ">=1.0.0 <2.0.0"
     react: ">=17.0.0 <19.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Formik Skill

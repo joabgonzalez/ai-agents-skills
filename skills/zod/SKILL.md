@@ -1,7 +1,6 @@
 ---
 name: zod
 description: "TypeScript-first schema validation with type inference. Trigger: When creating schemas, parsing input, or ensuring type-safe validation."
-compatibility: "typescript"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -10,9 +9,6 @@ metadata:
     - typescript
   dependencies:
     zod: ">=3.0.0 <4.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Zod Skill

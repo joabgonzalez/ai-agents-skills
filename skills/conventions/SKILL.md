@@ -1,13 +1,10 @@
 ---
 name: conventions
 description: "General coding conventions and best practices shared across technologies. Trigger: When writing code, establishing project structure, or defining conventions."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 

@@ -543,4 +543,3 @@ See [references/hooks.md](references/hooks.md) for advanced state patterns with 
 - Structure: [structure.md](structure.md)
 - Token efficiency: [token-efficiency.md](token-efficiency.md)
 - Examples: [examples.md](examples.md)
-```

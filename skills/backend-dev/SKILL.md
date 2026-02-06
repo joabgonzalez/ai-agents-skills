@@ -1,7 +1,6 @@
 ---
 name: backend-dev
 description: "Backend development workflow with API design and data modeling. Trigger: When building, refactoring, or scaling backend apps."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -11,9 +10,6 @@ metadata:
     - nodejs
     - architecture-patterns
     - humanizer
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Backend Development Skill

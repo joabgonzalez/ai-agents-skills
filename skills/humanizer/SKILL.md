@@ -1,16 +1,12 @@
 ---
 name: humanizer
 description: "Human-centric communication with empathy and clarity. Trigger: When improving prompts, agent behavior, or user-facing content."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
     - conventions
     - english-writing
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Humanizer Skill
