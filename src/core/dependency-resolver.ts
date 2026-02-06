@@ -1,8 +1,8 @@
-import * as path from 'path';
+import path from 'path';
 import { SkillParser } from './skill-parser';
-import { SkillSource } from './skill-source';
 import { logger } from '../utils/logger';
 import { readFile } from '../utils/fs';
+import type { SkillSource } from './skill-source';
 
 /**
  * Dependency node in the graph

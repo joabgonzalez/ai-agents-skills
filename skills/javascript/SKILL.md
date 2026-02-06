@@ -25,6 +25,38 @@ Don't use for TypeScript-specific patterns (use typescript skill), React pattern
 
 ## Critical Patterns
 
+### ES Module Imports
+
+```javascript
+// CORRECT: Named imports — explicit, tree-shakeable
+import { readFileSync, existsSync } from "fs";
+import { join, resolve } from "path";
+
+// CORRECT: Default import for modules with single export
+import express from "express";
+
+// WRONG: require() in ES modules
+const fs = require("fs");
+
+// WRONG: Dynamic import when static works
+async function doWork() {
+  const fs = await import("fs"); // unnecessary
+}
+```
+
+### No Dead Code
+
+```javascript
+// WRONG: Unused variables and imports
+import { something } from "./lib"; // never used
+const unused = 42;
+function neverCalled() {}
+
+// CORRECT: Every import, variable, and function is used
+import { needed } from "./lib";
+const count = needed();
+```
+
 ### const/let, Never var
 
 ```javascript
@@ -103,6 +135,10 @@ Conventions: follow **conventions** skill for naming, organization, and document
 
 ## Decision Tree
 
+**Importing a module?** -> Named imports: `import { x } from 'mod'`. Never `require()` in ES modules.
+
+**Unused import/variable?** -> Delete it. No dead code.
+
 **Async operation?** -> `async/await` with try/catch.
 
 **String concatenation?** -> Template literals: `` `Hello ${name}` ``.
@@ -147,6 +183,9 @@ const greeting = `Hello, ${name}!`;
 
 ## Checklist
 
+- [ ] ES module imports (`import`/`export`), no `require()`
+- [ ] Named imports over namespace imports
+- [ ] No unused imports, variables, or functions
 - [ ] `const`/`let` only (no `var`)
 - [ ] `async/await` with try/catch for async code
 - [ ] `?.` and `??` for safe access and defaults
@@ -156,7 +195,6 @@ const greeting = `Hello, ${name}!`;
 - [ ] Destructuring for objects and arrays
 - [ ] Arrow functions for callbacks
 - [ ] Modern array methods (`.map`, `.filter`, `.reduce`)
-- [ ] `!!` or `Boolean()` for explicit coercion
 
 ## Resources
 

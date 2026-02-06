@@ -77,6 +77,62 @@ module.exports = {
 };
 ```
 
+### ✅ REQUIRED: Code Quality Rules
+
+```javascript
+// Essential rules for clean, maintainable code
+module.exports = {
+  rules: {
+    // No any type
+    "@typescript-eslint/no-explicit-any": "error",
+
+    // Enforce import type for type-only imports
+    "@typescript-eslint/consistent-type-imports": ["error", {
+      prefer: "type-imports",
+      fixStyle: "separate-type-imports",
+    }],
+
+    // No unused variables (use _ prefix for intentional)
+    "@typescript-eslint/no-unused-vars": ["error", {
+      argsIgnorePattern: "^_",
+      varsIgnorePattern: "^_",
+    }],
+
+    // No variable shadowing
+    "@typescript-eslint/no-shadow": "error",
+
+    // No var
+    "no-var": "error",
+    "prefer-const": "error",
+
+    // No require() — use ES imports
+    "@typescript-eslint/no-require-imports": "error",
+
+    // Strict equality
+    eqeqeq: ["error", "always"],
+  },
+};
+```
+
+### ✅ REQUIRED: Import Organization Rules
+
+```javascript
+// With eslint-plugin-import
+module.exports = {
+  plugins: ["import"],
+  rules: {
+    // No duplicate imports from same module
+    "import/no-duplicates": "error",
+
+    // Enforce import order: external -> internal -> types
+    "import/order": ["error", {
+      groups: ["builtin", "external", "internal", "parent", "sibling", "type"],
+      "newlines-between": "always",
+    }],
+  },
+};
+```
+
 ### ✅ REQUIRED: Run in CI/CD
 
 ```json
@@ -95,7 +151,10 @@ module.exports = {
 
 - Use ESLint with TypeScript parser for TypeScript projects
 - Extend recommended configurations
-- Customize rules to match project standards
+- Enforce `import type` with `@typescript-eslint/consistent-type-imports`
+- Enforce no `any` with `@typescript-eslint/no-explicit-any`
+- Enforce no unused vars with `@typescript-eslint/no-unused-vars`
+- Enforce no shadowing with `@typescript-eslint/no-shadow`
 - Integrate with editor for real-time feedback
 - Run ESLint in CI/CD pipeline
 
@@ -108,6 +167,16 @@ module.exports = {
 **React project?** → Add `plugin:react/recommended` and `plugin:react-hooks/recommended`.
 
 **Need auto-fix?** → Run `eslint --fix`, configure editor to fix on save.
+
+**Enforce import type?** → `@typescript-eslint/consistent-type-imports` with `prefer: "type-imports"`.
+
+**Enforce no any?** → `@typescript-eslint/no-explicit-any` as "error".
+
+**Enforce no unused vars?** → `@typescript-eslint/no-unused-vars` with `argsIgnorePattern: "^_"`.
+
+**Enforce no shadowing?** → `@typescript-eslint/no-shadow` as "error" (not base `no-shadow`).
+
+**Enforce import order?** → `eslint-plugin-import` with `import/order` rule.
 
 **Custom rule needed?** → Add to `rules` object with "error", "warn", or "off".
 
@@ -122,30 +191,45 @@ module.exports = {
 ## Example
 
 ```javascript
-// .eslintrc.js
+// .eslintrc.js — Full quality config
 module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
   ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "react", "react-hooks"],
+  plugins: ["@typescript-eslint", "import"],
   rules: {
+    // Type safety
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/explicit-function-return-type": "warn",
-    "react/prop-types": "off",
+    "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
+
+    // Clean code
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-shadow": "error",
+    "@typescript-eslint/no-require-imports": "error",
+
+    // JS fundamentals
+    "no-var": "error",
+    "prefer-const": "error",
+    eqeqeq: ["error", "always"],
+
+    // Import organization
+    "import/no-duplicates": "error",
+    "import/order": ["error", {
+      groups: ["builtin", "external", "internal", "parent", "sibling", "type"],
+    }],
   },
 };
 ```
 
 ## Edge Cases
 
-- Handle monorepo configurations
-- Configure for multiple environments (node, browser)
-- Manage rule exceptions with inline comments
-- Balance strictness with developer experience
+- **`no-shadow` vs `@typescript-eslint/no-shadow`:** Use the TS version; the base rule gives false positives on enums and type declarations.
+- **`no-unused-vars` vs `@typescript-eslint/no-unused-vars`:** Use the TS version; the base rule doesn't understand type-only usage.
+- **Monorepo:** Use multiple `.eslintrc` files per package or override patterns in root config.
+- **Flat config (ESLint 9+):** Migrate from `.eslintrc.js` to `eslint.config.js` with `@eslint/js` and `typescript-eslint` packages.
+- **Prettier conflicts:** Use `eslint-config-prettier` to disable formatting-only rules.
 
 ## References
 

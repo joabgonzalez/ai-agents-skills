@@ -10,25 +10,34 @@
     "dist",
     "templates"
   ],
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "prepublishOnly": "npm run build",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
   },
   "keywords": [
     "ai",
     "agents",
     "skills",
-    "distribution",
+    "claude",
+    "copilot",
+    "cursor",
+    "gemini",
+    "codex",
     "cli"
   ],
   "author": "Joab Gonzalez",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joabgonzalez/ai-agents-skills.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "@clack/prompts": "^1.0.0",

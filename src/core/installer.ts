@@ -1,4 +1,5 @@
-import * as path from 'path';
+import path from 'path';
+import fs from 'fs';
 import { SkillParser } from './skill-parser';
 import { logger } from '../utils/logger';
 import {
@@ -361,7 +362,6 @@ export class Installer {
 
     try {
       // Read template
-      const fs = await import('fs');
       let content = fs.readFileSync(templatePath, 'utf-8');
 
       // Count skills

@@ -1,13 +1,13 @@
-import * as path from 'path';
+import path from 'path';
 import * as p from '@clack/prompts';
 import color from 'picocolors';
-import { Model } from '../core/installer';
 import { DependencyResolver } from '../core/dependency-resolver';
 import { LocalSkillSource } from '../core/skill-source';
 import { Installer } from '../core/installer';
 import { logger } from '../utils/logger';
 import { MODEL_DIRECTORIES, AVAILABLE_MODELS } from '../shared/constants';
 import { exists, isDirectory } from '../utils/fs';
+import type { Model } from '../core/installer';
 
 interface LocalOptions {
   models?: string;  // Optional now - will prompt if not provided

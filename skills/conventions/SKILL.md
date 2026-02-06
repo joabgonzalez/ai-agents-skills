@@ -91,6 +91,88 @@ import { Button } from "@mui/material";
 // utils.ts - contains validation, API calls, formatting, types...
 ```
 
+### ✅ REQUIRED: Named Imports Over Namespace Imports
+
+```typescript
+// ✅ CORRECT: Named imports — explicit, tree-shakeable
+import { readFileSync, existsSync } from 'fs';
+import { join, resolve } from 'path';
+import { load, dump } from 'js-yaml';
+
+// ❌ WRONG: Namespace import when only using a few exports
+import * as fs from 'fs';
+import * as path from 'path';
+import * as yaml from 'js-yaml';
+
+// ✅ EXCEPTION: Namespace import OK when using many exports (6+)
+import * as p from '@clack/prompts'; // uses intro, spinner, select, multiselect, confirm, cancel, note, log, outro
+```
+
+### ✅ REQUIRED: Separate Type Imports
+
+```typescript
+// ✅ CORRECT: import type for type-only imports
+import { UserService } from './services/UserService';
+import type { User, UserRole } from './types';
+
+// ✅ CORRECT: Inline type import when mixing values and types
+import { Installer, type Model } from '../core/installer';
+
+// ❌ WRONG: Importing types as values (emits unnecessary JS)
+import { User, UserRole } from './types';
+```
+
+### ✅ REQUIRED: No Dead Code
+
+```typescript
+// ❌ WRONG: Unused variables, imports, functions
+import { something } from './lib'; // never used
+const unused = 42;
+function neverCalled() {}
+
+// ✅ CORRECT: Every import, variable, and function is used
+import { needed } from './lib';
+const count = needed();
+```
+
+### ✅ REQUIRED: No `any` Type
+
+```typescript
+// ❌ WRONG: Disables type safety
+function process(data: any) { return data.value; }
+let presetInfo: any = null;
+
+// ✅ CORRECT: Use specific types or unknown
+function process(data: unknown) { /* narrow with guards */ }
+let presetInfo: PresetInfo | null = null;
+```
+
+### ✅ REQUIRED: Avoid Variable Shadowing
+
+```typescript
+// ❌ WRONG: inner `p` shadows outer import
+import * as p from '@clack/prompts';
+const result = items.find(p => p.id === selected); // shadows p
+
+// ✅ CORRECT: Use distinct names
+import * as p from '@clack/prompts';
+const result = items.find(item => item.id === selected);
+```
+
+### ✅ REQUIRED: Prefer Static Imports
+
+```typescript
+// ❌ WRONG: Dynamic import/require when static works
+async function doWork() {
+  const fs = await import('fs');   // unnecessary dynamic import
+  const yaml = require('js-yaml'); // CJS require in TS
+}
+
+// ✅ CORRECT: Static import at module top
+import fs from 'fs';
+import { load } from 'js-yaml';
+```
+
 ---
 
 ## Conventions
@@ -101,6 +183,9 @@ import { Button } from "@mui/material";
 - Use consistent file/folder structure within projects
 - Separate business logic from UI components
 - Follow single responsibility principle for files and functions
+- Remove dead code (unused imports, variables, functions)
+- Prefer static imports over dynamic require/import
+- Use `import type` for type-only imports
 
 ### Documentation
 
@@ -137,6 +222,16 @@ import { Button } from "@mui/material";
 **Technology-specific convention?** → Delegate to specific skill (typescript, react, mui, etc.). This skill only covers cross-technology patterns.
 
 **Documentation needed?** → Add JSDoc for public APIs, inline comments for complex logic, update README for architectural changes.
+
+**Importing types only?** → Use `import type { ... }` or inline `type` keyword.
+
+**Using <6 exports from a module?** → Named imports: `import { x, y } from 'mod'`.
+
+**Using 6+ exports from a module?** → Namespace import OK: `import * as mod from 'mod'`.
+
+**Unused import/variable/function?** → Delete it. No dead code.
+
+**Variable name conflicts with outer scope?** → Rename to avoid shadowing.
 
 ---
 

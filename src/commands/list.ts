@@ -17,7 +17,7 @@ export async function listCommand() {
 
   if (installedSkills.length === 0) {
     console.log(color.yellow('No skills installed'));
-    p.outro('Run `ai-agents-skills add <repo>` to install skills');
+    p.outro('Run `ai-agents-skills add` to install skills');
     return;
   }
 

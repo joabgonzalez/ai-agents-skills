@@ -1,7 +1,7 @@
 import * as p from '@clack/prompts';
 import color from 'picocolors';
-import * as path from 'path';
-import * as fs from 'fs';
+import path from 'path';
+import fs from 'fs';
 import { ProjectDetector, ModelDetector } from '../core';
 
 export interface SyncOptions {
@@ -22,7 +22,7 @@ export async function syncModelsCommand(options: SyncOptions) {
   const installedSkills = projectDetector.getInstalledSkills(project.rootPath);
 
   if (installedSkills.length === 0) {
-    p.cancel('No skills installed. Run `ai-agents-skills add <repo>` first.');
+    p.cancel('No skills installed. Run `ai-agents-skills add` first.');
     process.exit(1);
   }
 

@@ -1,16 +1,15 @@
 import * as p from '@clack/prompts';
 import color from 'picocolors';
-import * as path from 'path';
-import * as fs from 'fs';
+import path from 'path';
+import fs from 'fs';
 import {
   RepositoryManager,
   ProjectDetector,
   ModelDetector,
   DependencyResolver,
-  Installer
 } from '../core';
-import { logger } from '../utils';
 import { RemoteSkillSource } from '../core/skill-source';
+import type { PresetInfo } from '../core/repository';
 
 export interface AddOptions {
   preset?: string;
@@ -19,6 +18,9 @@ export interface AddOptions {
   dryRun?: boolean;
 }
 
+/**
+ * Installs skills from a remote repository. If no source is provided, uses the official repo.
+ */
 export async function addCommand(source: string, options: AddOptions) {
   p.intro(color.bgCyan(color.black(' ai-agents-skills ')));
 
@@ -48,17 +50,14 @@ export async function addCommand(source: string, options: AddOptions) {
     selectedModels = options.models.split(',').map(m => m.trim());
   } else if (installedModels.length > 0) {
     // Interactive selection with detected models pre-selected
-    const allModels = Object.keys(modelDetector.getAllModelsInfo(project.rootPath).reduce((acc, m) => {
-      acc[m.id] = m.name;
-      return acc;
-    }, {} as Record<string, string>));
+    const allModels = modelDetector.getAllModelsInfo(project.rootPath);
 
     const selected = await p.multiselect({
       message: 'Select AI models to install skills for:',
-      options: allModels.map(id => ({
-        value: id,
-        label: modelDetector.getModelInfo(project.rootPath, id)!.name,
-        hint: installedModels.includes(id) ? '(detected)' : ''
+      options: allModels.map(m => ({
+        value: m.id,
+        label: m.name,
+        hint: installedModels.includes(m.id) ? '(detected)' : ''
       })),
       initialValues: installedModels.length > 0 ? installedModels : ['claude'],
       required: true
@@ -76,7 +75,7 @@ export async function addCommand(source: string, options: AddOptions) {
 
   // 4. Determine what to install
   let skillsToInstall: string[] = [];
-  let presetInfo: any = null;
+  let presetInfo: PresetInfo | null = null;
 
   if (options.preset) {
     // Install preset
@@ -132,7 +131,7 @@ export async function addCommand(source: string, options: AddOptions) {
         process.exit(0);
       }
 
-      presetInfo = presets.find(p => p.id === selectedPreset);
+      presetInfo = presets.find(preset => preset.id === selectedPreset) ?? null;
       skillsToInstall = presetInfo!.skills;
     } else {
       // Select skills
@@ -213,7 +212,6 @@ export async function addCommand(source: string, options: AddOptions) {
   console.log();
   s.start('Creating symlinks...');
 
-  const installer = new Installer(project.rootPath);
   let linkCount = 0;
 
   for (const modelId of selectedModels) {
