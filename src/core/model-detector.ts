@@ -11,7 +11,7 @@ export interface ModelInfo {
 
 export const SUPPORTED_MODELS: Record<string, { name: string; directory: string }> = {
   claude: { name: 'Claude', directory: '.claude' },
-  copilot: { name: 'GitHub Copilot', directory: '.github/copilot' },
+  copilot: { name: 'GitHub Copilot', directory: '.github' },
   cursor: { name: 'Cursor', directory: '.cursor' },
   gemini: { name: 'Gemini', directory: '.gemini' },
   codex: { name: 'OpenAI Codex', directory: '.codex' }
@@ -26,7 +26,8 @@ export class ModelDetector {
 
     for (const [modelId, config] of Object.entries(SUPPORTED_MODELS)) {
       const modelPath = path.join(projectPath, config.directory);
-      if (fs.existsSync(modelPath)) {
+      const skillsPath = path.join(modelPath, 'skills');
+      if (fs.existsSync(modelPath) && fs.existsSync(skillsPath)) {
         installed.push(modelId);
       }
     }
@@ -49,7 +50,7 @@ export class ModelDetector {
       name: config.name,
       directory: modelPath,
       skillsPath,
-      installed: fs.existsSync(modelPath)
+      installed: fs.existsSync(modelPath) && fs.existsSync(skillsPath)
     };
   }
 
