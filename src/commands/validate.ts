@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { SkillParser } from '../core/skill-parser';
 import { DependencyResolver } from '../core/dependency-resolver';
 import { LocalSkillSource } from '../core/skill-source';

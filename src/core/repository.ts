@@ -1,8 +1,9 @@
-import simpleGit, { SimpleGit } from 'simple-git';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as os from 'os';
-import * as crypto from 'crypto';
+import simpleGit from 'simple-git';
+import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import crypto from 'crypto';
+import type { SimpleGit } from 'simple-git';
 
 export interface RepositoryInfo {
   url: string;

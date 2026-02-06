@@ -38,13 +38,13 @@ make install
 
 ```bash
 # Install agent preset
-npx ai-agents-skills add <user>/<repo> --preset backend-dev
+npx ai-agents-skills add --preset backend-dev
 
 # Install specific skills
-npx ai-agents-skills add <user>/<repo> --skill react --skill typescript
+npx ai-agents-skills add --skill react --skill typescript
 
 # Interactive mode
-npx ai-agents-skills add <user>/<repo>
+npx ai-agents-skills add
 ```
 
 ---
@@ -54,6 +54,7 @@ npx ai-agents-skills add <user>/<repo>
 ### ✅ Multi-Model Support
 
 Install skills to **5 AI assistants** simultaneously:
+
 - **Claude** (`.claude/`)
 - **GitHub Copilot** (`.github/copilot/`)
 - **Cursor** (`.cursor/`)
@@ -63,6 +64,7 @@ Install skills to **5 AI assistants** simultaneously:
 ### ✅ Dependency Resolution
 
 Automatically resolves and installs skill dependencies:
+
 ```bash
 npx ai-agents-skills add repo --skill react
 # Installs: react, javascript, typescript, conventions (4 total)
@@ -75,14 +77,16 @@ npx ai-agents-skills add repo --skill react
 ### ✅ Agent Presets
 
 Pre-configured skill bundles for common workflows:
+
 ```bash
-npx ai-agents-skills add repo --preset backend-dev
+npx ai-agents-skills add --preset backend-dev
 # Installs: nodejs, typescript, express, jest, + dependencies
 ```
 
 ### ✅ Stateless Architecture
 
 No registry files to maintain:
+
 - Skills stored in `.agents/skills/`
 - Detects installed models automatically
 - Symlink-based (always up-to-date)
@@ -91,6 +95,7 @@ No registry files to maintain:
 ### ✅ Token-Optimized Templates
 
 Model instruction files are optimized for minimal token usage:
+
 - 73% smaller than verbose alternatives
 - Dynamic skill counts
 - Grouped categorization
@@ -124,16 +129,17 @@ Install skills from any GitHub repository:
 
 ```bash
 # Install agent preset
-npx ai-agents-skills add user/repo --preset backend-dev
+npx ai-agents-skills add --preset backend-dev
 
 # Install specific skill
-npx ai-agents-skills add user/repo --skill react --models claude
+npx ai-agents-skills add --skill react --models claude
 
-# Interactive mode (select preset or skills)
-npx ai-agents-skills add user/repo
+# Interactive mode
+npx ai-agents-skills add
 ```
 
 **Options:**
+
 - `-p, --preset <preset>` - Install agent preset by ID
 - `-s, --skill <skill>` - Install specific skill
 - `-m, --models <models>` - Target models (comma-separated)
@@ -216,27 +222,35 @@ ai-agents-skills/
 **49 skills** organized by domain:
 
 ### Frameworks
+
 React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
 
 ### Testing
+
 Jest, Playwright, React Testing Library, E2E Testing, Unit Testing
 
 ### Standards
+
 TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y
 
 ### Backend
+
 Node.js, Express, Nest, Hono, Backend Development
 
 ### Build Tools
+
 Vite, Webpack, Bun
 
 ### Libraries
+
 MUI, AG Grid, Formik, Yup, Zod, Redux Toolkit
 
 ### Meta Skills
+
 Critical Partner, Architecture Patterns, Technical Communication, Process Documentation
 
 ### Specialized
+
 Skill Creation, Agent Creation, Skill Sync, Stagehand
 
 ---
@@ -271,14 +285,17 @@ dependencies:
 # React Skill
 
 ## When to Use
+
 - Building React components
 - Managing state and effects
 
 ## Critical Patterns
+
 - Use functional components
 - Prefer hooks over classes
 
 ## Decision Tree
+
 **New component?** → Use function component + hooks
 **State management?** → useState for local, Context for global
 ```

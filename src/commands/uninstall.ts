@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import inquirer from 'inquirer';
 import { Installer } from '../core/installer';
 import { Scanner } from '../utils/scanner';

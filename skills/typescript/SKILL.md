@@ -97,8 +97,51 @@ function getProperty<T>(obj: T, key: string): any {
 ### Use `import type` for type-only imports
 
 ```typescript
+// GOOD: Separate type import
 import type { User, Product } from "./types";
 import { fetchUser } from "./api";
+
+// GOOD: Inline type keyword when mixing values and types
+import { Installer, type Model } from "../core/installer";
+
+// BAD: Importing types as values (emits unnecessary JS)
+import { User, Product } from "./types";
+```
+
+### Named imports over namespace imports
+
+```typescript
+// GOOD: Explicit, tree-shakeable
+import { readFileSync, existsSync } from "fs";
+import { join, resolve } from "path";
+
+// BAD: Namespace import when using few exports
+import * as fs from "fs";
+import * as path from "path";
+
+// EXCEPTION: OK when using 6+ exports from one module
+import * as p from "@clack/prompts";
+```
+
+### No unused code
+
+```typescript
+// tsconfig.json
+{
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}
+
+// BAD: Unused import and variable
+import { something } from "./lib"; // never used
+const unused = 42;
+
+// GOOD: Prefix intentionally unused params with _
+function handler(_event: Event, data: string) {
+  return data;
+}
 ```
 
 ### Use `satisfies` for type validation without widening
@@ -128,6 +171,9 @@ type Route = (typeof ROUTES)[keyof typeof ROUTES]; // '/' | '/about'
 - **Transforming types?** -> See [references/utility-types.md](references/utility-types.md) for Partial, Pick, Omit, Record, and 20+ more.
 - **Unknown data?** -> Use `unknown`, never `any`. See [references/type-guards.md](references/type-guards.md).
 - **Missing third-party types?** -> Install `@types/*` or declare custom types in `types/`.
+- **Importing types only?** -> Use `import type { ... }` or inline `type` keyword.
+- **Using <6 exports from a module?** -> Named imports: `import { x, y } from 'mod'`.
+- **Unused import/variable?** -> Delete it. Enable `noUnusedLocals`/`noUnusedParameters` in tsconfig.
 - **Complex object shape?** -> `interface` for extensibility, `type` for unions/intersections/computed.
 - **Reusable logic across types?** -> See [references/generics-advanced.md](references/generics-advanced.md).
 - **External API response?** -> Define interface from actual response shape. Use quicktype for generation.
@@ -187,7 +233,9 @@ function isUser(value: unknown): value is User {
 
 - [ ] `strict: true` in `tsconfig.json`
 - [ ] No `any` usage -- use `unknown` with type guards
-- [ ] `import type` for type-only imports
+- [ ] `import type` for type-only imports (or inline `type` keyword)
+- [ ] Named imports over namespace imports (`import { x }` not `import * as`)
+- [ ] No unused imports, variables, or parameters (`noUnusedLocals`, `noUnusedParameters`)
 - [ ] Interfaces for object shapes, type aliases for unions/intersections
 - [ ] Generics constrained with `extends`
 - [ ] `satisfies` for validation without type widening

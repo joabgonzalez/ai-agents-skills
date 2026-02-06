@@ -57,14 +57,17 @@ program
   .action(validateCommand);
 
 // Add command (NPX mode)
+const DEFAULT_REPO = 'joabgonzalez/ai-agents-skills';
 program
-  .command('add <source>')
-  .description('Install skills from remote repository')
+  .command('add [source]')
+  .description('Install skills from remote repository (defaults to official)')
   .option('-p, --preset <preset>', 'Install agent preset by ID')
   .option('-s, --skill <skill>', 'Install specific skill by name')
   .option('-m, --models <models>', 'Models to install (comma-separated)')
   .option('-d, --dry-run', 'Dry run without making changes', false)
-  .action(addCommand);
+  .action((source, options) => {
+    addCommand(source || DEFAULT_REPO, options);
+  });
 
 // List command
 program

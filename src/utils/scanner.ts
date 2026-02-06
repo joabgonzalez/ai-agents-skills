@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { exists, isDirectory, isSymlink, readDir } from './fs';
 import { SkillParser } from '../core/skill-parser';
 

@@ -29,6 +29,10 @@
     "cli"
   ],
   "author": "Joab Gonzalez",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joabgonzalez/ai-agents-skills.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "@clack/prompts": "^1.0.0",

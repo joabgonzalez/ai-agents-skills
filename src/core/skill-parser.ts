@@ -1,4 +1,5 @@
-import * as path from 'path';
+import path from 'path';
+import fs from 'fs';
 import { extractFrontmatter, validateFrontmatter as validateFrontmatterUtil } from '../utils/yaml';
 import { exists, isFile } from '../utils/fs';
 import { logger } from '../utils/logger';
@@ -210,7 +211,6 @@ export class SkillParser {
       return [];
     }
 
-    const fs = require('fs');
     const entries = fs.readdirSync(skillsDir, { withFileTypes: true });
 
     return entries

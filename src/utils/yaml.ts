@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as yaml from 'js-yaml';
+import fs from 'fs';
+import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
 
 /**
  * Extract YAML frontmatter from markdown file
@@ -17,7 +17,7 @@ export function extractFrontmatter(filePath: string): Record<string, any> | null
     }
 
     const frontmatterYaml = frontmatterMatch[1];
-    const parsed = yaml.load(frontmatterYaml) as Record<string, any>;
+    const parsed = yamlLoad(frontmatterYaml) as Record<string, any>;
 
     return parsed || null;
   } catch (error) {
@@ -31,7 +31,7 @@ export function extractFrontmatter(filePath: string): Record<string, any> | null
 export function loadYamlFile(filePath: string): Record<string, any> {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
-    const parsed = yaml.load(content) as Record<string, any>;
+    const parsed = yamlLoad(content) as Record<string, any>;
 
     if (!parsed || typeof parsed !== 'object') {
       throw new Error('Invalid YAML structure');
@@ -48,7 +48,7 @@ export function loadYamlFile(filePath: string): Record<string, any> {
  */
 export function saveYamlFile(filePath: string, data: Record<string, any>): void {
   try {
-    const yamlContent = yaml.dump(data, {
+    const yamlContent = yamlDump(data, {
       indent: 2,
       lineWidth: -1,
       noRefs: true,

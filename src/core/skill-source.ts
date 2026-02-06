@@ -1,6 +1,7 @@
-import * as path from 'path';
-import { SkillParser, SkillMetadata } from './skill-parser';
+import path from 'path';
+import { SkillParser } from './skill-parser';
 import { exists, isFile, readDir } from '../utils/fs';
+import type { SkillMetadata } from './skill-parser';
 
 /**
  * Abstraction for skill source (local filesystem vs remote cached repo)
