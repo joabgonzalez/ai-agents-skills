@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { installCommand } from './commands/install';
 import { localCommand } from './commands/local';
 import { uninstallCommand } from './commands/uninstall';
 import { validateCommand } from './commands/validate';
+import { addCommand } from './commands/add';
+import { listCommand } from './commands/list';
+import { syncModelsCommand } from './commands/sync-models';
 import { logger, LogLevel } from './utils/logger';
 
 const program = new Command();
@@ -25,27 +27,15 @@ program
     }
   });
 
-// Local command (for managing jg-ai-agents repo)
+// Local command (for managing this repository)
 program
   .command('local')
-  .description('Manage local installation (for jg-ai-agents repo)')
+  .description('Manage local installation (for this repository)')
   .option('-m, --models <models>', 'Models to install (comma-separated, e.g., "copilot,claude,cursor")')
   .option('-s, --skills <skills>', 'Specific skills to install (comma-separated)')
   .option('-d, --dry-run', 'Dry run without making changes', false)
   .option('--no-meta', 'Skip meta-skills installation', false)
   .action(localCommand);
-
-// Install command
-program
-  .command('install')
-  .description('Install skills to a project')
-  .option('-t, --type <type>', 'Installation type (local|external)', 'local')
-  .option('-p, --path <path>', 'Target project path (for external installations)')
-  .option('-m, --models <models>', 'Models to install (comma-separated)', 'github-copilot')
-  .option('-s, --skills <skills>', 'Specific skills to install (comma-separated)')
-  .option('-d, --dry-run', 'Dry run without making changes', false)
-  .option('--no-meta', 'Skip meta-skills installation', false)
-  .action(installCommand);
 
 // Uninstall command
 program
@@ -66,27 +56,29 @@ program
   .option('--installed', 'Validate installed skills', false)
   .action(validateCommand);
 
+// Add command (NPX mode)
+program
+  .command('add <source>')
+  .description('Install skills from remote repository')
+  .option('-p, --preset <preset>', 'Install agent preset by ID')
+  .option('-s, --skill <skill>', 'Install specific skill by name')
+  .option('-m, --models <models>', 'Models to install (comma-separated)')
+  .option('-d, --dry-run', 'Dry run without making changes', false)
+  .action(addCommand);
+
 // List command
 program
   .command('list')
   .alias('ls')
-  .description('List installations or skills')
-  .option('-i, --installations', 'List all installations', false)
-  .option('-s, --skills [id]', 'List skills in installation')
-  .action(async (options) => {
-    // TODO: Implement list command
-    if (options.installations) {
-      logger.info('Listing installations...');
-      // Implementation
-    } else if (options.skills) {
-      const installId = typeof options.skills === 'string' ? options.skills : 'main';
-      logger.info(`Listing skills in installation: ${installId}`);
-      // Implementation
-    } else {
-      logger.error('Specify --installations or --skills');
-      process.exit(1);
-    }
-  });
+  .description('List installed skills and models')
+  .action(listCommand);
+
+// Sync command
+program
+  .command('sync')
+  .description('Sync models with existing skills')
+  .option('--add-models <models>', 'Add models to existing installation (comma-separated)')
+  .action(syncModelsCommand);
 
 // Info command
 program

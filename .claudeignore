@@ -16,6 +16,7 @@ out/
 .codex/
 .gemini/
 .cursor/
+.agents/
 
 # Git
 .git/
@@ -56,10 +57,6 @@ coverage/
 docs/dist/
 docs/.astro/
 docs/node_modules/
-
-# Legacy files (if any)
-CLAUDE.md
-GEMINI.md
 
 # Large files that don't need analysis
 *.zip

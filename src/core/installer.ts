@@ -52,7 +52,12 @@ export class Installer {
   }
 
   /**
-   * Install a single skill
+   * Install a single skill with cascading symlinks
+   *
+   * Architecture:
+   * - skills/react (source, versionado)
+   * - .agents/skills/react -> ../../skills/react (intermediate symlink)
+   * - .claude/skills/react -> ../../.agents/skills/react (final symlink)
    */
   async installSkill(
     skillName: string,
@@ -61,55 +66,96 @@ export class Installer {
     dryRun: boolean = false
   ): Promise<boolean> {
     const sourcePath = path.join(this.baseDir, 'skills', skillName);
+    const agentsSkillsPath = path.join(this.baseDir, '.agents', 'skills', skillName);
     const targetPath = path.join(modelDir, 'skills', skillName);
 
     if (!exists(sourcePath)) {
       throw new Error(`Source skill not found: ${sourcePath}`);
     }
 
-    // OPTION B: Skip if already installed as symlink (local mode only)
-    // Symlinks are always up-to-date, no need to re-install
-    if (installType === 'local' && exists(targetPath) && isSymlink(targetPath)) {
-      logger.debug(`Skipping ${skillName} (already installed as symlink, always up-to-date)`);
-      return false; // Skipped
-    }
+    // Ensure .agents/skills/ directory exists
+    ensureDir(path.join(this.baseDir, '.agents', 'skills'));
 
     if (dryRun) {
       logger.info(`[DRY RUN] Would install ${skillName}`);
       logger.keyValue('  Source', sourcePath, 2);
+      if (installType === 'local') {
+        logger.keyValue('  Intermediate', agentsSkillsPath, 2);
+      }
       logger.keyValue('  Target', targetPath, 2);
-      logger.keyValue('  Type', installType === 'local' ? 'symlink' : 'copy', 2);
+      logger.keyValue('  Type', installType === 'local' ? 'symlink (cascade)' : 'copy', 2);
       return true; // Would install
     }
 
-    // Record transaction for rollback
-    this.transactions.push({
-      skillName,
-      targetPath,
-      action: 'install',
-      completed: false,
-    });
-
     try {
-      // Remove existing if present (and not a symlink we're skipping)
-      if (exists(targetPath)) {
-        logger.warn(`Target already exists, removing: ${targetPath}`);
-        await removeFile(targetPath);
-      }
-
-      // Install based on type
       if (installType === 'local') {
-        await createSymlink(sourcePath, targetPath);
+        // Step 1: Create intermediate symlink .agents/skills/react -> ../../skills/react
+        if (!exists(agentsSkillsPath)) {
+          const relativeSource = path.relative(
+            path.dirname(agentsSkillsPath),
+            sourcePath
+          );
+          await createSymlink(relativeSource, agentsSkillsPath);
+          logger.debug(`Created intermediate symlink: .agents/skills/${skillName}`);
+        }
+
+        // Step 2: Check if already installed in model directory (skip if symlink)
+        if (exists(targetPath) && isSymlink(targetPath)) {
+          logger.debug(`Skipping ${skillName} (already installed as symlink, always up-to-date)`);
+          return false; // Skipped
+        }
+
+        // Record transaction for rollback
+        this.transactions.push({
+          skillName,
+          targetPath,
+          action: 'install',
+          completed: false,
+        });
+
+        // Step 3: Remove existing if present
+        if (exists(targetPath)) {
+          logger.warn(`Target already exists, removing: ${targetPath}`);
+          await removeFile(targetPath);
+        }
+
+        // Step 4: Create final symlink .claude/skills/react -> ../../.agents/skills/react
+        const relativeTarget = path.relative(
+          path.dirname(targetPath),
+          agentsSkillsPath
+        );
+        await createSymlink(relativeTarget, targetPath);
         logger.success(`Symlinked: ${skillName}`);
+
+        // Mark transaction as completed
+        const transaction = this.transactions[this.transactions.length - 1];
+        transaction.completed = true;
+        return true; // Installed
       } else {
+        // External mode: copy to .agents/skills/ then symlink from model directory
+        // (Phase 2 implementation)
+        // Record transaction for rollback
+        this.transactions.push({
+          skillName,
+          targetPath,
+          action: 'install',
+          completed: false,
+        });
+
+        // Remove existing if present
+        if (exists(targetPath)) {
+          logger.warn(`Target already exists, removing: ${targetPath}`);
+          await removeFile(targetPath);
+        }
+
         await copyDir(sourcePath, targetPath);
         logger.success(`Copied: ${skillName}`);
-      }
 
-      // Mark transaction as completed
-      const transaction = this.transactions[this.transactions.length - 1];
-      transaction.completed = true;
-      return true; // Installed
+        // Mark transaction as completed
+        const transaction = this.transactions[this.transactions.length - 1];
+        transaction.completed = true;
+        return true; // Installed
+      }
     } catch (error) {
       logger.error(`Failed to install ${skillName}: ${error instanceof Error ? error.message : String(error)}`);
       throw error;

@@ -29,7 +29,7 @@ uninstall:
 # Clean generated model configuration directories
 clean:
 	@echo "Cleaning model configuration directories..."
-	@rm -rf .github .claude .codex .gemini .cursor
+	@rm -rf .github .claude .codex .gemini .cursor .agents
 	@echo "Clean complete!"
 
 # Show available commands
