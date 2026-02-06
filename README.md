@@ -1,159 +1,262 @@
-# AI Agents Framework
+# ai-agents-skills
 
-A modular framework for building, managing, and deploying intelligent agents, reusable skills, and context prompts for AI assistants. Focused on maintainability, scalability, and standards compliance.
+**A modular AI agent and skill distribution framework**, optimized for managing and distributing reusable skills across AI coding assistants.
 
-## Objective
+---
 
-Enable the construction and orchestration of AI agents through:
+## 🎯 Purpose
 
-- **Skills**: Modular guides for technologies, frameworks, and best practices (e.g., TypeScript, React, Next, Node.js, Testing, Humanizer, etc.)
-- **Agents**: Combinations of skills with project-defined responsibilities and workflows
-- **Prompts**: Configuration files (markdown/JSON) that define technology stack or behavioral context
+This repository serves as:
 
-## Project Structure
+1. **Skill Repository**: 49+ curated skills for frameworks, testing, standards, and best practices
+2. **Distribution System**: CLI tool for installing skills to AI assistants (Copilot, Claude, Gemini, Codex, Cursor)
+3. **Agent Framework**: Compose custom agents by combining skills for specific workflows
 
-```
-ai-agents-framework/
-├── skills/                    # Reusable skill definitions
-│   ├── {skill-name}/
-│   │   ├── SKILL.md           # Main skill documentation (80% of cases)
-│   │   ├── assets/            # Templates, schemas, configs
-│   │   │   ├── SKILL-TEMPLATE.md
-│   │   │   └── frontmatter-schema.json
-│   │   └── references/        # Deep-dive guides for complex skills (40+ patterns)
-│   │       ├── README.md      # Navigation and reading strategy
-│   │       └── {topic}.md     # Detailed pattern guides
-│   └── ...
-├── agents/                    # Agent definitions
-│   ├── {project-name}/
-│   │   └── AGENTS.md          # Agent configuration
-│   └── ...
-├── prompts/                   # Context prompts
-│   ├── {behavior}.md
-│   └── {project}.md
-└── scripts/                   # Installation utilities
-    ├── setup.sh               # Interactive wizard
-    ├── install.sh             # Core installation
-    ├── sync.sh                # Multi-model sync
-    └── uninstall.sh           # Removal wizard
+---
+
+## 🚀 Quick Start
+
+### Local Installation (Managing This Repo)
+
+```bash
+# Install skills to AI assistants interactively
+make install
+
+# Non-interactive installation
+node dist/index.js local --models copilot,claude
+
+# Dry run (preview changes)
+node dist/index.js local --dry-run
 ```
 
-### Core Skills (always included)
+### Remote Installation (Future - Phase 2)
 
-- **skill-creation**: Create skills with validation and templates
-- **agent-creation**: Create agents with mandatory context
-- **prompt-creation**: Create context prompts
-- **process-documentation**: Document changes and processes
-- **critical-partner**: Rigorous review of code and skills
-- **conventions**: General coding standards
-- **a11y**: Universal accessibility
-- **skill-sync**: Multi-model synchronization
+```bash
+# Install from any project
+npx ai-agents-skills add joabgonzalez/ai-agents-skills --agent backend-dev
 
-### Extended Mandatory Read Protocol
+# Install specific skills
+npx ai-agents-skills add joabgonzalez/ai-agents-skills --skill react --skill typescript
+```
 
-Complex skills (40+ patterns) use a **two-tier architecture**:
+---
 
-1. **SKILL.md**: Critical patterns and decision tree (handles 80% of cases)
-2. **references/**: Deep-dive guides with 40+ patterns per topic (for complex scenarios)
+## 📦 What's Inside
 
-**When to read references:**
+### 49 Skills Across Categories
 
-- SKILL.md Decision Tree indicates "**MUST read** {reference}"
-- Critical Pattern says "**[CRITICAL] See** {reference} for..."
-- Task involves advanced features (e.g., Redux normalization, MUI theming, React Native navigation)
+**Frontend**: react, next, astro, vue • **Backend**: nodejs, express, nest, hono
+**Testing**: jest, playwright, react-testing-library • **Standards**: typescript, eslint, prettier, a11y
+**UI Libraries**: mui, tailwindcss, ag-grid • **State**: redux-toolkit
+**Meta**: skill-creation, agent-creation, critical-partner, conventions
 
-**Skills with references/**:
+[See full skill list →](AGENTS.md#available-skills)
 
-- **redux-toolkit**: 6 references (slices, async, selectors, normalization, TypeScript, RTK Query)
-- **mui**: 5 references (components, theming, customization, data-display, forms)
-- **react-native**: 5 references (navigation, gestures, platform-specific, performance, native-modules)
-- **astro**: 4 references (view-transitions, middleware, env-variables, prefetch)
-- **skill-creation**: 7 references (structure, content patterns, frontmatter, validation, token efficiency)
+### 5 AI Models Supported
 
-See [AGENTS.md Extended Mandatory Read Protocol](AGENTS.md#extended-mandatory-read-protocol) for complete guidance.
+- **GitHub Copilot** (`.github/`)
+- **Claude** (`.claude/`)
+- **Gemini** (`.gemini/`)
+- **Codex (Open AI)** (`.codex/`)
+- **Cursor** (`.cursor/`)
 
-## Featured Skills
+---
 
-| Skill                        | Brief Description                                        |
-| ---------------------------- | -------------------------------------------------------- |
-| conventions                  | General coding standards                                 |
-| a11y                         | Universal accessibility                                  |
-| architecture-patterns        | SOLID, Clean, DDD, Hexagonal for backend/frontend        |
-| frontend-design              | UI/UX patterns, layout, color, typography, accessibility |
-| frontend-dev                 | Frontend workflow, components, testing                   |
-| backend-dev                  | Backend workflow, API, data modeling, deployment         |
-| humanizer                    | Empathy, clarity, and human-centric communication        |
-| unit-testing                 | Unit testing for frontend/backend                        |
-| e2e-testing                  | End-to-end testing, automation, CI                       |
-| next                         | Next.js fullstack, SSR/SSG, routing, middleware          |
-| nodejs                       | Node.js backend, async, processes, CLI                   |
-| bun                          | Bun runtime, bundling, testing, edge                     |
-| express                      | Express.js, routing, middleware, errors                  |
-| nest                         | NestJS modular, DI, controllers, providers               |
-| hono                         | Hono edge/serverless, routing, middleware                |
-| jest                         | JS/TS testing, unit/integration                          |
-| react-testing-library        | React user-centric testing                               |
-| react-native-testing-library | React Native user-centric testing                        |
-| playwright                   | E2E browser automation, selectors, CI                    |
-| stagehand                    | Flow automation, data seeding, orchestration             |
-| react                        | React UI, hooks, advanced patterns                       |
-| mui                          | Material UI for React                                    |
-| astro                        | Astro SSG/SSR, modern integration                        |
-| javascript                   | Modern JavaScript                                        |
-| typescript                   | Strict TypeScript and integration                        |
-| css                          | Modern, accessible CSS                                   |
-| ag-grid                      | AG Grid integration and usage                            |
-| agent-creation               | Create agents with context                               |
-| critical-partner             | Rigorous review and improvement of skills/agents         |
-| eslint                       | Linting configuration and best practices                 |
-| expo                         | Expo for React Native                                    |
-| formik                       | Forms and validation with Formik                         |
-| html                         | Semantic HTML and best practices                         |
-| mui-x-charts                 | Visualization with MUI X Charts                          |
-| prettier                     | Code formatting with Prettier                            |
-| process-documentation        | Process and change documentation                         |
-| prompt-creation              | Create context prompts for AI                            |
-| react-native                 | React Native, navigation, performance                    |
-| redux-toolkit                | Redux Toolkit and RTK Query                              |
-| skill-creation               | Create skills with standards                             |
-| skill-sync                   | Multi-model synchronization                              |
-| tailwindcss                  | TailwindCSS usage and conventions                        |
-| technical-communication      | Technical communication best practices                   |
-| translation                  | Translation and localization                             |
-| vite                         | Vite build tool                                          |
-| webpack                      | Webpack build tool                                       |
-| yup                          | Validation with Yup                                      |
-| zod                          | Validation with Zod                                      |
+## 🏗️ Architecture
 
-## How it works
+```
+jg-ai-agents/
+├── skills/              # 49 skills (source of truth)
+│   ├── react/
+│   ├── typescript/
+│   └── ...
+├── agents/              # Agent definitions
+│   └── main/
+│       └── AGENTS.md    # Skills orchestration
+├── templates/           # Model instruction templates
+├── src/                 # TypeScript CLI
+│   ├── commands/        # install, local, validate, uninstall
+│   ├── core/            # installer, dependency resolver
+│   └── utils/
+└── .github/             # Generated - symlinks to skills/
+└── .claude/             # Generated - symlinks to skills/
+```
 
-- The system auto-invokes the appropriate skill based on the detected task (e.g., "Create React component" → react skill).
-- All skills, agents, and prompts use templates validated by JSON/YAML schema.
-- Complex skills may have assets/ and references/ for advanced patterns.
-- Changes to skills are synced to all models with `make sync`.
+**Key Design**:
 
-## Usage Example
+- **Symlinks** for local installs → always up-to-date
+- **Dependency resolution** → auto-install required skills
+- **Multi-model sync** → install to 5 assistants at once
+- **Token-optimized templates** → 73% smaller than verbose alternatives
 
-- "Create a skill for Playwright" → skill-creation is auto-invoked and structure is generated.
-- "Add validation with Zod" → zod skill is auto-invoked.
-- "Review this code" → critical-partner is auto-invoked.
+---
 
-## Installation and synchronization
+## 📖 How It Works
 
-- Run `make` for the interactive setup.
-- Use `make sync` to update skills in all models (Copilot, Claude, Codex, Gemini).
-- Installation and uninstall scripts are in `scripts/`.
+### 1. Skills are Markdown Files
 
-## References and contributing
+Each skill is a `SKILL.md` with:
 
-- [AGENTS.md](AGENTS.md): Central documentation for agents and skills.
-- [skills/conventions/SKILL.md](skills/conventions/SKILL.md): Coding standards.
-- [skills/skill-creation/SKILL.md](skills/skill-creation/SKILL.md): How to create new skills.
-- [skills/agent-creation/SKILL.md](skills/agent-creation/SKILL.md): How to create new agents.
+- **Frontmatter** (name, version, dependencies)
+- **When to Use** (triggers)
+- **Critical Patterns** (core guidelines)
+- **Decision Tree** (quick decision-making)
+- **Edge Cases** (gotchas)
 
-**Notes:**
+Complex skills (40+ patterns) include a `references/` directory.
 
-- Each skill has a unique responsibility and delegates to conventions/a11y when appropriate.
-- Scripts ensure dependencies and multi-model configuration.
-- Meta-skills are always included for self-management and consistency.
-- Prompts use descriptive names and efficient YAML.
+### 2. Agents Combine Skills
+
+`AGENTS.md` defines which skills an agent can use:
+
+```yaml
+---
+name: backend-dev
+skills:
+  - nodejs
+  - typescript
+  - express
+  - jest
+---
+```
+
+### 3. CLI Installs to AI Assistants
+
+```bash
+make install
+# → Reads AGENTS.md
+# → Resolves dependencies
+# → Creates symlinks to .github/, .claude/, etc.
+# → Generates model-specific instructions
+```
+
+---
+
+## 🛠️ Commands
+
+| Command                   | Description                                         |
+| ------------------------- | --------------------------------------------------- |
+| `make install`            | Interactive install (auto-detects installed models) |
+| `make validate`           | Validate all skills                                 |
+| `make validate-installed` | Validate installed skills                           |
+| `make uninstall`          | Remove all skills                                   |
+| `make clean`              | Remove model directories                            |
+
+### CLI Options
+
+```bash
+# Local mode
+node dist/index.js local --models copilot,claude,cursor
+node dist/index.js local --skills react,typescript  # specific skills
+node dist/index.js local --no-meta                   # skip meta-skills
+node dist/index.js local --dry-run                   # preview only
+
+# Validation
+node dist/index.js validate --all
+node dist/index.js validate --installed
+node dist/index.js validate --skill react
+
+# Uninstall
+node dist/index.js uninstall --all --confirm
+node dist/index.js uninstall --skills react,typescript
+```
+
+---
+
+## ✨ Features
+
+### ✅ Intelligent Skip Logic
+
+- **Auto-detection**: Detects installed models
+- **Smart skip**: Skips re-installing existing symlinks (always up-to-date)
+- **Clear messaging**: Shows what's installed vs new
+
+### ✅ Token-Optimized Instructions
+
+- **73% smaller** than verbose alternatives (~85 tokens vs ~320)
+- **Dynamic skill count** (updates automatically)
+- **Grouped categorization** instead of full list
+
+### ✅ Dependency Resolution
+
+- **Auto-install dependencies** (e.g., `react` requires `javascript`, `typescript`)
+- **Cycle detection** (prevents circular dependencies)
+- **Topological sorting** (correct installation order)
+
+### ✅ Multi-Model Support
+
+- Install to **5 AI assistants** simultaneously
+- **Model-specific templates** (optimized for each assistant)
+- **Symlinks** keep everything in sync
+
+---
+
+## 📚 Documentation
+
+### Current
+
+- [AGENTS.md](AGENTS.md) - Skill catalog and agent configuration
+- [Skills Directory](skills/) - 49 individual skill files
+
+### Future (Phase 3)
+
+- **Astro documentation site** at `docs/`
+- Searchable skill catalog
+- Interactive agent builder
+- Skill dependency visualization
+
+---
+
+## 🎨 Inspiration
+
+This framework is inspired by **[Vercel Skills](https://github.com/vercel-labs/ai-sdk-rag-starter)** but customized for:
+
+- Multi-model support (5 AI assistants)
+- Local symlink architecture (always up-to-date)
+- Dependency resolution (auto-install requirements)
+- Token-optimized templates (economical)
+- Agent composition (combine skills for workflows)
+
+---
+
+## 🚧 Roadmap
+
+### ✅ Phase 1: Local Mode (Completed)
+
+- ✅ TypeScript/Node.js CLI
+- ✅ 5 model support
+- ✅ Auto-detection of installed models
+- ✅ Intelligent skip logic
+- ✅ Token-optimized templates
+- ✅ Dependency resolution
+
+### 🚀 Phase 2: NPX Distribution (Next)
+
+- Remote repository fetching
+- Project auto-detection
+- Interactive skill browser
+- `npx ai-agents-skills add <repo>` command
+
+### 🎯 Phase 3: Documentation Site (Future)
+
+- Astro-powered docs
+- Skill search and filtering
+- Dependency graph visualization
+- Interactive agent builder
+
+---
+
+## 📄 License
+
+MIT
+
+---
+
+## 🤝 Contributing
+
+See [AGENTS.md](AGENTS.md) for:
+
+- How to create new skills
+- How to create new agents
+- Standards and conventions
+- Validation requirements

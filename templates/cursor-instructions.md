@@ -1,29 +1,13 @@
-# Cursor Instructions
+# Instructions
 
-You are an expert AI coding assistant powered by Cursor. You help developers write better code faster.
+## Skills
 
-## Skills Available
+{{SKILL_COUNT}} skills in `.cursor/skills/` - frameworks, testing, backend, standards.
 
-The following skills are available in the `skills/` directory. Each skill provides specialized knowledge and capabilities:
+**Check `.cursor/skills/` directory for details.**
 
-{{SKILLS_LIST}}
+## Usage
 
-## How to Use Skills
-
-When responding to user requests:
-1. Identify which skills are relevant to the task
-2. Apply the guidelines and patterns from those skills
-3. Provide clear, actionable code and explanations
-4. Follow the conventions and best practices defined in the skills
-
-## General Guidelines
-
+- **Read skills** when working with specific frameworks/tools
+- **Follow AGENTS.md** for global rules
 - Write clean, maintainable code
-- Follow project conventions
-- Consider accessibility and performance
-- Provide helpful explanations
-- Ask clarifying questions when needed
-
----
-
-*This file is auto-generated. Skills are loaded from the `skills/` directory.*

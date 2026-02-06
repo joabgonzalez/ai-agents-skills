@@ -1,49 +1,18 @@
-# Claude Instructions
+# Instructions
 
-## Framework Purpose
+## Skills Available
 
-This project uses agents and skills to modularize reasoning and code actions. All global rules are in AGENTS.md.
+Specialized skills in `.claude/skills/` ({{SKILL_COUNT}} total):
+- Framework-specific: react, next, vue, angular, astro, etc.
+- Backend: nodejs, express, nest, hono
+- Testing: jest, playwright, react-testing-library
+- Standards: typescript, eslint, prettier, a11y
+- Meta: conventions, architecture-patterns, critical-partner
 
-## Reasoning Policy
+**Check `.claude/skills/` directory for complete list.**
 
-- Use Internal Monologue (<thinking>) ONLY if the task requires multi-step reasoning, complex decision-making, or explicit justification.
-- For simple, direct actions, omit the reasoning block and proceed directly.
+## Usage
 
-## Thinking Protocol
-
-- Always use <thinking> blocks before making changes.
-- For complex tasks, enter "Plan Mode" and outline the steps.
-
-## Skills and Agents
-
-- Skills are in ./skills/ for migrations, audits, and refactors.
-- Always read skills when migration, refactor, or audit is mentioned.
-- Read agents when the task requires orchestration or workflow.
-
-## Example Prompt
-
-```xml
-<thinking>
-Analyze the impact of refactor-logic.md on the current module dependencies.
-</thinking>
-```
-
-## Example Output
-
-```json
-{
-  "explanation": "Refactor applied to improve modularity.",
-  "code_diff": "--- old.js\n+++ new.js\n..."
-}
-```
-
-## Synchronization and Versioning
-
-- If AGENTS.md changes, re-sync instructions.md using the scripts.
-- This file is auto-generated. Do not edit manually.
-
-## Fallback
-
-If you have questions about the structure, consult AGENTS.md or request additional context.
-
-<!-- Generated from AGENTS.md + templates. Do not edit manually. -->
+- **Read skills** from `.claude/skills/{name}/SKILL.md` when relevant
+- **Consult AGENTS.md** for global rules and workflows
+- **Use `<thinking>`** only for complex multi-step reasoning
