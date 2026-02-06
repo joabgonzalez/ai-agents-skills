@@ -23,10 +23,10 @@
 
 ```bash
 # Read your project's agent file
-cat agents/your-project/AGENTS.md
+cat presets/your-project/AGENTS.md
 
 # Look for architecture keywords:
-grep -i "architecture\|solid\|clean\|ddd\|hexagonal\|layer" agents/your-project/AGENTS.md
+grep -i "architecture\|solid\|clean\|ddd\|hexagonal\|layer" presets/your-project/AGENTS.md
 ```
 
 **If found** → Apply patterns  

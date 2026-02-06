@@ -74,7 +74,7 @@ Don't use this skill for:
 
 ### Step 2: Directory and File Structure
 
-- Create a new directory under `agents/` named after the project or agent (lowercase, hyphens, no spaces).
+- Create a new directory under `presets/` named after the project or agent (lowercase, hyphens, no spaces).
 - Add an `AGENTS.md` file inside the directory.
 
 ### Step 3: YAML Frontmatter
@@ -150,7 +150,7 @@ All generated code, documentation, comments, and prompt content must follow the 
 
 Before finalizing, verify:
 
-- [ ] Directory created under `agents/` with correct naming
+- [ ] Directory created under `presets/` with correct naming
 - [ ] `AGENTS.md` file exists with proper frontmatter
 - [ ] Required fields: `name`, `description`, `skills`
 - [ ] `critical-partner` included in skills (mandatory for ALL agents)
@@ -279,7 +279,7 @@ Before finalizing an agent, verify:
 
 ### Structure & Files
 
-- [ ] Directory created under `agents/` with correct naming (lowercase, hyphens)
+- [ ] Directory created under `presets/` with correct naming (lowercase, hyphens)
 - [ ] `AGENTS.md` file exists with proper frontmatter
 - [ ] All sections present: Purpose, Mandatory Skill Reading, Mandatory Skills table
 

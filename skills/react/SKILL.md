@@ -278,7 +278,7 @@ useEffect(() => {
 
 ```bash
 # Check AGENTS.md
-cat agents/your-project/AGENTS.md | grep -i "architecture\|solid\|clean\|ddd"
+cat presets/your-project/AGENTS.md | grep -i "architecture\|solid\|clean\|ddd"
 
 # Check codebase structure
 ls src/domain src/application src/infrastructure

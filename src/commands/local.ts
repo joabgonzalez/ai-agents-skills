@@ -17,7 +17,7 @@ interface LocalOptions {
 }
 
 /**
- * Local command - Install skills locally in jg-ai-agents repo
+ * Local command - Install skills locally in this repository
  * Uses LocalSkillSource to read from ./skills/ directory
  */
 export async function localCommand(options: LocalOptions): Promise<void> {

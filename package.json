@@ -36,7 +36,8 @@
     "commander": "^14.0.3",
     "inquirer": "^13.2.2",
     "js-yaml": "^4.1.1",
-    "picocolors": "^1.1.1"
+    "picocolors": "^1.1.1",
+    "simple-git": "^3.30.0"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.9",

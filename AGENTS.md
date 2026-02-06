@@ -111,9 +111,9 @@ Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync,
 ## Project Structure
 
 ```
-jg-ai-agents/
+ai-agents-skills/
 ├── skills/               # 49 skill definitions (SKILL.md format)
-├── agents/              # Agent presets (e.g., backend-dev, frontend-dev)
+├── presets/             # Agent presets (e.g., backend-dev, frontend-dev)
 ├── src/                 # TypeScript CLI source
 │   ├── commands/        # CLI commands (local, validate, sync)
 │   ├── core/            # Dependency resolver, installer, registry
@@ -139,7 +139,7 @@ jg-ai-agents/
 
 1. Read `skills/agent-creation/SKILL.md` for standards
 2. Gather context (9 required questions)
-3. Create agent directory under `agents/`
+3. Create agent directory under `presets/`
 4. Write `AGENTS.md` with frontmatter
 5. Include Mandatory Skill Reading section
 6. Add to registry
