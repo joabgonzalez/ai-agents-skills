@@ -9,7 +9,6 @@ import { logger } from '../utils/logger';
 export interface SkillMetadata {
   name: string;
   description: string;
-  compatibility?: string;
   license?: string;
   metadata: {
     version: string;
@@ -92,10 +91,6 @@ export class SkillParser {
       warnings.push(`Description is ${metadata.description.length} characters (recommended: <150)`);
     }
 
-    if (!metadata.compatibility) {
-      warnings.push('Missing "compatibility" field (recommended)');
-    }
-
     if (!metadata.license) {
       warnings.push('Missing "license" field (recommended)');
     }
@@ -172,7 +167,6 @@ export class SkillParser {
     const normalized: any = {
       name: frontmatter.name,
       description: frontmatter.description,
-      compatibility: frontmatter.compatibility,
       license: frontmatter.license,
       metadata: frontmatter.metadata || {},
     };

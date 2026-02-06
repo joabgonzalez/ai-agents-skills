@@ -1,13 +1,10 @@
 ---
 name: a11y
 description: "Universal accessibility with WCAG 2.1/2.2 Level AA. Trigger: When implementing UI components, adding interactive elements, or ensuring accessibility."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 

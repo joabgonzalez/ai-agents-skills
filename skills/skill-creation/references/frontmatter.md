@@ -2,23 +2,11 @@
 
 > Complete guide to skill frontmatter requirements, YAML syntax, and validation
 
-## Overview
-
-Frontmatter defines skill metadata using YAML enclosed in triple dashes. This guide covers required fields, optional fields, formatting rules, validation, and common mistakes.
-
----
-
 ## Required Fields
 
 ### name (required)
 
-**Purpose:** Unique skill identifier  
-**Format:** lowercase-with-hyphens  
-**Rules:**
-
-- No spaces, underscores, or special characters
-- Keep concise (1-3 words)
-- Match directory name exactly
+**Format:** lowercase-with-hyphens, must match directory name
 
 ```yaml
 name: skill-creation    # ✅ CORRECT
@@ -28,131 +16,162 @@ name: skill_creation    # ❌ WRONG: underscores
 
 ### description (required)
 
-**Purpose:** Clear summary including Trigger clause  
-**Format:** `"{Brief description}. Trigger: {When AI should invoke this skill}."`  
-**Rules:**
-
-- Single sentence with period
-- Include "Trigger:" clause (mandatory)
-- Token-efficient: eliminate filler words
-- Every word must add value
+**Format:** `"{Brief description}. Trigger: {When AI should invoke}."`
 
 ```yaml
 # ✅ CORRECT: Includes Trigger, concise
-description: TypeScript strict patterns and best practices. Trigger: When implementing or refactoring TypeScript in .ts/.tsx files.
+description: "TypeScript strict patterns. Trigger: When implementing TypeScript in .ts/.tsx files."
 
 # ❌ WRONG: Missing Trigger
-description: TypeScript strict patterns and best practices.
+description: "TypeScript strict patterns and best practices."
 
 # ❌ WRONG: Redundant/wordy
-description: This skill provides comprehensive guidance for TypeScript development including patterns and best practices. Trigger: When working with TypeScript.
+description: "This skill provides comprehensive guidance for TypeScript. Trigger: When working with TypeScript."
+```
+
+Rules:
+- Include "Trigger:" clause (mandatory)
+- Under 150 characters
+- Eliminate filler words
+
+### metadata.version (required)
+
+**Format:** Semantic version (`X.Y` or `X.Y.Z`). Start at `1.0` for new skills.
+
+```yaml
+metadata:
+  version: "1.0"     # ✅ New skill
+  version: "1.1"     # ✅ Minor update (patterns added)
+  version: "2.0"     # ✅ Major update (breaking changes)
 ```
 
 ---
 
 ## Optional Fields
 
-**CRITICAL RULE:** Include optional fields ONLY when they add specificity beyond description. Omit empty arrays/objects completely.
+**CRITICAL RULE:** Include optional fields ONLY when they add specificity. Omit empty arrays/objects completely.
 
-### input (optional)
+### license (optional)
 
-**When to include:**
-
-- Input format is non-obvious from description
-- Multiple input types accepted
-- Specific data structure required
-
-**Format:** `"description | data_type"`
+**When to include:** For skills distributed via npx.
 
 ```yaml
-# ✅ INCLUDE: Adds specificity
-input: "Skill name and patterns list | string, array"
-
-# ❌ OMIT: Obvious from description
-input: "User request | string"
+license: "Apache 2.0"    # ✅ For npx distribution
+license: "MIT"            # ✅ Alternative
 ```
 
-### output (optional)
+### metadata.skills (optional)
 
-**When to include:**
-
-- Output format is non-obvious
-- Returns structured data
-- Multiple output types possible
-
-**Format:** `"description | data_type"`
-
-```yaml
-# ✅ INCLUDE: Adds specificity
-output: "Validated SKILL.md file with frontmatter | markdown"
-
-# ❌ OMIT: Obvious from description
-output: "Success confirmation | string"
-```
-
-### dependencies (optional)
-
-**Purpose:** External libraries/packages with version ranges  
-**When to include:** Skill requires specific external dependencies  
-**Format:** YAML object with semantic version ranges
-
-```yaml
-# ✅ CORRECT: YAML object syntax
-dependencies:
-  prettier: ">=2.0.0 <4.0.0"
-  typescript: ">=4.0.0 <6.0.0"
-
-# ❌ WRONG: Array syntax
-dependencies:
-  - prettier: ">=2.0.0 <4.0.0"
-
-# ❌ WRONG: No version range
-dependencies:
-  prettier: latest
-
-# ✅ OMIT if no external dependencies (don't include empty object)
-```
-
-### skills (optional)
-
-**Purpose:** Internal skill references  
-**When to include:** Skill delegates to or depends on other skills  
-**Format:** YAML list with `- item` syntax
+**Purpose:** Internal skill dependencies. The CLI resolves these during installation.
 
 ```yaml
 # ✅ CORRECT: YAML list syntax
-skills:
-  - conventions
-  - a11y
+metadata:
+  skills:
+    - conventions
+    - a11y
 
 # ❌ WRONG: Array syntax
-skills: ["conventions", "a11y"]
+metadata:
+  skills: ["conventions", "a11y"]
 
-# ❌ WRONG: Object syntax
-skills:
-  conventions: true
-  a11y: true
-
-# ✅ OMIT if no skill dependencies (don't include empty array)
+# ✅ OMIT if no dependencies
 ```
 
-### allowed-tools (optional)
+See [dependencies-matrix.md](dependencies-matrix.md) for recommended skills by category.
 
-**Purpose:** Tools the AI agent can use  
-**When to include:** Skill requires specific tool access  
-**Format:** YAML list with `- item` syntax
+### metadata.dependencies (optional)
+
+**Purpose:** External libraries/packages with version ranges.
 
 ```yaml
-# ✅ CORRECT
-allowed-tools:
-  - file-operations
-  - read-file
-  - web-search
+# ✅ CORRECT: YAML object with version ranges
+metadata:
+  dependencies:
+    prettier: ">=2.0.0 <4.0.0"
+    typescript: ">=4.0.0 <6.0.0"
 
-# ❌ WRONG: Array syntax
-allowed-tools: ["file-operations", "read-file"]
+# ❌ WRONG: No version range
+metadata:
+  dependencies:
+    prettier: latest
 
-# ✅ OMIT if no tool restrictions (don't include empty array)
+# ✅ OMIT if no external dependencies
+```
+
+### metadata.allowed-tools (optional)
+
+**Purpose:** Specific tools the AI agent needs. Only include when the skill requires particular tools (e.g., file operations). **Do not add generic tools** like `documentation-reader` or `web-search`.
+
+```yaml
+# ✅ CORRECT: Skill-specific tools
+metadata:
+  allowed-tools:
+    - file-operations
+    - read-file
+    - write-file
+
+# ❌ WRONG: Generic tools (omit these)
+metadata:
+  allowed-tools:
+    - documentation-reader
+    - web-search
+
+# ✅ OMIT for skills that don't need specific tools
+```
+
+---
+
+## Complete Frontmatter Examples
+
+### Minimal (no dependencies)
+
+```yaml
+---
+name: prettier
+description: "Prettier code formatting. Trigger: When configuring code formatting or setting up Prettier."
+metadata:
+  version: "1.0"
+---
+```
+
+### Medium complexity
+
+```yaml
+---
+name: formik
+description: "Formik form handling patterns. Trigger: When implementing forms with Formik in React."
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - react
+    - conventions
+  dependencies:
+    formik: ">=2.0.0 <3.0.0"
+---
+```
+
+### Complex skill
+
+```yaml
+---
+name: skill-creation
+description: "Standards-compliant skill creation with templates. Trigger: When creating a new skill or documenting patterns."
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - reference-creation
+    - critical-partner
+    - process-documentation
+    - skill-sync
+    - english-writing
+  allowed-tools:
+    - file-operations
+    - read-file
+    - write-file
+---
 ```
 
 ---
@@ -165,191 +184,83 @@ allowed-tools: ["file-operations", "read-file"]
 
 ```yaml
 # ✅ CORRECT
-skills:
-  - conventions
-  - a11y
+metadata:
+  skills:
+    - conventions
+    - a11y
 
 # ❌ WRONG
-skills: []
-skills: ["conventions", "a11y"]
-```
-
-**Objects:** Use proper YAML indentation, never `{}`
-
-```yaml
-# ✅ CORRECT
-dependencies:
-  prettier: ">=2.0.0 <4.0.0"
-
-# ❌ WRONG
-dependencies: {}
-dependencies: {prettier: ">=2.0.0"}
+metadata:
+  skills: ["conventions", "a11y"]
 ```
 
 **Empty fields:** OMIT completely (saves tokens)
 
 ```yaml
-# ✅ CORRECT: Omit if empty
-skills:
-  - conventions
+# ❌ WRONG
+metadata:
+  skills: []
+  dependencies: {}
+  allowed-tools: []
 
-# ❌ WRONG: Don't include empty fields
-skills:
-  - conventions
-allowed-tools: []
-dependencies: {}
+# ✅ CORRECT: Just omit them
+metadata:
+  version: "1.0"
+  skills:
+    - conventions
 ```
 
 ---
 
 ## Validation
 
-### Using JSON Schema
-
-Validate frontmatter against schema:
-
-```bash
-# Extract frontmatter from SKILL.md
-sed -n '/^---$/,/^---$/p' SKILL.md > temp-frontmatter.yml
-
-# Validate (requires yq or similar)
-yq eval -o=json temp-frontmatter.yml | \
-  yq eval-all '.' skills/skill-creation/assets/frontmatter-schema.json -
-```
-
 ### Manual Checklist
 
 - [ ] Enclosed in triple dashes (`---`)
-- [ ] Required fields present: `name`, `description`
-- [ ] Description includes "Trigger:" clause
-- [ ] `name` matches directory name (lowercase, hyphens)
+- [ ] `name` present, lowercase-with-hyphens, matches directory
+- [ ] `description` present, includes "Trigger:" clause, under 150 chars
+- [ ] `metadata.version` present (start at "1.0")
 - [ ] Arrays use `- item` syntax
-- [ ] Objects use proper YAML indentation
 - [ ] Empty arrays/objects omitted
-- [ ] Version ranges for dependencies
 - [ ] All referenced skills exist in `skills/` directory
+- [ ] Version ranges for dependencies (if present)
+
+### Schema Reference
+
+Schema: [frontmatter-schema.json](../assets/frontmatter-schema.json) (reference only, not enforced by CLI)
 
 ---
 
 ## Common Mistakes
 
-### Mistake 1: Missing Trigger
-
+**Missing Trigger:**
 ```yaml
-# ❌ WRONG
-description: TypeScript patterns and best practices.
-
-# ✅ CORRECT
-description: TypeScript patterns and best practices. Trigger: When implementing TypeScript in .ts/.tsx files.
+description: "TypeScript patterns."                           # ❌
+description: "TypeScript patterns. Trigger: When using TS."   # ✅
 ```
 
-### Mistake 2: Empty Arrays/Objects
-
+**Empty arrays/objects:**
 ```yaml
-# ❌ WRONG: Wastes tokens
-skills: []
-dependencies: {}
-allowed-tools: []
-
-# ✅ CORRECT: Omit completely
-skills:
-  - conventions
+metadata:
+  skills: []              # ❌ Omit entirely
+  dependencies: {}        # ❌ Omit entirely
 ```
 
-### Mistake 3: Wrong Array Syntax
-
+**Wrong array syntax:**
 ```yaml
-# ❌ WRONG
-skills: ["conventions", "a11y"]
-
-# ✅ CORRECT
-skills:
-  - conventions
-  - a11y
+metadata:
+  skills: ["conventions"] # ❌
+  skills:
+    - conventions          # ✅
 ```
 
-### Mistake 4: Name Mismatch
-
+**Name mismatch:**
 ```yaml
 # Directory: skills/react-native/
-name: react_native    # ❌ WRONG: underscore
-name: ReactNative     # ❌ WRONG: uppercase
-name: react-native    # ✅ CORRECT: matches directory
+name: react_native    # ❌ Underscore
+name: ReactNative     # ❌ Uppercase
+name: react-native    # ✅ Matches directory
 ```
-
-### Mistake 5: Redundant Description
-
-```yaml
-# ❌ WRONG: Redundant words
-description: This comprehensive skill provides detailed guidance and best practices for creating and maintaining skills in the project using proper conventions and standards. Trigger: When creating skills.
-
-# ✅ CORRECT: Token-efficient
-description: Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill.
-```
-
----
-
-## Examples
-
-### Minimal Skill (No Dependencies)
-
-```yaml
----
-name: prettier
-description: Prettier code formatting configuration and integration. Trigger: When configuring code formatting or setting up Prettier.
----
-```
-
-### Medium Complexity
-
-```yaml
----
-name: formik
-description: Formik form handling patterns with validation. Trigger: When implementing forms with Formik in React.
-skills:
-  - react
-  - yup
-dependencies:
-  formik: ">=2.0.0 <3.0.0"
----
-```
-
-### Complex Skill
-
-```yaml
----
-name: skill-creation
-description: Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill or documenting patterns.
-skills:
-  - critical-partner
-  - process-documentation
-  - skill-sync
-allowed-tools:
-  - file-operations
-  - read-file
-  - write-file
----
-```
-
----
-
-## Token Efficiency Guidelines
-
-**Be precise and concise:**
-
-- Eliminate filler words ("comprehensive", "detailed", "various")
-- Remove redundancy ("patterns and best practices" → "patterns")
-- Use active voice ("Create skills" vs "Skills should be created")
-- Omit obvious information
-- Every word must add unique value
-
-**Before:**
-
-> This comprehensive skill provides detailed guidance for TypeScript development including various patterns and best practices for strict typing. Trigger: When working with TypeScript.
-
-**After (60% shorter):**
-
-> TypeScript strict patterns and best practices. Trigger: When implementing TypeScript in .ts/.tsx files.
 
 ---
 
@@ -357,4 +268,5 @@ allowed-tools:
 
 - Schema: [frontmatter-schema.json](../assets/frontmatter-schema.json)
 - Template: [SKILL-TEMPLATE.md](../assets/SKILL-TEMPLATE.md)
+- Dependencies: [dependencies-matrix.md](dependencies-matrix.md)
 - Main guide: [SKILL.md](../SKILL.md)

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Skill Frontmatter Schema",
-  "description": "JSON Schema for validating skill frontmatter in SKILL.md files",
+  "description": "JSON Schema for validating skill frontmatter in SKILL.md files. Reference only - not enforced by CLI (validation uses skill-parser.ts).",
   "type": "object",
   "required": ["name", "description"],
   "properties": {
@@ -16,21 +16,18 @@
       "pattern": ".*Trigger:.*",
       "description": "Precise description including 'Trigger:' clause for when AI should invoke"
     },
-    "compatibility": {
-      "type": "string",
-      "description": "Optional: Compatibility info (e.g., universal, nodejs, browser)"
-    },
     "license": {
       "type": "string",
-      "description": "Optional: License info (e.g., MIT, Apache-2.0)"
+      "description": "Optional: License info (e.g., Apache 2.0, MIT)"
     },
     "metadata": {
       "type": "object",
+      "required": ["version"],
       "properties": {
         "version": {
           "type": "string",
           "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
-          "description": "Semantic version (major.minor or major.minor.patch format, e.g., '1.0' or '1.0.0'). Start at 1.0 for new skills."
+          "description": "Semantic version (X.Y or X.Y.Z). Start at 1.0 for new skills."
         },
         "skills": {
           "type": "array",
@@ -39,7 +36,7 @@
             "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
           },
           "uniqueItems": true,
-          "description": "Optional: List of internal skill dependencies"
+          "description": "Optional: Internal skill dependencies"
         },
         "allowed-tools": {
           "type": "array",
@@ -47,7 +44,7 @@
             "type": "string"
           },
           "uniqueItems": true,
-          "description": "Optional: Tools agent can use with this skill"
+          "description": "Optional: Specific tools needed by this skill. Omit for generic skills."
         },
         "dependencies": {
           "type": "object",
@@ -55,7 +52,7 @@
             "^[a-z0-9@/-]+$": {
               "type": "string",
               "pattern": "^(\\^|~|>=|>|<|<=|\\*|[0-9]+(\\.[0-9]+){0,2})",
-              "description": "Version range for external library (e.g., ^1.0.0, ~2.3.4, >=1.0, 1.0.0)"
+              "description": "Version range (e.g., ^1.0.0, >=1.0, ~2.3.4)"
             }
           },
           "additionalProperties": false,

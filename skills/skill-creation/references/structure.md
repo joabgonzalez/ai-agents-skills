@@ -61,26 +61,22 @@ skills/{skill-name}/
 ```markdown
 ---
 name: prettier
-description: ...
+description: "... Trigger: ..."
+metadata:
+  version: "1.0"
 ---
 
 # Skill Name
 
-## Overview
-
-{2-3 sentences}
-
-## Objective
-
-{Clear purpose}
+{1-2 sentence summary of purpose and scope}
 
 ## When to Use
 
-{Bullet points}
+{Bullet points + Don't use for}
 
 ## Critical Patterns
 
-{10-15 patterns with inline examples}
+{5-15 patterns with inline ✅/❌ examples}
 
 ## Decision Tree
 
@@ -88,7 +84,7 @@ description: ...
 
 ## Conventions
 
-{Delegate + skill-specific rules}
+{Delegate to conventions/a11y + skill-specific rules}
 
 ## Example
 
@@ -98,13 +94,13 @@ description: ...
 
 {Boundary conditions}
 
-## Commands (if applicable)
+## Checklist
 
-{Shell commands}
+{Validation checklist}
 
 ## Resources
 
-{Links to docs}
+{Links to references/assets/docs}
 ```
 
 ### Examples
@@ -243,7 +239,7 @@ Common sub-topic patterns by domain:
 - `validation.md` - Input validation
 - `error-handling.md` - Error strategies
 
-**See [references-overview.md](references-overview.md) for complete sub-topic extraction process.**
+**See [reference-creation](../../reference-creation/SKILL.md) skill for complete sub-topic extraction process.**
 
 ### Examples
 
@@ -280,25 +276,22 @@ Common sub-topic patterns by domain:
 **Order matters for AI consumption:**
 
 1. Frontmatter (metadata)
-2. Title (h1)
-3. Overview (context)
-4. Objective (purpose)
-5. When to Use (triggers)
-6. Critical Patterns (most important content)
-7. Decision Tree (AI guidance)
-8. Conventions (rules)
-9. Example (practical application)
-10. Edge Cases (boundaries)
-11. Commands (if applicable)
-12. Resources (links)
-13. References (external docs)
+2. Title + summary (h1 + intro paragraph)
+3. When to Use (triggers + exclusions)
+4. Critical Patterns (core content with ✅/❌ examples)
+5. Decision Tree (AI guidance)
+6. Workflow (step-by-step)
+7. Conventions (delegate + skill-specific)
+8. Example (practical application)
+9. Edge Cases (boundaries)
+10. Checklist (validation)
+11. Resources (references/assets/links)
 
 ### Section Sizing
 
 | Section           | Target Lines | Purpose                      |
 | ----------------- | ------------ | ---------------------------- |
-| Overview          | 3-5          | Quick context                |
-| Objective         | 5-10         | Clear purpose                |
+| Title + Summary   | 3-5          | Quick context                |
 | When to Use       | 10-15        | Trigger identification       |
 | Critical Patterns | 100-150      | Core content (simple/medium) |
 | Critical Patterns | 30-50        | Top patterns only (complex)  |
@@ -396,7 +389,7 @@ references/
 6. Link to references in Critical Patterns and Resources
 7. Ensure SKILL.md stays under 300 lines
 
-**See [references-implementation.md](references-implementation.md) for step-by-step migration guide.**
+**See [reference-creation](../../reference-creation/SKILL.md) skill for step-by-step migration guide.**
 
 ---
 
@@ -422,6 +415,5 @@ references/
 
 - Main guide: [SKILL.md](../SKILL.md)
 - Frontmatter: [frontmatter.md](frontmatter.md)
-- References overview: [references-overview.md](references-overview.md)
-- References implementation: [references-implementation.md](references-implementation.md)
+- Reference creation: [reference-creation](../../reference-creation/SKILL.md)
 - Examples: [examples.md](examples.md)

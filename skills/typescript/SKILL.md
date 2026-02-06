@@ -1,7 +1,6 @@
 ---
 name: typescript
 description: "Strict typing and type-safe development. Trigger: When implementing TypeScript in .ts/.tsx files, adding types, or enforcing safety."
-compatibility: "typescript"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -10,101 +9,39 @@ metadata:
     - javascript
   dependencies:
     typescript: ">=5.0.0 <6.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # TypeScript Skill
 
-## Overview
-
-Comprehensive TypeScript guidance with focus on strict typing, type safety, and modern TypeScript features.
-
-## Objective
-
-Enable developers to write type-safe code with proper TypeScript patterns, avoiding `any`, and leveraging advanced type features.
-
----
+Strict typing, type safety, and modern TypeScript patterns. Avoid `any`, leverage generics and utility types, and enforce compile-time correctness.
 
 ## When to Use
 
-Use this skill when:
+**Use when:**
 
-- Writing or refactoring TypeScript code in .ts or .tsx files
+- Writing or refactoring `.ts`/`.tsx` files
 - Adding type definitions, interfaces, or type aliases
-- Enforcing type safety and strict typing
 - Working with generics, utility types, or advanced type features
-- Configuring tsconfig.json
+- Configuring `tsconfig.json`
 - Resolving type errors or improving type inference
 
-Don't use this skill for:
+**Don't use for:**
 
-- Runtime validation (use zod or yup skills)
+- Runtime validation (use zod/yup)
 - JavaScript-only patterns (use javascript skill)
 - Framework-specific typing (delegate to react, mui, etc.)
 
----
-
-## 📚 Extended Mandatory Read Protocol
-
-**This skill has a `references/` directory with detailed guides for utility types, generics, and advanced TypeScript features.**
-
-### Reading Rules
-
-**Read references/ when:**
-
-- **MUST read [utility-types.md](references/utility-types.md)** when:
-  - Transforming types (Partial, Pick, Omit, etc.)
-  - Need overview of 30+ built-in utilities
-  - Avoiding manual type definitions
-
-- **MUST read [generics-advanced.md](references/generics-advanced.md)** when:
-  - Creating reusable generic functions/components
-  - Working with conditional types or infer keyword
-  - Building mapped types
-
-- **MUST read [type-guards.md](references/type-guards.md)** when:
-  - Runtime type checking
-  - Narrowing union types
-  - Creating user-defined type guards
-
-- **MUST read [config-patterns.md](references/config-patterns.md)** when:
-  - Setting up new TypeScript project
-  - Configuring tsconfig.json
-  - Enabling strict mode
-
-- **CHECK [error-handling.md](references/error-handling.md)** when:
-  - Implementing type-safe error handling
-  - Using Result/Either patterns
-
-**Quick reference only:** Use this SKILL.md for basic patterns and quick decisions. Decision Tree below directs you to specific references.
-
-### Reading Priority
-
-| Situation                    | Read This                           | Why                            |
-| ---------------------------- | ----------------------------------- | ------------------------------ |
-| Type transformation          | **utility-types.md** (REQUIRED)     | 30+ utilities documented       |
-| Generic functions/components | **generics-advanced.md** (REQUIRED) | Constraints, conditional types |
-| Runtime validation           | **type-guards.md** (REQUIRED)       | Type narrowing patterns        |
-| Project setup                | **config-patterns.md** (REQUIRED)   | Strict mode, module resolution |
-| Error handling               | **error-handling.md** (CHECK)       | Result patterns                |
-
-**See [references/README.md](references/README.md)** for complete navigation guide.
-
----
-
 ## Critical Patterns
 
-### ❌ NEVER: Use `any` Type
+### Never use `any`
 
 ```typescript
-// ❌ WRONG: Disables type checking
+// BAD: Disables type checking
 function process(data: any) {
-  return data.value; // No type safety
+  return data.value;
 }
 
-// ✅ CORRECT: Use unknown with type guards
+// GOOD: Use unknown with type guards
 function process(data: unknown) {
   if (typeof data === "object" && data !== null && "value" in data) {
     return (data as { value: string }).value;
@@ -113,10 +50,9 @@ function process(data: unknown) {
 }
 ```
 
-### ✅ REQUIRED: Enable Strict Mode
+### Enable strict mode
 
 ```json
-// tsconfig.json
 {
   "compilerOptions": {
     "strict": true,
@@ -127,138 +63,76 @@ function process(data: unknown) {
 }
 ```
 
-### ✅ REQUIRED: Use Proper Type for Object Shapes
+### Use proper types for object shapes
 
 ```typescript
-// ✅ CORRECT: Interface for extensible objects
+// Interface for extensible objects
 interface User {
   id: number;
   name: string;
 }
 
-// ✅ CORRECT: Type alias for unions/intersections
+// Type alias for unions/intersections
 type Status = "pending" | "approved" | "rejected";
 type UserWithStatus = User & { status: Status };
 
-// ❌ WRONG: Empty object type (too permissive)
+// BAD: Empty object type (too permissive)
 const user: {} = { anything: "allowed" };
 ```
 
-### ✅ REQUIRED: Generic Constraints
+### Constrain generics
 
 ```typescript
-// ✅ CORRECT: Constrained generic
-function getProperty<T extends object, K extends keyof T>(
-  obj: T,
-  key: K,
-): T[K] {
+// GOOD: Constrained generic
+function getProperty<T extends object, K extends keyof T>(obj: T, key: K): T[K] {
   return obj[key];
 }
 
-// ❌ WRONG: Unconstrained generic (too permissive)
+// BAD: Unconstrained (no type safety)
 function getProperty<T>(obj: T, key: string): any {
-  return obj[key]; // No type safety
+  return obj[key];
 }
 ```
 
-### ✅ REQUIRED: Use import type for Type-Only Imports
+### Use `import type` for type-only imports
 
 ```typescript
-// ✅ CORRECT: Type-only imports (better tree-shaking)
 import type { User, Product } from "./types";
 import { fetchUser } from "./api";
-
-// ❌ WRONG: Mixed imports (prevents tree-shaking)
-import { User, Product, fetchUser } from "./api";
 ```
 
-### ✅ REQUIRED: Use satisfies for Type Validation
+### Use `satisfies` for type validation without widening
 
 ```typescript
-// ✅ CORRECT: satisfies validates without widening type
 const config = {
   endpoint: "/api/users",
   timeout: 5000,
 } satisfies Config;
-
-// Type is inferred as { endpoint: string, timeout: number }
-// But validated against Config interface
-
-// ❌ WRONG: Type annotation widens type
-const config: Config = {
-  endpoint: "/api/users",
-  timeout: 5000,
-};
-// Type is Config (wider than needed)
+// Inferred as { endpoint: string, timeout: number }, validated against Config
 ```
 
-### ✅ REQUIRED: Use as const for Literal Types
+### Use `as const` for literal types
 
 ```typescript
-// ✅ CORRECT: as const for literal inference
 const ROUTES = {
   HOME: "/",
   ABOUT: "/about",
 } as const;
 
 type Route = (typeof ROUTES)[keyof typeof ROUTES]; // '/' | '/about'
-
-// ❌ WRONG: Without as const (type is string)
-const ROUTES = {
-  HOME: "/",
-  ABOUT: "/about",
-};
-type Route = (typeof ROUTES)[keyof typeof ROUTES]; // string (too wide)
 ```
-
----
-
-## Conventions
-
-Refer to conventions for:
-
-- Code organization
-- Naming patterns
-
-Refer to javascript for:
-
-- Modern JavaScript features
-- Async patterns
-
-### TypeScript Specific
-
-- Enable strict mode in tsconfig.json
-- Avoid `any` type - use `unknown` when type is uncertain
-- Use interfaces for object shapes
-- Use type aliases for unions and intersections
-- Leverage generics for reusable components
-- Use utility types (Partial, Pick, Omit, etc.)
-- **Use `import type` for type-only imports** (enables better tree-shaking)
-- Prefer `interface` over `type` for object shapes (better error messages, extensibility)
-- Use `as const` for literal type inference
-- Use `satisfies` operator (TS 4.9+) to validate types without widening
 
 ## Decision Tree
 
-**Need runtime validation?** → Use zod or yup for runtime schema validation. TypeScript handles compile-time only.
-
-**Transforming types?** → **MUST read [utility-types.md](references/utility-types.md)** for Partial, Pick, Omit, Record, Required, Readonly, Exclude, Extract, NonNullable, ReturnType, and 20+ more utilities.
-
-**Dealing with unknown data?** → Use `unknown` type, never `any`. **MUST read [type-guards.md](references/type-guards.md)** for narrowing with typeof, instanceof, user-defined guards.
-
-**Third-party types missing?** → Install @types/\* packages or declare custom types in `types/` directory.
-
-**Complex object shape?** → Use interface for extensibility, type alias for unions/intersections/computed types.
-
-**Reusable logic with different types?** → **MUST read [generics-advanced.md](references/generics-advanced.md)** for generic constraints, conditional types, mapped types.
-
-**Need type transformation?** → **MUST read [utility-types.md](references/utility-types.md)** instead of manual definitions.
-
-**External API response?** → Define interface from actual response shape. Use tools like quicktype for generation.
-
-**Setting up new project?** → **MUST read [config-patterns.md](references/config-patterns.md)** for strict mode, module resolution, path mapping.
-
-**Type-safe error handling?** → **CHECK [error-handling.md](references/error-handling.md)** for Result patterns, error unions.
+- **Runtime validation needed?** -> Use zod/yup. TypeScript is compile-time only.
+- **Transforming types?** -> See [references/utility-types.md](references/utility-types.md) for Partial, Pick, Omit, Record, and 20+ more.
+- **Unknown data?** -> Use `unknown`, never `any`. See [references/type-guards.md](references/type-guards.md).
+- **Missing third-party types?** -> Install `@types/*` or declare custom types in `types/`.
+- **Complex object shape?** -> `interface` for extensibility, `type` for unions/intersections/computed.
+- **Reusable logic across types?** -> See [references/generics-advanced.md](references/generics-advanced.md).
+- **External API response?** -> Define interface from actual response shape. Use quicktype for generation.
+- **New project setup?** -> See [references/config-patterns.md](references/config-patterns.md).
+- **Type-safe error handling?** -> See [references/error-handling.md](references/error-handling.md).
 
 ## Example
 
@@ -281,11 +155,9 @@ const result: User = updateUser(
 );
 ```
 
----
-
 ## Edge Cases
 
-**Type narrowing in unions:** Use discriminated unions with literal types for better type narrowing:
+**Discriminated unions for type narrowing:**
 
 ```typescript
 type Result =
@@ -299,13 +171,7 @@ function handle(result: Result) {
 }
 ```
 
-**Circular type references:** Break circular dependencies by extracting shared interfaces or using type parameters.
-
-**Index signatures:** Use `Record<string, Type>` for dynamic keys. For known keys with dynamic values, use mapped types.
-
-**Const assertions:** Use `as const` for literal types: `const config = { mode: 'development' } as const;` creates `{ readonly mode: 'development' }` not `{ mode: string }`.
-
-**Type guards:** Create custom type guards with `is` keyword:
+**Custom type guards:**
 
 ```typescript
 function isUser(value: unknown): value is User {
@@ -313,9 +179,22 @@ function isUser(value: unknown): value is User {
 }
 ```
 
----
+- **Circular type references:** Break cycles by extracting shared interfaces or using type parameters.
+- **Index signatures:** Use `Record<string, Type>` for dynamic keys; mapped types for known keys with dynamic values.
+- **Const assertions:** `as const` creates `{ readonly mode: 'development' }`, not `{ mode: string }`.
 
-## References
+## Checklist
 
-- https://www.typescriptlang.org/docs/
-- https://www.typescriptlang.org/tsconfig
+- [ ] `strict: true` in `tsconfig.json`
+- [ ] No `any` usage -- use `unknown` with type guards
+- [ ] `import type` for type-only imports
+- [ ] Interfaces for object shapes, type aliases for unions/intersections
+- [ ] Generics constrained with `extends`
+- [ ] `satisfies` for validation without type widening
+- [ ] `as const` for literal inference
+
+## Resources
+
+- [references/](references/README.md) -- utility types, generics, type guards, config patterns, error handling
+- [TypeScript Docs](https://www.typescriptlang.org/docs/)
+- [TSConfig Reference](https://www.typescriptlang.org/tsconfig)

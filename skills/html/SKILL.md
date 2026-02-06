@@ -1,7 +1,6 @@
 ---
 name: html
 description: "Semantic HTML with proper elements and structure. Trigger: When writing HTML markup, creating structure, or implementing semantic elements."
-compatibility: "browser"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -9,46 +8,29 @@ metadata:
     - conventions
     - a11y
     - humanizer
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # HTML Skill
 
-## Overview
-
-Guidance for writing semantic, accessible HTML following modern web standards.
-
-## Objective
-
-Enable developers to create properly structured HTML with semantic elements, accessibility attributes, and best practices.
-
----
+Write semantic, accessible HTML following modern web standards with proper document structure, meta tags, and element selection.
 
 ## When to Use
 
-Use this skill when:
+Use when:
 
 - Writing HTML markup for web pages
 - Creating document structure with semantic elements
 - Building forms with proper labels and inputs
 - Adding metadata and head elements
-- Ensuring valid, semantic HTML
 
-Don't use this skill for:
-
-- React JSX patterns (use react skill)
-- Accessibility specifics (use a11y skill for detailed guidance)
-
----
+Don't use for React JSX patterns (use react skill) or detailed accessibility guidance (use a11y skill).
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Use Semantic Elements
+### Semantic Elements
 
 ```html
-<!-- ✅ CORRECT: Semantic elements -->
+<!-- CORRECT -->
 <header>
   <nav>
     <ul>
@@ -64,41 +46,40 @@ Don't use this skill for:
 </main>
 <footer>Footer content</footer>
 
-<!-- ❌ WRONG: Generic divs -->
+<!-- WRONG: generic divs -->
 <div class="header">
   <div class="nav">...</div>
 </div>
 <div class="main">...</div>
 ```
 
-### ✅ REQUIRED: Proper Heading Hierarchy
+### Proper Heading Hierarchy
 
 ```html
-<!-- ✅ CORRECT: Sequential hierarchy -->
+<!-- CORRECT: sequential -->
 <h1>Page Title</h1>
 <h2>Section</h2>
 <h3>Subsection</h3>
 
-<!-- ❌ WRONG: Skipping levels -->
+<!-- WRONG: skipping levels -->
 <h1>Page Title</h1>
 <h4>Section</h4>
-<!-- Skipped h2, h3 -->
 ```
 
-### ✅ REQUIRED: Button vs Anchor
+### Button vs Anchor
 
 ```html
-<!-- ✅ CORRECT: Button for actions -->
+<!-- CORRECT: button for actions -->
 <button type="button" onclick="doSomething()">Click</button>
 
-<!-- ✅ CORRECT: Anchor for navigation -->
+<!-- CORRECT: anchor for navigation -->
 <a href="/page">Go to Page</a>
 
-<!-- ❌ WRONG: Anchor for actions -->
+<!-- WRONG: anchor for actions -->
 <a href="#" onclick="doSomething()">Click</a>
 ```
 
-### ✅ REQUIRED: Essential Meta Tags
+### Essential Meta Tags
 
 ```html
 <!DOCTYPE html>
@@ -106,77 +87,40 @@ Don't use this skill for:
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Page description for SEO (150-160 chars)"
-    />
+    <meta name="description" content="Page description for SEO (150-160 chars)" />
     <title>Page Title - Site Name</title>
 
-    <!-- Open Graph for social sharing -->
+    <!-- Open Graph -->
     <meta property="og:title" content="Page Title" />
-    <meta property="og:description" content="Description for social sharing" />
+    <meta property="og:description" content="Description" />
     <meta property="og:image" content="https://example.com/image.jpg" />
     <meta property="og:url" content="https://example.com/page" />
-    <meta property="og:type" content="website" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Page Title" />
-    <meta name="twitter:description" content="Description" />
-    <meta name="twitter:image" content="https://example.com/image.jpg" />
   </head>
-  <body>
-    <!-- Content -->
-  </body>
+  <body><!-- Content --></body>
 </html>
 ```
 
----
-
-## Conventions
-
-Refer to conventions for:
-
-- Code organization
-- Documentation
-
-Refer to a11y for:
-
-- Semantic elements
-- ARIA attributes
-- Keyboard navigation
-
-### HTML Specific
-
-- Use semantic elements (`<nav>`, `<main>`, `<article>`)
-- Maintain proper heading hierarchy
-- Include alt text for images
-- Use `<button>` for actions, `<a>` for navigation
-- Validate HTML markup
-- **Always set `lang` attribute on `<html>`**
-- **Include essential meta tags** (viewport, description, charset)
-- **Use Open Graph and Twitter Card meta tags** for social sharing
-- **Ensure valid document structure** (one `<main>`, proper nesting)
-
----
+Conventions: follow **conventions** skill for organization; follow **a11y** skill for ARIA, keyboard nav, and semantic guidance.
 
 ## Decision Tree
 
-**Interactive element?** → Use `<button>` for actions (submit, toggle), `<a>` for navigation (page links).
+**Interactive element?** -> `<button>` for actions, `<a>` for navigation.
 
-**Text content?** → Use semantic elements: `<article>` for content, `<section>` for grouped content, `<aside>` for related info.
+**Text content?** -> `<article>` for standalone content, `<section>` for grouped content, `<aside>` for related info.
 
-**Form field?** → Wrap in `<label>`, associate with `htmlFor`/`id`, use appropriate `type` attribute.
+**Form field?** -> Wrap in `<label>`, associate via `for`/`id`, use appropriate `type`.
 
-**List of items?** → Use `<ul>` for unordered, `<ol>` for ordered, `<dl>` for definition lists.
+**List of items?** -> `<ul>` unordered, `<ol>` ordered, `<dl>` definitions.
 
-**Heading?** → Use `<h1>` through `<h6>` in sequential order, one `<h1>` per page.
+**Heading?** -> `<h1>`-`<h6>` sequential; one `<h1>` per page.
 
-**Image?** → Use `<img>` with descriptive `alt` text, or empty `alt=""` for decorative images.
+**Image?** -> `<img>` with descriptive `alt`; empty `alt=""` for decorative.
 
-**Tabular data?** → Use `<table>` with `<thead>`, `<tbody>`, `<th>`, `<td>`, and `scope` attributes.
-
----
+**Tabular data?** -> `<table>` with `<thead>`, `<tbody>`, `<th scope>`.
 
 ## Example
 
@@ -206,23 +150,28 @@ Refer to a11y for:
 </html>
 ```
 
----
-
 ## Edge Cases
 
-**Multiple h1 elements:** HTML5 allows multiple `<h1>` tags, but screen readers work better with one per page.
+- **Multiple h1:** HTML5 allows it, but screen readers work better with one per page
+- **Empty links:** Avoid `<a href="#">`; use `<button>` for actions
+- **Div soup:** Overuse of `<div>` harms semantics; prefer semantic elements
+- **Form without action:** Must have `action` or JS handler; omitting both causes reload
+- **Button without type:** Default is `submit`; always specify `type="button"` for non-submit buttons
 
-**Empty links:** Avoid `<a href="#">` without purpose. Use `<button>` for actions or provide proper href.
+## Checklist
 
-**Div soup:** Overuse of `<div>` harms semantics. Use semantic elements first, div as last resort.
+- [ ] Semantic elements (`<nav>`, `<main>`, `<article>`, `<section>`)
+- [ ] Sequential heading hierarchy (no skipped levels)
+- [ ] `<button>` for actions, `<a>` for navigation
+- [ ] `lang` attribute on `<html>`
+- [ ] Essential meta tags (charset, viewport, description)
+- [ ] Open Graph / Twitter Card meta for social sharing
+- [ ] `alt` text on all images
+- [ ] Labels on all form inputs
+- [ ] Valid nesting (one `<main>`, proper structure)
+- [ ] HTML validated against spec
 
-**Form without action:** Forms should have `action` attribute or JavaScript handler. Omitting both causes page reload.
-
-**Button without type:** Default type is `submit`. Always specify `type="button"` for non-submit buttons.
-
----
-
-## References
+## Resources
 
 - https://html.spec.whatwg.org/
 - https://web.dev/learn/html/

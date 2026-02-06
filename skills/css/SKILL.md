@@ -1,7 +1,6 @@
 ---
 name: css
 description: "Modern CSS with Grid, Flexbox, and custom properties. Trigger: When writing CSS styles, implementing layouts, or using modern features."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -10,84 +9,66 @@ metadata:
     - a11y
     - humanizer
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 
 # CSS Modern Skill
 
-## Overview
-
-This skill provides guidance for writing modern CSS with focus on maintainability, performance, and accessibility using current CSS features and best practices.
-
-## Objective
-
-Enable developers to write clean, efficient CSS that leverages modern features like CSS Grid, Flexbox, custom properties, and container queries while maintaining accessibility and browser compatibility.
-
----
+Write maintainable, performant CSS using modern features: Grid, Flexbox, custom properties, container queries, and cascade layers.
 
 ## When to Use
 
-Use this skill when:
+Use when:
 
 - Writing CSS styles for layouts and components
 - Implementing responsive designs with Grid/Flexbox
-- Using modern CSS features (custom properties, container queries)
-- Optimizing CSS performance and maintainability
+- Using custom properties, container queries, `@layer`
 - Creating animations and transitions
 
-Don't use this skill for:
-
-- Tailwind utility classes (use tailwindcss skill)
-- MUI sx prop styling (use mui skill)
-
----
+Don't use for Tailwind utilities (use tailwindcss skill) or MUI sx prop (use mui skill).
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Use Custom Properties for Theming
+### Custom Properties for Theming
 
 ```css
-/* ✅ CORRECT: Custom properties */
+/* CORRECT */
 :root {
   --color-primary: #0066cc;
   --spacing: 1rem;
 }
-
 .button {
   background: var(--color-primary);
   padding: var(--spacing);
 }
 
-/* ❌ WRONG: Hardcoded values */
+/* WRONG: hardcoded values */
 .button {
   background: #0066cc;
   padding: 1rem;
 }
 ```
 
-### ✅ REQUIRED: Use Grid/Flexbox, Not Floats
+### Grid/Flexbox Over Floats
 
 ```css
-/* ✅ CORRECT: Flexbox for layout */
+/* CORRECT */
 .container {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
 }
 
-/* ❌ WRONG: Floats (legacy) */
+/* WRONG: floats */
 .container {
   float: left;
   clear: both;
 }
 ```
 
-### ✅ REQUIRED: Respect prefers-reduced-motion
+### Respect prefers-reduced-motion
 
 ```css
-/* ✅ CORRECT: Disable animations for accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -96,139 +77,65 @@ Don't use this skill for:
 }
 ```
 
-### ✅ REQUIRED: Use Modern Responsive Patterns
+### Modern Responsive Patterns
 
 ```css
-/* ✅ CORRECT: Fluid typography with clamp() */
-h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-}
+/* Fluid typography */
+h1 { font-size: clamp(2rem, 5vw, 4rem); }
 
-/* ✅ CORRECT: Container queries for component-level responsive */
+/* Container queries */
 @container (min-width: 400px) {
-  .card {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
+  .card { display: grid; grid-template-columns: 1fr 2fr; }
 }
 
-/* ✅ CORRECT: Modern aspect ratio */
-.video-container {
-  aspect-ratio: 16 / 9;
-}
-
-/* ❌ WRONG: Padding hack for aspect ratio */
-.video-container {
-  padding-bottom: 56.25%; /* Old technique */
-}
+/* Modern aspect ratio (not padding hack) */
+.video-container { aspect-ratio: 16 / 9; }
 ```
 
-### ✅ REQUIRED: Use Modern Selectors
+### Modern Selectors
 
 ```css
-/* ✅ CORRECT: :is() for grouping selectors */
-:is(h1, h2, h3) {
-  color: var(--color-heading);
-}
-
-/* ✅ CORRECT: :where() for zero specificity */
-:where(ul, ol) {
-  padding-left: 1rem;
-}
-
-/* ✅ CORRECT: :has() for parent selection (modern browsers) */
-.card:has(img) {
-  display: grid;
-}
-
-/* ❌ WRONG: Verbose selector duplication */
-h1,
-h2,
-h3 {
-  color: var(--color-heading);
-}
+:is(h1, h2, h3) { color: var(--color-heading); }
+:where(ul, ol) { padding-left: 1rem; }       /* zero specificity */
+.card:has(img) { display: grid; }             /* parent selection */
 ```
 
-### ✅ REQUIRED: Use @layer for Cascade Control
+### Cascade Layers
 
 ```css
-/* ✅ CORRECT: Define cascade layers */
 @layer reset, base, components, utilities;
 
 @layer reset {
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 }
-
 @layer base {
-  body {
-    font-family: system-ui, sans-serif;
-  }
+  body { font-family: system-ui, sans-serif; }
 }
-
 @layer components {
-  .button {
-    padding: 0.5rem 1rem;
-  }
+  .button { padding: 0.5rem 1rem; }
 }
-
 @layer utilities {
-  .text-center {
-    text-align: center;
-  }
+  .text-center { text-align: center; }
 }
 ```
 
----
-
-## Conventions
-
-Refer to conventions for:
-
-- Code organization
-- Naming patterns
-
-Refer to a11y for:
-
-- Color contrast
-- Focus indicators
-- Accessible animations
-
-### CSS Specific
-
-- Use CSS custom properties for theming
-- Prefer Flexbox and Grid over floats
-- Use logical properties (margin-inline, padding-block)
-- Implement responsive design with container queries when appropriate
-- Avoid !important except for utilities
-- Use BEM or similar naming convention
-- **Use modern selectors** (`:is()`, `:where()`, `:has()`)
-- **Use `aspect-ratio`** for consistent image/video sizing
-- **Use `@layer`** for cascade control (Cascade Layers)
-- **Use `clamp()`, `min()`, `max()`** for fluid responsive values
-
----
+Conventions: follow **conventions** skill for naming/organization; follow **a11y** skill for contrast, focus indicators, and accessible animations.
 
 ## Decision Tree
 
-**One-dimensional layout?** → Use Flexbox with `flex-direction`, `justify-content`, `align-items`.
+**One-dimensional layout?** -> Flexbox (`flex-direction`, `justify-content`, `align-items`).
 
-**Two-dimensional layout?** → Use CSS Grid with `grid-template-columns`, `grid-template-rows`.
+**Two-dimensional layout?** -> CSS Grid (`grid-template-columns`, `grid-template-rows`).
 
-**Responsive sizing?** → Use `clamp()`, `min()`, `max()` for fluid typography and spacing.
+**Responsive sizing?** -> `clamp()`, `min()`, `max()` for fluid values.
 
-**Theme values?** → Define in `:root` with custom properties, reference with `var(--name)`.
+**Theme values?** -> Define in `:root` as custom properties, reference with `var()`.
 
-**Center element?** → Flexbox: `display: flex; justify-content: center; align-items: center;` or Grid: `place-items: center`.
+**Center element?** -> Flexbox: `display: flex; place-content: center;` or Grid: `place-items: center`.
 
-**Hide element?** → Use `display: none` to remove from DOM, `visibility: hidden` to keep space, `opacity: 0` for transitions.
+**Hide element?** -> `display: none` removes from flow; `visibility: hidden` keeps space; `opacity: 0` for transitions.
 
-**Responsive breakpoints?** → Use container queries for component-level, media queries for viewport-level.
-
----
+**Responsive breakpoints?** -> Container queries for component-level, media queries for viewport-level.
 
 ## Example
 
@@ -248,20 +155,32 @@ Refer to a11y for:
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-  }
+  * { animation-duration: 0.01ms !important; }
 }
 ```
 
 ## Edge Cases
 
-- Handle print stylesheets
-- Support dark mode with prefers-color-scheme
-- Test with different font sizes
+- Handle print stylesheets with `@media print`
+- Support dark mode via `prefers-color-scheme`
+- Test with different font sizes and zoom levels
 - Verify with color blindness simulators
+- Avoid `!important` except in utility layers
 
-## References
+## Checklist
+
+- [ ] Custom properties for all theme values
+- [ ] Grid/Flexbox for layout (no floats)
+- [ ] `prefers-reduced-motion` respected
+- [ ] `@layer` for cascade control
+- [ ] Logical properties used (`margin-inline`, `padding-block`)
+- [ ] Modern selectors (`:is()`, `:where()`, `:has()`)
+- [ ] `clamp()`/`min()`/`max()` for fluid sizing
+- [ ] `aspect-ratio` for media containers
+- [ ] BEM or consistent naming convention
+- [ ] Tested across target browsers
+
+## Resources
 
 - https://web.dev/learn/css/
 - https://developer.mozilla.org/en-US/docs/Web/CSS

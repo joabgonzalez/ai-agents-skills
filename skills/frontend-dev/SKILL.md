@@ -1,7 +1,6 @@
 ---
 name: frontend-dev
 description: "Frontend workflow with componentization and state management. Trigger: When building, refactoring, or scaling frontend apps."
-compatibility: "universal"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -12,9 +11,6 @@ metadata:
     - architecture-patterns
     - a11y
     - humanizer
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Frontend Development Skill

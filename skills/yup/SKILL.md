@@ -1,7 +1,6 @@
 ---
 name: yup
 description: "Schema validation for JavaScript objects. Trigger: When creating Yup schemas, validating forms, or implementing validation."
-compatibility: "javascript"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -10,9 +9,6 @@ metadata:
     - typescript
   dependencies:
     yup: ">=1.0.0 <2.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Yup Skill

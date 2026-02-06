@@ -1,7 +1,6 @@
 ---
 name: eslint
 description: "Code quality enforcement with ESLint. Trigger: When configuring ESLint rules, fixing linting errors, or enforcing quality standards."
-compatibility: "javascript"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -12,8 +11,6 @@ metadata:
   dependencies:
     eslint: ">=8.0.0 <9.0.0"
   allowed-tools:
-    - documentation-reader
-    - web-search
     - file-reader
 ---
 

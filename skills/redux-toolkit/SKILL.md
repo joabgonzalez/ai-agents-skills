@@ -1,7 +1,6 @@
 ---
 name: redux-toolkit
 description: "Predictable state management with Redux Toolkit. Trigger: When implementing Redux, creating slices, or managing global state."
-compatibility: "react"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -13,9 +12,6 @@ metadata:
   dependencies:
     "@reduxjs/toolkit": ">=2.0.0 <3.0.0"
     react-redux: ">=8.0.0 <10.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # Redux Toolkit Skill

@@ -1,7 +1,6 @@
 ---
 name: mui-x-charts
 description: "Data visualization with MUI X Charts. Trigger: When creating visualizations with MUI X Charts, implementing charts, or customizing."
-compatibility: "react"
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -13,9 +12,6 @@ metadata:
   dependencies:
     "@mui/x-charts": ">=6.0.0 <8.0.0"
     react: ">=17.0.0 <19.0.0"
-  allowed-tools:
-    - documentation-reader
-    - web-search
 ---
 
 # MUI X Charts Skill
