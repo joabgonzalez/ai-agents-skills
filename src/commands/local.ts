@@ -4,16 +4,16 @@ import color from 'picocolors';
 import { DependencyResolver } from '../core/dependency-resolver';
 import { LocalSkillSource } from '../core/skill-source';
 import { Installer } from '../core/installer';
-import { logger } from '../utils/logger';
+import { logger, LogLevel } from '../utils/logger';
 import { MODEL_DIRECTORIES, AVAILABLE_MODELS } from '../shared/constants';
 import { exists, isDirectory } from '../utils/fs';
 import type { Model } from '../core/installer';
+import { regenerateInstructionFile } from '../utils/instruction-generator';
 
 interface LocalOptions {
   models?: string;  // Optional now - will prompt if not provided
   skills?: string;
   dryRun: boolean;
-  noMeta: boolean;
 }
 
 /**
@@ -55,7 +55,7 @@ export async function localCommand(options: LocalOptions): Promise<void> {
           label: m.label,
           hint: detectedModels.includes(m.value) ? color.green('✓ Installed') : m.hint,
         })),
-        initialValues: detectedModels.length > 0 ? detectedModels : ['github-copilot'],
+        initialValues: detectedModels.length > 0 ? detectedModels : [],
         required: true,
       });
 
@@ -75,14 +75,13 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     // Show information about model selection
     if (existingModels.length > 0 && newModels.length > 0) {
       p.note(
-        `Existing (will skip re-installing symlinks): ${color.cyan(existingModels.join(', '))}\n` +
+        `Existing (will update skills): ${color.cyan(existingModels.join(', '))}\n` +
         `New (will install): ${color.green(newModels.join(', '))}`,
         'Model Selection'
       );
-    } else if (existingModels.length > 0) {
+    } else if (existingModels.length > 0 && newModels.length === 0) {
       p.note(
-        `All selected models already exist. Skills with symlinks will be skipped (already up-to-date).\n` +
-        `Models: ${color.cyan(existingModels.join(', '))}`,
+        `Models: ${color.cyan(existingModels.join(', '))} ${color.dim('(updating skills)')}`,
         'Model Selection'
       );
     }
@@ -104,20 +103,14 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     let skillsToInstall: string[];
     if (options.skills) {
       // User specified skills
-      skillsToInstall = options.skills.split(',').map(s => s.trim());
+      skillsToInstall = options.skills.split(',').map(sk => sk.trim());
     } else {
       // Auto-discover from AGENTS.md
       const agentsMdPath = path.join(baseDir, 'AGENTS.md');
       skillsToInstall = DependencyResolver.parseAgentsMd(agentsMdPath);
     }
 
-    // Add meta-skills if not disabled
-    if (!options.noMeta) {
-      const metaSkills = DependencyResolver.getMetaSkills();
-      skillsToInstall = [...skillsToInstall, ...metaSkills];
-    }
-
-    // Build dependency graph
+    // Build dependency graph (all dependencies resolved automatically)
     s.message('Resolving dependencies...');
     const graph = resolver.buildGraph(skillsToInstall);
 
@@ -146,7 +139,7 @@ export async function localCommand(options: LocalOptions): Promise<void> {
 
     // Get installation order
     const installOrder = resolver.getInstallationOrder(graph);
-    s.stop(`Found ${installOrder.length} skills (${graph.size} total with dependencies)`);
+    s.stop(`Found ${installOrder.length} skills`);
 
     // Print dependency graph if verbose
     if (process.env.VERBOSE) {
@@ -177,41 +170,108 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     // Setup installer
     const installer = new Installer(baseDir);
 
-    // Setup model directories
+    // Setup model directories (creates dirs + instruction files)
     const s2 = p.spinner();
     s2.start('Setting up model directories...');
+
+    // Suppress verbose logger during setup
+    const prevLevel = logger.getLevel();
+    logger.setLevel(LogLevel.WARN);
+
     for (const model of models) {
+      s2.message(`Setting up ${model.name}...`);
       await installer.setupModel(model, baseDir, options.dryRun);
     }
-    s2.stop('Model directories ready');
+    s2.stop(`${models.length} model directory(s) ready`);
 
-    // Install skills to each model
-    const s3 = p.spinner();
-    s3.start('Installing skills...');
+    // Install skills with detailed progress
+    console.log();
+    console.log(color.bold('Installing skills:'));
+    console.log();
 
-    // Keep logger for progress bar during installation
-    logger.subsection('Installing Skills');
+    let installedCount = 0;
+    let skippedCount = 0;
 
-    // Accumulate statistics across all models
-    let totalInstalled = 0;
-    let totalSkipped = 0;
-
-    for (const model of models) {
-      logger.info(`\nProcessing model: ${model.name}`);
-      const modelDir = path.join(baseDir, model.directory);
-      const stats = await installer.installWithRollback(installOrder, modelDir, 'local', options.dryRun);
-      totalInstalled += stats.installed;
-      totalSkipped += stats.skipped;
+    // Get dependency details for each skill from graph
+    const skillDeps = new Map<string, string[]>();
+    for (const skillName of installOrder) {
+      const node = graph.get(skillName);
+      if (node && node.dependencies.length > 0) {
+        skillDeps.set(skillName, node.dependencies);
+      }
     }
 
-    s3.stop('Installation complete');
+    // Suppress installer logs completely
+    logger.setLevel(LogLevel.SILENT);
+
+    for (let i = 0; i < installOrder.length; i++) {
+      const skill = installOrder[i];
+      const deps = skillDeps.get(skill);
+
+      // Show installing status with spinner
+      logger.setLevel(LogLevel.INFO);
+      logger.skillProgress(skill, 'installing', deps);
+      logger.setLevel(LogLevel.SILENT);
+
+      let skillInstalledToAny = false;
+      for (const model of models) {
+        const modelDir = path.join(baseDir, model.directory);
+        try {
+          const wasInstalled = await installer.installSkill(skill, modelDir, 'local', options.dryRun);
+          if (wasInstalled) skillInstalledToAny = true;
+        } catch (error) {
+          logger.setLevel(prevLevel);
+          console.log();
+          p.log.error('Installation failed');
+          throw error;
+        }
+      }
+
+      // Update with final status (move cursor up, overwrite with checkmark/skip)
+      logger.setLevel(LogLevel.INFO);
+      const status = skillInstalledToAny ? 'completed' : 'skipped';
+      // Move cursor up one line, clear it, print final status
+      process.stdout.write('\x1b[1A\r\x1b[K');
+      logger.skillProgress(skill, status, deps);
+      logger.setLevel(LogLevel.SILENT);
+
+      if (skillInstalledToAny) {
+        installedCount++;
+      } else {
+        skippedCount++;
+      }
+    }
+
+    // Restore logger level
+    logger.setLevel(prevLevel);
+    console.log();
+
+    // Regenerate instruction files with installed skills
+    const s3 = p.spinner();
+    s3.start('Updating instruction files...');
+    let instructionsUpdated = 0;
+
+    // For local mode, skills are in ./skills/ at root, not in .claude/skills/
+    const rootSkillsPath = path.join(baseDir, 'skills');
+
+    for (const model of models) {
+      const modelDir = path.join(baseDir, model.directory);
+      const updated = regenerateInstructionFile(modelDir, model.name, options.dryRun, rootSkillsPath);
+      if (updated) instructionsUpdated++;
+    }
+
+    s3.stop(`Updated ${instructionsUpdated} instruction file(s)`);
+    console.log();
 
     // Show summary
     const summaryLines = [];
     summaryLines.push(`Models: ${color.cyan(modelNames.length.toString())}`);
-    summaryLines.push(`Skills installed: ${color.green(totalInstalled.toString())}`);
-    if (totalSkipped > 0) {
-      summaryLines.push(`Skills skipped: ${color.yellow(totalSkipped.toString())} ${color.dim('(already up-to-date)')}`);
+    summaryLines.push(`Skills installed: ${color.green(installedCount.toString())}`);
+    if (skippedCount > 0) {
+      summaryLines.push(`Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`);
+    }
+    if (instructionsUpdated > 0) {
+      summaryLines.push(`Instructions: ${color.green(instructionsUpdated.toString())} file(s) updated`);
     }
 
     p.note(summaryLines.join('\n'), 'Summary');
@@ -220,7 +280,7 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     if (options.dryRun) {
       p.outro(color.yellow('DRY RUN - No changes were made'));
     } else {
-      p.outro(color.green('✓ Installation completed successfully!'));
+      p.outro(color.green('Installation completed successfully!'));
     }
   } catch (error) {
     p.log.error(`Installation failed: ${error instanceof Error ? error.message : String(error)}`);
@@ -231,7 +291,6 @@ export async function localCommand(options: LocalOptions): Promise<void> {
 
 /**
  * Detect which models are already installed by checking for existing directories
- * (Vercel Skills style - simple directory detection)
  */
 function detectInstalledModels(baseDir: string): string[] {
   const detected: string[] = [];

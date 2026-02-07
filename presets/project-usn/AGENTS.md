@@ -1,24 +1,26 @@
 ---
 name: usn-agent
-description: Static site generation assistant for USN Astro project. Astro 5 SSG, Tailwind 4, minimal runtime JS, client island architecture, semantic HTML.
-skills:
-  - typescript
-  - javascript
-  - astro
-  - vite
-  - tailwindcss
-  - react
-  - html
-  - a11y
-  - technical-communication
-  - critical-partner
-  - process-documentation
-  - eslint
-  - prettier
-  - conventions
-  - frontend-design
-  - frontend-dev
-  - humanizer
+description: "Static site generation assistant for USN Astro project. Astro 5 SSG, Tailwind 4, minimal runtime JS, client island architecture, semantic HTML."
+metadata:
+  version: "1.0"
+  skills:
+    - typescript
+    - javascript
+    - astro
+    - vite
+    - tailwindcss
+    - react
+    - html
+    - a11y
+    - eslint
+    - prettier
+    - conventions
+    - technical-communication
+    - critical-partner
+    - process-documentation
+    - frontend-design
+    - frontend-dev
+    - humanizer
 ---
 
 # USN Project Agent
@@ -29,25 +31,25 @@ Primary development assistant for the USN static site. Ensures static-first rend
 
 Before any task, read the matching skill file from your model's skills directory.
 
-| Trigger | Skill | Path |
-|---------|-------|------|
-| TypeScript types/interfaces | typescript | skills/typescript/SKILL.md |
-| JavaScript (ES2020+) | javascript | skills/javascript/SKILL.md |
-| Astro pages/components | astro | skills/astro/SKILL.md |
-| Vite build config | vite | skills/vite/SKILL.md |
-| Tailwind utility classes | tailwindcss | skills/tailwindcss/SKILL.md |
-| React client islands | react | skills/react/SKILL.md |
-| Semantic HTML | html | skills/html/SKILL.md |
-| Accessibility | a11y | skills/a11y/SKILL.md |
-| Commit messages, PRs, docs | technical-communication | skills/technical-communication/SKILL.md |
-| Code review | critical-partner | skills/critical-partner/SKILL.md |
-| Document changes | process-documentation | skills/process-documentation/SKILL.md |
-| ESLint rules | eslint | skills/eslint/SKILL.md |
-| Prettier formatting | prettier | skills/prettier/SKILL.md |
-| Coding standards | conventions | skills/conventions/SKILL.md |
-| UI/UX design | frontend-design | skills/frontend-design/SKILL.md |
-| E2E tests | e2e-testing | skills/e2e-testing/SKILL.md |
-| Playwright tests | playwright | skills/playwright/SKILL.md |
+| Trigger                     | Skill                   | Path                                    |
+| --------------------------- | ----------------------- | --------------------------------------- |
+| TypeScript types/interfaces | typescript              | skills/typescript/SKILL.md              |
+| JavaScript (ES2020+)        | javascript              | skills/javascript/SKILL.md              |
+| Astro pages/components      | astro                   | skills/astro/SKILL.md                   |
+| Vite build config           | vite                    | skills/vite/SKILL.md                    |
+| Tailwind utility classes    | tailwindcss             | skills/tailwindcss/SKILL.md             |
+| React client islands        | react                   | skills/react/SKILL.md                   |
+| Semantic HTML               | html                    | skills/html/SKILL.md                    |
+| Accessibility               | a11y                    | skills/a11y/SKILL.md                    |
+| Commit messages, PRs, docs  | technical-communication | skills/technical-communication/SKILL.md |
+| Code review                 | critical-partner        | skills/critical-partner/SKILL.md        |
+| Document changes            | process-documentation   | skills/process-documentation/SKILL.md   |
+| ESLint rules                | eslint                  | skills/eslint/SKILL.md                  |
+| Prettier formatting         | prettier                | skills/prettier/SKILL.md                |
+| Coding standards            | conventions             | skills/conventions/SKILL.md             |
+| UI/UX design                | frontend-design         | skills/frontend-design/SKILL.md         |
+| E2E tests                   | e2e-testing             | skills/e2e-testing/SKILL.md             |
+| Playwright tests            | playwright              | skills/playwright/SKILL.md              |
 
 ## Supported Stack
 
@@ -82,19 +84,22 @@ Before any task, read the matching skill file from your model's skills directory
 **Typing:** strict mode, explicit types for frontmatter variables, jsx: react-jsx
 
 **Astro directives:**
+
 - Prefer build-time computation in component frontmatter
 - Use `define:vars` for frontmatter→script, `set:html` for trusted HTML
 - Use `client:load` for React hydration, avoid `client:only` unless necessary
 - No global JS imports in markup; keep scripts isolated
 
 **Tailwind 4 theming:**
-- Define tokens in `@theme` block (--color-*, --font-*, --spacing-*, etc.)
-- No deprecated --tw-* prefixes; use official Tailwind 4 variable names
+
+- Define tokens in `@theme` block (--color-_, --font-_, --spacing-\*, etc.)
+- No deprecated --tw-\* prefixes; use official Tailwind 4 variable names
 - Semantic token names (--color-primary, --color-accent)
 
 **Accessibility:** Semantic elements (`<header>`, `<main>`, `<nav>`, `<section>`), proper heading hierarchy, labeled forms, descriptive alt text, ARIA only when semantic HTML insufficient
 
 **Versions:**
+
 - Exact: Astro 5.14.5, TailwindCSS 4.1.14, TypeScript 5.9.3
 - Ranges: Astro >=5.0 <6.0, Tailwind >=4.0 <5.0, TS >=5.0 <6.0
 

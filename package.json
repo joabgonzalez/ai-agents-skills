@@ -1,6 +1,6 @@
 {
   "name": "ai-agents-skills",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI Agent and Skill Distribution System",
   "main": "dist/index.js",
   "bin": {
@@ -44,13 +44,11 @@
     "@clack/prompts": "^1.0.0",
     "chalk": "^5.6.2",
     "commander": "^14.0.3",
-    "inquirer": "^13.2.2",
     "js-yaml": "^4.1.1",
     "picocolors": "^1.1.1",
     "simple-git": "^3.30.0"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.9",
     "@types/jest": "^30.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.2.1",

@@ -10,6 +10,8 @@ import {
 } from '../core';
 import { RemoteSkillSource } from '../core/skill-source';
 import type { PresetInfo } from '../core/repository';
+import { logger, LogLevel } from '../utils/logger';
+import { regenerateInstructionFile } from '../utils/instruction-generator';
 
 export interface AddOptions {
   preset?: string;
@@ -17,6 +19,15 @@ export interface AddOptions {
   models?: string;
   dryRun?: boolean;
 }
+
+/** Map model IDs to their instruction template source and destination file name */
+const INSTRUCTION_MAPPING: Record<string, { source: string; destFile: string }> = {
+  claude: { source: 'claude-instructions.md', destFile: 'instructions.md' },
+  copilot: { source: 'copilot-instructions.md', destFile: 'copilot-instructions.md' },
+  cursor: { source: 'cursor-instructions.md', destFile: 'instructions.md' },
+  gemini: { source: 'gemini-instructions.md', destFile: 'instructions.md' },
+  codex: { source: 'codex-instructions.md', destFile: 'instructions.md' },
+};
 
 /**
  * Installs skills from a remote repository. If no source is provided, uses the official repo.
@@ -30,17 +41,15 @@ export async function addCommand(source: string, options: AddOptions) {
 
   s.start(`Fetching repository: ${source}`);
   const repo = await repoManager.fetchRepository(source);
-  s.stop(`Repository cached at: ${repo.cachePath}`);
+  s.stop(`Repository ready`);
 
   // 2. Detect project
   const projectDetector = new ProjectDetector();
   const project = await projectDetector.detectProject();
 
-  console.log();
-  console.log(color.cyan(`Project detected: ${project.rootPath}`));
-  console.log(color.dim(`Type: ${project.type}`));
+  p.log.info(`Project: ${color.cyan(project.rootPath)} ${color.dim(`(${project.type})`)}`);
 
-  // 3. Detect or select models
+  // 3. Always show model selection (unless --models flag provided)
   const modelDetector = new ModelDetector();
   const installedModels = modelDetector.detectInstalledModels(project.rootPath);
 
@@ -48,8 +57,7 @@ export async function addCommand(source: string, options: AddOptions) {
 
   if (options.models) {
     selectedModels = options.models.split(',').map(m => m.trim());
-  } else if (installedModels.length > 0) {
-    // Interactive selection with detected models pre-selected
+  } else {
     const allModels = modelDetector.getAllModelsInfo(project.rootPath);
 
     const selected = await p.multiselect({
@@ -57,9 +65,9 @@ export async function addCommand(source: string, options: AddOptions) {
       options: allModels.map(m => ({
         value: m.id,
         label: m.name,
-        hint: installedModels.includes(m.id) ? '(detected)' : ''
+        hint: installedModels.includes(m.id) ? color.green('detected') : ''
       })),
-      initialValues: installedModels.length > 0 ? installedModels : ['claude'],
+      initialValues: installedModels.length > 0 ? installedModels : [],
       required: true
     });
 
@@ -69,8 +77,6 @@ export async function addCommand(source: string, options: AddOptions) {
     }
 
     selectedModels = selected as string[];
-  } else {
-    selectedModels = ['claude']; // Default
   }
 
   // 4. Determine what to install
@@ -87,9 +93,8 @@ export async function addCommand(source: string, options: AddOptions) {
     }
 
     skillsToInstall = presetInfo.skills;
-    console.log();
-    console.log(color.green(`Preset: ${presetInfo.name}`));
-    console.log(color.dim(presetInfo.description));
+    p.log.info(`Preset: ${color.green(presetInfo.name)}`);
+    p.log.message(color.dim(presetInfo.description));
   } else if (options.skill) {
     // Install specific skill
     skillsToInstall = [options.skill];
@@ -109,7 +114,6 @@ export async function addCommand(source: string, options: AddOptions) {
     }
 
     if (choice === 'preset') {
-      // Select preset
       const presets = await repoManager.listPresets(repo.cachePath);
 
       if (presets.length === 0) {
@@ -134,7 +138,6 @@ export async function addCommand(source: string, options: AddOptions) {
       presetInfo = presets.find(preset => preset.id === selectedPreset) ?? null;
       skillsToInstall = presetInfo!.skills;
     } else {
-      // Select skills
       const availableSkills = repoManager.listSkills(repo.cachePath);
 
       if (availableSkills.length === 0) {
@@ -161,7 +164,6 @@ export async function addCommand(source: string, options: AddOptions) {
   }
 
   // 5. Resolve dependencies
-  console.log();
   s.start('Resolving dependencies...');
 
   const skillSource = new RemoteSkillSource(repo.cachePath);
@@ -180,39 +182,23 @@ export async function addCommand(source: string, options: AddOptions) {
     process.exit(0);
   }
 
-  // 7. Install to .agents/skills/ (once)
-  console.log();
-  s.start('Copying skills to .agents/skills/...');
+  // 7. Setup .agents/skills/ directory
+  s.start('Setting up skills directory...');
 
   const agentsSkillsDir = projectDetector.getSkillsDir(project.rootPath);
   if (!fs.existsSync(agentsSkillsDir)) {
     fs.mkdirSync(agentsSkillsDir, { recursive: true });
   }
 
-  let copiedCount = 0;
-  let skippedCount = 0;
+  s.stop('Skills directory ready');
 
-  for (const skillName of Array.from(resolved.keys())) {
-    const srcPath = path.join(repo.cachePath, 'skills', skillName);
-    const dstPath = path.join(agentsSkillsDir, skillName);
+  // 8. Setup model directories (create dirs + instruction files)
+  s.start('Setting up model directories...');
 
-    if (!fs.existsSync(dstPath)) {
-      if (!options.dryRun) {
-        fs.cpSync(srcPath, dstPath, { recursive: true });
-      }
-      copiedCount++;
-    } else {
-      skippedCount++;
-    }
-  }
+  const prevLevel = logger.getLevel();
+  logger.setLevel(LogLevel.WARN);
 
-  s.stop(`Copied ${copiedCount} skill(s), skipped ${skippedCount} (already exists)`);
-
-  // 8. Create symlinks in model directories
-  console.log();
-  s.start('Creating symlinks...');
-
-  let linkCount = 0;
+  let instructionCount = 0;
 
   for (const modelId of selectedModels) {
     const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
@@ -222,7 +208,70 @@ export async function addCommand(source: string, options: AddOptions) {
       fs.mkdirSync(skillsDir, { recursive: true });
     }
 
-    for (const skillName of Array.from(resolved.keys())) {
+    // Generate instruction file from template
+    const mapping = INSTRUCTION_MAPPING[modelId];
+    if (mapping) {
+      const templatePath = path.join(repo.cachePath, 'templates', mapping.source);
+      const destPath = path.join(modelDir, mapping.destFile);
+
+      if (fs.existsSync(templatePath) && !fs.existsSync(destPath) && !options.dryRun) {
+        let content = fs.readFileSync(templatePath, 'utf-8');
+        content = content.replace(/\{\{SKILL_COUNT\}\}/g, resolved.size.toString());
+        fs.writeFileSync(destPath, content, 'utf-8');
+        instructionCount++;
+      }
+    }
+  }
+
+  s.stop(`${selectedModels.length} model directory(s) ready`);
+
+  // 9. Install skills with detailed progress
+  console.log();
+  console.log(color.bold('Installing skills:'));
+  console.log();
+
+  let installedCount = 0;
+  let skippedCount = 0;
+
+  // Get dependency details for each skill from graph
+  const skillDeps = new Map<string, string[]>();
+  const skillNames = Array.from(resolved.keys());
+
+  for (const skillName of skillNames) {
+    const node = resolved.get(skillName);
+    if (node && node.dependencies.length > 0) {
+      skillDeps.set(skillName, node.dependencies);
+    }
+  }
+
+  // Suppress logger during installation
+  logger.setLevel(LogLevel.SILENT);
+
+  for (const skillName of skillNames) {
+    const deps = skillDeps.get(skillName);
+
+    // Show installing status with spinner
+    logger.setLevel(LogLevel.INFO);
+    logger.skillProgress(skillName, 'installing', deps);
+    logger.setLevel(LogLevel.SILENT);
+
+    const srcPath = path.join(repo.cachePath, 'skills', skillName);
+    const dstPath = path.join(agentsSkillsDir, skillName);
+
+    let skillInstalled = false;
+
+    // Copy to .agents/skills/ if not exists
+    if (!fs.existsSync(dstPath)) {
+      if (!options.dryRun) {
+        fs.cpSync(srcPath, dstPath, { recursive: true });
+      }
+      skillInstalled = true;
+    }
+
+    // Create symlinks for each model
+    for (const modelId of selectedModels) {
+      const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
+      const skillsDir = path.join(modelDir, 'skills');
       const symlinkSrc = path.relative(
         skillsDir,
         path.join(agentsSkillsDir, skillName)
@@ -231,31 +280,69 @@ export async function addCommand(source: string, options: AddOptions) {
 
       if (!fs.existsSync(symlinkDst) && !options.dryRun) {
         fs.symlinkSync(symlinkSrc, symlinkDst, 'dir');
-        linkCount++;
       }
+    }
+
+    // Update with final status
+    logger.setLevel(LogLevel.INFO);
+    const status = skillInstalled ? 'completed' : 'skipped';
+    process.stdout.write('\x1b[1A\r\x1b[K');
+    logger.skillProgress(skillName, status, deps);
+    logger.setLevel(LogLevel.SILENT);
+
+    if (skillInstalled) {
+      installedCount++;
+    } else {
+      skippedCount++;
     }
   }
 
-  s.stop(`Created ${linkCount} symlink(s)`);
+  // Restore logger level
+  logger.setLevel(prevLevel);
+  console.log();
 
-  // 9. Copy AGENTS.md if preset
+  // 10. Copy AGENTS.md if preset
   if (presetInfo && !options.dryRun) {
     const agentsSrc = path.join(presetInfo.path, 'AGENTS.md');
     const agentsDst = path.join(project.rootPath, 'AGENTS.md');
 
-    if (!fs.existsSync(agentsDst)) {
+    if (fs.existsSync(agentsSrc) && !fs.existsSync(agentsDst)) {
       fs.copyFileSync(agentsSrc, agentsDst);
-      console.log();
-      console.log(color.green(`✓ Copied AGENTS.md for preset: ${presetInfo.name}`));
+      p.log.success(`Copied AGENTS.md for preset: ${presetInfo.name}`);
     }
   }
 
-  // 10. Success
-  console.log();
-  p.outro(color.green(`✓ Successfully installed ${resolved.size} skill(s) to ${selectedModels.length} model(s)!`));
+  // 11. Regenerate instruction files with installed skills
+  s.start('Updating instruction files...');
+  let instructionsUpdated = 0;
+
+  for (const modelId of selectedModels) {
+    const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
+    const updated = regenerateInstructionFile(modelDir, modelId, options.dryRun);
+    if (updated) instructionsUpdated++;
+  }
+
+  s.stop(`Updated ${instructionsUpdated} instruction file(s)`);
+
+  // 12. Summary
+  const summaryLines = [];
+  summaryLines.push(`Models: ${color.cyan(selectedModels.length.toString())}`);
+  summaryLines.push(`Skills installed: ${color.green(installedCount.toString())}`);
+  if (skippedCount > 0) {
+    summaryLines.push(`Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`);
+  }
+  if (instructionCount > 0) {
+    summaryLines.push(`Instructions: ${color.green(instructionCount.toString())} file(s) generated`);
+  }
+  if (presetInfo) {
+    summaryLines.push(`Preset: ${color.cyan(presetInfo.name)}`);
+  }
+
+  p.note(summaryLines.join('\n'), 'Summary');
 
   if (options.dryRun) {
-    console.log();
-    console.log(color.yellow('DRY RUN - No changes were made'));
+    p.outro(color.yellow('DRY RUN - No changes were made'));
+  } else {
+    p.outro(color.green('Installation complete!'));
   }
 }

@@ -2,15 +2,6 @@
  * Application constants
  */
 
-// Meta-skills that are always included
-export const META_SKILLS = [
-  'conventions',
-  'a11y',
-  'architecture-patterns',
-  'english-writing',
-  'critical-partner',
-] as const;
-
 // Supported models and their directories
 export const MODEL_DIRECTORIES: Record<string, string> = {
   'github-copilot': '.github',

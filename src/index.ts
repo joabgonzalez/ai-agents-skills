@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { localCommand } from './commands/local';
-import { uninstallCommand } from './commands/uninstall';
+import { removeCommand } from './commands/remove';
 import { validateCommand } from './commands/validate';
 import { addCommand } from './commands/add';
 import { listCommand } from './commands/list';
@@ -34,18 +34,19 @@ program
   .option('-m, --models <models>', 'Models to install (comma-separated, e.g., "copilot,claude,cursor")')
   .option('-s, --skills <skills>', 'Specific skills to install (comma-separated)')
   .option('-d, --dry-run', 'Dry run without making changes', false)
-  .option('--no-meta', 'Skip meta-skills installation', false)
   .action(localCommand);
 
-// Uninstall command
+// Remove command
 program
-  .command('uninstall')
+  .command('remove')
+  .alias('uninstall') // Keep 'uninstall' as alias for backwards compatibility
   .description('Remove skills from model directories')
-  .option('-s, --skills <skills>', 'Specific skills to uninstall (comma-separated)')
-  .option('-m, --models <models>', 'Models to target (comma-separated)', 'github-copilot')
-  .option('-a, --all', 'Uninstall all skills', false)
+  .option('-s, --skills <skills>', 'Specific skills to remove (comma-separated)')
+  .option('-m, --models <models>', 'Models to target (comma-separated)')
+  .option('-a, --all', 'Remove all skills', false)
   .option('--confirm', 'Skip confirmation prompt', false)
-  .action(uninstallCommand);
+  .option('-d, --dry-run', 'Dry run without making changes', false)
+  .action(removeCommand);
 
 // Validate command
 program
@@ -81,6 +82,7 @@ program
   .command('sync')
   .description('Sync models with existing skills')
   .option('--add-models <models>', 'Add models to existing installation (comma-separated)')
+  .option('-d, --dry-run', 'Dry run without making changes', false)
   .action(syncModelsCommand);
 
 // Info command

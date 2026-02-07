@@ -15,6 +15,10 @@ class Logger {
     this.level = level;
   }
 
+  getLevel(): LogLevel {
+    return this.level;
+  }
+
   debug(message: string, ...args: any[]): void {
     if (this.level <= LogLevel.DEBUG) {
       console.log(chalk.gray('[DEBUG]'), message, ...args);
@@ -90,13 +94,19 @@ class Logger {
   }
 
   /**
-   * Print progress indicator
+   * Print progress indicator (overwrites same line)
    */
   progress(current: number, total: number, message: string): void {
     if (this.level <= LogLevel.INFO) {
       const percentage = Math.round((current / total) * 100);
       const bar = this.progressBar(percentage);
-      console.log(`${bar} ${chalk.gray(`[${current}/${total}]`)} ${message}`);
+      // Clear line and move cursor to start, then print
+      process.stdout.write(`\r\x1b[K${bar} ${chalk.gray(`[${current}/${total}]`)} ${message}`);
+
+      // Add newline on completion
+      if (current === total) {
+        process.stdout.write('\n');
+      }
     }
   }
 
@@ -111,7 +121,28 @@ class Logger {
     const filledBar = chalk.green('█'.repeat(filled));
     const emptyBar = chalk.gray('░'.repeat(empty));
 
-    return `${filledBar}${emptyBar} ${percentage}%`;
+    return `${filledBar}${emptyBar} ${chalk.cyan(`${percentage}%`)}`;
+  }
+
+  /**
+   * Print skill installation detail with spinner/checkmark
+   */
+  skillProgress(skillName: string, status: 'installing' | 'completed' | 'skipped', dependencies?: string[]): void {
+    if (this.level <= LogLevel.INFO) {
+      const icon = status === 'installing'
+        ? chalk.cyan('◐')
+        : status === 'completed'
+          ? chalk.green('✓')
+          : chalk.yellow('○');
+
+      let line = `  ${icon} ${chalk.bold(skillName)}`;
+
+      if (dependencies && dependencies.length > 0) {
+        line += chalk.gray(` → ${dependencies.join(', ')}`);
+      }
+
+      console.log(line);
+    }
   }
 
   /**

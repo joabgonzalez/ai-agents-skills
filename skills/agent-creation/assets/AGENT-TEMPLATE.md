@@ -1,11 +1,13 @@
 ---
-name: {agent-name}
-description: {One-line precise description of agent purpose and responsibilities}. Trigger: {When this agent should be activated - specific contexts or project types}.
-skills:
-  - critical-partner
-  - process-documentation
-  - {skill-1}
-  - {skill-2}
+name: { agent-name }
+description: "{One-line precise description of agent purpose and responsibilities}."
+metadata:
+  version: "1.0"
+  skills:
+    - critical-partner
+    - process-documentation
+    - { skill-1 }
+    - { skill-2 }
 input: "{description of expected input | data_type}"
 output: "{description of expected output | data_type}"
 ---
@@ -21,6 +23,8 @@ output: "{description of expected output | data_type}"
 ## ⚠️ MANDATORY SKILL READING
 
 **CRITICAL INSTRUCTION: You MUST read the corresponding skill file BEFORE executing any task that matches a trigger below.**
+
+**Token Efficiency:** Evita espacios innecesarios en las tablas markdown. Las celdas y separadores deben ser compactos para ahorrar tokens y mejorar legibilidad.
 
 ### Skill Reading Protocol
 

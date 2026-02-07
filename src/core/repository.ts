@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import crypto from 'crypto';
+import { load as yamlLoad } from 'js-yaml';
 import type { SimpleGit } from 'simple-git';
 
 export interface RepositoryInfo {
@@ -130,21 +131,20 @@ export class RepositoryManager {
       const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
 
       if (frontmatterMatch) {
-        const yaml = frontmatterMatch[1];
-        const nameMatch = yaml.match(/^name:\s*(.+)$/m);
-        const descMatch = yaml.match(/^description:\s*(.+)$/m);
-        const skillsMatch = yaml.match(/^skills:\s*\n((?:  - .+\n?)+)/m);
+        const parsed = yamlLoad(frontmatterMatch[1]) as Record<string, unknown> | null;
+        if (!parsed) continue;
 
-        const skills: string[] = [];
-        if (skillsMatch) {
-          const skillLines = skillsMatch[1].trim().split('\n');
-          skills.push(...skillLines.map(l => l.trim().replace(/^- /, '')));
-        }
+        const description = typeof parsed.description === 'string'
+          ? parsed.description.replace(/^["']|["']$/g, '')
+          : '';
+
+        const metadata = parsed.metadata as Record<string, unknown> | undefined;
+        const skills: string[] = Array.isArray(metadata?.skills) ? metadata.skills as string[] : [];
 
         presets.push({
           id: entry.name,
-          name: nameMatch ? nameMatch[1].trim() : entry.name,
-          description: descMatch ? descMatch[1].trim() : '',
+          name: typeof parsed.name === 'string' ? parsed.name : entry.name,
+          description,
           path: path.join(presetsDir, entry.name),
           skills
         });
