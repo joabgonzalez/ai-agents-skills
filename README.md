@@ -21,7 +21,7 @@ npx ai-agents-skills add --skill react --skill typescript
 
 | Model | Directory | ID |
 |---|---|---|
-| GitHub Copilot | `.github/copilot/` | `github-copilot` |
+| GitHub Copilot | `.github/` | `copilot` or `github-copilot` |
 | Claude | `.claude/` | `claude` |
 | Cursor | `.cursor/` | `cursor` |
 | Gemini | `.gemini/` | `gemini` |
@@ -64,18 +64,64 @@ npx ai-agents-skills list
 
 ```bash
 # Already have skills in Claude, add to Copilot
-npx ai-agents-skills sync --add-models github-copilot
+npx ai-agents-skills sync --add-models copilot
 
 # Interactive model selection
 npx ai-agents-skills sync
 ```
 
-### `uninstall` — Remove skills
+**Features:**
+- Auto-generates instruction files for each model
+- Syncs all installed skills to new models
+- Shows initial instruction count in summary
+
+### `remove` — Remove skills with dependency checking
 
 ```bash
-npx ai-agents-skills uninstall --all --confirm
-npx ai-agents-skills uninstall --skills react,typescript
+# Interactive removal
+npx ai-agents-skills remove
+
+# Remove specific skills
+npx ai-agents-skills remove --skills react,typescript
+
+# Remove all skills (confirmation required)
+npx ai-agents-skills remove --all
+
+# Skip confirmation
+npx ai-agents-skills remove --skills react --confirm
 ```
+
+**Features:**
+- Validates dependencies before removal (prevents breaking other skills)
+- Updates instruction files after removal
+- Alias: `uninstall` still works for backwards compatibility
+
+**Options:**
+
+| Flag | Description |
+|---|---|
+| `-s, --skills <list>` | Skills to remove, comma-separated |
+| `-m, --models <list>` | Target models, comma-separated |
+| `-a, --all` | Remove all skills |
+| `--confirm` | Skip confirmation prompt |
+| `-d, --dry-run` | Preview without making changes |
+
+### `local` — Local repository installation
+
+For contributors working on this repository:
+
+```bash
+# Interactive model selection
+npm run dev -- local
+
+# Install to specific models
+npm run dev -- local --models claude,copilot
+
+# Preview without changes
+npm run dev -- local --dry-run
+```
+
+Installs skills from `./skills/` directory to model directories in the repo.
 
 ## How It Works
 
@@ -87,6 +133,7 @@ npx ai-agents-skills add --skill react
 2. Resolves dependencies: `react` → `javascript`, `typescript`, `conventions`
 3. Copies skills to `.agents/skills/` in your project
 4. Creates symlinks in each model directory (`.claude/skills/`, `.github/copilot/skills/`, etc.)
+5. Auto-generates instruction files (`instructions.md`, `copilot-instructions.md`) with skill metadata
 
 ### Installed structure
 

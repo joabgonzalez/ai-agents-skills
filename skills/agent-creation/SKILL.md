@@ -46,20 +46,23 @@ Before creating an agent, gather answers to:
 ### ✅ REQUIRED: Frontmatter Structure
 
 ```yaml
----
-name: my-project-agent        # Required: lowercase-with-hyphens
-description: Development assistant for Project X. Expert in TypeScript, React, MUI.
-skills:                        # Required: existing skills from skills/
-  - typescript
-  - react
-  - critical-partner           # Mandatory for ALL agents
-  - process-documentation      # Mandatory for technical/management agents
-  - conventions
-  - a11y
+name: my-project-agent # Required: lowercase-with-hyphens
+description: "Development assistant for Project X. Expert in TypeScript, React, MUI."
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - typescript
+    - react
+    - critical-partner # Mandatory for ALL agents
+    - process-documentation # Mandatory for technical/management agents
+    - conventions # Mandatory for coding-related agents
+    - a11y
 ---
 ```
 
 Rules:
+
 - `name`, `description`, `skills` are required
 - Always include `critical-partner` in skills
 - Use YAML list syntax (`- item`), never `[]`
@@ -72,6 +75,9 @@ After frontmatter, include:
 1. **# Agent Name** - Title (e.g., "SBD Project Agent")
 2. **## Purpose** - Clear statement of responsibilities
 3. **## Skills Reference** - Table: Trigger | Skill | Path
+
+- **Avoid unnecessary whitespace in markdown tables.** Cells and separators should be compact to save tokens and improve readability.
+
 4. **## Supported Stack** (if applicable) - Technologies and versions
 5. **## Workflows** (optional) - Feature dev, code review, bug fix flows
 6. **## Policies** (optional) - Typing rules, accessibility, version constraints
@@ -109,16 +115,18 @@ critical-partner in skills? → NO → Stop: Must include (mandatory)
 ## Example
 
 ```yaml
----
 name: example-agent
-description: Development assistant for Example Project. TypeScript, React, accessibility.
-skills:
-  - typescript
-  - react
-  - critical-partner
-  - process-documentation
-  - conventions
-  - a11y
+description: "Development assistant for Example Project. TypeScript, React, accessibility."
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - typescript
+    - react
+    - critical-partner
+    - process-documentation
+    - conventions
+    - a11y
 ---
 ```
 
@@ -131,12 +139,12 @@ Primary development assistant ensuring code quality, accessibility, and TypeScri
 
 ## Skills Reference
 
-| Trigger | Skill | Path |
-|---------|-------|------|
-| TypeScript types/interfaces | typescript | skills/typescript/SKILL.md |
-| React components/hooks | react | skills/react/SKILL.md |
-| Code review | critical-partner | skills/critical-partner/SKILL.md |
-| Document changes | process-documentation | skills/process-documentation/SKILL.md |
+| Trigger                     | Skill                 | Path                                  |
+| --------------------------- | --------------------- | ------------------------------------- |
+| TypeScript types/interfaces | typescript            | skills/typescript/SKILL.md            |
+| React components/hooks      | react                 | skills/react/SKILL.md                 |
+| Code review                 | critical-partner      | skills/critical-partner/SKILL.md      |
+| Document changes            | process-documentation | skills/process-documentation/SKILL.md |
 
 ## Supported Stack
 

@@ -3,7 +3,7 @@
   "title": "Agent Frontmatter Schema",
   "description": "JSON Schema for validating agent frontmatter in AGENTS.md files",
   "type": "object",
-  "required": ["name", "description", "skills"],
+  "required": ["name", "description", "license", "metadata"],
   "properties": {
     "name": {
       "type": "string",
@@ -16,18 +16,33 @@
       "pattern": ".*Trigger:.*",
       "description": "Precise description including 'Trigger:' clause for when agent activates"
     },
-    "skills": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    "license": {
+      "type": "string",
+      "description": "License identifier (e.g., Apache 2.0)"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["version", "skills"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Semantic version (e.g., 1.0 or 1.0.0)"
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "contains": {
+            "enum": ["critical-partner"]
+          },
+          "description": "Required: List of skills (must include critical-partner)"
+        }
       },
-      "minItems": 1,
-      "uniqueItems": true,
-      "contains": {
-        "enum": ["critical-partner"]
-      },
-      "description": "Required: List of skills (must include critical-partner)"
+      "additionalProperties": true
     },
     "input": {
       "type": "string",
@@ -54,9 +69,13 @@
       },
       "then": {
         "properties": {
-          "skills": {
-            "contains": {
-              "enum": ["process-documentation"]
+          "metadata": {
+            "properties": {
+              "skills": {
+                "contains": {
+                  "enum": ["process-documentation"]
+                }
+              }
             }
           }
         }

@@ -1,28 +1,30 @@
 ---
 name: sbd-agent
-description: Development assistant for SBD web application. TypeScript/React with strict typing, MUI, Redux Toolkit, AG Grid, Formik.
-skills:
-  - typescript
-  - javascript
-  - react
-  - webpack
-  - redux-toolkit
-  - mui
-  - ag-grid
-  - mui-x-charts
-  - formik
-  - yup
-  - technical-communication
-  - critical-partner
-  - process-documentation
-  - eslint
-  - prettier
-  - html
-  - a11y
-  - conventions
-  - frontend-design
-  - frontend-dev
-  - humanizer
+description: "Development assistant for SBD web application. TypeScript/React with strict typing, MUI, Redux Toolkit, AG Grid, Formik."
+metadata:
+  version: "1.0"
+  skills:
+    - typescript
+    - javascript
+    - react
+    - webpack
+    - redux-toolkit
+    - mui
+    - ag-grid
+    - mui-x-charts
+    - formik
+    - yup
+    - eslint
+    - prettier
+    - html
+    - a11y
+    - conventions
+    - technical-communication
+    - critical-partner
+    - process-documentation
+    - frontend-design
+    - frontend-dev
+    - humanizer
 ---
 
 # SBD Project Agent
@@ -33,26 +35,26 @@ Primary development assistant for the SBD web application. Ensures strict typing
 
 Before any task, read the matching skill file from your model's skills directory.
 
-| Trigger | Skill | Path |
-|---------|-------|------|
-| TypeScript types/interfaces | typescript | skills/typescript/SKILL.md |
-| JavaScript (ES2020+) | javascript | skills/javascript/SKILL.md |
-| React components/hooks | react | skills/react/SKILL.md |
-| Webpack build config | webpack | skills/webpack/SKILL.md |
-| Redux state / RTK Query | redux-toolkit | skills/redux-toolkit/SKILL.md |
-| MUI components/theming | mui | skills/mui/SKILL.md |
-| AG Grid tables | ag-grid | skills/ag-grid/SKILL.md |
-| MUI X Charts | mui-x-charts | skills/mui-x-charts/SKILL.md |
-| Forms with validation | formik | skills/formik/SKILL.md |
-| Validation schemas | yup | skills/yup/SKILL.md |
-| Commit messages, PRs, docs | technical-communication | skills/technical-communication/SKILL.md |
-| Code review | critical-partner | skills/critical-partner/SKILL.md |
-| Document changes | process-documentation | skills/process-documentation/SKILL.md |
-| ESLint rules | eslint | skills/eslint/SKILL.md |
-| Prettier formatting | prettier | skills/prettier/SKILL.md |
-| Semantic HTML | html | skills/html/SKILL.md |
-| Accessibility | a11y | skills/a11y/SKILL.md |
-| Coding standards | conventions | skills/conventions/SKILL.md |
+| Trigger                     | Skill                   | Path                                    |
+| --------------------------- | ----------------------- | --------------------------------------- |
+| TypeScript types/interfaces | typescript              | skills/typescript/SKILL.md              |
+| JavaScript (ES2020+)        | javascript              | skills/javascript/SKILL.md              |
+| React components/hooks      | react                   | skills/react/SKILL.md                   |
+| Webpack build config        | webpack                 | skills/webpack/SKILL.md                 |
+| Redux state / RTK Query     | redux-toolkit           | skills/redux-toolkit/SKILL.md           |
+| MUI components/theming      | mui                     | skills/mui/SKILL.md                     |
+| AG Grid tables              | ag-grid                 | skills/ag-grid/SKILL.md                 |
+| MUI X Charts                | mui-x-charts            | skills/mui-x-charts/SKILL.md            |
+| Forms with validation       | formik                  | skills/formik/SKILL.md                  |
+| Validation schemas          | yup                     | skills/yup/SKILL.md                     |
+| Commit messages, PRs, docs  | technical-communication | skills/technical-communication/SKILL.md |
+| Code review                 | critical-partner        | skills/critical-partner/SKILL.md        |
+| Document changes            | process-documentation   | skills/process-documentation/SKILL.md   |
+| ESLint rules                | eslint                  | skills/eslint/SKILL.md                  |
+| Prettier formatting         | prettier                | skills/prettier/SKILL.md                |
+| Semantic HTML               | html                    | skills/html/SKILL.md                    |
+| Accessibility               | a11y                    | skills/a11y/SKILL.md                    |
+| Coding standards            | conventions             | skills/conventions/SKILL.md             |
 
 ## Supported Stack
 
@@ -92,5 +94,6 @@ Before any task, read the matching skill file from your model's skills directory
 **Accessibility:** Semantic MUI components, keyboard-accessible elements, proper heading hierarchy, labeled form fields
 
 **Versions:**
+
 - Exact: TypeScript 5.6.2, React 18.3.1, RTK 2.5.1, MUI 5.15.14, Formik 2.1.4, Yup 1.4.0
 - Ranges: TS >=5.4 <6.0, React >=18.0 <19.0, RTK >=1.8 <3.0, MUI >=5.0 <6.0

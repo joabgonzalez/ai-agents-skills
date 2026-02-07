@@ -1,15 +1,17 @@
 ---
 name: ai-agents-skills
-description: CLI framework for managing and distributing AI agent skills across multiple models (Copilot, Claude, Gemini, Codex, Cursor).
-version: "1.0"
-skills:
-  - skill-creation
-  - agent-creation
-  - critical-partner
-  - process-documentation
-  - conventions
-  - typescript
-  - nodejs
+description: "CLI framework for managing and distributing AI agent skills across multiple models (Copilot, Claude, Gemini, Codex, Cursor)."
+license: "Apache 2.0"
+metadata:
+  version: "1.0"
+  skills:
+    - skill-creation
+    - agent-creation
+    - typescript
+    - nodejs
+    - conventions
+    - critical-partner
+    - process-documentation
 ---
 
 # AI Agents Skills Framework
@@ -20,15 +22,15 @@ CLI for creating, managing, and distributing AI agent skills across 5 AI models.
 
 Before performing any task, read the relevant skill from `.claude/skills/` (or your model's skills directory).
 
-| Trigger | Skill | Path |
-|---------|-------|------|
-| Create or modify skills | skill-creation | skills/skill-creation/SKILL.md |
-| Create agent definitions | agent-creation | skills/agent-creation/SKILL.md |
-| Code review or improvements | critical-partner | skills/critical-partner/SKILL.md |
-| Document changes | process-documentation | skills/process-documentation/SKILL.md |
-| Coding standards | conventions | skills/conventions/SKILL.md |
-| TypeScript code | typescript | skills/typescript/SKILL.md |
-| Node.js / CLI development | nodejs | skills/nodejs/SKILL.md |
+| Trigger                     | Skill                 | Path                                  |
+| --------------------------- | --------------------- | ------------------------------------- |
+| Create or modify skills     | skill-creation        | skills/skill-creation/SKILL.md        |
+| Create agent definitions    | agent-creation        | skills/agent-creation/SKILL.md        |
+| Code review or improvements | critical-partner      | skills/critical-partner/SKILL.md      |
+| Document changes            | process-documentation | skills/process-documentation/SKILL.md |
+| Coding standards            | conventions           | skills/conventions/SKILL.md           |
+| TypeScript code             | typescript            | skills/typescript/SKILL.md            |
+| Node.js / CLI development   | nodejs                | skills/nodejs/SKILL.md                |
 
 ## Skills Reference
 
@@ -40,7 +42,7 @@ Before performing any task, read the relevant skill from `.claude/skills/` (or y
 - **Backend:** Node.js, Express, Nest, Hono, Bun
 - **Build Tools:** Vite, Webpack, Bun
 - **Libraries:** MUI, MUI X Charts, AG Grid, Formik, Yup, Zod, Redux Toolkit
-- **Meta:** Critical Partner, Architecture Patterns, Process Documentation, English Writing, Humanizer
+- **Quality:** Critical Partner, Architecture Patterns, Process Documentation, English Writing, Humanizer
 - **Specialized:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync, Stagehand
 
 ## Project Structure
@@ -50,9 +52,9 @@ ai-agents-skills/
 ├── skills/             # 49 skill definitions (SKILL.md format)
 ├── presets/            # Agent presets (project-sbd, project-usn)
 ├── src/                # TypeScript CLI source
-│   ├── commands/       # CLI commands (local, add, validate, list)
+│   ├── commands/       # CLI commands (local, add, remove, sync, validate, list)
 │   ├── core/           # Dependency resolver, installer, skill parser
-│   └── utils/          # Logger, YAML parser, file system
+│   └── utils/          # Logger, YAML parser, instruction generator
 ├── templates/          # Model instruction templates (5 models)
 └── AGENTS.md          # This file
 ```
@@ -84,9 +86,11 @@ npx ai-agents-skills validate --all            # Validate all skills
 
 ## Policies
 
-- **Token efficiency:** Instruction templates optimized for minimal token usage
+- **Explicit dependencies:** Skills declare all their dependencies in `metadata.skills` — no hidden auto-includes
 - **Dependency resolution:** Auto-resolve with cycle detection and topological sort
 - **Symlink architecture:** `skills/` → `.agents/skills/` → `.{model}/skills/` (always up-to-date)
+- **Auto-generated instructions:** Each model gets an instruction file listing all installed skills with their metadata
+- **Dependency-safe removal:** `remove` command validates dependencies before removing skills
 - **5 models supported:** GitHub Copilot, Claude, Gemini, Codex, Cursor
 
 ## References

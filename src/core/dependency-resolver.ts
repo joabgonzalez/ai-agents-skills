@@ -1,7 +1,7 @@
 import path from 'path';
 import { SkillParser } from './skill-parser';
 import { logger } from '../utils/logger';
-import { readFile } from '../utils/fs';
+import { extractFrontmatter } from '../utils/yaml';
 import type { SkillSource } from './skill-source';
 
 /**
@@ -11,7 +11,7 @@ export interface DependencyNode {
   name: string;
   version: string;
   dependencies: string[];
-  source: 'agents-md' | 'meta-skill' | 'skill-dependency';
+  source: 'agents-md' | 'skill-dependency';
 }
 
 /**
@@ -21,17 +21,6 @@ export interface DependencyCycle {
   path: string[];
   formatted: string;
 }
-
-/**
- * Centralized meta-skills configuration
- */
-export const META_SKILLS = [
-  'conventions',
-  'a11y',
-  'architecture-patterns',
-  'english-writing',
-  'critical-partner',
-];
 
 /**
  * DependencyResolver - Build and analyze dependency graphs
@@ -46,19 +35,13 @@ export class DependencyResolver {
   }
 
   /**
-   * Build full dependency graph from three sources
+   * Build full dependency graph from requested skills
    */
-  buildGraph(
-    agentsSkills: string[],
-    metaSkills: string[] = META_SKILLS
-  ): Map<string, DependencyNode> {
+  buildGraph(agentsSkills: string[]): Map<string, DependencyNode> {
     const graph = new Map<string, DependencyNode>();
 
-    // Start with all requested skills (from AGENTS.md + meta-skills)
-    const allSkills = new Set([...agentsSkills, ...metaSkills]);
-
-    // Build graph recursively
-    for (const skillName of allSkills) {
+    // Build graph recursively from requested skills
+    for (const skillName of agentsSkills) {
       this.buildNodeRecursive(skillName, graph, 'agents-md');
     }
 
@@ -71,7 +54,7 @@ export class DependencyResolver {
   private buildNodeRecursive(
     skillName: string,
     graph: Map<string, DependencyNode>,
-    source: 'agents-md' | 'meta-skill' | 'skill-dependency'
+    source: 'agents-md' | 'skill-dependency'
   ): void {
     // Skip if already processed
     if (graph.has(skillName)) {
@@ -94,7 +77,7 @@ export class DependencyResolver {
         name: skillName,
         version,
         dependencies,
-        source: META_SKILLS.includes(skillName) ? 'meta-skill' : source,
+        source,
       };
 
       graph.set(skillName, node);
@@ -314,27 +297,12 @@ export class DependencyResolver {
    */
   static parseAgentsMd(filePath: string): string[] {
     try {
-      const content = readFile(filePath);
-
-      // Extract skills from "Available Skills" table
-      const skillsMatch = content.match(/## Available Skills[\s\S]*?(?=##|$)/);
-      if (!skillsMatch) {
-        logger.warn('No "Available Skills" section found in AGENTS.md');
+      const frontmatter = extractFrontmatter(filePath);
+      if (!frontmatter) {
+        logger.warn('No frontmatter found in AGENTS.md');
         return [];
       }
-
-      const lines = skillsMatch[0].split('\n');
-      const skills: string[] = [];
-
-      for (const line of lines) {
-        // Match markdown links like [skill-name](skills/skill-name/SKILL.md)
-        const match = line.match(/\[([a-z0-9-]+)\]\(skills\/[^)]+\)/);
-        if (match) {
-          skills.push(match[1]);
-        }
-      }
-
-      return skills;
+      return frontmatter.metadata?.skills || [];
     } catch (error) {
       logger.error(`Failed to parse AGENTS.md: ${error instanceof Error ? error.message : String(error)}`);
       return [];
@@ -342,28 +310,15 @@ export class DependencyResolver {
   }
 
   /**
-   * Get meta skills list
-   */
-  static getMetaSkills(): string[] {
-    return META_SKILLS;
-  }
-
-  /**
-   * Discover all skills from all sources
+   * Discover all skills from AGENTS.md
    */
   discoverAllSkills(agentsMdPath: string): Map<string, DependencyNode> {
-    const agentsMdFile = agentsMdPath;
-
     // Get skills from AGENTS.md
-    const agentsSkills = DependencyResolver.parseAgentsMd(agentsMdFile);
+    const agentsSkills = DependencyResolver.parseAgentsMd(agentsMdPath);
     logger.info(`Found ${agentsSkills.length} skills in AGENTS.md`);
 
-    // Get meta-skills
-    const metaSkills = DependencyResolver.getMetaSkills();
-    logger.info(`Using ${metaSkills.length} meta-skills`);
-
-    // Build full graph
-    const graph = this.buildGraph(agentsSkills, metaSkills);
+    // Build full graph (dependencies resolved automatically)
+    const graph = this.buildGraph(agentsSkills);
     logger.info(`Built dependency graph with ${graph.size} total skills`);
 
     return graph;
