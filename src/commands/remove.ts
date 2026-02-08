@@ -85,6 +85,10 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     // Get skills that will remain after removal
     const remainingSkills = installedSkills.filter(s => !skillsToRemove.includes(s));
 
+    // Suppress warnings during dependency checking (skills not found are expected)
+    const depCheckLogLevel = logger.getLevel();
+    logger.setLevel(LogLevel.ERROR);
+
     // Build graph for remaining skills to check their dependencies
     const blockedRemovals: { skill: string; usedBy: string[] }[] = [];
 
@@ -106,6 +110,9 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
         });
       }
     }
+
+    // Restore log level
+    logger.setLevel(depCheckLogLevel);
 
     s.stop('Dependency check complete');
 
