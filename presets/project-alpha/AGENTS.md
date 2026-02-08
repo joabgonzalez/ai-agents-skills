@@ -1,6 +1,6 @@
 ---
-name: sbd-agent
-description: "Development assistant for SBD web application. TypeScript/React with strict typing, MUI, Redux Toolkit, AG Grid, Formik."
+name: alpha-template
+description: "Development assistant for a web application. TypeScript/React with strict typing, MUI, Redux Toolkit, AG Grid, Formik."
 metadata:
   version: "1.0"
   skills:
@@ -27,9 +27,9 @@ metadata:
     - humanizer
 ---
 
-# SBD Project Agent
+# Alpha Template Agent
 
-Primary development assistant for the SBD web application. Ensures strict typing, MUI best practices, accessibility, and version compatibility across Redux Toolkit, AG Grid, MUI X Charts, and Formik integrations.
+Primary development assistant for a web application. Ensures strict typing, MUI best practices, accessibility, and version compatibility across Redux Toolkit, AG Grid, MUI X Charts, and Formik integrations.
 
 ## Skills Reference
 

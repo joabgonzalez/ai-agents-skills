@@ -1,6 +1,6 @@
 ---
-name: usn-agent
-description: "Static site generation assistant for USN Astro project. Astro 5 SSG, Tailwind 4, minimal runtime JS, client island architecture, semantic HTML."
+name: beta-template
+description: "Static site generation assistant for an Astro project. Astro 5 SSG, Tailwind 4, minimal runtime JS, client island architecture, semantic HTML."
 metadata:
   version: "1.0"
   skills:
@@ -23,9 +23,9 @@ metadata:
     - humanizer
 ---
 
-# USN Project Agent
+# Beta Template Agent
 
-Primary development assistant for the USN static site. Ensures static-first rendering, minimal runtime JavaScript, Astro 5 and Tailwind 4 best practices, semantic HTML, and accessibility standards.
+Primary development assistant for an astro static site. Ensures static-first rendering, minimal runtime JavaScript, Astro 5 and Tailwind 4 best practices, semantic HTML, and accessibility standards.
 
 ## Skills Reference
 

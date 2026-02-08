@@ -8,13 +8,14 @@ import { addCommand } from './commands/add';
 import { listCommand } from './commands/list';
 import { syncModelsCommand } from './commands/sync-models';
 import { logger, LogLevel } from './utils/logger';
+import packageJson from '../package.json';
 
 const program = new Command();
 
 program
   .name('ai-agents-skills')
   .description('AI Agent and Skill Distribution System')
-  .version('1.0.0')
+  .version(packageJson.version)
   .option('-v, --verbose', 'Enable verbose logging')
   .option('-q, --quiet', 'Suppress non-error output')
   .hook('preAction', (thisCommand) => {
@@ -60,14 +61,14 @@ program
 // Add command (NPX mode)
 const DEFAULT_REPO = 'joabgonzalez/ai-agents-skills';
 program
-  .command('add [source]')
-  .description('Install skills from remote repository (defaults to official)')
-  .option('-p, --preset <preset>', 'Install agent preset by ID')
+  .command('add')
+  .description('Install skills from official repository')
+  .option('-p, --preset <preset>', 'Install project starter preset by ID')
   .option('-s, --skill <skill>', 'Install specific skill by name')
   .option('-m, --models <models>', 'Models to install (comma-separated)')
   .option('-d, --dry-run', 'Dry run without making changes', false)
-  .action((source, options) => {
-    addCommand(source || DEFAULT_REPO, options);
+  .action((options) => {
+    addCommand(DEFAULT_REPO, options);
   });
 
 // List command
@@ -80,8 +81,9 @@ program
 // Sync command
 program
   .command('sync')
-  .description('Sync models with existing skills')
+  .description('Sync models or update skills')
   .option('--add-models <models>', 'Add models to existing installation (comma-separated)')
+  .option('--update-skills', 'Update skills to latest versions', false)
   .option('-d, --dry-run', 'Dry run without making changes', false)
   .action(syncModelsCommand);
 

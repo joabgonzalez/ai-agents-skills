@@ -1,7 +1,7 @@
 {
   "name": "ai-agents-skills",
-  "version": "1.1.0",
-  "description": "AI Agent and Skill Distribution System",
+  "version": "1.2.0",
+  "description": "Modular CLI for distributing 49+ AI agent skills across Claude, GitHub Copilot, Cursor, Gemini, and Codex",
   "main": "dist/index.js",
   "bin": {
     "ai-agents-skills": "./dist/index.js"
@@ -34,7 +34,7 @@
     "codex",
     "cli"
   ],
-  "author": "Joab Gonzalez",
+  "author": "Joab Gonzalez <joabgonzalez@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/joabgonzalez/ai-agents-skills.git"
