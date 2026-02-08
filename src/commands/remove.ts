@@ -145,6 +145,10 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     const allRemovedSkills = new Set<string>(skillsToRemove);
     const keptDependencies: string[] = [];
 
+    // Suppress warnings during dependency analysis (skills not found are expected)
+    const depAnalysisLogLevel = logger.getLevel();
+    logger.setLevel(LogLevel.ERROR);
+
     // Check which dependencies will remain because they're used by other skills
     for (const skillToRemove of skillsToRemove) {
       const node = resolver.buildGraph([skillToRemove]).get(skillToRemove);
@@ -171,6 +175,9 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
         }
       }
     }
+
+    // Restore log level
+    logger.setLevel(depAnalysisLogLevel);
 
     // 8. Show removal preview
     console.log();
