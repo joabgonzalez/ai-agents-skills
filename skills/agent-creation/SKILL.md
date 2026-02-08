@@ -72,7 +72,7 @@ Rules:
 
 After frontmatter, include:
 
-1. **# Agent Name** - Title (e.g., "SBD Project Agent")
+1. **# Agent Name** - Title (e.g., "Alpha Project Agent")
 2. **## Purpose** - Clear statement of responsibilities
 3. **## Skills Reference** - Table: Trigger | Skill | Path
 

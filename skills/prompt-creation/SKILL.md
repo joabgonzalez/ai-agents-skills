@@ -46,14 +46,14 @@ priority: high
 
 **Allowed fields** (pick 4-6):
 
-| Field | Required | Notes |
-|-------|----------|-------|
-| `name` | Yes | Prompt identifier |
-| `type` | Yes | `behavioral` or `technology-stack` |
-| `description` | Yes | Single-line purpose |
-| `version` | No | Semantic version |
-| `context` | No | When to use this prompt |
-| `priority` | No | `low`, `medium`, `high` |
+| Field         | Required | Notes                              |
+| ------------- | -------- | ---------------------------------- |
+| `name`        | Yes      | Prompt identifier                  |
+| `type`        | Yes      | `behavioral` or `technology-stack` |
+| `description` | Yes      | Single-line purpose                |
+| `version`     | No       | Semantic version                   |
+| `context`     | No       | When to use this prompt            |
+| `priority`    | No       | `low`, `medium`, `high`            |
 
 **PROHIBITED in frontmatter** (move to markdown body):
 
@@ -102,12 +102,12 @@ Overview, Persona (if behavioral), Rules, Instruction Types, Examples, Guideline
 
 ### ✅ REQUIRED: Choose Type and Naming
 
-| Aspect | Technology Stack | Behavioral |
-|--------|-----------------|------------|
-| Type | `technology-stack` | `behavioral` |
-| Naming | `{project-name}.md` | `{behavior-name}.md` |
+| Aspect      | Technology Stack            | Behavioral            |
+| ----------- | --------------------------- | --------------------- |
+| Type        | `technology-stack`          | `behavioral`          |
+| Naming      | `{project-name}.md`         | `{behavior-name}.md`  |
 | Key content | stack, policies, versioning | persona, modes, rules |
-| Example | `sbd.md`, `usn.md` | `english-practice.md` |
+| Example     | `project.md`, `template.md` | `english-practice.md` |
 
 ### ✅ REQUIRED: Token Efficiency
 
@@ -133,6 +133,7 @@ general_rules:
 Schema path: `skills/prompt-creation/assets/frontmatter-schema.json`
 
 Validation rules:
+
 - All required fields present (name, type, description)
 - Enum values valid (type: "behavioral" or "technology-stack")
 - Frontmatter < 10 lines total
@@ -219,18 +220,18 @@ New prompt needed?
 
 ### Technology Stack Prompt
 
-**Filename**: `prompts/sbd.md`
+**Filename**: `prompts/project.md`
 
 ```markdown
 ---
-name: sbd
+name: project
 type: technology-stack
-description: SBD web application stack configuration
+description: Web application stack configuration
 version: "1.0"
-context: Apply when working on SBD project codebase
+context: Apply when working on project codebase
 ---
 
-# SBD Stack Configuration
+# Alpha Project Stack Configuration
 
 ## Overview
 
@@ -280,14 +281,17 @@ priority: high
 ## Instruction Types
 
 ### Practice Mode (`practice:`)
+
 Review and correct English text with detailed feedback.
 
 ### Translate Mode (`translate:`)
+
 Translate Spanish to natural English. Explain phrasal verbs and idioms.
 
 ## Examples
 
 ### Practice
+
 Input: "practice: Ayer termine el feature de authentication"
 Output: "Yesterday I finished the authentication feature"
 Corrections: past tense, article usage, word order
@@ -310,6 +314,7 @@ Corrections: past tense, article usage, word order
 ## Checklist
 
 ### Structure
+
 - [ ] Frontmatter < 10 lines (4-6 metadata fields only)
 - [ ] No nested objects or large arrays in frontmatter
 - [ ] All content in markdown body (rules, examples, persona)
@@ -318,6 +323,7 @@ Corrections: past tense, article usage, word order
 - [ ] File in `prompts/` directory
 
 ### Content
+
 - [ ] Context gathered (10 questions answered)
 - [ ] Technology versions specified (if tech-stack)
 - [ ] Persona is specific and actionable (if behavioral)

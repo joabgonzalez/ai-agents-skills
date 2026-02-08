@@ -50,7 +50,7 @@ Before performing any task, read the relevant skill from `.claude/skills/` (or y
 ```
 ai-agents-skills/
 ├── skills/             # 49 skill definitions (SKILL.md format)
-├── presets/            # Agent presets (project-sbd, project-usn)
+├── presets/            # Project Starter Preset (AGENTS.md + skills bundle)
 ├── src/                # TypeScript CLI source
 │   ├── commands/       # CLI commands (local, add, remove, sync, validate, list)
 │   ├── core/           # Dependency resolver, installer, skill parser

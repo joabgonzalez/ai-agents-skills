@@ -141,18 +141,69 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
       targetModels = detectedModels;
     }
 
-    // 7. Show removal details
+    // 7. Analyze what will be removed
+    const allRemovedSkills = new Set<string>(skillsToRemove);
+    const keptDependencies: string[] = [];
+
+    // Check which dependencies will remain because they're used by other skills
+    for (const skillToRemove of skillsToRemove) {
+      const node = resolver.buildGraph([skillToRemove]).get(skillToRemove);
+      if (node) {
+        for (const dep of node.dependencies) {
+          if (!skillsToRemove.includes(dep)) {
+            // This dependency is not being explicitly removed
+            // Check if it's used by remaining skills
+            const isUsedByRemaining = remainingSkills.some(remaining => {
+              try {
+                const graph = resolver.buildGraph([remaining]);
+                return graph.has(dep);
+              } catch {
+                return false;
+              }
+            });
+
+            if (isUsedByRemaining && !keptDependencies.includes(dep)) {
+              keptDependencies.push(dep);
+            } else {
+              allRemovedSkills.add(dep);
+            }
+          }
+        }
+      }
+    }
+
+    // 8. Show removal preview
+    console.log();
+    console.log(color.bold('Removal Preview:'));
+    console.log();
+
+    for (const skill of skillsToRemove) {
+      console.log(`  ${color.red('✗')} ${color.bold(skill)}`);
+    }
+
+    const additionalRemovals = Array.from(allRemovedSkills).filter(s => !skillsToRemove.includes(s));
+    if (additionalRemovals.length > 0) {
+      console.log();
+      console.log(color.dim(`  Dependencies to remove: ${additionalRemovals.join(', ')}`));
+    }
+
+    if (keptDependencies.length > 0) {
+      console.log();
+      console.log(color.dim(`  Dependencies kept (used by other skills): ${keptDependencies.join(', ')}`));
+    }
+
+    console.log();
     p.note(
-      `Models: ${color.cyan(targetModels.join(', '))}\n` +
-      `Skills to remove: ${color.red(skillsToRemove.length.toString())}\n` +
+      `Total skills to remove: ${color.red(allRemovedSkills.size.toString())}\n` +
+      `Affected models: ${color.cyan(targetModels.join(', '))}\n` +
       `Directory: ${color.dim(baseDir)}`,
-      'Removal Details'
+      'Removal Summary'
     );
 
-    // 8. Confirm removal
+    // 9. Confirm removal
     if (!options.confirm && !options.dryRun) {
       const shouldContinue = await p.confirm({
-        message: `Remove ${skillsToRemove.length} skill(s) from ${targetModels.length} model(s)?`,
+        message: `Remove ${allRemovedSkills.size} skill(s) from project?`,
         initialValue: false
       });
 
@@ -162,7 +213,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
       }
     }
 
-    // 9. Remove skills with detailed progress
+    // 10. Remove skills with detailed progress
     console.log();
     console.log(color.bold('Removing skills:'));
     console.log();
@@ -172,8 +223,9 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     logger.setLevel(LogLevel.SILENT);
 
     const agentsSkillsDir = projectDetector.getSkillsDir(project.rootPath);
+    const skillsToActuallyRemove = Array.from(allRemovedSkills);
 
-    for (const skillName of skillsToRemove) {
+    for (const skillName of skillsToActuallyRemove) {
       // Show removing status with spinner
       logger.setLevel(LogLevel.INFO);
       logger.skillProgress(skillName, 'installing', undefined); // Reuse 'installing' for spinner
@@ -223,8 +275,8 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
 
     // 11. Summary
     const summaryLines = [];
-    summaryLines.push(`Models: ${color.cyan(targetModels.length.toString())}`);
     summaryLines.push(`Skills removed: ${color.green(removedCount.toString())}`);
+    summaryLines.push(`Affected models: ${color.cyan(targetModels.length.toString())}`);
     if (instructionsUpdated > 0) {
       summaryLines.push(`Instructions: ${color.green(instructionsUpdated.toString())} file(s) updated`);
     }

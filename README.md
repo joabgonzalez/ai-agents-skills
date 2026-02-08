@@ -1,8 +1,8 @@
 # ai-agents-skills
 
-A CLI for distributing reusable AI agent skills across multiple coding assistants.
+A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex — with a single command.
+Install 49+ curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 ## Quick Start
 
@@ -11,7 +11,7 @@ Install curated skills for React, TypeScript, testing, architecture, and more �
 npx ai-agents-skills add
 
 # Install a preset
-npx ai-agents-skills add --preset project-sbd
+npx ai-agents-skills add --preset astro-template
 
 # Install specific skills
 npx ai-agents-skills add --skill react --skill typescript
@@ -19,13 +19,13 @@ npx ai-agents-skills add --skill react --skill typescript
 
 ## Supported Models
 
-| Model | Directory | ID |
-|---|---|---|
+| Model          | Directory  | ID                            |
+| -------------- | ---------- | ----------------------------- |
 | GitHub Copilot | `.github/` | `copilot` or `github-copilot` |
-| Claude | `.claude/` | `claude` |
-| Cursor | `.cursor/` | `cursor` |
-| Gemini | `.gemini/` | `gemini` |
-| OpenAI Codex | `.codex/` | `codex` |
+| Claude         | `.claude/` | `claude`                      |
+| Cursor         | `.cursor/` | `cursor`                      |
+| Gemini         | `.gemini/` | `gemini`                      |
+| OpenAI Codex   | `.codex/`  | `codex`                       |
 
 ## Commands
 
@@ -35,11 +35,11 @@ npx ai-agents-skills add --skill react --skill typescript
 # Interactive (prompts for skills, models, and presets)
 npx ai-agents-skills add
 
-# Install from a custom repository
-npx ai-agents-skills add user/repo
-
 # Install a preset with specific models
-npx ai-agents-skills add --preset project-sbd --models claude,github-copilot
+npx ai-agents-skills add --preset astro-template --models claude,copilot
+
+# Install specific skills
+npx ai-agents-skills add --skill react --skill typescript
 
 # Preview without changes
 npx ai-agents-skills add --skill react --dry-run
@@ -47,12 +47,19 @@ npx ai-agents-skills add --skill react --dry-run
 
 **Options:**
 
-| Flag | Description |
-|---|---|
-| `-p, --preset <id>` | Install an agent preset |
-| `-s, --skill <name>` | Install a specific skill (repeatable) |
-| `-m, --models <list>` | Target models, comma-separated |
-| `-d, --dry-run` | Preview changes without installing |
+| Flag                  | Description                           |
+| --------------------- | ------------------------------------- |
+| `-p, --preset <id>`   | Install a project starter preset      |
+| `-s, --skill <name>`  | Install a specific skill (repeatable) |
+| `-m, --models <list>` | Target models, comma-separated        |
+| `-d, --dry-run`       | Preview changes without installing    |
+
+**Features:**
+
+- Shows dependency tree before installation (requested skills + dependencies)
+- Auto-resolves transitive dependencies
+- Prevents circular dependencies
+- Generates instruction files for each model
 
 ### `list` — Show installed skills
 
@@ -60,20 +67,40 @@ npx ai-agents-skills add --skill react --dry-run
 npx ai-agents-skills list
 ```
 
-### `sync` — Add models to existing installation
+### `sync` — Add models or update skills
 
 ```bash
-# Already have skills in Claude, add to Copilot
-npx ai-agents-skills sync --add-models copilot
-
-# Interactive model selection
+# Interactive (prompts for actions: add models and/or update skills)
 npx ai-agents-skills sync
+
+# Add models to existing installation
+npx ai-agents-skills sync --add-models copilot,cursor
+
+# Update skills to latest versions
+npx ai-agents-skills sync --update-skills
+
+# Preview without changes
+npx ai-agents-skills sync --dry-run
 ```
 
+**Options:**
+
+| Flag                      | Description                              |
+| ------------------------- | ---------------------------------------- |
+| `--add-models <list>`     | Add models, comma-separated              |
+| `--update-skills`         | Update skills to latest versions         |
+| `-d, --dry-run`           | Preview changes without applying         |
+
 **Features:**
+
+- **Version tracking** - Compares installed skill versions with remote repository
+- **Multi-select support** - Can select both "Add models" AND "Update skills" in one command
+- Shows currently installed models before selection
+- Checks for updates BEFORE showing options (improved UX)
+- Only shows "Update skills" option if updates are available
+- Executes in optimal order: updates first, then adds models
 - Auto-generates instruction files for each model
-- Syncs all installed skills to new models
-- Shows initial instruction count in summary
+- Stateless - no registry files needed
 
 ### `remove` — Remove skills with dependency checking
 
@@ -92,36 +119,23 @@ npx ai-agents-skills remove --skills react --confirm
 ```
 
 **Features:**
+
+- Shows removal preview with requested skills and their dependencies
 - Validates dependencies before removal (prevents breaking other skills)
+- Shows which dependencies will be kept (used by other skills)
+- Auto-removes unused dependencies
 - Updates instruction files after removal
 - Alias: `uninstall` still works for backwards compatibility
 
 **Options:**
 
-| Flag | Description |
-|---|---|
+| Flag                  | Description                       |
+| --------------------- | --------------------------------- |
 | `-s, --skills <list>` | Skills to remove, comma-separated |
-| `-m, --models <list>` | Target models, comma-separated |
-| `-a, --all` | Remove all skills |
-| `--confirm` | Skip confirmation prompt |
-| `-d, --dry-run` | Preview without making changes |
-
-### `local` — Local repository installation
-
-For contributors working on this repository:
-
-```bash
-# Interactive model selection
-npm run dev -- local
-
-# Install to specific models
-npm run dev -- local --models claude,copilot
-
-# Preview without changes
-npm run dev -- local --dry-run
-```
-
-Installs skills from `./skills/` directory to model directories in the repo.
+| `-m, --models <list>` | Target models, comma-separated    |
+| `-a, --all`           | Remove all skills                 |
+| `--confirm`           | Skip confirmation prompt          |
+| `-d, --dry-run`       | Preview without making changes    |
 
 ## How It Works
 
@@ -156,27 +170,35 @@ your-project/
 ## Available Skills (49)
 
 ### Frameworks
+
 React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
 
 ### Testing
+
 Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
 
 ### Standards
+
 TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y
 
 ### Backend
+
 Node.js, Express, Nest, Hono, Bun, Backend Development
 
 ### Build Tools
+
 Vite, Webpack
 
 ### Libraries
+
 MUI, MUI X Charts, AG Grid, Formik, Yup, Zod, Redux Toolkit, Stagehand
 
 ### Quality & Architecture
+
 Conventions, Critical Partner, Architecture Patterns, English Writing, Technical Communication, Process Documentation, Humanizer, Frontend Design, Frontend Development
 
 ### Meta (creation tools)
+
 Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
 ## Creating Skills
@@ -203,12 +225,15 @@ metadata:
 # My Skill
 
 ## When to Use
+
 ...
 
 ## Critical Patterns
+
 ...
 
 ## Decision Tree
+
 ...
 ```
 

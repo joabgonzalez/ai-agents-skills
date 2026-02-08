@@ -103,8 +103,8 @@ export async function addCommand(source: string, options: AddOptions) {
     const choice = await p.select({
       message: 'What would you like to install?',
       options: [
-        { value: 'preset', label: 'Agent Preset (with AGENTS.md)' },
-        { value: 'skills', label: 'Individual Skills' }
+        { value: 'preset', label: 'Project Starter Preset (AGENTS.md + skills bundle)' },
+        { value: 'skills', label: 'Skills' }
       ]
     });
 
@@ -171,10 +171,41 @@ export async function addCommand(source: string, options: AddOptions) {
   const resolved = resolver.buildGraph(skillsToInstall);
 
   s.stop(`Found ${resolved.size} skills (including dependencies)`);
+  console.log();
+
+  // Show dependency tree
+  const requestedSkills = skillsToInstall;
+  const allSkills = Array.from(resolved.keys());
+  const dependencies = allSkills.filter(skill => !requestedSkills.includes(skill));
+
+  console.log(color.bold('Installation Preview:'));
+  console.log();
+
+  for (const skill of requestedSkills) {
+    const node = resolved.get(skill);
+    if (node) {
+      console.log(`  ${color.green('●')} ${color.bold(skill)}`);
+      if (node.dependencies.length > 0) {
+        node.dependencies.forEach((dep, idx) => {
+          const isLast = idx === node.dependencies.length - 1;
+          const prefix = isLast ? '└─' : '├─';
+          console.log(`     ${color.dim(prefix)} ${dep}`);
+        });
+      }
+    }
+  }
+
+  if (dependencies.length > 0 && dependencies.length !== allSkills.length) {
+    console.log();
+    console.log(color.dim(`  Additional dependencies: ${dependencies.join(', ')}`));
+  }
+
+  console.log();
 
   // 6. Confirm installation
   const confirm = await p.confirm({
-    message: `Install ${resolved.size} skill(s) to ${selectedModels.length} model(s)?`
+    message: `Install ${resolved.size} skill(s) to ${selectedModels.length} model(s)?`,
+    initialValue: true
   });
 
   if (!confirm || p.isCancel(confirm)) {
