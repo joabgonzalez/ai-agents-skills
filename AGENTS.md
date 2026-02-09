@@ -11,7 +11,6 @@ metadata:
     - nodejs
     - conventions
     - critical-partner
-    - process-documentation
 ---
 
 # AI Agents Skills Framework
@@ -68,29 +67,30 @@ You must read all 6 skills.
 | Create or modify skills     | skill-creation        | {model}/skills/skill-creation/SKILL.md      |
 | Create agent definitions    | agent-creation        | {model}/skills/agent-creation/SKILL.md      |
 | Code review or improvements | critical-partner      | {model}/skills/critical-partner/SKILL.md    |
-| Document changes            | process-documentation | {model}/skills/process-documentation/SKILL.md |
+| Refactoring code            | code-refactoring      | {model}/skills/code-refactoring/SKILL.md    |
 | Coding standards            | conventions           | {model}/skills/conventions/SKILL.md         |
 | TypeScript code             | typescript            | {model}/skills/typescript/SKILL.md          |
 | Node.js / CLI development   | nodejs                | {model}/skills/nodejs/SKILL.md              |
 
 ## Skills Reference
 
-49 skills organized by category:
+48 skills organized by category:
 
 - **Frameworks:** React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
-- **Testing:** Jest, Playwright, React Testing Library, E2E Testing, Unit Testing
-- **Standards:** TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y, Conventions
-- **Backend:** Node.js, Express, Nest, Hono, Bun
-- **Build Tools:** Vite, Webpack, Bun
-- **Libraries:** MUI, MUI X Charts, AG Grid, Formik, Yup, Zod, Redux Toolkit
-- **Quality:** Critical Partner, Architecture Patterns, Process Documentation, English Writing, Humanizer
-- **Specialized:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync, Stagehand
+- **Testing:** Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
+- **Standards:** TypeScript, JavaScript, HTML, CSS, TailwindCSS, A11y
+- **Backend:** Node.js, Express, Nest, Hono, Bun, Backend Development
+- **Build Tools:** Vite, Webpack
+- **Libraries:** MUI, AG Grid, Redux Toolkit, Stagehand
+- **Quality & Architecture:** Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Humanizer, Frontend Development
+- **Behavioral:** Brainstorming, Systematic Debugging, Interface Design
+- **Meta:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
 ## Project Structure
 
 ```
 ai-agents-skills/
-├── skills/             # 49 skill definitions (SKILL.md format)
+├── skills/             # 48 skill definitions (SKILL.md format)
 ├── presets/            # Project Starter Preset (AGENTS.md + skills bundle)
 ├── src/                # TypeScript CLI source
 │   ├── commands/       # CLI commands (local, add, remove, sync, validate, list)

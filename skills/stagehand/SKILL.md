@@ -71,6 +71,54 @@ async function actWithRetry(page: Page, instruction: string, retries = 3) {
   }
 }
 ```
+
+### Combining with Playwright for Hybrid Approach
+Use Stagehand for discovery, then Playwright for stable execution.
+```typescript
+// Phase 1: Use Stagehand to discover elements
+const actions = await page.observe('What buttons are on this page?');
+console.log(actions); // [{ description: "Submit button", selector: "button[type=submit]" }]
+
+// Phase 2: Use Playwright with discovered selectors for fast, stable tests
+import { test as playwrightTest } from '@playwright/test';
+playwrightTest('submit form', async ({ page }) => {
+  await page.goto('/form');
+  await page.locator('button[type=submit]').click(); // Fast, no LLM call
+});
+
+// WRONG: Using Stagehand in every test run (slow, costly, flaky)
+test('submit form', async () => {
+  await page.act('Click the submit button'); // LLM call on every run
+});
+```
+
+### Batch Extraction for Performance
+Extract multiple data points in one call to reduce LLM requests.
+```typescript
+// CORRECT: Single extract call with comprehensive schema
+const pageData = await page.extract({
+  instruction: 'Extract all product information from this page',
+  schema: z.object({
+    product: z.object({
+      name: z.string(),
+      price: z.number(),
+      inStock: z.boolean(),
+      reviews: z.array(z.object({
+        author: z.string(),
+        rating: z.number(),
+        text: z.string(),
+      })),
+    }),
+  }),
+});
+
+// WRONG: Multiple extract calls (slow, 4 LLM requests)
+const name = await page.extract({ instruction: 'Get product name', schema: z.object({ name: z.string() }) });
+const price = await page.extract({ instruction: 'Get price', schema: z.object({ price: z.number() }) });
+const inStock = await page.extract({ instruction: 'Check if in stock', schema: z.object({ inStock: z.boolean() }) });
+const reviews = await page.extract({ instruction: 'Get reviews', schema: z.object({ reviews: z.array(z.any()) }) });
+```
+
 ## Decision Tree
 - Known, stable selectors? -> Use **playwright** directly instead
 - Selectors unknown or fragile? -> Use `page.observe()` then `page.act()`
@@ -99,12 +147,26 @@ console.log(stories);
 await stagehand.close();
 ```
 ## Edge Cases
-- **Dynamic SPAs**: Call `page.observe()` after navigation to re-index the DOM.
-- **Ambiguous elements**: Add context like "the first" or quote exact visible text.
-- **Rate limiting**: Stagehand makes LLM calls per action -- batch reads into one `extract()`.
-- **Long pages**: Scroll first with `page.act('Scroll down to the pricing section')`.
-- **Iframes/popups**: Stagehand operates on the main frame; switch context manually.
-- **Non-English pages**: Include the language, e.g., "Click the button labeled 'Enviar'".
+
+- **Dynamic SPAs**: Call `page.observe()` after navigation or state changes to re-index the DOM. Stagehand doesn't automatically detect SPA route changes.
+
+- **Ambiguous elements**: Add context like "the first", "in the header", or quote exact visible text: `await page.act('Click the "Sign in" link in the navigation bar')`.
+
+- **Rate limiting**: Stagehand makes LLM calls per `act()` and `extract()`. Batch multiple data points into one `extract()` call with a comprehensive schema to reduce API calls.
+
+- **Long pages**: Scroll first with `page.act('Scroll down to the pricing section')` before extracting off-screen content. Stagehand's vision is limited to viewport.
+
+- **Iframes/popups**: Stagehand operates on the main frame by default. Use Playwright's `page.frame()` or `page.context().pages()` to switch context manually for iframes or popups.
+
+- **Non-English pages**: Include the language in instructions: `await page.act('Click the button labeled "Enviar" (Spanish for Submit)')`. LLM models handle multilingual content well when prompted.
+
+- **Authentication flows**: For multi-step auth (2FA, CAPTCHA), combine Stagehand for initial steps with Playwright's `storageState` to save auth tokens and skip login in subsequent runs.
+
+- **Cost optimization**: Each `act()` and `extract()` call costs LLM tokens. Prototype with Stagehand, then convert stable flows to Playwright selectors using `page.observe()` to discover selectors.
+
+- **Stale element detection**: If page updates after `observe()`, re-run `observe()` before `act()`. Stagehand doesn't track DOM mutations automatically.
+
+- **Complex multi-step forms**: Break into discrete `act()` calls with verification between steps: `await page.act('Fill email field with "user@example.com"')`, then `await page.act('Fill password field with "pass123"')`, not `await page.act('Fill and submit the form')`.
 ## Checklist
 - [ ] Each `act()` call contains a single, specific instruction
 - [ ] All `extract()` calls include a Zod schema for type safety

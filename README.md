@@ -2,7 +2,7 @@
 
 **v1.3.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 49+ curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 48 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 **✨ New in v1.3.0**: Follows [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard with push context in AGENTS.md. No instruction files needed - models auto-discover skills!
 
@@ -230,7 +230,7 @@ Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testi
 
 ### Standards
 
-TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y
+TypeScript, JavaScript, HTML, CSS, TailwindCSS, A11y
 
 ### Backend
 
@@ -242,11 +242,15 @@ Vite, Webpack
 
 ### Libraries
 
-MUI, MUI X Charts, AG Grid, Formik, Yup, Zod, Redux Toolkit, Stagehand
+MUI, AG Grid, Redux Toolkit, Stagehand
 
 ### Quality & Architecture
 
-Conventions, Critical Partner, Architecture Patterns, English Writing, Technical Communication, Process Documentation, Humanizer, Frontend Design, Frontend Development
+Conventions, Code Quality, Form Validation, Critical Partner, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Process Documentation, Humanizer, Frontend Design, Frontend Development
+
+### Behavioral
+
+Brainstorming, Systematic Debugging, Interface Design
 
 ### Meta (creation tools)
 

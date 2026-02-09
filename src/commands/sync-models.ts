@@ -139,23 +139,32 @@ export async function syncModelsCommand(options: SyncOptions) {
       }
 
       if (choices.length === 0) {
-        p.outro(color.green('All models installed and all skills up to date!'));
+        p.outro(color.green('✓ All models installed and all skills up to date!'));
         return;
       }
 
-      // Use multiselect to allow selecting both options
-      const selected = await p.multiselect({
-        message: 'What would you like to do? (Use space to select, enter to confirm)',
-        options: choices,
-        required: true,
-      });
+      // Auto-select if only one action available
+      if (choices.length === 1) {
+        const action = choices[0].value as 'addModels' | 'updateSkills';
+        const actionLabel = choices[0].label;
+        p.log.info(`Auto-selecting: ${color.cyan(actionLabel)} ${color.dim(`(${choices[0].hint})`)}`);
+        console.log();
+        actions = [action];
+      } else {
+        // Use multiselect to allow selecting both options
+        const selected = await p.multiselect({
+          message: 'What would you like to do? (Use space to select, enter to confirm)',
+          options: choices,
+          required: true,
+        });
 
-      if (p.isCancel(selected)) {
-        p.cancel('Sync cancelled');
-        process.exit(0);
+        if (p.isCancel(selected)) {
+          p.cancel('Sync cancelled');
+          process.exit(0);
+        }
+
+        actions = selected as Array<'addModels' | 'updateSkills'>;
       }
-
-      actions = selected as Array<'addModels' | 'updateSkills'>;
     }
 
     // 6. Execute actions in order: update skills first, then add models

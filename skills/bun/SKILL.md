@@ -78,6 +78,83 @@ Monorepo support via npm-style workspaces in `package.json`.
   }
 }
 ```
+
+### Bun.spawn() for Shell Commands
+Spawn child processes with native API -- faster than Node's `child_process`.
+```typescript
+// CORRECT: Bun-native process spawning
+const proc = Bun.spawn(['git', 'status'], {
+  stdout: 'pipe',
+  stderr: 'pipe',
+});
+
+const output = await new Response(proc.stdout).text();
+console.log(output);
+
+// Alternative: Template literal syntax (shell $)
+import { $ } from 'bun';
+const result = await $`git status`;
+console.log(result.stdout.toString());
+
+// WRONG: Node's child_process (slower, requires import)
+import { exec } from 'child_process';
+exec('git status', (err, stdout) => console.log(stdout));
+```
+
+### Plugin System for Custom Loaders
+Extend Bun's bundler with plugins for custom file types.
+```typescript
+import type { BunPlugin } from 'bun';
+
+const myPlugin: BunPlugin = {
+  name: 'yaml-loader',
+  setup(build) {
+    build.onLoad({ filter: /\.yaml$/ }, async (args) => {
+      const text = await Bun.file(args.path).text();
+      const yaml = parseYAML(text); // Your YAML parser
+      return {
+        contents: `export default ${JSON.stringify(yaml)}`,
+        loader: 'js',
+      };
+    });
+  },
+};
+
+// Use in build
+await Bun.build({
+  entrypoints: ['./index.ts'],
+  plugins: [myPlugin],
+});
+```
+
+### WebSockets with Bun.serve()
+Native WebSocket support in HTTP server with zero dependencies.
+```typescript
+Bun.serve({
+  port: 3000,
+  fetch(req, server) {
+    const url = new URL(req.url);
+    if (url.pathname === '/ws') {
+      if (server.upgrade(req)) return; // Upgrade to WebSocket
+      return new Response('Upgrade failed', { status: 400 });
+    }
+    return new Response('Not found', { status: 404 });
+  },
+  websocket: {
+    message(ws, message) {
+      console.log('Received:', message);
+      ws.send(`Echo: ${message}`);
+    },
+    open(ws) {
+      console.log('Client connected');
+    },
+    close(ws) {
+      console.log('Client disconnected');
+    },
+  },
+});
+```
+
 ## Decision Tree
 - Simple HTTP service? -> `Bun.serve()` with no framework
 - Reading/writing files? -> `Bun.file()` and `Bun.write()`
@@ -108,11 +185,26 @@ Bun.serve({
 });
 ```
 ## Edge Cases
-- **Node.js gaps**: Some built-ins (`vm`, `worker_threads`) have partial support -- check docs.
-- **Native modules**: C++ addons for Node may not load; use Bun's FFI or WASM alternatives.
-- **Hot reloading**: `bun --watch` for restart; `--hot` for HMR without restart.
-- **Env variables**: `Bun.env.VAR_NAME` like `process.env`; `.env` loads automatically.
-- **Large files**: `Bun.file()` is lazy -- stream into `new Response(file)` without buffering.
+
+- **Node.js API gaps**: Some built-ins (`vm`, `worker_threads`, `inspector`) have partial support. Check [compatibility docs](https://bun.sh/docs/runtime/nodejs-apis) before migrating existing Node projects.
+
+- **Native modules**: C++ addons (`.node` files) for Node may not load. Use Bun's FFI (`bun:ffi`) for C libraries or compile to WASM as alternatives.
+
+- **Hot reloading vs watch mode**: `bun --watch` restarts entire process on file changes (for servers). `--hot` enables HMR without restart (experimental, for dev only).
+
+- **Environment variables**: Access with `Bun.env.VAR_NAME` (same as `process.env`). `.env` files load automatically from current directory and parent directories.
+
+- **Large files**: `Bun.file()` returns lazy `BunFile` - doesn't read until accessed. Stream large files with `new Response(file)` without buffering entire file to memory.
+
+- **TypeScript transpilation**: Bun transpiles TS on-the-fly (no `tsc` needed). However, type-checking is NOT performed - use `bunx tsc --noEmit` in CI for type safety.
+
+- **Package resolution**: Bun uses aggressive caching and symlink-free installation. If package not found, try `bun install --force` to rebuild `node_modules`.
+
+- **Bun.serve() port already in use**: Unlike Node, Bun crashes immediately if port occupied. Handle with try/catch and env var fallback: `port: Number(Bun.env.PORT) || 3000`.
+
+- **Test isolation**: `bun:test` runs tests in same process by default (fast but shared state). Use `--preload` for test setup or `--bail` to stop on first failure.
+
+- **Cross-platform builds**: `bun build --target=bun` outputs for Bun runtime only (not Node). Use `--target=node` for Node compatibility or `--target=browser` for client bundles.
 ## Checklist
 - [ ] Use `Bun.serve()` for simple HTTP services instead of frameworks
 - [ ] Use `Bun.file()` / `Bun.write()` instead of `fs`

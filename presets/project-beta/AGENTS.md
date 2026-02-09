@@ -12,13 +12,12 @@ metadata:
     - react
     - html
     - a11y
-    - eslint
-    - prettier
+    - code-quality
     - conventions
     - technical-communication
     - critical-partner
     - process-documentation
-    - frontend-design
+    - interface-design
     - frontend-dev
     - humanizer
 ---
@@ -85,10 +84,9 @@ You must read all 6 skills.
 | Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
 | Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
 | Document changes            | process-documentation   | {model}/skills/process-documentation/SKILL.md |
-| ESLint rules                | eslint                  | {model}/skills/eslint/SKILL.md                |
-| Prettier formatting         | prettier                | {model}/skills/prettier/SKILL.md              |
+| Linting, formatting         | code-quality            | {model}/skills/code-quality/SKILL.md          |
 | Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
-| UI/UX design                | frontend-design         | {model}/skills/frontend-design/SKILL.md       |
+| UI/UX design, flows, visual | interface-design        | {model}/skills/interface-design/SKILL.md      |
 | E2E tests                   | e2e-testing             | {model}/skills/e2e-testing/SKILL.md           |
 | Playwright tests            | playwright              | {model}/skills/playwright/SKILL.md            |
 

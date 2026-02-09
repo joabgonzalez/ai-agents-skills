@@ -19,16 +19,22 @@ This directory contains detailed guides for specific aspects of React developmen
 
 ### ⚡ Performance & Optimization
 
-| Reference                        | Purpose                                          | Read When                                                    |
-| -------------------------------- | ------------------------------------------------ | ------------------------------------------------------------ |
-| [performance.md](performance.md) | useMemo, useCallback, React.memo, code splitting | Optimizing re-renders or working with expensive computations |
+| Reference                        | Purpose                                                       | Read When                                                    |
+| -------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------ |
+| [performance.md](performance.md) | useMemo, useCallback, React.memo, concurrent features, Suspense | Optimizing re-renders or working with expensive computations |
 
 ### 🏗️ State & Composition
 
-| Reference                                  | Purpose                                        | Read When                                                  |
-| ------------------------------------------ | ---------------------------------------------- | ---------------------------------------------------------- |
-| [context-patterns.md](context-patterns.md) | Context API, compound components, render props | Sharing state across components or building component APIs |
-| [forms-state.md](forms-state.md)           | Controlled vs uncontrolled, validation         | Building forms with state management                       |
+| Reference                                  | Purpose                                           | Read When                                                  |
+| ------------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------- |
+| [context-patterns.md](context-patterns.md) | Context API, compound components, error boundaries | Sharing state across components or building component APIs |
+| [forms-state.md](forms-state.md)           | Controlled vs uncontrolled, validation             | Building forms with state management                       |
+
+### 🖥️ Server Features
+
+| Reference                                    | Purpose                                          | Read When                                                    |
+| -------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------ |
+| [server-features.md](server-features.md)     | Server components, Suspense data, server actions | Building with Next.js App Router or RSC-enabled frameworks   |
 
 ---
 
@@ -56,6 +62,12 @@ This directory contains detailed guides for specific aspects of React developmen
 1. Read main [SKILL.md](../SKILL.md)
 2. **MUST read**: [useEffect-patterns.md](useEffect-patterns.md) for data fetching patterns
 3. CHECK: [forms-state.md](forms-state.md) for form-specific patterns
+
+### For Server-Side / Next.js App Router
+
+1. Read main [SKILL.md](../SKILL.md)
+2. **MUST read**: [server-features.md](server-features.md) for RSC, Suspense, server actions
+3. CHECK: [performance.md](performance.md) for concurrent features (useTransition, Suspense)
 
 ---
 
@@ -110,3 +122,13 @@ This directory contains detailed guides for specific aspects of React developmen
 - Multi-step forms
 - File uploads
 - Integration with form libraries
+
+### [server-features.md](server-features.md)
+
+**React Server Components and server-side patterns**
+
+- Server vs Client component decision tree
+- Suspense for streaming data loading
+- Parallel data fetching (avoid waterfalls)
+- Server actions for mutations
+- Loading/error state patterns

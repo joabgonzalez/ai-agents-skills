@@ -112,6 +112,50 @@ See [token-efficiency.md](references/token-efficiency.md) for compression strate
 
 Don't rewrite rules from conventions or a11y. Delegate first, then add skill-specific rules.
 
+### ✅ REQUIRED: references/ README.md Structure (Complex Skills Only)
+
+When creating references/ directory, ALWAYS include README.md with this 4-section structure:
+
+```markdown
+# [Skill Name] References
+
+## Quick Navigation
+
+| Reference | Lines | Topic |
+|-----------|-------|-------|
+| [file1.md](file1.md) | ~300 | Brief description |
+| [file2.md](file2.md) | ~450 | Brief description |
+
+## Reading Strategy
+
+**Planning new feature:** Read main SKILL.md → file1.md → file2.md → Implement
+**Debugging issue:** Read file2.md → file3.md
+**Building design system:** Read file1.md, file3.md
+
+## File Descriptions
+
+### file1.md (~300 lines)
+Detailed description of what this reference covers...
+
+### file2.md (~450 lines)
+Detailed description...
+
+## Cross-Reference Map
+
+**Topic A:** See file1.md → Links to file2.md section X
+**Topic B:** See file2.md → Also covered in file3.md
+```
+
+See [interface-design/references/README.md](../interface-design/references/README.md) for complete example.
+
+### Modern Pattern Examples
+
+**Design systems:** Token hierarchy (brand → semantic → component), CVA (Class Variance Authority) for type-safe variants, OKLCH color space. See [tailwindcss/references/design-system.md](../tailwindcss/references/design-system.md).
+
+**Design thinking:** Validation checkpoints at each stage (User flow → Component → State → A11y). See [interface-design/SKILL.md](../interface-design/SKILL.md).
+
+**Behavioral workflows:** Structured review templates, decision trees with rationale. See [critical-partner/SKILL.md](../critical-partner/SKILL.md) and [systematic-debugging/SKILL.md](../systematic-debugging/SKILL.md).
+
 ---
 
 ## Decision Tree
@@ -146,10 +190,15 @@ After creation? → Run ai-agents-skills sync or make sync
 ## Workflow
 
 1. **Assess complexity** → Determine simple/medium/complex (see Decision Tree)
+   - Checkpoint: ✅ Complexity level determined, structure chosen
 2. **Create structure** → `mkdir skills/{name}` + copy SKILL-TEMPLATE.md
+   - Checkpoint: ✅ Directory exists, template copied
 3. **Fill template** → Frontmatter (name, description+Trigger, version, skills via [dependencies-matrix.md](references/dependencies-matrix.md)), all required sections
+   - Checkpoint: ✅ Frontmatter complete, description includes Trigger, dependencies correct per matrix
 4. **Add patterns** → Critical Patterns with inline examples, Decision Tree, Edge Cases
+   - Checkpoint: ✅ Each pattern has ✅/❌ example, Decision Tree covers all cases, no duplication of conventions/a11y
 5. **Validate and sync** → Run `ai-agents-skills validate --skill {name}` then `make sync`
+   - Checkpoint: ✅ Validation passes, skill synced to model directories, SKILL.md under 300 lines (complex)
 
 ### Version Management
 
@@ -187,11 +236,11 @@ See [examples.md](references/examples.md) for complete examples:
 
 ## Edge Cases
 
-**Migrating to complex:** If skill grows beyond 40 patterns, invoke reference-creation skill. Keep top 10-15 patterns in SKILL.md, move rest to references/.
+**Migrating to complex:** If skill grows beyond 40 patterns, invoke reference-creation skill. Keep top 10-15 patterns in SKILL.md, move rest to references/. REQUIRED: Create README.md in references/ with 4 sections: Quick navigation table (with line counts), Reading strategies by use case, File descriptions, Cross-reference map. See [interface-design/references/README.md](../interface-design/references/README.md) and [tailwindcss/references/README.md](../tailwindcss/references/README.md) for examples.
 
-**Version-specific patterns:** Use `references/current.md`, `references/legacy.md`, `references/migration.md`.
+**Version-specific patterns:** Use `references/current.md`, `references/legacy.md`, `references/migration.md`. For major versions (e.g., Tailwind v3 → v4), create dedicated migration guide with breaking changes table.
 
-**Transversal topics:** Create separate reference file, link from multiple patterns.
+**Transversal topics:** Create separate reference file, link from multiple patterns. Examples: design-system.md for token hierarchy patterns (brand → semantic → component), dry-principle.md for DRY across frontend/backend.
 
 ---
 

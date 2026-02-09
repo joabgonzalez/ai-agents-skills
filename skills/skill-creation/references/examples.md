@@ -351,7 +351,7 @@ Multi-step form? → Use Formik context + wizard pattern
 ## Resources
 
 - Templates: See [assets/form-template.tsx](assets/form-template.tsx)
-- Validation: See [yup skill](../yup/SKILL.md)
+- Validation: See [form-validation skill](../../form-validation/SKILL.md)
 
 ## References
 

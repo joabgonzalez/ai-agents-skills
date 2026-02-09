@@ -27,29 +27,115 @@ This skill provides universal patterns for back-end development workflow, focusi
 
 ## Critical Patterns
 
-### API Design
+### ✅ REQUIRED: API Design with Versioning
 
-- Define clear, versioned contracts for endpoints
-- Use RESTful or RPC conventions as appropriate
-- Document APIs for consumers
+Define clear, versioned contracts to prevent breaking changes.
 
-### Data Modeling
+```typescript
+// ❌ WRONG: No versioning, breaking change affects all clients
+app.get('/api/users', (req, res) => {
+  // Changed response format - breaks existing clients!
+  res.json({ data: users, total: users.length });
+});
 
-- Normalize data structures for consistency
-- Use validation at boundaries (input/output)
-- Separate domain logic from persistence
+// ✅ CORRECT: Versioned API allows gradual migration
+app.get('/api/v1/users', (req, res) => {
+  res.json(users); // Original format
+});
 
-### Error Handling
+app.get('/api/v2/users', (req, res) => {
+  // New format with pagination metadata
+  res.json({ data: users, total: users.length, page: 1 });
+});
+```
 
-- Centralize error handling and logging
-- Return meaningful error messages/codes
-- Monitor and alert on failures
+### ✅ REQUIRED: Data Modeling with Validation
 
-### Deployment
+Validate at boundaries and separate domain logic from persistence.
 
-- Automate build, test, and deploy steps
-- Use environment variables for config
-- Monitor deployments for errors and rollbacks
+```typescript
+// ✅ CORRECT: Validate input at API boundary
+import { z } from 'zod';
+
+const CreateUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(2).max(100),
+  age: z.number().int().positive().optional(),
+});
+
+app.post('/api/v1/users', async (req, res) => {
+  // Validate input
+  const result = CreateUserSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ errors: result.error.format() });
+  }
+
+  // Domain logic (separate from persistence)
+  const user = await createUser(result.data);
+  res.status(201).json(user);
+});
+```
+
+### ✅ REQUIRED: Centralized Error Handling
+
+Consistent error responses and logging across all endpoints.
+
+```typescript
+// ✅ CORRECT: Centralized error handler middleware
+class AppError extends Error {
+  constructor(
+    public statusCode: number,
+    message: string,
+    public isOperational = true
+  ) {
+    super(message);
+    Object.setPrototypeOf(this, AppError.prototype);
+  }
+}
+
+// Error handler middleware
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (err instanceof AppError) {
+    // Operational error - send to client
+    return res.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+    });
+  }
+
+  // Programming error - log and send generic message
+  console.error('Unhandled error:', err);
+  res.status(500).json({
+    status: 'error',
+    message: 'Internal server error',
+  });
+};
+
+app.use(errorHandler);
+```
+
+### ✅ REQUIRED: Environment-Based Configuration
+
+Never hardcode config values. Use environment variables.
+
+```typescript
+// ✅ CORRECT: Environment-based configuration
+import { z } from 'zod';
+
+const EnvSchema = z.object({
+  NODE_ENV: z.enum(['development', 'production', 'test']),
+  PORT: z.coerce.number().default(3000),
+  DATABASE_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32),
+});
+
+export const env = EnvSchema.parse(process.env);
+
+// Usage
+app.listen(env.PORT, () => {
+  console.log(`Server running on port ${env.PORT}`);
+});
+```
 
 ## Decision Tree
 
@@ -60,28 +146,89 @@ This skill provides universal patterns for back-end development workflow, focusi
 
 ## Edge Cases
 
-- Data migration failures (rollback, partial data)
-- API versioning and backward compatibility
-- Security edge cases (injection, auth, rate limiting)
+- **Data migration failures**: Always implement rollback strategy. Use transactions for multi-step migrations. Test migrations on staging data first.
+
+- **API versioning and backward compatibility**: Maintain old versions until all clients migrate. Document deprecation timeline (e.g., "v1 deprecated 2026-06-01, removed 2026-09-01").
+
+- **Security edge cases**: Validate all inputs to prevent injection attacks. Implement rate limiting per endpoint. Use parameterized queries for SQL. Sanitize user input before logging.
+
+- **Race conditions**: Use database transactions for operations that must be atomic. Implement optimistic locking for concurrent updates. Consider distributed locks for multi-instance deployments.
+
+- **Large response payloads**: Implement pagination for list endpoints. Use streaming for large files. Consider compression (gzip) for response bodies.
+
+## Checklist
+
+- [ ] API endpoints versioned (/api/v1, /api/v2)
+- [ ] Input validation at all boundaries (zod, yup, joi)
+- [ ] Centralized error handling middleware
+- [ ] Environment variables for all configuration
+- [ ] Database migrations tested with rollback
+- [ ] Authentication and authorization on protected routes
+- [ ] Rate limiting implemented on public endpoints
+- [ ] Logging with context (request ID, user ID, timestamp)
+- [ ] API documentation up-to-date (OpenAPI, Swagger)
+- [ ] Unit tests for business logic (>=80% coverage)
+- [ ] Integration tests for critical flows
+- [ ] CI/CD pipeline configured (build, test, deploy)
+- [ ] Health check endpoint (/health, /ping)
+- [ ] Monitoring and alerting configured (errors, performance)
 
 ## Practical Examples
 
-### Before (no API versioning)
+### Example: Complete API Endpoint with Best Practices
 
-> All endpoints are on /api with no versioning, breaking clients on changes.
+```typescript
+// users.controller.ts
+import { z } from 'zod';
 
-### After (versioned API)
+const CreateUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(2).max(100),
+  role: z.enum(['user', 'admin']).default('user'),
+});
 
-> Endpoints use /api/v1, changes are documented and backward compatible.
+export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // 1. Validate input
+    const data = CreateUserSchema.parse(req.body);
 
-### Before (no error handling)
+    // 2. Business logic
+    const existingUser = await userRepository.findByEmail(data.email);
+    if (existingUser) {
+      throw new AppError(409, 'Email already exists');
+    }
 
-> Errors are logged to console, users get generic 500 errors.
+    // 3. Persist to database
+    const user = await userRepository.create(data);
 
-### After (robust error handling)
+    // 4. Return response
+    res.status(201).json({
+      status: 'success',
+      data: { user },
+    });
+  } catch (error) {
+    next(error); // Pass to centralized error handler
+  }
+};
 
-> Centralized error handler returns clear messages, logs with context, and triggers alerts.
+// Route definition with authentication and rate limiting
+router.post(
+  '/api/v1/users',
+  authenticate, // Middleware: verify JWT token
+  rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }), // 100 requests per 15 min
+  createUser
+);
+```
 
-## References
+## Resources
 
-- Use with conventions, architecture-patterns, and process-documentation for best results.
+- [conventions](../conventions/SKILL.md) - Code organization and naming
+- [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
+- [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
+- [typescript](../typescript/SKILL.md) - Type-safe backend development
+- [form-validation](../form-validation/SKILL.md) - Input validation with zod/yup
+- [express](../express/SKILL.md) - Express.js framework patterns
+- [nest](../nest/SKILL.md) - NestJS framework patterns
+- [hono](../hono/SKILL.md) - Hono framework patterns
+- https://restfulapi.net/ - REST API design best practices
+- https://swagger.io/docs/ - OpenAPI/Swagger documentation

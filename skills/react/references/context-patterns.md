@@ -582,8 +582,84 @@ function App() {
 
 ---
 
+## Error Boundaries
+
+Error boundaries catch JavaScript errors in their child component tree.
+
+### Class-Based Error Boundary
+
+```typescript
+// ErrorBoundary.tsx — class component (hooks don't support error boundaries yet)
+interface Props { children: ReactNode; fallback?: ReactNode; }
+interface State { hasError: boolean; error: Error | null; }
+
+class ErrorBoundary extends Component<Props, State> {
+  state: State = { hasError: false, error: null };
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('Error boundary caught:', error, info.componentStack);
+    // Report to error tracking service
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback ?? <DefaultErrorUI error={this.state.error} />;
+    }
+    return this.props.children;
+  }
+}
+```
+
+### Usage Patterns
+
+```typescript
+// ✅ CORRECT: Granular error boundaries
+function App() {
+  return (
+    <ErrorBoundary fallback={<AppCrashScreen />}>
+      <Header />
+      <ErrorBoundary fallback={<WidgetError />}>
+        <Dashboard />
+      </ErrorBoundary>
+      <ErrorBoundary fallback={<SidebarError />}>
+        <Sidebar />
+      </ErrorBoundary>
+    </ErrorBoundary>
+  );
+}
+
+// ✅ CORRECT: Error boundary with reset capability
+function ResettableErrorBoundary({ children }: { children: ReactNode }) {
+  const [key, setKey] = useState(0);
+  return (
+    <ErrorBoundary key={key} fallback={
+      <div>
+        <p>Something went wrong.</p>
+        <button onClick={() => setKey(k => k + 1)}>Try Again</button>
+      </div>
+    }>
+      {children}
+    </ErrorBoundary>
+  );
+}
+
+// ❌ WRONG: Single error boundary wrapping entire app
+<ErrorBoundary>
+  <App /> {/* One error crashes everything */}
+</ErrorBoundary>
+```
+
+**Note**: Error boundaries do NOT catch: event handlers (use try/catch), async code (use .catch()), SSR errors, or errors in the boundary itself.
+
+---
+
 ## References
 
 - [Context API](https://react.dev/reference/react/useContext)
 - [Compound Components](https://kentcdodds.com/blog/compound-components-with-react-hooks)
 - [Render Props](https://react.dev/reference/react/Component#render-props)
+- [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)

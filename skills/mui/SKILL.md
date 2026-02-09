@@ -12,6 +12,7 @@ metadata:
     - humanizer
   dependencies:
     "@mui/material": ">=5.0.0 <6.0.0"
+    "@mui/x-charts": ">=6.0.0 <8.0.0"  # Optional - only for data visualization
     react: ">=17.0.0 <19.0.0"
 ---
 
@@ -222,6 +223,126 @@ const theme = createTheme({
 **sx prop performance:** For frequently re-rendered components, use `styled()` instead of sx to avoid inline style recalculation.
 
 **Icon size inconsistency:** Use `fontSize` prop: `<Icon fontSize="small" />` for consistent sizing.
+
+---
+
+## MUI X Charts (Optional - Context-Aware)
+
+> Data visualization with MUI X Charts - **ONLY when context requires charts**
+
+### ✅ REQUIRED [CRITICAL]: Check Context First
+
+**ALWAYS verify if charts are needed before suggesting MUI X Charts:**
+
+```typescript
+// Step 1: Check AGENTS.md for data visualization requirements
+// Step 2: Check package.json for @mui/x-charts installation
+// Step 3: Check task context for "chart", "graph", "visualization" keywords
+
+// ✅ CORRECT: Context-aware
+// Task: "Display revenue as line chart" → Use MUI X Charts
+// Task: "Create a dashboard with KPIs" + package has @mui/x-charts → Use MUI X Charts
+
+// ❌ WRONG: Suggest charts when not needed
+// Task: "Build settings page" → DON'T suggest charts
+// Task: "Create user profile" → DON'T suggest charts
+```
+
+**Dependencies** (only if charts needed):
+```json
+{
+  "@mui/x-charts": ">=6.0.0 <8.0.0"
+}
+```
+
+### When to Use MUI X Charts
+
+**Use when:**
+- Task explicitly mentions "chart", "graph", "visualization", "plot"
+- AGENTS.md lists data visualization as requirement
+- Package.json has @mui/x-charts installed
+- Creating dashboards with visual metrics
+
+**DON'T use when:**
+- Building forms, settings, profiles, authentication pages
+- Simple data display (use Table instead)
+- No explicit visualization requirement
+
+### Critical Chart Patterns
+
+#### ✅ REQUIRED: Provide Axis Labels and Legends
+
+```typescript
+// ✅ CORRECT: Accessible chart
+import { LineChart } from '@mui/x-charts/LineChart';
+
+<LineChart
+  xAxis={[{ label: 'Month', data: months }]}
+  yAxis={[{ label: 'Revenue ($)' }]}
+  series={[{ data: revenue, label: 'Q1 2024' }]}
+/>
+
+// ❌ WRONG: No labels (inaccessible)
+<LineChart
+  xAxis={[{ data: months }]}
+  series={[{ data: revenue }]}
+/>
+```
+
+#### ✅ REQUIRED: Responsive Sizing
+
+```typescript
+// ✅ CORRECT: Container-based sizing
+<Box sx={{ width: '100%', height: 400 }}>
+  <LineChart /* ... */ />
+</Box>
+
+// ❌ WRONG: Fixed sizes (not responsive)
+<LineChart width={800} height={400} />
+```
+
+### Chart Types Decision Tree
+
+**Time series data?** → Use `LineChart`
+
+**Categorical comparison?** → Use `BarChart`
+
+**Part-to-whole relationship?** → Use `PieChart`
+
+**Correlation between variables?** → Use `ScatterChart`
+
+**Multiple metrics?** → Use multiple series in same chart
+
+### Example
+
+```typescript
+import { LineChart } from '@mui/x-charts/LineChart';
+
+function RevenueChart() {
+  return (
+    <Box sx={{ width: '100%', height: 400 }}>
+      <LineChart
+        xAxis={[{ data: [1, 2, 3, 4, 5], label: 'Month' }]}
+        yAxis={[{ label: 'Revenue ($)' }]}
+        series={[
+          { data: [2000, 5000, 3000, 7000, 4000], label: 'Q1 2024' }
+        ]}
+      />
+    </Box>
+  );
+}
+```
+
+### Edge Cases
+
+**Empty data:** Show placeholder message instead of empty chart
+
+**Large datasets:** Aggregate or sample data for performance
+
+**Accessibility:** Provide table alternative for screen readers
+
+**MUI X Charts References:**
+- [MUI X Charts Documentation](https://mui.com/x/react-charts/)
 
 ---
 

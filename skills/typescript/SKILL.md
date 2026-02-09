@@ -27,7 +27,7 @@ Strict typing, type safety, and modern TypeScript patterns. Avoid `any`, leverag
 
 **Don't use for:**
 
-- Runtime validation (use zod/yup)
+- Runtime validation (use [form-validation](../form-validation/SKILL.md))
 - JavaScript-only patterns (use javascript skill)
 - Framework-specific typing (delegate to react, mui, etc.)
 
@@ -167,7 +167,7 @@ type Route = (typeof ROUTES)[keyof typeof ROUTES]; // '/' | '/about'
 
 ## Decision Tree
 
-- **Runtime validation needed?** -> Use zod/yup. TypeScript is compile-time only.
+- **Runtime validation needed?** -> Use [form-validation](../form-validation/SKILL.md) (Zod/Yup). TypeScript is compile-time only.
 - **Transforming types?** -> See [references/utility-types.md](references/utility-types.md) for Partial, Pick, Omit, Record, and 20+ more.
 - **Unknown data?** -> Use `unknown`, never `any`. See [references/type-guards.md](references/type-guards.md).
 - **Missing third-party types?** -> Install `@types/*` or declare custom types in `types/`.

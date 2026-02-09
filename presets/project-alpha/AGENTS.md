@@ -1,6 +1,6 @@
 ---
 name: alpha-template
-description: "Development assistant for a web application. TypeScript/React with strict typing, MUI, Redux Toolkit, AG Grid, Formik."
+description: "Development assistant for a web application. TypeScript/React with strict typing, MUI, Redux Toolkit, AG Grid, form validation."
 metadata:
   version: "1.0"
   skills:
@@ -11,25 +11,22 @@ metadata:
     - redux-toolkit
     - mui
     - ag-grid
-    - mui-x-charts
-    - formik
-    - yup
-    - eslint
-    - prettier
+    - form-validation
+    - code-quality
     - html
     - a11y
     - conventions
     - technical-communication
     - critical-partner
     - process-documentation
-    - frontend-design
+    - interface-design
     - frontend-dev
     - humanizer
 ---
 
 # Alpha Template Agent
 
-Primary development assistant for a web application. Ensures strict typing, MUI best practices, accessibility, and version compatibility across Redux Toolkit, AG Grid, MUI X Charts, and Formik integrations.
+Primary development assistant for a web application. Ensures strict typing, MUI best practices, accessibility, and version compatibility across Redux Toolkit, AG Grid, and form validation integrations.
 
 ## How to Use Skills (MANDATORY WORKFLOW)
 
@@ -85,14 +82,11 @@ You must read all 6 skills.
 | Redux state / RTK Query     | redux-toolkit           | {model}/skills/redux-toolkit/SKILL.md         |
 | MUI components/theming      | mui                     | {model}/skills/mui/SKILL.md                   |
 | AG Grid tables              | ag-grid                 | {model}/skills/ag-grid/SKILL.md               |
-| MUI X Charts                | mui-x-charts            | {model}/skills/mui-x-charts/SKILL.md          |
-| Forms with validation       | formik                  | {model}/skills/formik/SKILL.md                |
-| Validation schemas          | yup                     | {model}/skills/yup/SKILL.md                   |
+| Forms, validation schemas   | form-validation         | {model}/skills/form-validation/SKILL.md       |
+| Linting, formatting         | code-quality            | {model}/skills/code-quality/SKILL.md          |
 | Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
 | Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
 | Document changes            | process-documentation   | {model}/skills/process-documentation/SKILL.md |
-| ESLint rules                | eslint                  | {model}/skills/eslint/SKILL.md                |
-| Prettier formatting         | prettier                | {model}/skills/prettier/SKILL.md              |
 | Semantic HTML               | html                    | {model}/skills/html/SKILL.md                  |
 | Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
 | Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
@@ -104,8 +98,9 @@ You must read all 6 skills.
 - **State:** Redux 5.0.1, React-Redux 9.2.0, Redux Toolkit 2.5.1, RTK Query
 - **UI:** MUI 5.15.14, MUI X Charts 7.7.1, MUI X Date Pickers Pro 5.0.20
 - **Data:** AG Grid (latest stable)
-- **Forms:** Formik 2.1.4, Yup 1.4.0
-- **Build:** Webpack, ESLint, Prettier
+- **Forms:** Context-aware (see form-validation skill — checks package.json for installed library)
+- **Build:** Webpack
+- **Code Quality:** Context-aware (see code-quality skill — checks package.json for installed tools)
 
 ## Workflows
 
@@ -115,7 +110,7 @@ You must read all 6 skills.
 2. Design component architecture with TypeScript interfaces
 3. Implement React components using MUI
 4. Configure Redux Toolkit slices / RTK Query endpoints
-5. Implement forms with Formik + Yup validation
+5. Implement forms with validation (see form-validation skill)
 6. Ensure accessibility (semantic HTML, ARIA, keyboard nav)
 7. Test with strict TypeScript, document changes, request review
 
@@ -130,11 +125,11 @@ You must read all 6 skills.
 
 **Typing:** strict mode, no `any` (use `unknown`/generics), explicit return types, prefer interfaces
 
-**Code quality:** ESLint with @typescript-eslint, Prettier integration, format before committing
+**Code quality:** Context-aware linting and formatting (see code-quality skill), format before committing
 
 **Accessibility:** Semantic MUI components, keyboard-accessible elements, proper heading hierarchy, labeled form fields
 
 **Versions:**
 
-- Exact: TypeScript 5.6.2, React 18.3.1, RTK 2.5.1, MUI 5.15.14, Formik 2.1.4, Yup 1.4.0
+- Exact: TypeScript 5.6.2, React 18.3.1, RTK 2.5.1, MUI 5.15.14
 - Ranges: TS >=5.4 <6.0, React >=18.0 <19.0, RTK >=1.8 <3.0, MUI >=5.0 <6.0
