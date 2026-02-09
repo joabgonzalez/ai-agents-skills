@@ -253,11 +253,17 @@ README.md created with navigation?
 ## Workflow
 
 1. **Assess complexity** → Verify 40+ patterns or 4+ sub-topics
+   - Checkpoint: ✅ At least 2 of: 40+ patterns, 4+ sub-topics, natural groupings, SKILL.md would exceed 300 lines
 2. **Identify sub-topics** → Group patterns into 4-9 clusters of 10-20
+   - Checkpoint: ✅ Each cluster is independently learnable, descriptively named (no "advanced"/"misc")
 3. **Create structure** → `mkdir references/` + README.md + topic files
+   - Checkpoint: ✅ README.md has Quick Navigation table, Reading Strategy per use case
 4. **Distribute content** → Top 15 in SKILL.md, deep dives in references
+   - Checkpoint: ✅ SKILL.md under 300 lines, references 200-600 lines each, no duplicated content
 5. **Cross-link** → SKILL.md↔references, references↔references
+   - Checkpoint: ✅ All links verified, SKILL.md Resources section lists all references
 6. **Validate** → Run checklist, verify links work
+   - Checkpoint: ✅ Checklist complete, synced to model directories
 
 ---
 
@@ -272,12 +278,52 @@ skills/react/
 │   ├── Decision tree
 │   └── Links to 4 references
 └── references/
-    ├── README.md
+    ├── README.md (100-150 lines)
+    │   ├── Quick Navigation table (with ~line counts)
+    │   ├── Reading Strategies by use case
+    │   ├── File Descriptions (what each covers)
+    │   └── Cross-Reference Map (topic interconnections)
     ├── hooks.md (400 lines)
     ├── components.md (350 lines)
     ├── performance.md (300 lines)
     └── server-features.md (250 lines)
 ```
+
+**README.md structure example:**
+
+```markdown
+# React References
+
+## Quick Navigation
+
+| Reference | Lines | Topic |
+|-----------|-------|-------|
+| [hooks.md](hooks.md) | ~400 | useState, useEffect, custom hooks |
+| [components.md](components.md) | ~350 | Composition, props, lifecycle |
+| [performance.md](performance.md) | ~300 | Memoization, lazy loading, profiling |
+| [server-features.md](server-features.md) | ~250 | SSR, RSC, data fetching |
+
+## Reading Strategies
+
+**Building new feature:** Read SKILL.md → hooks.md → components.md → Implement
+**Optimizing performance:** Read performance.md → Check hooks.md for useMemo patterns
+**Server-side rendering:** Read server-features.md → performance.md for hydration
+
+## File Descriptions
+
+### hooks.md (~400 lines)
+State management patterns, effect cleanup, custom hook creation...
+
+### components.md (~350 lines)
+Component composition, prop patterns, context usage...
+
+## Cross-Reference Map
+
+**State Management:** hooks.md (useState, useReducer) ↔ performance.md (memoization)
+**Data Fetching:** server-features.md ↔ hooks.md (useEffect patterns)
+```
+
+See [interface-design/references/README.md](../interface-design/references/README.md) and [tailwindcss/references/README.md](../tailwindcss/references/README.md) for real examples.
 
 ---
 
@@ -296,7 +342,11 @@ skills/react/
 ## Checklist
 
 - [ ] Complexity justified (40+ patterns or 4+ sub-topics)
-- [ ] README.md exists with Quick Navigation table
+- [ ] README.md exists with 4 required sections:
+  - [ ] Quick Navigation table (with ~line counts for each file)
+  - [ ] Reading Strategies by use case (how to navigate content)
+  - [ ] File Descriptions (what each reference covers, ~line count)
+  - [ ] Cross-Reference Map (topic interconnections between files)
 - [ ] 4-9 reference files (optimal range)
 - [ ] Each file 200-600 lines (max 800 before splitting)
 - [ ] Descriptive file names (no "advanced", "misc", "other")

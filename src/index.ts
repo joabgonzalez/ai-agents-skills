@@ -32,7 +32,10 @@ program
 program
   .command('local')
   .description('Manage local installation (for this repository)')
-  .option('-m, --models <models>', 'Models to install (comma-separated, e.g., "copilot,claude,cursor")')
+  .option(
+    '-m, --models <models>',
+    'Models to install (comma-separated, e.g., "copilot,claude,cursor")'
+  )
   .option('-s, --skills <skills>', 'Specific skills to install (comma-separated)')
   .option('-d, --dry-run', 'Dry run without making changes', false)
   .action(localCommand);

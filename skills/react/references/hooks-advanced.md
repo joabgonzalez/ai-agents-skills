@@ -470,7 +470,114 @@ function useMutation<T>(mutationFn: (data: T) => Promise<void>) {
 
 ---
 
+## React 18+ Hooks
+
+### useId — SSR-Safe Unique IDs
+
+Generate unique IDs that are stable across server and client rendering.
+
+```typescript
+// ✅ CORRECT: useId for form label association
+function FormField({ label }: { label: string }) {
+  const id = useId();
+  return (
+    <div>
+      <label htmlFor={id}>{label}</label>
+      <input id={id} />
+    </div>
+  );
+}
+
+// ❌ WRONG: Math.random() or counter (SSR mismatch)
+let counter = 0;
+function FormField({ label }: { label: string }) {
+  const id = `field-${counter++}`; // Hydration mismatch!
+  return <input id={id} />;
+}
+```
+
+### useTransition — Non-Urgent State Updates
+
+Mark state updates as non-urgent to keep UI responsive during heavy renders.
+
+```typescript
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Item[]>([]);
+  const [isPending, startTransition] = useTransition();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value); // Urgent: update input immediately
+
+    startTransition(() => {
+      setResults(filterItems(e.target.value)); // Non-urgent: can be interrupted
+    });
+  };
+
+  return (
+    <div>
+      <input value={query} onChange={handleChange} />
+      {isPending && <Spinner />}
+      <ResultList items={results} />
+    </div>
+  );
+}
+```
+
+### useDeferredValue — Deferred Rendering
+
+Defer re-rendering of a value to keep UI responsive.
+
+```typescript
+function SearchResults({ query }: { query: string }) {
+  const deferredQuery = useDeferredValue(query);
+  const isStale = query !== deferredQuery;
+
+  // Expensive computation uses deferred (stale) value
+  const results = useMemo(() => filterLargeDataset(deferredQuery), [deferredQuery]);
+
+  return (
+    <div style={{ opacity: isStale ? 0.7 : 1 }}>
+      <ResultList items={results} />
+    </div>
+  );
+}
+```
+
+**useTransition vs useDeferredValue:**
+- `useTransition`: You control when to start the transition (wrap `setState`)
+- `useDeferredValue`: React defers the value automatically (wrap the value)
+
+### useSyncExternalStore — External Store Subscription
+
+Subscribe to external stores (non-React state) safely.
+
+```typescript
+// Custom hook for window width using external store pattern
+function useWindowWidth(): number {
+  return useSyncExternalStore(
+    (callback) => {
+      window.addEventListener('resize', callback);
+      return () => window.removeEventListener('resize', callback);
+    },
+    () => window.innerWidth,       // Client snapshot
+    () => 1024,                     // Server snapshot (SSR fallback)
+  );
+}
+
+// Usage
+function ResponsiveLayout() {
+  const width = useWindowWidth();
+  return width > 768 ? <DesktopLayout /> : <MobileLayout />;
+}
+```
+
+---
+
 ## References
 
 - [React Hooks API Reference](https://react.dev/reference/react)
 - [Rules of Hooks](https://react.dev/warnings/invalid-hook-call-warning)
+- [useTransition](https://react.dev/reference/react/useTransition)
+- [useDeferredValue](https://react.dev/reference/react/useDeferredValue)
+- [useSyncExternalStore](https://react.dev/reference/react/useSyncExternalStore)

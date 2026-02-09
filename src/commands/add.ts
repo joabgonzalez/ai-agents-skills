@@ -2,16 +2,10 @@ import * as p from '@clack/prompts';
 import color from 'picocolors';
 import path from 'path';
 import fs from 'fs';
-import {
-  RepositoryManager,
-  ProjectDetector,
-  ModelDetector,
-  DependencyResolver,
-} from '../core';
+import { RepositoryManager, ProjectDetector, ModelDetector, DependencyResolver } from '../core';
 import { RemoteSkillSource } from '../core/skill-source';
 import type { PresetInfo } from '../core/repository';
 import { logger, LogLevel } from '../utils/logger';
-import { regenerateInstructionFile } from '../utils/instruction-generator';
 
 export interface AddOptions {
   preset?: string;
@@ -19,15 +13,6 @@ export interface AddOptions {
   models?: string;
   dryRun?: boolean;
 }
-
-/** Map model IDs to their instruction template source and destination file name */
-const INSTRUCTION_MAPPING: Record<string, { source: string; destFile: string }> = {
-  claude: { source: 'claude-instructions.md', destFile: 'instructions.md' },
-  copilot: { source: 'copilot-instructions.md', destFile: 'copilot-instructions.md' },
-  cursor: { source: 'cursor-instructions.md', destFile: 'instructions.md' },
-  gemini: { source: 'gemini-instructions.md', destFile: 'instructions.md' },
-  codex: { source: 'codex-instructions.md', destFile: 'instructions.md' },
-};
 
 /**
  * Installs skills from a remote repository. If no source is provided, uses the official repo.
@@ -56,19 +41,19 @@ export async function addCommand(source: string, options: AddOptions) {
   let selectedModels: string[];
 
   if (options.models) {
-    selectedModels = options.models.split(',').map(m => m.trim());
+    selectedModels = options.models.split(',').map((m) => m.trim());
   } else {
     const allModels = modelDetector.getAllModelsInfo(project.rootPath);
 
     const selected = await p.multiselect({
       message: 'Select AI models to install skills for:',
-      options: allModels.map(m => ({
+      options: allModels.map((m) => ({
         value: m.id,
         label: m.name,
-        hint: installedModels.includes(m.id) ? color.green('detected') : ''
+        hint: installedModels.includes(m.id) ? color.green('detected') : '',
       })),
       initialValues: installedModels.length > 0 ? installedModels : [],
-      required: true
+      required: true,
     });
 
     if (p.isCancel(selected)) {
@@ -104,8 +89,8 @@ export async function addCommand(source: string, options: AddOptions) {
       message: 'What would you like to install?',
       options: [
         { value: 'preset', label: 'Project Starter Preset (AGENTS.md + skills bundle)' },
-        { value: 'skills', label: 'Skills' }
-      ]
+        { value: 'skills', label: 'Skills' },
+      ],
     });
 
     if (p.isCancel(choice)) {
@@ -123,11 +108,11 @@ export async function addCommand(source: string, options: AddOptions) {
 
       const selectedPreset = await p.select({
         message: 'Select agent preset:',
-        options: presets.map(preset => ({
+        options: presets.map((preset) => ({
           value: preset.id,
           label: preset.name,
-          hint: `${preset.skills.length} skills`
-        }))
+          hint: `${preset.skills.length} skills`,
+        })),
       });
 
       if (p.isCancel(selectedPreset)) {
@@ -135,7 +120,7 @@ export async function addCommand(source: string, options: AddOptions) {
         process.exit(0);
       }
 
-      presetInfo = presets.find(preset => preset.id === selectedPreset) ?? null;
+      presetInfo = presets.find((preset) => preset.id === selectedPreset) ?? null;
       skillsToInstall = presetInfo!.skills;
     } else {
       const availableSkills = repoManager.listSkills(repo.cachePath);
@@ -147,11 +132,11 @@ export async function addCommand(source: string, options: AddOptions) {
 
       const selected = await p.multiselect({
         message: 'Select skills to install:',
-        options: availableSkills.map(skill => ({
+        options: availableSkills.map((skill) => ({
           value: skill,
-          label: skill
+          label: skill,
         })),
-        required: true
+        required: true,
       });
 
       if (p.isCancel(selected)) {
@@ -176,7 +161,7 @@ export async function addCommand(source: string, options: AddOptions) {
   // Show dependency tree
   const requestedSkills = skillsToInstall;
   const allSkills = Array.from(resolved.keys());
-  const dependencies = allSkills.filter(skill => !requestedSkills.includes(skill));
+  const dependencies = allSkills.filter((skill) => !requestedSkills.includes(skill));
 
   console.log(color.bold('Installation Preview:'));
   console.log();
@@ -205,7 +190,7 @@ export async function addCommand(source: string, options: AddOptions) {
   // 6. Confirm installation
   const confirm = await p.confirm({
     message: `Install ${resolved.size} skill(s) to ${selectedModels.length} model(s)?`,
-    initialValue: true
+    initialValue: true,
   });
 
   if (!confirm || p.isCancel(confirm)) {
@@ -223,13 +208,11 @@ export async function addCommand(source: string, options: AddOptions) {
 
   s.stop('Skills directory ready');
 
-  // 8. Setup model directories (create dirs + instruction files)
+  // 8. Setup model directories
   s.start('Setting up model directories...');
 
   const prevLevel = logger.getLevel();
   logger.setLevel(LogLevel.WARN);
-
-  let instructionCount = 0;
 
   for (const modelId of selectedModels) {
     const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
@@ -237,20 +220,6 @@ export async function addCommand(source: string, options: AddOptions) {
 
     if (!fs.existsSync(skillsDir)) {
       fs.mkdirSync(skillsDir, { recursive: true });
-    }
-
-    // Generate instruction file from template
-    const mapping = INSTRUCTION_MAPPING[modelId];
-    if (mapping) {
-      const templatePath = path.join(repo.cachePath, 'templates', mapping.source);
-      const destPath = path.join(modelDir, mapping.destFile);
-
-      if (fs.existsSync(templatePath) && !fs.existsSync(destPath) && !options.dryRun) {
-        let content = fs.readFileSync(templatePath, 'utf-8');
-        content = content.replace(/\{\{SKILL_COUNT\}\}/g, resolved.size.toString());
-        fs.writeFileSync(destPath, content, 'utf-8');
-        instructionCount++;
-      }
     }
   }
 
@@ -303,10 +272,7 @@ export async function addCommand(source: string, options: AddOptions) {
     for (const modelId of selectedModels) {
       const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
       const skillsDir = path.join(modelDir, 'skills');
-      const symlinkSrc = path.relative(
-        skillsDir,
-        path.join(agentsSkillsDir, skillName)
-      );
+      const symlinkSrc = path.relative(skillsDir, path.join(agentsSkillsDir, skillName));
       const symlinkDst = path.join(skillsDir, skillName);
 
       if (!fs.existsSync(symlinkDst) && !options.dryRun) {
@@ -343,27 +309,14 @@ export async function addCommand(source: string, options: AddOptions) {
     }
   }
 
-  // 11. Regenerate instruction files with installed skills
-  s.start('Updating instruction files...');
-  let instructionsUpdated = 0;
-
-  for (const modelId of selectedModels) {
-    const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
-    const updated = regenerateInstructionFile(modelDir, modelId, options.dryRun);
-    if (updated) instructionsUpdated++;
-  }
-
-  s.stop(`Updated ${instructionsUpdated} instruction file(s)`);
-
-  // 12. Summary
+  // 11. Summary
   const summaryLines = [];
   summaryLines.push(`Models: ${color.cyan(selectedModels.length.toString())}`);
   summaryLines.push(`Skills installed: ${color.green(installedCount.toString())}`);
   if (skippedCount > 0) {
-    summaryLines.push(`Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`);
-  }
-  if (instructionCount > 0) {
-    summaryLines.push(`Instructions: ${color.green(instructionCount.toString())} file(s) generated`);
+    summaryLines.push(
+      `Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`
+    );
   }
   if (presetInfo) {
     summaryLines.push(`Preset: ${color.cyan(presetInfo.name)}`);

@@ -37,6 +37,20 @@ Don't use this skill for:
 - Framework-specific conventions (use framework skill)
 - **Architecture patterns** (use [architecture-patterns](../architecture-patterns/SKILL.md) when project already uses SOLID, Clean Architecture, DDD)
 
+### Scope Rule
+
+**conventions covers what applies to ALL/MOST technologies.** If a convention is specific to one technology (e.g., React hooks rules, TypeScript generics), it belongs in that technology's skill.
+
+### Skills That Build on conventions
+
+This skill is a dependency for 40+ skills. Technology skills extend these conventions with their own specifics:
+
+- **typescript** → Adds strict typing, generics, utility types
+- **react** → Adds component naming, hook rules, JSX patterns
+- **nodejs** → Adds module patterns, error handling, async patterns
+- **code-quality** → Adds linting/formatting tool configuration
+- **architecture-patterns** → Adds layer organization, SOLID, DIP
+
 ---
 
 ## Critical Patterns
@@ -175,63 +189,32 @@ import { load } from 'js-yaml';
 
 ---
 
-## Conventions
-
-### Code Organization
-
-- Group related imports together (external libraries, internal modules, types)
-- Use consistent file/folder structure within projects
-- Separate business logic from UI components
-- Follow single responsibility principle for files and functions
-- Remove dead code (unused imports, variables, functions)
-- Prefer static imports over dynamic require/import
-- Use `import type` for type-only imports
-
-### Documentation
-
-- Add JSDoc comments for exported functions, classes, and interfaces
-- Document complex logic with inline comments
-- Keep README files updated with setup instructions and architecture notes
-- Use descriptive variable and function names that reduce need for comments
-
-### Naming
-
-- Use camelCase for variables and functions
-- Use PascalCase for classes and components
-- Use UPPER_SNAKE_CASE for constants
-- Use descriptive names that reveal intent
-
-### Type Imports
-
-- Import types separately using `import type` when supported
-- Keep type imports organized and grouped
-- Avoid circular dependencies in type definitions
-
 ## Decision Tree
 
-**New component or file?** → Check naming conventions (camelCase/PascalCase/UPPER_SNAKE_CASE), place in appropriate directory structure.
+```
+Does this convention apply to ALL/MOST technologies?
+→ Yes: Belongs here (conventions)
+→ No: Belongs in technology-specific skill
 
-**Adding imports?** → Group by category: external libraries first, internal modules second, types last. Use `import type` for TypeScript.
+Which concern?
+  Naming (variables, functions, classes)  → See Naming section
+  Import organization                     → See Imports section
+  File/folder structure                   → See Code Organization
+  Documentation standards                 → See Documentation
+  Type imports (TypeScript)               → See Type Imports
+  React-specific (hooks, JSX)             → Use react skill
+  Architecture (layers, SOLID)            → Use architecture-patterns skill
+  Linting/formatting tools                → Use code-quality skill
+```
 
-**Complex logic?** → Add inline comments for "why", not "what". Refactor if complexity exceeds file responsibility.
-
-**Naming unclear?** → Use descriptive names that reveal intent. Avoid abbreviations unless widely known (e.g., `userId` OK, `usrId` not OK).
-
-**Cross-file logic?** → Extract to shared utility/service. Avoid circular dependencies by separating interfaces from implementations.
-
-**Technology-specific convention?** → Delegate to specific skill (typescript, react, mui, etc.). This skill only covers cross-technology patterns.
-
-**Documentation needed?** → Add JSDoc for public APIs, inline comments for complex logic, update README for architectural changes.
-
-**Importing types only?** → Use `import type { ... }` or inline `type` keyword.
-
-**Using <6 exports from a module?** → Named imports: `import { x, y } from 'mod'`.
-
-**Using 6+ exports from a module?** → Namespace import OK: `import * as mod from 'mod'`.
-
-**Unused import/variable/function?** → Delete it. No dead code.
-
-**Variable name conflicts with outer scope?** → Rename to avoid shadowing.
+**Quick reference:**
+- New file? → Check naming (camelCase/PascalCase), place in appropriate directory
+- Adding imports? → Group: external → internal → types. Use `import type` for TS
+- Complex logic? → Comment the "why", not "what". Refactor if SRP violated
+- Naming unclear? → Descriptive names revealing intent. No custom abbreviations
+- Unused code? → Delete it. No dead code
+- Variable name conflict? → Rename to avoid shadowing
+- <6 exports? → Named imports. 6+ exports? → Namespace import OK
 
 ---
 
@@ -249,7 +232,13 @@ import { load } from 'js-yaml';
 
 ---
 
-## References
+## Resources
 
-- Individual technology skills for specific conventions
-- Project-specific style guides
+- [naming-conventions.md](references/naming-conventions.md) — Boolean prefixes, acronyms, file naming, descriptive names
+- [import-organization.md](references/import-organization.md) — Grouping, named vs namespace, type imports, barrel exports
+- [code-structure.md](references/code-structure.md) — SRP for files, feature vs layer grouping, colocation
+- [documentation-standards.md](references/documentation-standards.md) — JSDoc, inline comments, README guidelines
+
+**See [references/README.md](references/README.md) for complete navigation.**
+
+Related skills: [typescript](../typescript/SKILL.md), [code-quality](../code-quality/SKILL.md), [architecture-patterns](../architecture-patterns/SKILL.md)

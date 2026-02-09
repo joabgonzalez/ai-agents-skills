@@ -54,12 +54,12 @@ async function validateSkill(skillName: string, baseDir: string): Promise<void> 
 
   if (validation.errors.length > 0) {
     logger.error('Errors:');
-    validation.errors.forEach(error => logger.listItem(error, 2));
+    validation.errors.forEach((error) => logger.listItem(error, 2));
   }
 
   if (validation.warnings.length > 0) {
     logger.warn('Warnings:');
-    validation.warnings.forEach(warning => logger.listItem(warning, 2));
+    validation.warnings.forEach((warning) => logger.listItem(warning, 2));
   }
 
   if (validation.valid) {
@@ -108,14 +108,14 @@ async function validateAllSkills(baseDir: string): Promise<void> {
       results.invalid++;
       logger.error(`✗ ${skillName}`);
 
-      validation.errors.forEach(error => {
+      validation.errors.forEach((error) => {
         logger.listItem(error, 2);
       });
     }
 
     if (validation.warnings.length > 0) {
       results.warnings += validation.warnings.length;
-      validation.warnings.forEach(warning => {
+      validation.warnings.forEach((warning) => {
         logger.warn(`  ${warning}`);
       });
     }
@@ -134,7 +134,7 @@ async function validateAllSkills(baseDir: string): Promise<void> {
 
   if (graphValidation.cycles) {
     logger.error('Circular dependencies detected:');
-    graphValidation.cycles.forEach(cycle => {
+    graphValidation.cycles.forEach((cycle) => {
       logger.listItem(cycle.formatted, 2);
     });
     results.invalid++;
@@ -144,7 +144,7 @@ async function validateAllSkills(baseDir: string): Promise<void> {
 
   if (graphValidation.missing.length > 0) {
     logger.warn('Missing dependencies:');
-    graphValidation.missing.forEach(dep => {
+    graphValidation.missing.forEach((dep) => {
       logger.listItem(dep, 2);
     });
     results.warnings++;
@@ -216,12 +216,16 @@ async function validateInstalledSkills(baseDir: string): Promise<void> {
           const sourceVersion = SkillParser.extractVersion(sourcePath);
 
           if (sourceVersion !== skill.version) {
-            warnings.push(`Version mismatch for ${skill.name}: installed ${skill.version || 'unknown'}, current ${sourceVersion}`);
+            warnings.push(
+              `Version mismatch for ${skill.name}: installed ${skill.version || 'unknown'}, current ${sourceVersion}`
+            );
           } else {
             logger.success(`  ${skill.name}: valid (${skill.version})`);
           }
         } catch (error) {
-          errors.push(`Failed to validate ${skill.name}: ${error instanceof Error ? error.message : String(error)}`);
+          errors.push(
+            `Failed to validate ${skill.name}: ${error instanceof Error ? error.message : String(error)}`
+          );
         }
       }
     }
@@ -231,12 +235,12 @@ async function validateInstalledSkills(baseDir: string): Promise<void> {
 
   if (errors.length > 0) {
     logger.error('Errors:');
-    errors.forEach(error => logger.listItem(error, 2));
+    errors.forEach((error) => logger.listItem(error, 2));
   }
 
   if (warnings.length > 0) {
     logger.warn('Warnings:');
-    warnings.forEach(warning => logger.listItem(warning, 2));
+    warnings.forEach((warning) => logger.listItem(warning, 2));
   }
 
   logger.newline();

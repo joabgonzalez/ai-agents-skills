@@ -21,7 +21,9 @@ export function extractFrontmatter(filePath: string): Record<string, any> | null
 
     return parsed || null;
   } catch (error) {
-    throw new Error(`Failed to extract frontmatter from ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to extract frontmatter from ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -39,7 +41,9 @@ export function loadYamlFile(filePath: string): Record<string, any> {
 
     return parsed;
   } catch (error) {
-    throw new Error(`Failed to load YAML file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to load YAML file ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -57,7 +61,9 @@ export function saveYamlFile(filePath: string, data: Record<string, any>): void 
 
     fs.writeFileSync(filePath, yamlContent, 'utf-8');
   } catch (error) {
-    throw new Error(`Failed to save YAML file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to save YAML file ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -91,10 +97,12 @@ export function validateFrontmatter(frontmatter: Record<string, any>): {
 
   // Check for deprecated top-level fields
   const deprecatedFields = ['version', 'skills', 'dependencies', 'allowed-tools'];
-  const foundDeprecated = deprecatedFields.filter(field => field in frontmatter);
+  const foundDeprecated = deprecatedFields.filter((field) => field in frontmatter);
 
   if (foundDeprecated.length > 0) {
-    errors.push(`Found deprecated top-level fields: ${foundDeprecated.join(', ')}. These should be under "metadata"`);
+    errors.push(
+      `Found deprecated top-level fields: ${foundDeprecated.join(', ')}. These should be under "metadata"`
+    );
   }
 
   // Validate name format (lowercase-with-hyphens)

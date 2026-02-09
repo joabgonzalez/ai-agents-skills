@@ -25,7 +25,7 @@ export class ProjectDetector {
           rootPath: current,
           type: hasPackageJson ? 'node' : 'git',
           hasPackageJson,
-          hasGit
+          hasGit,
         };
       }
 
@@ -37,7 +37,7 @@ export class ProjectDetector {
       rootPath: startDir || process.cwd(),
       type: 'manual',
       hasPackageJson: false,
-      hasGit: false
+      hasGit: false,
     };
   }
 
@@ -73,8 +73,9 @@ export class ProjectDetector {
       return [];
     }
 
-    return fs.readdirSync(skillsDir, { withFileTypes: true })
-      .filter(entry => entry.isDirectory() || entry.isSymbolicLink())
-      .map(entry => entry.name);
+    return fs
+      .readdirSync(skillsDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() || entry.isSymbolicLink())
+      .map((entry) => entry.name);
   }
 }

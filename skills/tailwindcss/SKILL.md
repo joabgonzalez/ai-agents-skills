@@ -98,7 +98,37 @@ module.exports = {
 
 Conventions: follow **conventions** skill for organization; **a11y** for contrast/focus; **css** for custom CSS fallbacks.
 
+## Design System Patterns
+
+### Token Hierarchy
+
+Organize design tokens in three layers for maintainability.
+
+**1. Brand Tokens:** Raw values in OKLCH color space (`--color-brand-blue: oklch(45% 0.2 260)`)
+
+**2. Semantic Tokens:** Purpose-driven names (`--color-primary`, `--color-destructive`, `--color-muted-foreground`)
+
+**3. Component Tokens:** Specific implementations (`.btn-primary { @apply bg-primary text-primary-foreground; }`)
+
+See [design-system.md](references/design-system.md) for complete token architecture, semantic naming conventions, CVA (Class Variance Authority) patterns, and dark mode setup.
+
+### Tailwind v4 Features
+
+CSS-first configuration with `@theme` blocks and OKLCH color space.
+
+**Key changes:** `@import 'tailwindcss'` replaces `@tailwind` directives, `@theme` blocks replace `tailwind.config.js` theme, `@custom-variant dark` replaces `darkMode: "class"`
+
+**New utilities:** `size-*` shorthand (replaces `w-* h-*` for squares), improved spacing, tree-shakeable animations
+
+See [tailwind-v4.md](references/tailwind-v4.md) for migration guide, breaking changes, OKLCH syntax, and v4-specific patterns.
+
 ## Decision Tree
+
+**Building a design system?** -> See references/design-system.md for token hierarchy, semantic naming, CVA patterns.
+
+**Migrating to Tailwind v4?** -> See references/tailwind-v4.md for migration checklist, breaking changes, new utilities.
+
+**Component with variants (size/color/state)?** -> Use CVA (Class Variance Authority) from references/design-system.md.
 
 **Tailwind class exists?** -> Use utility: `className="bg-blue-500"`.
 
@@ -112,11 +142,11 @@ Conventions: follow **conventions** skill for organization; **a11y** for contras
 
 **Responsive?** -> Breakpoint prefixes: `md:flex lg:grid`.
 
-**Dark mode?** -> Enable in config, use `dark:` prefix: `dark:bg-gray-800`.
+**Dark mode?** -> v3: Enable in config. v4: Use `@custom-variant dark` (see tailwind-v4.md).
 
 **Production build?** -> Ensure all template paths in `content` array or classes get purged.
 
-**Custom animations?** -> Extend `theme.animation` and `theme.keyframes` in config.
+**Custom animations?** -> v3: Extend `theme.animation`. v4: Use `@keyframes` in `@theme` (see tailwind-v4.md).
 
 ## Example
 
@@ -175,5 +205,8 @@ module.exports = {
 
 ## Resources
 
-- https://tailwindcss.com/docs
-- https://tailwindcss.com/docs/configuration
+- [design-system.md](references/design-system.md) — Token hierarchy, semantic naming, CVA patterns, dark mode, color mixing
+- [tailwind-v4.md](references/tailwind-v4.md) — v4 migration guide, OKLCH colors, @theme blocks, new utilities
+- https://tailwindcss.com/docs — Official documentation
+- https://cva.style/docs — Class Variance Authority (CVA) for type-safe variants
+- https://oklch.com/ — OKLCH color picker and converter

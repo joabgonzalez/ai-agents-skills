@@ -87,7 +87,9 @@ export class DependencyResolver {
         this.buildNodeRecursive(dep, graph, 'skill-dependency');
       }
     } catch (error) {
-      logger.error(`Failed to process skill "${skillName}": ${error instanceof Error ? error.message : String(error)}`);
+      logger.error(
+        `Failed to process skill "${skillName}": ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -144,7 +146,7 @@ export class DependencyResolver {
         const formatted = cyclePath.join(' -> ');
 
         // Check if we already have this cycle (avoid duplicates)
-        if (!cycles.some(c => c.formatted === formatted)) {
+        if (!cycles.some((c) => c.formatted === formatted)) {
           cycles.push({ path: cyclePath, formatted });
         }
       }
@@ -160,7 +162,9 @@ export class DependencyResolver {
     // Check for cycles first
     const cycles = this.detectCycles(graph);
     if (cycles) {
-      throw new Error(`Circular dependencies detected:\n${cycles.map(c => c.formatted).join('\n')}`);
+      throw new Error(
+        `Circular dependencies detected:\n${cycles.map((c) => c.formatted).join('\n')}`
+      );
     }
 
     // Build in-degree map
@@ -304,7 +308,9 @@ export class DependencyResolver {
       }
       return frontmatter.metadata?.skills || [];
     } catch (error) {
-      logger.error(`Failed to parse AGENTS.md: ${error instanceof Error ? error.message : String(error)}`);
+      logger.error(
+        `Failed to parse AGENTS.md: ${error instanceof Error ? error.message : String(error)}`
+      );
       return [];
     }
   }
@@ -370,13 +376,19 @@ export class DependencyResolver {
     }
 
     logger.subsection('From AGENTS.md');
-    bySource['agents-md'].forEach(name => logger.listItem(`${name} (v${graph.get(name)?.version})`));
+    bySource['agents-md'].forEach((name) =>
+      logger.listItem(`${name} (v${graph.get(name)?.version})`)
+    );
 
     logger.subsection('Meta Skills');
-    bySource['meta-skill'].forEach(name => logger.listItem(`${name} (v${graph.get(name)?.version})`));
+    bySource['meta-skill'].forEach((name) =>
+      logger.listItem(`${name} (v${graph.get(name)?.version})`)
+    );
 
     logger.subsection('Transitive Dependencies');
-    bySource['skill-dependency'].forEach(name => logger.listItem(`${name} (v${graph.get(name)?.version})`));
+    bySource['skill-dependency'].forEach((name) =>
+      logger.listItem(`${name} (v${graph.get(name)?.version})`)
+    );
 
     logger.newline();
     logger.keyValue('Total skills', graph.size.toString());

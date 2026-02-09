@@ -5,21 +5,21 @@
 // Supported models and their directories
 export const MODEL_DIRECTORIES: Record<string, string> = {
   'github-copilot': '.github',
-  'copilot': '.github',
-  'claude': '.claude',
-  'codex': '.codex',
-  'gemini': '.gemini',
-  'cursor': '.cursor',
+  copilot: '.github',
+  claude: '.claude',
+  codex: '.codex',
+  gemini: '.gemini',
+  cursor: '.cursor',
 };
 
 // Model display names for UI
 export const MODEL_NAMES: Record<string, string> = {
   'github-copilot': 'GitHub Copilot',
-  'copilot': 'GitHub Copilot',
-  'claude': 'Claude',
-  'codex': 'Codex (OpenAI)',
-  'gemini': 'Gemini',
-  'cursor': 'Cursor',
+  copilot: 'GitHub Copilot',
+  claude: 'Claude',
+  codex: 'Codex (OpenAI)',
+  gemini: 'Gemini',
+  cursor: 'Cursor',
 };
 
 // All available models (for interactive selection)

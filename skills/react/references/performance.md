@@ -591,6 +591,125 @@ function VirtualList({ items }) {
 
 ---
 
+## Concurrent Features (React 18+)
+
+### useTransition for Heavy Renders
+
+Keep the UI responsive during expensive state updates.
+
+```typescript
+function ProductCatalog() {
+  const [filter, setFilter] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [isPending, startTransition] = useTransition();
+
+  const handleFilter = (value: string) => {
+    setFilter(value); // Urgent: update input immediately
+
+    startTransition(() => {
+      // Non-urgent: filter 10,000 products without blocking input
+      setFilteredProducts(products.filter(p =>
+        p.name.toLowerCase().includes(value.toLowerCase())
+      ));
+    });
+  };
+
+  return (
+    <>
+      <input value={filter} onChange={e => handleFilter(e.target.value)} />
+      {isPending ? <Skeleton count={10} /> : <ProductGrid items={filteredProducts} />}
+    </>
+  );
+}
+```
+
+### useDeferredValue for Search/Filter UX
+
+```typescript
+function SearchableList({ items }: { items: Item[] }) {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+
+  const filtered = useMemo(
+    () => items.filter(item => item.name.includes(deferredQuery)),
+    [items, deferredQuery]
+  );
+
+  return (
+    <>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <div style={{ opacity: query !== deferredQuery ? 0.6 : 1 }}>
+        {filtered.map(item => <Item key={item.id} item={item} />)}
+      </div>
+    </>
+  );
+}
+```
+
+### Suspense for Data Loading
+
+```typescript
+// ✅ CORRECT: Suspense with lazy components
+const HeavyDashboard = lazy(() => import('./HeavyDashboard'));
+
+function App() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <HeavyDashboard />
+    </Suspense>
+  );
+}
+
+// ✅ CORRECT: Nested Suspense for progressive loading
+function Dashboard() {
+  return (
+    <Suspense fallback={<PageSkeleton />}>
+      <Header />
+      <Suspense fallback={<ChartSkeleton />}>
+        <ExpensiveChart />
+      </Suspense>
+      <Suspense fallback={<TableSkeleton />}>
+        <DataTable />
+      </Suspense>
+    </Suspense>
+  );
+}
+```
+
+### Route-Based Code Splitting
+
+```typescript
+const Home = lazy(() => import('./pages/Home'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Settings = lazy(() => import('./pages/Settings'));
+
+// Preload on hover/focus for instant navigation
+const preloadDashboard = () => import('./pages/Dashboard');
+
+function App() {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+// Preload link component
+function PreloadLink({ to, children, preload }: PreloadLinkProps) {
+  return (
+    <Link to={to} onMouseEnter={preload} onFocus={preload}>
+      {children}
+    </Link>
+  );
+}
+```
+
+---
+
 ## References
 
 - [Optimizing Performance](https://react.dev/learn/render-and-commit)
@@ -598,3 +717,5 @@ function VirtualList({ items }) {
 - [useMemo](https://react.dev/reference/react/useMemo)
 - [useCallback](https://react.dev/reference/react/useCallback)
 - [React.memo](https://react.dev/reference/react/memo)
+- [useTransition](https://react.dev/reference/react/useTransition)
+- [Suspense](https://react.dev/reference/react/Suspense)

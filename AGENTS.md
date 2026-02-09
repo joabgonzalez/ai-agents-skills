@@ -11,45 +11,86 @@ metadata:
     - nodejs
     - conventions
     - critical-partner
-    - process-documentation
 ---
 
 # AI Agents Skills Framework
 
 CLI for creating, managing, and distributing AI agent skills across 5 AI models. Local-first architecture with symlink-based installation, dependency resolution, and token-efficient model instructions.
 
+## How to Use Skills (MANDATORY WORKFLOW)
+
+This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
+
+### Step 1: Find the Trigger
+Check the "Mandatory Skills" table below. Match your task to the "Trigger" column.
+
+### Step 2: Read the Skill
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
+
+Replace `{model}` with your coding agent:
+- **Cursor:** `.cursor/skills/typescript/SKILL.md`
+- **Claude:** `.claude/skills/typescript/SKILL.md`
+- **Copilot:** `.github/skills/typescript/SKILL.md`
+- **Gemini:** `.gemini/skills/typescript/SKILL.md`
+- **Codex:** `.codex/skills/typescript/SKILL.md`
+
+### Step 3: Read Dependencies
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
+
+**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+
+You must read all 6 skills.
+
+### Step 4: Apply Patterns
+- Follow "Critical Patterns" marked with ✅ REQUIRED
+- Use "Decision Tree" for implementation choices
+- Reference inline code examples
+
+### Example Workflow
+
+**Task:** "Create TypeScript interface for User model"
+
+1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
+2. **Read:** `.{model}/skills/typescript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
+4. **Read dependencies:**
+   - `.{model}/skills/conventions/SKILL.md`
+   - `.{model}/skills/javascript/SKILL.md`
+5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
+
 ## Mandatory Skills
 
-Before performing any task, read the relevant skill from `.claude/skills/` (or your model's skills directory).
+**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
 
-| Trigger                     | Skill                 | Path                                  |
-| --------------------------- | --------------------- | ------------------------------------- |
-| Create or modify skills     | skill-creation        | skills/skill-creation/SKILL.md        |
-| Create agent definitions    | agent-creation        | skills/agent-creation/SKILL.md        |
-| Code review or improvements | critical-partner      | skills/critical-partner/SKILL.md      |
-| Document changes            | process-documentation | skills/process-documentation/SKILL.md |
-| Coding standards            | conventions           | skills/conventions/SKILL.md           |
-| TypeScript code             | typescript            | skills/typescript/SKILL.md            |
-| Node.js / CLI development   | nodejs                | skills/nodejs/SKILL.md                |
+| Trigger                     | Skill                 | Relative Path                               |
+| --------------------------- | --------------------- | ------------------------------------------- |
+| Create or modify skills     | skill-creation        | {model}/skills/skill-creation/SKILL.md      |
+| Create agent definitions    | agent-creation        | {model}/skills/agent-creation/SKILL.md      |
+| Code review or improvements | critical-partner      | {model}/skills/critical-partner/SKILL.md    |
+| Refactoring code            | code-refactoring      | {model}/skills/code-refactoring/SKILL.md    |
+| Coding standards            | conventions           | {model}/skills/conventions/SKILL.md         |
+| TypeScript code             | typescript            | {model}/skills/typescript/SKILL.md          |
+| Node.js / CLI development   | nodejs                | {model}/skills/nodejs/SKILL.md              |
 
 ## Skills Reference
 
-49 skills organized by category:
+48 skills organized by category:
 
 - **Frameworks:** React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
-- **Testing:** Jest, Playwright, React Testing Library, E2E Testing, Unit Testing
-- **Standards:** TypeScript, JavaScript, ESLint, Prettier, HTML, CSS, TailwindCSS, A11y, Conventions
-- **Backend:** Node.js, Express, Nest, Hono, Bun
-- **Build Tools:** Vite, Webpack, Bun
-- **Libraries:** MUI, MUI X Charts, AG Grid, Formik, Yup, Zod, Redux Toolkit
-- **Quality:** Critical Partner, Architecture Patterns, Process Documentation, English Writing, Humanizer
-- **Specialized:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync, Stagehand
+- **Testing:** Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
+- **Standards:** TypeScript, JavaScript, HTML, CSS, TailwindCSS, A11y
+- **Backend:** Node.js, Express, Nest, Hono, Bun, Backend Development
+- **Build Tools:** Vite, Webpack
+- **Libraries:** MUI, AG Grid, Redux Toolkit, Stagehand
+- **Quality & Architecture:** Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Humanizer, Frontend Development
+- **Behavioral:** Brainstorming, Systematic Debugging, Interface Design
+- **Meta:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
 ## Project Structure
 
 ```
 ai-agents-skills/
-├── skills/             # 49 skill definitions (SKILL.md format)
+├── skills/             # 48 skill definitions (SKILL.md format)
 ├── presets/            # Project Starter Preset (AGENTS.md + skills bundle)
 ├── src/                # TypeScript CLI source
 │   ├── commands/       # CLI commands (local, add, remove, sync, validate, list)

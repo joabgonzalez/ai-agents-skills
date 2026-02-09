@@ -1,47 +1,107 @@
-.PHONY: install clean uninstall validate validate-installed help all
+.PHONY: help build dev local sync list add remove validate clean test lint format install
 
 # Default target
-all: install
+all: build local
 
-# Install skills locally using Node.js CLI (interactive model selection)
-install:
-	@echo "Building CLI..."
-	@npm run build
-	@echo ""
-	@echo "Installing skills locally..."
-	@node dist/index.js local
-
-# Validate all skills
-validate:
-	@echo "Validating all skills..."
-	@node dist/index.js validate --all
-
-# Validate installed skills
-validate-installed:
-	@echo "Validating installed skills..."
-	@node dist/index.js validate --installed
-
-# Uninstall all skills from all models
-uninstall:
-	@echo "Uninstalling all skills..."
-	@node dist/index.js uninstall --all --confirm
-
-# Clean generated model configuration directories
-clean:
-	@echo "Cleaning model configuration directories..."
-	@rm -rf .github/skills .github/copilot-instructions.md .claude .codex .gemini .cursor .agents
-	@echo "Clean complete!"
-
-# Show available commands
 help:
-	@echo "Available commands:"
-	@echo "  make install            - Install skills locally with interactive model selection (default)"
-	@echo "  make validate           - Validate all skills in ./skills/"
-	@echo "  make validate-installed - Validate installed skills"
-	@echo "  make uninstall          - Uninstall all skills from all models"
-	@echo "  make clean              - Remove all model configuration directories"
-	@echo "  make help               - Show this help message"
+	@echo "AI Agents Skills - Development Commands"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  make build        Build TypeScript project"
+	@echo "  make dev          Run CLI in development mode (pass args with ARGS=...)"
+	@echo "  make local        Install skills locally to all models"
+	@echo "  make sync         Sync models (interactive)"
+	@echo "  make list         List all available skills"
+	@echo "  make add          Add skills (pass SKILL=name)"
+	@echo "  make remove       Remove skills (pass SKILL=name)"
+	@echo "  make validate     Validate all skills"
+	@echo "  make test         Run tests"
+	@echo "  make lint         Run linter"
+	@echo "  make format       Format code"
+	@echo "  make clean        Clean build artifacts"
+	@echo "  make install      Install dependencies"
 	@echo ""
 	@echo "Examples:"
-	@echo "  node dist/index.js local --models copilot,claude    # Non-interactive with specific models"
-	@echo "  node dist/index.js local --dry-run                  # Test without making changes"
+	@echo "  make local"
+	@echo "  make add SKILL=typescript"
+	@echo "  make dev ARGS='list --verbose'"
+
+# Install dependencies
+install:
+	npm install
+
+# Build the project
+build:
+	npm run build
+
+# Development mode - run CLI with ts-node
+dev:
+	npm run dev -- $(ARGS)
+
+# Local installation - install all skills to detected models
+local:
+	npm run dev -- local
+
+# Sync models interactively
+sync:
+	npm run dev -- sync
+
+# List all available skills
+list:
+	npm run dev -- list
+
+# Add specific skill
+add:
+ifdef SKILL
+	npm run dev -- add --skill $(SKILL)
+else
+	@echo "Error: Please specify SKILL=name"
+	@echo "Example: make add SKILL=typescript"
+endif
+
+# Remove specific skill
+remove:
+ifdef SKILL
+	npm run dev -- remove --skills $(SKILL)
+else
+	@echo "Error: Please specify SKILL=name"
+	@echo "Example: make remove SKILL=typescript"
+endif
+
+# Validate skills
+validate:
+	npm run dev -- validate --all
+
+# Run tests
+test:
+	npm test
+
+# Run linter
+lint:
+	npm run lint
+
+# Format code
+format:
+	npm run format
+
+# Clean build artifacts
+clean:
+	rm -rf dist/
+	rm -rf node_modules/
+	rm -rf .claude/skills/
+	rm -rf .cursor/skills/
+	rm -rf .github/skills/
+	rm -rf .gemini/skills/
+	rm -rf .codex/skills/
+	@echo "✓ Cleaned build artifacts and installed skills"
+
+# Development workflow targets
+.PHONY: check release
+
+# Check everything before commit
+check: lint test build
+	@echo "✓ All checks passed!"
+
+# Release new version (patch)
+release:
+	npm run release:patch

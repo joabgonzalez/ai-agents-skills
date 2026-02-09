@@ -12,8 +12,10 @@
 | [domain-driven-design.md](domain-driven-design.md)     | Domain modeling and bounded contexts  | Complex business logic                   |
 | [mediator-pattern.md](mediator-pattern.md)             | Decoupled communication               | Component coordination                   |
 | [result-pattern.md](result-pattern.md)                 | Explicit error handling               | Type-safe error management               |
+| [dry-principle.md](dry-principle.md)                   | DRY principle and duplication         | Eliminating code/config duplication      |
 | [backend-integration.md](backend-integration.md)       | Backend implementation examples       | Backend projects (Node, NestJS, Express) |
 | [frontend-integration.md](frontend-integration.md)     | Frontend implementation examples      | Frontend projects (React, Redux, Astro)  |
+| [sidecar-pattern.md](sidecar-pattern.md)               | Sidecar pattern for microservices     | Microservice cross-cutting concerns      |
 
 ## Reading Strategy
 
@@ -31,6 +33,7 @@
 - [domain-driven-design.md](domain-driven-design.md) - For complex domain logic
 - [result-pattern.md](result-pattern.md) - For error handling
 - [mediator-pattern.md](mediator-pattern.md) - For event-driven systems
+- [sidecar-pattern.md](sidecar-pattern.md) - For microservice cross-cutting concerns
 
 ### For Frontend Projects
 
@@ -109,19 +112,27 @@ Type-safe error handling without exceptions. Covers Result<T>, Either<L, R>, Opt
 
 ---
 
-### [backend-integration.md](backend-integration.md) (~400 lines)
+### [backend-integration.md](backend-integration.md) (~300 lines)
 
-Complete backend implementation guide: NestJS, Express, Fastify examples. Covers dependency injection, testing, folder structure.
+Complete backend implementation guide: Express and NestJS examples with Order Service. Covers DI, testing (unit + integration), environment-based adapters, migration strategy.
 
 **Read when**: Implementing architecture patterns in backend projects.
 
 ---
 
-### [frontend-integration.md](frontend-integration.md) (~450 lines)
+### [frontend-integration.md](frontend-integration.md) (~300 lines)
 
-Frontend-specific patterns: React components with SRP, Redux with Clean Architecture, Astro with layer separation. Includes when NOT to use patterns.
+Frontend-specific patterns: SRP for components/hooks, DIP with Context, Clean Architecture layers, Result pattern, Astro integration. Includes pragmatism guide and when NOT to use patterns.
 
-**Read when**: **FIRST reference for frontend developers**. Contains context verification checklist.
+**Read when**: **FIRST reference for frontend developers**. Start here before reading other patterns.
+
+---
+
+### [sidecar-pattern.md](sidecar-pattern.md) (~270 lines)
+
+Sidecar pattern for deploying auxiliary services (logging, monitoring, auth proxy) alongside main service. Docker Compose, Kubernetes, and Istio service mesh examples.
+
+**Read when**: Microservices with cross-cutting concerns (logging, monitoring, auth, traffic management).
 
 ---
 

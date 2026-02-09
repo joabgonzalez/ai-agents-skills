@@ -58,6 +58,52 @@ await expect(page.getByRole('alert')).toHaveText('Saved');
 const text = await page.locator('.alert').textContent();
 expect(text).toBe('Saved');
 ```
+
+### Network Mocking for Stable Tests
+Mock external API calls to prevent flaky tests and control responses.
+```typescript
+// CORRECT: Mock network requests for stable tests
+test('displays user data from API', async ({ page }) => {
+  await page.route('**/api/user', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ name: 'John Doe', email: 'john@example.com' }),
+    });
+  });
+
+  await page.goto('/profile');
+  await expect(page.getByText('John Doe')).toBeVisible();
+});
+
+// WRONG: Depends on external API (flaky, slow, requires network)
+test('displays user data', async ({ page }) => {
+  await page.goto('/profile'); // Makes real API call
+  await expect(page.getByText(/\w+/)).toBeVisible(); // Can't verify specific data
+});
+```
+
+### Parallel Execution with Test Isolation
+Run tests in parallel safely by ensuring each test is independent.
+```typescript
+// CORRECT: Isolated test with unique data
+test('creates new user', async ({ page }) => {
+  const uniqueEmail = `user-${Date.now()}@example.com`;
+  await page.goto('/signup');
+  await page.getByLabel('Email').fill(uniqueEmail);
+  await page.getByLabel('Password').fill('pass123');
+  await page.getByRole('button', { name: 'Sign up' }).click();
+  await expect(page.getByText('Welcome')).toBeVisible();
+});
+
+// WRONG: Uses shared data - tests interfere with each other
+test('creates user', async ({ page }) => {
+  await page.goto('/signup');
+  await page.getByLabel('Email').fill('test@example.com'); // Fails if already exists
+  // ...
+});
+```
+
 ## Decision Tree
 - UI flow or API only? -> UI: `page` fixture; API: `request` fixture
 - Need authentication? -> Create a fixture with stored `storageState`
@@ -87,11 +133,26 @@ test.describe('Login flow', () => {
 });
 ```
 ## Edge Cases
-- **Flaky network tests**: Mock external APIs with `page.route()` in CI.
-- **Browser compatibility**: Run across Chromium, Firefox, WebKit via `projects`.
-- **Headless vs headed**: CI runs headless; use `--headed` locally for debugging.
-- **Iframe content**: Scope locators with `page.frameLocator('#frame-id')`.
-- **File uploads**: Use `setInputFiles()` on file inputs -- no native dialog needed.
+
+- **Flaky network tests**: Mock external APIs with `page.route()` in CI to avoid timing issues. Consider `page.route('**/*', route => route.continue())` to record real traffic first, then convert to mocks.
+
+- **Browser compatibility**: Run across Chromium, Firefox, WebKit via `projects` in config. Some CSS/JS features differ - test on all browsers for production apps.
+
+- **Headless vs headed**: CI runs headless (`--headless`); use `--headed` locally for debugging. Some visual bugs only appear in headed mode (scrolling, animations).
+
+- **Iframe content**: Scope locators with `page.frameLocator('#frame-id').getByRole()`. Iframes have separate document contexts - cannot use page locators directly.
+
+- **File uploads**: Use `setInputFiles()` on file inputs - no native dialog interaction needed. For drag-and-drop uploads, use `page.setInputFiles()` with `eventInit` parameter.
+
+- **Authentication persistence**: Use `storageState` to save login state and reuse across tests. Avoids repeated login flows: `await context.storageState({ path: 'auth.json' })`, then `test.use({ storageState: 'auth.json' })`.
+
+- **Dynamic content loading**: Use `waitForLoadState('networkidle')` for SPAs with lazy loading. For infinite scroll, trigger scroll events then wait for new elements: `await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))`.
+
+- **Shadow DOM**: Use `locator.locator()` to pierce shadow DOM: `await page.locator('my-component').locator('#shadow-button').click()`. Playwright automatically handles shadow roots.
+
+- **Popup windows and new tabs**: Use `page.waitForEvent('popup')` to handle new windows: `const [popup] = await Promise.all([page.waitForEvent('popup'), page.click('a[target="_blank"]')])`.
+
+- **Slow CI execution**: Run tests in parallel with `--workers=4`. Use `fullyParallel: true` in config. Shard tests across machines: `--shard=1/4`, `--shard=2/4`, etc.
 ## Checklist
 - [ ] All locators use `getByRole`, `getByLabel`, `getByTestId`, or `getByText`
 - [ ] No `waitForTimeout` or manual sleeps in test code

@@ -1,6 +1,6 @@
 ---
 name: architecture-patterns
-description: "SOLID, DDD, and Clean Architecture patterns. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements."
+description: "SOLID, DDD, Clean Architecture, DRY, and Sidecar patterns. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements."
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -15,7 +15,7 @@ metadata:
 
 # Architecture Patterns
 
-SOLID, DDD, Clean/Hexagonal Architecture, and behavioral patterns (Mediator, Result) for maintainable, testable backend services. Apply to frontend only when AGENTS.md or codebase structure requires it.
+SOLID, DDD, Clean/Hexagonal Architecture, DRY, Sidecar, and behavioral patterns (Mediator, Result) for maintainable, testable backend services. Apply to frontend only when AGENTS.md or codebase structure requires it.
 
 ## When to Use
 
@@ -174,12 +174,14 @@ Frontend project? → Check AGENTS.md:
   Otherwise                        → Technology-specific patterns only
 
 Which pattern?
-  Class/component design  → solid-principles.md
-  Layer organization      → clean-architecture.md
-  Port/adapter testing    → hexagonal-architecture.md
-  Domain modeling         → domain-driven-design.md
-  Decoupled communication → mediator-pattern.md
-  Error handling          → result-pattern.md
+  Class/component design      → solid-principles.md
+  Layer organization          → clean-architecture.md
+  Port/adapter testing        → hexagonal-architecture.md
+  Domain modeling             → domain-driven-design.md
+  Decoupled communication     → mediator-pattern.md
+  Error handling              → result-pattern.md
+  Eliminating duplication     → dry-principle.md
+  Microservice cross-cutting  → sidecar-pattern.md
 ```
 
 ---
@@ -226,6 +228,6 @@ Skill-specific: `I` prefix for port interfaces, one class per file, organize by 
 ## Resources
 
 - [solid-principles.md](references/solid-principles.md), [clean-architecture.md](references/clean-architecture.md), [hexagonal-architecture.md](references/hexagonal-architecture.md), [domain-driven-design.md](references/domain-driven-design.md)
-- [mediator-pattern.md](references/mediator-pattern.md), [result-pattern.md](references/result-pattern.md)
-- [backend-integration.md](references/backend-integration.md), [frontend-integration.md](references/frontend-integration.md)
+- [mediator-pattern.md](references/mediator-pattern.md), [result-pattern.md](references/result-pattern.md), [dry-principle.md](references/dry-principle.md)
+- [backend-integration.md](references/backend-integration.md), [frontend-integration.md](references/frontend-integration.md), [sidecar-pattern.md](references/sidecar-pattern.md)
 - Related: [conventions](../conventions/SKILL.md), [typescript](../typescript/SKILL.md), [react](../react/SKILL.md), [redux-toolkit](../redux-toolkit/SKILL.md)

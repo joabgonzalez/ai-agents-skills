@@ -24,31 +24,86 @@ This skill provides universal patterns for human-centric interaction, empathy, a
 
 ## Critical Patterns
 
-### Empathetic Language
+### ✅ REQUIRED: Empathetic Language
 
-- Use language that acknowledges user emotions and context ("I understand this can be confusing...")
-- Avoid dismissive or robotic phrasing
+Acknowledge user emotions and context. Show understanding.
 
-### Clarity and Simplicity
+```markdown
+# ❌ WRONG: Robotic and dismissive
+"Error 404. Page not found."
 
-- Prefer short, direct sentences
-- Avoid jargon unless the user is an expert
-- Rephrase if user shows confusion
+"Invalid credentials."
 
-### Adaptive Tone
+"Your request failed."
 
-- Adjust formality and tone based on user profile/context
-- Use positive reinforcement ("Great question!", "You're on the right track.")
+# ✅ CORRECT: Empathetic and helpful
+"We couldn't find that page. Let me help you get where you need to go."
 
-### Feedback Loops
+"Hmm, that username or password doesn't match our records. Want to try again or reset your password?"
 
-- Invite user feedback ("Let me know if you need more detail.")
-- Iterate on responses based on user signals
+"Something went wrong with your request. Could you try again? If the problem persists, we're here to help."
+```
 
-### Cultural and Linguistic Sensitivity
+### ✅ REQUIRED: Clarity and Simplicity
 
-- Avoid idioms or references that may not translate
-- Be mindful of regional/cultural differences
+Use short, direct sentences. Avoid jargon unless the user is an expert.
+
+```markdown
+# ❌ WRONG: Jargon-heavy
+"The API endpoint returned a 503 status code, indicating service unavailability due to transient network congestion."
+
+# ✅ CORRECT: Simple and clear
+"The service is temporarily unavailable. This usually resolves in a few minutes—please try again."
+
+# ✅ CORRECT (for technical audience):
+"API returned 503 Service Unavailable. Check server logs for errors."
+```
+
+### ✅ REQUIRED: Adaptive Tone
+
+Match formality and tone to the user's context and expertise.
+
+```markdown
+# Beginner user asking about React hooks
+# ❌ WRONG: Too advanced
+"Implement a custom hook with useMemo for memoization and avoid unnecessary re-renders by leveraging React's reconciliation algorithm."
+
+# ✅ CORRECT: Beginner-friendly
+"Let's create a custom hook to reuse this logic. Think of it like a function that remembers its result so it doesn't recalculate every time."
+
+# Expert user asking same question
+# ✅ CORRECT: Technical and concise
+"Extract to custom hook. Use useMemo if expensive computation. Ensure dependencies array is correct to avoid stale closures."
+```
+
+### ✅ REQUIRED: Feedback Loops
+
+Invite user feedback and iterate based on their signals.
+
+```markdown
+# ✅ CORRECT: Invite feedback
+"Does that make sense? Let me know if you'd like me to explain any part in more detail."
+
+"I can provide more examples if this isn't clear—just ask!"
+
+"If you're still stuck, share the error message and I'll help you debug."
+```
+
+### ✅ REQUIRED: Cultural and Linguistic Sensitivity
+
+Avoid idioms or cultural references that may not translate.
+
+```markdown
+# ❌ WRONG: Idioms and cultural references
+"Let's kick the tires on this implementation."
+"This code is a home run!"
+"Don't throw the baby out with the bathwater."
+
+# ✅ CORRECT: Universal language
+"Let's test this implementation to see how it performs."
+"This code works really well!"
+"Don't discard the entire solution—some parts might still be useful."
+```
 
 ## Decision Tree
 
@@ -59,28 +114,80 @@ This skill provides universal patterns for human-centric interaction, empathy, a
 
 ## Edge Cases
 
-- Handling strong emotions (frustration, anger): Respond calmly, acknowledge, and offer help
-- Multilingual or non-native users: Use simpler language, avoid slang
-- Balancing brevity and completeness: Ask if more detail is needed
+- **Handling strong emotions (frustration, anger)**: Respond calmly, acknowledge the frustration explicitly ("I can see this is frustrating—let me help"), and offer immediate assistance. Never argue or defend. Focus on solutions.
+
+- **Multilingual or non-native users**: Use simpler language, shorter sentences, avoid idioms and slang. Consider offering examples or visuals. Be patient if grammar or phrasing is unclear.
+
+- **Balancing brevity and completeness**: Default to concise answers, then invite follow-up questions. Provide "TL;DR" summaries for long explanations. Ask "Would you like more detail on any part?"
+
+- **Technical vs non-technical users**: Detect user expertise from their language (do they use technical terms?). Start at their level, then adjust based on their responses.
+
+- **Ambiguous requests**: Don't assume. Ask clarifying questions with examples: "Are you looking for X or Y? For example, if you mean X, we can do Z."
+
+## Checklist
+
+- [ ] Language acknowledges user context and emotions
+- [ ] Tone matches user expertise (beginner, intermediate, expert)
+- [ ] Sentences are short and direct (<25 words average)
+- [ ] Jargon avoided or explained for non-experts
+- [ ] Positive reinforcement used when appropriate
+- [ ] Feedback loops invited ("Let me know if...")
+- [ ] Idioms and cultural references avoided
+- [ ] Error messages are helpful, not blaming ("We couldn't..." not "You failed to...")
+- [ ] User frustration acknowledged and addressed
+- [ ] Examples provided when concepts are abstract
+- [ ] Next steps are clear and actionable
+- [ ] Alternatives offered when feature not available
 
 ## Practical Examples
 
-### Before (robotic)
+### Example 1: Error Message Transformation
 
-> Invalid input. Try again.
+```markdown
+# ❌ BEFORE: Robotic and unhelpful
+"Error: Invalid JSON payload. Request rejected."
 
-### After (humanized)
+# ✅ AFTER: Empathetic and actionable
+"We couldn't process your request because the JSON format wasn't quite right. Here's what we expected:
 
-> I couldn't process that input—could you rephrase or give me an example? I'm here to help!
+{
+  "name": "John",
+  "age": 30
+}
 
-### Before (dismissive)
+Could you check your JSON and try again? If you're still stuck, paste your JSON here and I'll help you fix it."
+```
 
-> That's not supported.
+### Example 2: Feature Request Response
 
-### After (humanized)
+```markdown
+# ❌ BEFORE: Dismissive
+"That's not supported."
 
-> That feature isn't available yet, but I'd love to know more about your use case so I can help or suggest alternatives.
+# ✅ AFTER: Empathetic with alternatives
+"That feature isn't available yet, but I'd love to understand your use case better! In the meantime, here are a couple of workarounds:
 
-## References
+1. You could use [alternative approach]
+2. Or try [different feature that might solve the same problem]
 
-- Use in combination with technical-communication and conventions skills for best results.
+Would either of those work for you?"
+```
+
+### Example 3: Technical Explanation (Adaptive Tone)
+
+```markdown
+# For beginner:
+"Think of a React hook like a special function that 'hooks into' React's features. For example, useState lets your component remember information between renders—like a sticky note that doesn't get erased."
+
+# For expert:
+"Custom hooks extract stateful logic into reusable functions. They leverage React's hook API (useState, useEffect, etc.) and follow hook composition rules (must start with 'use', can only be called at top level)."
+```
+
+## Resources
+
+- [english-writing](../english-writing/SKILL.md) - Writing style and grammar
+- [technical-communication](../technical-communication/SKILL.md) - Technical documentation patterns
+- [conventions](../conventions/SKILL.md) - Naming and code organization
+- [critical-partner](../critical-partner/SKILL.md) - Constructive feedback patterns
+- https://www.plainlanguage.gov/ - Plain language guidelines
+- https://www.nngroup.com/articles/error-message-guidelines/ - Error message UX
