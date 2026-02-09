@@ -1,8 +1,10 @@
 # ai-agents-skills
 
-A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.3.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
 Install 49+ curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+
+**✨ New in v1.3.0**: Follows [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard with push context in AGENTS.md. No instruction files needed - models auto-discover skills!
 
 ## Quick Start
 
@@ -15,6 +17,48 @@ npx ai-agents-skills add --preset astro-template
 
 # Install specific skills
 npx ai-agents-skills add --skill react --skill typescript
+```
+
+## Development with Makefile
+
+For local development, use the Makefile commands:
+
+```bash
+# Install skills locally to all detected models
+make local
+
+# Sync models interactively
+make sync
+
+# List all available skills
+make list
+
+# Add a specific skill
+make add SKILL=typescript
+
+# Remove a specific skill
+make remove SKILL=typescript
+
+# Validate all skills
+make validate
+
+# Build the project
+make build
+
+# Run tests
+make test
+
+# Lint and format code
+make lint
+make format
+
+# Check everything before commit
+make check
+```
+
+**All available commands:**
+```bash
+make help
 ```
 
 ## Supported Models
@@ -59,7 +103,7 @@ npx ai-agents-skills add --skill react --dry-run
 - Shows dependency tree before installation (requested skills + dependencies)
 - Auto-resolves transitive dependencies
 - Prevents circular dependencies
-- Generates instruction files for each model
+- **Vercel standard** - Updates AGENTS.md with push context
 
 ### `list` — Show installed skills
 
@@ -99,7 +143,7 @@ npx ai-agents-skills sync --dry-run
 - Checks for updates BEFORE showing options (improved UX)
 - Only shows "Update skills" option if updates are available
 - Executes in optimal order: updates first, then adds models
-- Auto-generates instruction files for each model
+- **Vercel standard** - Updates AGENTS.md with push context (no instruction files)
 - Stateless - no registry files needed
 
 ### `remove` — Remove skills with dependency checking
@@ -124,7 +168,7 @@ npx ai-agents-skills remove --skills react --confirm
 - Validates dependencies before removal (prevents breaking other skills)
 - Shows which dependencies will be kept (used by other skills)
 - Auto-removes unused dependencies
-- Updates instruction files after removal
+- Clean removal from all model directories
 - Alias: `uninstall` still works for backwards compatibility
 
 **Options:**
@@ -146,26 +190,33 @@ npx ai-agents-skills add --skill react
 1. Clones the skill repository to `~/.cache/ai-agents-skills/`
 2. Resolves dependencies: `react` → `javascript`, `typescript`, `conventions`
 3. Copies skills to `.agents/skills/` in your project
-4. Creates symlinks in each model directory (`.claude/skills/`, `.github/copilot/skills/`, etc.)
-5. Auto-generates instruction files (`instructions.md`, `copilot-instructions.md`) with skill metadata
+4. Creates symlinks in each model directory (`.claude/skills/`, `.github/skills/`, etc.)
+5. Updates AGENTS.md with complete "How to Use Skills" workflow (push context)
 
-### Installed structure
+### Installed Structure (Vercel Standard)
 
 ```
 your-project/
-├── .agents/skills/           # Actual skill files (single source)
+├── AGENTS.md                 # Push context - complete workflow for ALL models ✨
+├── .agents/skills/           # Canonical copy (symlinks to framework)
 │   ├── react/
 │   ├── typescript/
 │   └── conventions/
-├── .claude/skills/           # Symlinks → .agents/skills/*
-├── .github/copilot/skills/   # Symlinks → .agents/skills/*
-└── .cursor/skills/           # Symlinks → .agents/skills/*
+├── .claude/skills/           # Symlinks → .agents/skills/* (auto-discovered)
+├── .cursor/skills/           # Symlinks → .agents/skills/* (auto-discovered)
+├── .github/skills/           # Symlinks → .agents/skills/* (auto-discovered)
+├── .gemini/skills/           # Symlinks → .agents/skills/* (auto-discovered)
+└── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
 ```
 
-- Skills stored once, shared via symlinks across all models
-- No registry files — stateless architecture
-- Clean removal: `rm -rf .agents/`
-- Auto-detection of installed models
+**Key Features:**
+- ✅ **NO instruction files** - Following [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard (100% success rate)
+- ✅ **Push context** - AGENTS.md has complete "How to Use Skills" workflow
+- ✅ **Auto-discovery** - All models discover skills from `.{model}/skills/`
+- ✅ **Model-agnostic paths** - Skills table uses `{model}` placeholders
+- ✅ **Skills stored once** - Shared via symlinks across all models
+- ✅ **Stateless** - No registry files needed
+- ✅ **Clean removal** - Just `rm -rf .agents/`
 
 ## Available Skills (49)
 
@@ -239,12 +290,60 @@ metadata:
 
 See [skills/skill-creation/SKILL.md](skills/skill-creation/SKILL.md) for the full guide.
 
+## Development
+
+### Linting & Formatting
+
+This project uses [Biome](https://biomejs.dev/) for fast linting and formatting:
+
+```bash
+# Lint code
+npm run lint
+
+# Lint and auto-fix
+npm run lint:fix
+
+# Format code
+npm run format
+
+# Check everything (lint + test + build)
+npm run check
+# or
+make check
+```
+
+**Why Biome?**
+- ⚡ Fast (Rust-based)
+- 🔧 Combines linter + formatter
+- 🎯 No conflicts between tools
+- 📦 Single config file
+
+### Local Development
+
+```bash
+# Install dependencies
+npm install
+# or
+make install
+
+# Build the project
+npm run build
+# or
+make build
+
+# Run in development mode
+npm run dev -- <command>
+# or
+make dev ARGS="<command>"
+```
+
 ## Contributing
 
 1. Fork the repository
 2. Create a skill following the [skill-creation](skills/skill-creation/SKILL.md) guide
-3. Validate: `npm run build && npm run dev -- validate --all`
-4. Submit a pull request
+3. Run checks: `make check` (lint + test + build)
+4. Ensure AGENTS.md follows Vercel standard (no instruction files)
+5. Submit a pull request
 
 ## License
 

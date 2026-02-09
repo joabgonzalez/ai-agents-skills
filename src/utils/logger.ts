@@ -127,13 +127,18 @@ class Logger {
   /**
    * Print skill installation detail with spinner/checkmark
    */
-  skillProgress(skillName: string, status: 'installing' | 'completed' | 'skipped', dependencies?: string[]): void {
+  skillProgress(
+    skillName: string,
+    status: 'installing' | 'completed' | 'skipped',
+    dependencies?: string[]
+  ): void {
     if (this.level <= LogLevel.INFO) {
-      const icon = status === 'installing'
-        ? chalk.cyan('◐')
-        : status === 'completed'
-          ? chalk.green('✓')
-          : chalk.yellow('○');
+      const icon =
+        status === 'installing'
+          ? chalk.cyan('◐')
+          : status === 'completed'
+            ? chalk.green('✓')
+            : chalk.yellow('○');
 
       let line = `  ${icon} ${chalk.bold(skillName)}`;
 
@@ -152,17 +157,17 @@ class Logger {
     if (this.level <= LogLevel.INFO) {
       // Calculate column widths
       const widths = headers.map((header, i) => {
-        const columnValues = [header, ...rows.map(row => row[i] || '')];
-        return Math.max(...columnValues.map(v => v.length));
+        const columnValues = [header, ...rows.map((row) => row[i] || '')];
+        return Math.max(...columnValues.map((v) => v.length));
       });
 
       // Print header
       const headerRow = headers.map((h, i) => h.padEnd(widths[i])).join(' | ');
       console.log(chalk.bold(headerRow));
-      console.log(widths.map(w => '─'.repeat(w)).join('─┼─'));
+      console.log(widths.map((w) => '─'.repeat(w)).join('─┼─'));
 
       // Print rows
-      rows.forEach(row => {
+      rows.forEach((row) => {
         const rowStr = row.map((cell, i) => (cell || '').padEnd(widths[i])).join(' │ ');
         console.log(rowStr);
       });

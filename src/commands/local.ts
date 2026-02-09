@@ -8,10 +8,9 @@ import { logger, LogLevel } from '../utils/logger';
 import { MODEL_DIRECTORIES, AVAILABLE_MODELS } from '../shared/constants';
 import { exists, isDirectory } from '../utils/fs';
 import type { Model } from '../core/installer';
-import { regenerateInstructionFile } from '../utils/instruction-generator';
 
 interface LocalOptions {
-  models?: string;  // Optional now - will prompt if not provided
+  models?: string; // Optional now - will prompt if not provided
   skills?: string;
   dryRun: boolean;
 }
@@ -37,20 +36,21 @@ export async function localCommand(options: LocalOptions): Promise<void> {
 
     if (options.models) {
       // User provided --models flag
-      modelNames = options.models.split(',').map(m => m.trim());
+      modelNames = options.models.split(',').map((m) => m.trim());
     } else {
       // Auto-detect existing model directories
       const detectedModels = detectInstalledModels(baseDir);
 
       // Build message with detection info
-      const message = detectedModels.length > 0
-        ? `Select models to install (installed: ${detectedModels.map(m => color.cyan(m)).join(', ')})`
-        : 'Select models to install';
+      const message =
+        detectedModels.length > 0
+          ? `Select models to install (installed: ${detectedModels.map((m) => color.cyan(m)).join(', ')})`
+          : 'Select models to install';
 
       // Interactive model selection with auto-detection
       const selectedModels = await p.multiselect({
         message,
-        options: AVAILABLE_MODELS.map(m => ({
+        options: AVAILABLE_MODELS.map((m) => ({
           value: m.value,
           label: m.label,
           hint: detectedModels.includes(m.value) ? color.green('✓ Installed') : m.hint,
@@ -69,14 +69,14 @@ export async function localCommand(options: LocalOptions): Promise<void> {
 
     // Separate detected (existing) vs new models
     const detectedModels = detectInstalledModels(baseDir);
-    const existingModels = modelNames.filter(m => detectedModels.includes(m));
-    const newModels = modelNames.filter(m => !detectedModels.includes(m));
+    const existingModels = modelNames.filter((m) => detectedModels.includes(m));
+    const newModels = modelNames.filter((m) => !detectedModels.includes(m));
 
     // Show information about model selection
     if (existingModels.length > 0 && newModels.length > 0) {
       p.note(
         `Existing (will update skills): ${color.cyan(existingModels.join(', '))}\n` +
-        `New (will install): ${color.green(newModels.join(', '))}`,
+          `New (will install): ${color.green(newModels.join(', '))}`,
         'Model Selection'
       );
     } else if (existingModels.length > 0 && newModels.length === 0) {
@@ -86,7 +86,7 @@ export async function localCommand(options: LocalOptions): Promise<void> {
       );
     }
 
-    const models: Model[] = modelNames.map(name => ({
+    const models: Model[] = modelNames.map((name) => ({
       name,
       directory: getModelDirectory(name),
       installed: detectedModels.includes(name),
@@ -103,7 +103,7 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     let skillsToInstall: string[];
     if (options.skills) {
       // User specified skills
-      skillsToInstall = options.skills.split(',').map(sk => sk.trim());
+      skillsToInstall = options.skills.split(',').map((sk) => sk.trim());
     } else {
       // Auto-discover from AGENTS.md
       const agentsMdPath = path.join(baseDir, 'AGENTS.md');
@@ -121,14 +121,14 @@ export async function localCommand(options: LocalOptions): Promise<void> {
 
       if (validation.cycles) {
         p.log.error('Circular dependencies detected:');
-        validation.cycles.forEach(cycle => {
+        validation.cycles.forEach((cycle) => {
           p.log.error(`  ${cycle.formatted}`);
         });
       }
 
       if (validation.missing.length > 0) {
         p.log.error('Missing dependencies:');
-        validation.missing.forEach(dep => {
+        validation.missing.forEach((dep) => {
           p.log.error(`  ${dep}`);
         });
       }
@@ -149,8 +149,8 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     // Show installation details
     p.note(
       `Models: ${color.cyan(modelNames.join(', '))}\n` +
-      `Skills: ${color.cyan(installOrder.length.toString())}\n` +
-      `Directory: ${color.dim(baseDir)}`,
+        `Skills: ${color.cyan(installOrder.length.toString())}\n` +
+        `Directory: ${color.dim(baseDir)}`,
       'Installation Details'
     );
 
@@ -217,7 +217,12 @@ export async function localCommand(options: LocalOptions): Promise<void> {
       for (const model of models) {
         const modelDir = path.join(baseDir, model.directory);
         try {
-          const wasInstalled = await installer.installSkill(skill, modelDir, 'local', options.dryRun);
+          const wasInstalled = await installer.installSkill(
+            skill,
+            modelDir,
+            'local',
+            options.dryRun
+          );
           if (wasInstalled) skillInstalledToAny = true;
         } catch (error) {
           logger.setLevel(prevLevel);
@@ -246,32 +251,14 @@ export async function localCommand(options: LocalOptions): Promise<void> {
     logger.setLevel(prevLevel);
     console.log();
 
-    // Regenerate instruction files with installed skills
-    const s3 = p.spinner();
-    s3.start('Updating instruction files...');
-    let instructionsUpdated = 0;
-
-    // For local mode, skills are in ./skills/ at root, not in .claude/skills/
-    const rootSkillsPath = path.join(baseDir, 'skills');
-
-    for (const model of models) {
-      const modelDir = path.join(baseDir, model.directory);
-      const updated = regenerateInstructionFile(modelDir, model.name, options.dryRun, rootSkillsPath);
-      if (updated) instructionsUpdated++;
-    }
-
-    s3.stop(`Updated ${instructionsUpdated} instruction file(s)`);
-    console.log();
-
     // Show summary
     const summaryLines = [];
     summaryLines.push(`Models: ${color.cyan(modelNames.length.toString())}`);
     summaryLines.push(`Skills installed: ${color.green(installedCount.toString())}`);
     if (skippedCount > 0) {
-      summaryLines.push(`Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`);
-    }
-    if (instructionsUpdated > 0) {
-      summaryLines.push(`Instructions: ${color.green(instructionsUpdated.toString())} file(s) updated`);
+      summaryLines.push(
+        `Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`
+      );
     }
 
     p.note(summaryLines.join('\n'), 'Summary');

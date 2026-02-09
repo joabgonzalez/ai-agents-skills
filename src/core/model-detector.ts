@@ -14,7 +14,7 @@ export const SUPPORTED_MODELS: Record<string, { name: string; directory: string 
   copilot: { name: 'GitHub Copilot', directory: '.github' },
   cursor: { name: 'Cursor', directory: '.cursor' },
   gemini: { name: 'Gemini', directory: '.gemini' },
-  codex: { name: 'OpenAI Codex', directory: '.codex' }
+  codex: { name: 'OpenAI Codex', directory: '.codex' },
 };
 
 export class ModelDetector {
@@ -50,7 +50,7 @@ export class ModelDetector {
       name: config.name,
       directory: modelPath,
       skillsPath,
-      installed: fs.existsSync(modelPath) && fs.existsSync(skillsPath)
+      installed: fs.existsSync(modelPath) && fs.existsSync(skillsPath),
     };
   }
 
@@ -58,9 +58,7 @@ export class ModelDetector {
    * Get all models information
    */
   getAllModelsInfo(projectPath: string): ModelInfo[] {
-    return Object.keys(SUPPORTED_MODELS).map(modelId =>
-      this.getModelInfo(projectPath, modelId)!
-    );
+    return Object.keys(SUPPORTED_MODELS).map((modelId) => this.getModelInfo(projectPath, modelId)!);
   }
 
   /**

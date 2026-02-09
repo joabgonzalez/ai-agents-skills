@@ -4,7 +4,6 @@ import path from 'path';
 import fs from 'fs';
 import { ProjectDetector, ModelDetector, RepositoryManager } from '../core';
 import { logger, LogLevel } from '../utils/logger';
-import { regenerateInstructionFile } from '../utils/instruction-generator';
 import { extractFrontmatter } from '../utils/yaml';
 
 export interface SyncOptions {
@@ -18,15 +17,6 @@ interface SkillVersion {
   currentVersion: string;
   remoteVersion: string;
 }
-
-/** Map model IDs to their instruction template source and destination file name */
-const INSTRUCTION_MAPPING: Record<string, { source: string; destFile: string }> = {
-  claude: { source: 'claude-instructions.md', destFile: 'instructions.md' },
-  'github-copilot': { source: 'copilot-instructions.md', destFile: 'copilot-instructions.md' },
-  cursor: { source: 'cursor-instructions.md', destFile: 'instructions.md' },
-  gemini: { source: 'gemini-instructions.md', destFile: 'instructions.md' },
-  codex: { source: 'codex-instructions.md', destFile: 'instructions.md' },
-};
 
 export async function syncModelsCommand(options: SyncOptions) {
   try {
@@ -58,8 +48,8 @@ export async function syncModelsCommand(options: SyncOptions) {
     // Show currently installed models
     if (currentModels.length > 0) {
       const allModelsInfo = modelDetector.getAllModelsInfo(project.rootPath);
-      const installedModelNames = currentModels.map(id => {
-        const info = allModelsInfo.find(m => m.id === id);
+      const installedModelNames = currentModels.map((id) => {
+        const info = allModelsInfo.find((m) => m.id === id);
         return info ? info.name : id;
       });
 
@@ -105,7 +95,7 @@ export async function syncModelsCommand(options: SyncOptions) {
           updates.push({
             name: skillName,
             currentVersion,
-            remoteVersion
+            remoteVersion,
           });
         }
       }
@@ -127,7 +117,7 @@ export async function syncModelsCommand(options: SyncOptions) {
     if (actions.length === 0) {
       // Interactive selection
       const allModelsInfo = modelDetector.getAllModelsInfo(project.rootPath);
-      const availableModels = allModelsInfo.filter(m => !currentModels.includes(m.id));
+      const availableModels = allModelsInfo.filter((m) => !currentModels.includes(m.id));
 
       const choices: Array<{ value: string; label: string; hint?: string }> = [];
 
@@ -135,7 +125,7 @@ export async function syncModelsCommand(options: SyncOptions) {
         choices.push({
           value: 'addModels',
           label: 'Add models',
-          hint: `${availableModels.length} available`
+          hint: `${availableModels.length} available`,
         });
       }
 
@@ -144,7 +134,7 @@ export async function syncModelsCommand(options: SyncOptions) {
         choices.push({
           value: 'updateSkills',
           label: 'Update skills',
-          hint: `${updates.length} available`
+          hint: `${updates.length} available`,
         });
       }
 
@@ -157,7 +147,7 @@ export async function syncModelsCommand(options: SyncOptions) {
       const selected = await p.multiselect({
         message: 'What would you like to do? (Use space to select, enter to confirm)',
         options: choices,
-        required: true
+        required: true,
       });
 
       if (p.isCancel(selected)) {
@@ -184,7 +174,6 @@ export async function syncModelsCommand(options: SyncOptions) {
     if (actions.includes('addModels')) {
       await syncAddModels(options, project, projectDetector, modelDetector, installedSkills);
     }
-
   } catch (error) {
     p.log.error(`Sync failed: ${error instanceof Error ? error.message : String(error)}`);
     p.cancel('Sync failed');
@@ -203,10 +192,10 @@ async function syncAddModels(
   let newModels: string[];
 
   if (options.addModels) {
-    newModels = options.addModels.split(',').map(m => m.trim());
+    newModels = options.addModels.split(',').map((m) => m.trim());
   } else {
     const allModelsInfo = modelDetector.getAllModelsInfo(project.rootPath);
-    const availableModels = allModelsInfo.filter(m => !currentModels.includes(m.id));
+    const availableModels = allModelsInfo.filter((m) => !currentModels.includes(m.id));
 
     if (availableModels.length === 0) {
       p.outro(color.yellow('All supported models already have skills installed'));
@@ -215,11 +204,11 @@ async function syncAddModels(
 
     const selected = await p.multiselect({
       message: 'Select models to add:',
-      options: availableModels.map(m => ({
+      options: availableModels.map((m) => ({
         value: m.id,
-        label: m.name
+        label: m.name,
       })),
-      required: true
+      required: true,
     });
 
     if (p.isCancel(selected)) {
@@ -233,8 +222,8 @@ async function syncAddModels(
   // Show sync details
   p.note(
     `Models to add: ${color.cyan(newModels.join(', '))}\n` +
-    `Skills to sync: ${color.green(installedSkills.length.toString())}\n` +
-    `Directory: ${color.dim(project.rootPath)}`,
+      `Skills to sync: ${color.green(installedSkills.length.toString())}\n` +
+      `Directory: ${color.dim(project.rootPath)}`,
     'Sync Details'
   );
 
@@ -242,7 +231,7 @@ async function syncAddModels(
   if (!options.dryRun) {
     const shouldContinue = await p.confirm({
       message: `Sync ${installedSkills.length} skill(s) to ${newModels.length} model(s)?`,
-      initialValue: true
+      initialValue: true,
     });
 
     if (p.isCancel(shouldContinue) || !shouldContinue) {
@@ -255,30 +244,12 @@ async function syncAddModels(
   const s = p.spinner();
   s.start('Setting up model directories...');
 
-  const repoManager = new RepositoryManager();
-  const repo = await repoManager.fetchRepository('joabgonzalez/ai-agents-skills');
-  let instructionCount = 0;
-
   for (const modelId of newModels) {
     const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
     const skillsDir = path.join(modelDir, 'skills');
 
     if (!fs.existsSync(skillsDir) && !options.dryRun) {
       fs.mkdirSync(skillsDir, { recursive: true });
-    }
-
-    // Generate instruction file from template
-    const mapping = INSTRUCTION_MAPPING[modelId];
-    if (mapping) {
-      const templatePath = path.join(repo.cachePath, 'templates', mapping.source);
-      const destPath = path.join(modelDir, mapping.destFile);
-
-      if (fs.existsSync(templatePath) && !fs.existsSync(destPath) && !options.dryRun) {
-        let content = fs.readFileSync(templatePath, 'utf-8');
-        content = content.replace(/\{\{SKILL_COUNT\}\}/g, installedSkills.length.toString());
-        fs.writeFileSync(destPath, content, 'utf-8');
-        instructionCount++;
-      }
     }
   }
 
@@ -306,10 +277,7 @@ async function syncAddModels(
     for (const modelId of newModels) {
       const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
       const skillsDir = path.join(modelDir, 'skills');
-      const symlinkSrc = path.relative(
-        skillsDir,
-        path.join(agentsSkillsDir, skillName)
-      );
+      const symlinkSrc = path.relative(skillsDir, path.join(agentsSkillsDir, skillName));
       const symlinkDst = path.join(skillsDir, skillName);
 
       if (!fs.existsSync(symlinkDst)) {
@@ -336,32 +304,14 @@ async function syncAddModels(
   logger.setLevel(prevLevel);
   console.log();
 
-  // Regenerate instruction files
-  const s2 = p.spinner();
-  s2.start('Updating instruction files...');
-  let instructionsUpdated = 0;
-
-  for (const modelId of newModels) {
-    const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
-    const updated = regenerateInstructionFile(modelDir, modelId, options.dryRun);
-    if (updated) instructionsUpdated++;
-  }
-
-  s2.stop(`Updated ${instructionsUpdated} instruction file(s)`);
-  console.log();
-
   // Summary
   const summaryLines = [];
   summaryLines.push(`Models added: ${color.cyan(newModels.length.toString())}`);
   summaryLines.push(`Skills synced: ${color.green(syncedCount.toString())}`);
   if (skippedCount > 0) {
-    summaryLines.push(`Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already synced)')}`);
-  }
-  if (instructionCount > 0) {
-    summaryLines.push(`Initial instructions: ${color.green(instructionCount.toString())} file(s) generated`);
-  }
-  if (instructionsUpdated > 0) {
-    summaryLines.push(`Instructions updated: ${color.green(instructionsUpdated.toString())} file(s)`);
+    summaryLines.push(
+      `Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already synced)')}`
+    );
   }
 
   p.note(summaryLines.join('\n'), 'Summary');
@@ -403,13 +353,13 @@ async function syncUpdateSkills(
   // Select skills to update
   const selected = await p.multiselect({
     message: 'Select skills to update:',
-    options: updates.map(u => ({
+    options: updates.map((u) => ({
       value: u.name,
       label: u.name,
-      hint: `${u.currentVersion} → ${u.remoteVersion}`
+      hint: `${u.currentVersion} → ${u.remoteVersion}`,
     })),
-    initialValues: updates.map(u => u.name),
-    required: false
+    initialValues: updates.map((u) => u.name),
+    required: false,
   });
 
   if (p.isCancel(selected) || (selected as string[]).length === 0) {
@@ -423,7 +373,7 @@ async function syncUpdateSkills(
   if (!options.dryRun) {
     const shouldContinue = await p.confirm({
       message: `Update ${skillsToUpdate.length} skill(s)?`,
-      initialValue: true
+      initialValue: true,
     });
 
     if (p.isCancel(shouldContinue) || !shouldContinue) {
@@ -472,28 +422,11 @@ async function syncUpdateSkills(
   logger.setLevel(prevLevel);
   console.log();
 
-  // Regenerate instruction files for all models
-  const currentModels = modelDetector.detectInstalledModels(project.rootPath);
-  const s2 = p.spinner();
-  s2.start('Updating instruction files...');
-  let instructionsUpdated = 0;
-
-  for (const modelId of currentModels) {
-    const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
-    const updated = regenerateInstructionFile(modelDir, modelId, options.dryRun);
-    if (updated) instructionsUpdated++;
-  }
-
-  s2.stop(`Updated ${instructionsUpdated} instruction file(s)`);
-  console.log();
-
   // Summary
+  const currentModels = modelDetector.detectInstalledModels(project.rootPath);
   const summaryLines = [];
   summaryLines.push(`Skills updated: ${color.green(updatedCount.toString())}`);
   summaryLines.push(`Affected models: ${color.cyan(currentModels.length.toString())}`);
-  if (instructionsUpdated > 0) {
-    summaryLines.push(`Instructions: ${color.green(instructionsUpdated.toString())} file(s) updated`);
-  }
 
   p.note(summaryLines.join('\n'), 'Summary');
 

@@ -31,30 +31,71 @@ metadata:
 
 Primary development assistant for a web application. Ensures strict typing, MUI best practices, accessibility, and version compatibility across Redux Toolkit, AG Grid, MUI X Charts, and Formik integrations.
 
+## How to Use Skills (MANDATORY WORKFLOW)
+
+This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
+
+### Step 1: Find the Trigger
+Check the "Skills Reference" table below. Match your task to the "Trigger" column.
+
+### Step 2: Read the Skill
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
+
+Replace `{model}` with your coding agent:
+- **Cursor:** `.cursor/skills/typescript/SKILL.md`
+- **Claude:** `.claude/skills/typescript/SKILL.md`
+- **Copilot:** `.github/skills/typescript/SKILL.md`
+- **Gemini:** `.gemini/skills/typescript/SKILL.md`
+- **Codex:** `.codex/skills/typescript/SKILL.md`
+
+### Step 3: Read Dependencies
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
+
+**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+
+You must read all 6 skills.
+
+### Step 4: Apply Patterns
+- Follow "Critical Patterns" marked with ✅ REQUIRED
+- Use "Decision Tree" for implementation choices
+- Reference inline code examples
+
+### Example Workflow
+
+**Task:** "Create TypeScript interface for User model"
+
+1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
+2. **Read:** `.{model}/skills/typescript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
+4. **Read dependencies:**
+   - `.{model}/skills/conventions/SKILL.md`
+   - `.{model}/skills/javascript/SKILL.md`
+5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
+
 ## Skills Reference
 
-Before any task, read the matching skill file from your model's skills directory.
+**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
 
-| Trigger                     | Skill                   | Path                                    |
-| --------------------------- | ----------------------- | --------------------------------------- |
-| TypeScript types/interfaces | typescript              | skills/typescript/SKILL.md              |
-| JavaScript (ES2020+)        | javascript              | skills/javascript/SKILL.md              |
-| React components/hooks      | react                   | skills/react/SKILL.md                   |
-| Webpack build config        | webpack                 | skills/webpack/SKILL.md                 |
-| Redux state / RTK Query     | redux-toolkit           | skills/redux-toolkit/SKILL.md           |
-| MUI components/theming      | mui                     | skills/mui/SKILL.md                     |
-| AG Grid tables              | ag-grid                 | skills/ag-grid/SKILL.md                 |
-| MUI X Charts                | mui-x-charts            | skills/mui-x-charts/SKILL.md            |
-| Forms with validation       | formik                  | skills/formik/SKILL.md                  |
-| Validation schemas          | yup                     | skills/yup/SKILL.md                     |
-| Commit messages, PRs, docs  | technical-communication | skills/technical-communication/SKILL.md |
-| Code review                 | critical-partner        | skills/critical-partner/SKILL.md        |
-| Document changes            | process-documentation   | skills/process-documentation/SKILL.md   |
-| ESLint rules                | eslint                  | skills/eslint/SKILL.md                  |
-| Prettier formatting         | prettier                | skills/prettier/SKILL.md                |
-| Semantic HTML               | html                    | skills/html/SKILL.md                    |
-| Accessibility               | a11y                    | skills/a11y/SKILL.md                    |
-| Coding standards            | conventions             | skills/conventions/SKILL.md             |
+| Trigger                     | Skill                   | Relative Path                                 |
+| --------------------------- | ----------------------- | --------------------------------------------- |
+| TypeScript types/interfaces | typescript              | {model}/skills/typescript/SKILL.md            |
+| JavaScript (ES2020+)        | javascript              | {model}/skills/javascript/SKILL.md            |
+| React components/hooks      | react                   | {model}/skills/react/SKILL.md                 |
+| Webpack build config        | webpack                 | {model}/skills/webpack/SKILL.md               |
+| Redux state / RTK Query     | redux-toolkit           | {model}/skills/redux-toolkit/SKILL.md         |
+| MUI components/theming      | mui                     | {model}/skills/mui/SKILL.md                   |
+| AG Grid tables              | ag-grid                 | {model}/skills/ag-grid/SKILL.md               |
+| MUI X Charts                | mui-x-charts            | {model}/skills/mui-x-charts/SKILL.md          |
+| Forms with validation       | formik                  | {model}/skills/formik/SKILL.md                |
+| Validation schemas          | yup                     | {model}/skills/yup/SKILL.md                   |
+| Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
+| Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
+| Document changes            | process-documentation   | {model}/skills/process-documentation/SKILL.md |
+| ESLint rules                | eslint                  | {model}/skills/eslint/SKILL.md                |
+| Prettier formatting         | prettier                | {model}/skills/prettier/SKILL.md              |
+| Semantic HTML               | html                    | {model}/skills/html/SKILL.md                  |
+| Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
+| Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
 
 ## Supported Stack
 

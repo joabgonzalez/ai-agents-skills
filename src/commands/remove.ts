@@ -5,7 +5,6 @@ import color from 'picocolors';
 import { ProjectDetector, ModelDetector, DependencyResolver } from '../core';
 import { LocalSkillSource } from '../core/skill-source';
 import { logger, LogLevel } from '../utils/logger';
-import { regenerateInstructionFile } from '../utils/instruction-generator';
 
 export interface RemoveOptions {
   skills?: string;
@@ -48,10 +47,10 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     if (options.all) {
       skillsToRemove = installedSkills;
     } else if (options.skills) {
-      skillsToRemove = options.skills.split(',').map(s => s.trim());
+      skillsToRemove = options.skills.split(',').map((s) => s.trim());
 
       // Validate that skills exist
-      const notInstalled = skillsToRemove.filter(s => !installedSkills.includes(s));
+      const notInstalled = skillsToRemove.filter((s) => !installedSkills.includes(s));
       if (notInstalled.length > 0) {
         p.cancel(`Skills not installed: ${notInstalled.join(', ')}`);
         process.exit(1);
@@ -60,11 +59,11 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
       // Interactive selection
       const selected = await p.multiselect({
         message: 'Select skills to remove:',
-        options: installedSkills.map(skill => ({
+        options: installedSkills.map((skill) => ({
           value: skill,
-          label: skill
+          label: skill,
         })),
-        required: true
+        required: true,
       });
 
       if (p.isCancel(selected)) {
@@ -83,7 +82,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     const resolver = new DependencyResolver(skillSource);
 
     // Get skills that will remain after removal
-    const remainingSkills = installedSkills.filter(s => !skillsToRemove.includes(s));
+    const remainingSkills = installedSkills.filter((s) => !skillsToRemove.includes(s));
 
     // Suppress warnings during dependency checking (skills not found are expected)
     const depCheckLogLevel = logger.getLevel();
@@ -93,7 +92,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     const blockedRemovals: { skill: string; usedBy: string[] }[] = [];
 
     for (const skillToRemove of skillsToRemove) {
-      const dependentSkills = remainingSkills.filter(remaining => {
+      const dependentSkills = remainingSkills.filter((remaining) => {
         try {
           const graph = resolver.buildGraph([remaining]);
           // Check if skillToRemove is in the dependency graph
@@ -106,7 +105,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
       if (dependentSkills.length > 0) {
         blockedRemovals.push({
           skill: skillToRemove,
-          usedBy: dependentSkills
+          usedBy: dependentSkills,
         });
       }
     }
@@ -136,7 +135,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     let targetModels: string[];
 
     if (options.models) {
-      targetModels = options.models.split(',').map(m => m.trim());
+      targetModels = options.models.split(',').map((m) => m.trim());
     } else {
       const detectedModels = modelDetector.detectInstalledModels(project.rootPath);
 
@@ -164,7 +163,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
           if (!skillsToRemove.includes(dep)) {
             // This dependency is not being explicitly removed
             // Check if it's used by remaining skills
-            const isUsedByRemaining = remainingSkills.some(remaining => {
+            const isUsedByRemaining = remainingSkills.some((remaining) => {
               try {
                 const graph = resolver.buildGraph([remaining]);
                 return graph.has(dep);
@@ -195,7 +194,9 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
       console.log(`  ${color.red('✗')} ${color.bold(skill)}`);
     }
 
-    const additionalRemovals = Array.from(allRemovedSkills).filter(s => !skillsToRemove.includes(s));
+    const additionalRemovals = Array.from(allRemovedSkills).filter(
+      (s) => !skillsToRemove.includes(s)
+    );
     if (additionalRemovals.length > 0) {
       console.log();
       console.log(color.dim(`  Dependencies to remove: ${additionalRemovals.join(', ')}`));
@@ -203,14 +204,16 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
 
     if (keptDependencies.length > 0) {
       console.log();
-      console.log(color.dim(`  Dependencies kept (used by other skills): ${keptDependencies.join(', ')}`));
+      console.log(
+        color.dim(`  Dependencies kept (used by other skills): ${keptDependencies.join(', ')}`)
+      );
     }
 
     console.log();
     p.note(
       `Total skills to remove: ${color.red(allRemovedSkills.size.toString())}\n` +
-      `Affected models: ${color.cyan(targetModels.join(', '))}\n` +
-      `Directory: ${color.dim(baseDir)}`,
+        `Affected models: ${color.cyan(targetModels.join(', '))}\n` +
+        `Directory: ${color.dim(baseDir)}`,
       'Removal Summary'
     );
 
@@ -218,7 +221,7 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     if (!options.confirm && !options.dryRun) {
       const shouldContinue = await p.confirm({
         message: `Remove ${allRemovedSkills.size} skill(s) from project?`,
-        initialValue: false
+        initialValue: false,
       });
 
       if (p.isCancel(shouldContinue) || !shouldContinue) {
@@ -273,27 +276,10 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
     logger.setLevel(prevLevel);
     console.log();
 
-    // 10. Regenerate instruction files after removal
-    const s2 = p.spinner();
-    s2.start('Updating instruction files...');
-    let instructionsUpdated = 0;
-
-    for (const modelId of targetModels) {
-      const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
-      const updated = regenerateInstructionFile(modelDir, modelId, options.dryRun);
-      if (updated) instructionsUpdated++;
-    }
-
-    s2.stop(`Updated ${instructionsUpdated} instruction file(s)`);
-    console.log();
-
-    // 11. Summary
+    // 10. Summary
     const summaryLines = [];
     summaryLines.push(`Skills removed: ${color.green(removedCount.toString())}`);
     summaryLines.push(`Affected models: ${color.cyan(targetModels.length.toString())}`);
-    if (instructionsUpdated > 0) {
-      summaryLines.push(`Instructions: ${color.green(instructionsUpdated.toString())} file(s) updated`);
-    }
 
     p.note(summaryLines.join('\n'), 'Summary');
 

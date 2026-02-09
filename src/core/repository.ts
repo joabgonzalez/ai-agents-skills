@@ -46,12 +46,16 @@ export class RepositoryManager {
     if (/^[\w-]+\/[\w-]+$/.test(source)) {
       return {
         url: `https://github.com/${source}.git`,
-        shorthand: source
+        shorthand: source,
       };
     }
 
     // Full URL
-    if (source.startsWith('http://') || source.startsWith('https://') || source.startsWith('git@')) {
+    if (
+      source.startsWith('http://') ||
+      source.startsWith('https://') ||
+      source.startsWith('git@')
+    ) {
       return { url: source };
     }
 
@@ -81,7 +85,7 @@ export class RepositoryManager {
         url,
         shorthand,
         cachePath,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       };
     }
 
@@ -93,7 +97,7 @@ export class RepositoryManager {
       url,
       shorthand,
       cachePath,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
   }
 
@@ -134,19 +138,22 @@ export class RepositoryManager {
         const parsed = yamlLoad(frontmatterMatch[1]) as Record<string, unknown> | null;
         if (!parsed) continue;
 
-        const description = typeof parsed.description === 'string'
-          ? parsed.description.replace(/^["']|["']$/g, '')
-          : '';
+        const description =
+          typeof parsed.description === 'string'
+            ? parsed.description.replace(/^["']|["']$/g, '')
+            : '';
 
         const metadata = parsed.metadata as Record<string, unknown> | undefined;
-        const skills: string[] = Array.isArray(metadata?.skills) ? metadata.skills as string[] : [];
+        const skills: string[] = Array.isArray(metadata?.skills)
+          ? (metadata.skills as string[])
+          : [];
 
         presets.push({
           id: entry.name,
           name: typeof parsed.name === 'string' ? parsed.name : entry.name,
           description,
           path: path.join(presetsDir, entry.name),
-          skills
+          skills,
         });
       }
     }
@@ -159,7 +166,7 @@ export class RepositoryManager {
    */
   async getPreset(repoPath: string, presetId: string): Promise<PresetInfo | null> {
     const presets = await this.listPresets(repoPath);
-    return presets.find(p => p.id === presetId) || null;
+    return presets.find((p) => p.id === presetId) || null;
   }
 
   /**
@@ -172,9 +179,10 @@ export class RepositoryManager {
       return [];
     }
 
-    return fs.readdirSync(skillsDir, { withFileTypes: true })
-      .filter(entry => entry.isDirectory())
-      .map(entry => entry.name)
-      .filter(name => fs.existsSync(path.join(skillsDir, name, 'SKILL.md')));
+    return fs
+      .readdirSync(skillsDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .filter((name) => fs.existsSync(path.join(skillsDir, name, 'SKILL.md')));
   }
 }

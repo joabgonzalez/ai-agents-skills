@@ -174,7 +174,9 @@ export class SkillParser {
 
     // Handle legacy format (top-level version, skills, dependencies)
     if ('version' in frontmatter && typeof frontmatter.version === 'string') {
-      logger.warn(`Legacy format detected: top-level "version" field. Migrating to metadata.version`);
+      logger.warn(
+        `Legacy format detected: top-level "version" field. Migrating to metadata.version`
+      );
       normalized.metadata.version = frontmatter.version;
     }
 
@@ -184,12 +186,16 @@ export class SkillParser {
     }
 
     if ('dependencies' in frontmatter && typeof frontmatter.dependencies === 'object') {
-      logger.warn(`Legacy format detected: top-level "dependencies" field. Migrating to metadata.dependencies`);
+      logger.warn(
+        `Legacy format detected: top-level "dependencies" field. Migrating to metadata.dependencies`
+      );
       normalized.metadata.dependencies = frontmatter.dependencies;
     }
 
     if ('allowed-tools' in frontmatter && Array.isArray(frontmatter['allowed-tools'])) {
-      logger.warn(`Legacy format detected: top-level "allowed-tools" field. Migrating to metadata.allowed_tools`);
+      logger.warn(
+        `Legacy format detected: top-level "allowed-tools" field. Migrating to metadata.allowed_tools`
+      );
       normalized.metadata.allowed_tools = frontmatter['allowed-tools'];
     }
 
@@ -232,7 +238,9 @@ export class SkillParser {
         const metadata = this.parseSkillFile(skillPath);
         skills.set(skillName, metadata);
       } catch (error) {
-        logger.error(`Failed to parse skill "${skillName}": ${error instanceof Error ? error.message : String(error)}`);
+        logger.error(
+          `Failed to parse skill "${skillName}": ${error instanceof Error ? error.message : String(error)}`
+        );
       }
     }
 

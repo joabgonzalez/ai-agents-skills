@@ -92,10 +92,7 @@ export class Installer {
       if (installType === 'local') {
         // Step 1: Create intermediate symlink .agents/skills/react -> ../../skills/react
         if (!exists(agentsSkillsPath)) {
-          const relativeSource = path.relative(
-            path.dirname(agentsSkillsPath),
-            sourcePath
-          );
+          const relativeSource = path.relative(path.dirname(agentsSkillsPath), sourcePath);
           await createSymlink(relativeSource, agentsSkillsPath);
           logger.debug(`Created intermediate symlink: .agents/skills/${skillName}`);
         }
@@ -121,10 +118,7 @@ export class Installer {
         }
 
         // Step 4: Create final symlink .claude/skills/react -> ../../.agents/skills/react
-        const relativeTarget = path.relative(
-          path.dirname(targetPath),
-          agentsSkillsPath
-        );
+        const relativeTarget = path.relative(path.dirname(targetPath), agentsSkillsPath);
         await createSymlink(relativeTarget, targetPath);
         logger.success(`Symlinked: ${skillName}`);
 
@@ -158,7 +152,9 @@ export class Installer {
         return true; // Installed
       }
     } catch (error) {
-      logger.error(`Failed to install ${skillName}: ${error instanceof Error ? error.message : String(error)}`);
+      logger.error(
+        `Failed to install ${skillName}: ${error instanceof Error ? error.message : String(error)}`
+      );
       throw error;
     }
   }
@@ -200,7 +196,9 @@ export class Installer {
       const transaction = this.transactions[this.transactions.length - 1];
       transaction.completed = true;
     } catch (error) {
-      logger.error(`Failed to uninstall ${skillName}: ${error instanceof Error ? error.message : String(error)}`);
+      logger.error(
+        `Failed to uninstall ${skillName}: ${error instanceof Error ? error.message : String(error)}`
+      );
       throw error;
     }
   }
@@ -277,7 +275,9 @@ export class Installer {
           logger.warn(`Cannot restore removed skill: ${transaction.skillName}`);
         }
       } catch (error) {
-        logger.error(`Rollback failed for ${transaction.skillName}: ${error instanceof Error ? error.message : String(error)}`);
+        logger.error(
+          `Rollback failed for ${transaction.skillName}: ${error instanceof Error ? error.message : String(error)}`
+        );
       }
     }
 
@@ -287,11 +287,7 @@ export class Installer {
   /**
    * Setup model directory
    */
-  async setupModel(
-    model: Model,
-    basePath: string,
-    dryRun: boolean = false
-  ): Promise<void> {
+  async setupModel(model: Model, basePath: string, dryRun: boolean = false): Promise<void> {
     const modelDir = path.join(basePath, model.directory);
 
     if (dryRun) {
@@ -325,23 +321,23 @@ export class Installer {
         source: 'copilot-instructions.md',
         dest: path.join(modelDir, 'copilot-instructions.md'),
       },
-      'copilot': {
+      copilot: {
         source: 'copilot-instructions.md',
         dest: path.join(modelDir, 'copilot-instructions.md'),
       },
-      'claude': {
+      claude: {
         source: 'claude-instructions.md',
         dest: path.join(modelDir, 'instructions.md'),
       },
-      'codex': {
+      codex: {
         source: 'codex-instructions.md',
         dest: path.join(modelDir, 'instructions.md'),
       },
-      'gemini': {
+      gemini: {
         source: 'gemini-instructions.md',
         dest: path.join(modelDir, 'instructions.md'),
       },
-      'cursor': {
+      cursor: {
         source: 'cursor-instructions.md',
         dest: path.join(modelDir, 'instructions.md'),
       },
@@ -366,7 +362,7 @@ export class Installer {
 
       // Count skills
       const skillsDir = path.join(baseDir, 'skills');
-      const skills = fs.readdirSync(skillsDir).filter(file => {
+      const skills = fs.readdirSync(skillsDir).filter((file) => {
         const fullPath = path.join(skillsDir, file);
         return fs.statSync(fullPath).isDirectory();
       });
@@ -377,9 +373,13 @@ export class Installer {
       // Write processed content
       fs.writeFileSync(mapping.dest, content, 'utf-8');
 
-      logger.debug(`Generated instructions: ${mapping.source} → ${mapping.dest} (${skills.length} skills)`);
+      logger.debug(
+        `Generated instructions: ${mapping.source} → ${mapping.dest} (${skills.length} skills)`
+      );
     } catch (error) {
-      logger.error(`Failed to generate instructions: ${error instanceof Error ? error.message : String(error)}`);
+      logger.error(
+        `Failed to generate instructions: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 

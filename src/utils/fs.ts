@@ -64,7 +64,9 @@ export async function copyFile(src: string, dest: string): Promise<void> {
 
     await fs.promises.copyFile(src, dest);
   } catch (error) {
-    throw new Error(`Failed to copy ${src} to ${dest}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to copy ${src} to ${dest}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -88,7 +90,9 @@ export async function copyDir(src: string, dest: string): Promise<void> {
       }
     }
   } catch (error) {
-    throw new Error(`Failed to copy directory ${src} to ${dest}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to copy directory ${src} to ${dest}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -107,7 +111,9 @@ export async function createSymlink(target: string, linkPath: string): Promise<v
 
     await fs.promises.symlink(target, linkPath, 'dir');
   } catch (error) {
-    throw new Error(`Failed to create symlink from ${target} to ${linkPath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to create symlink from ${target} to ${linkPath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -126,7 +132,9 @@ export async function removeFile(filePath: string): Promise<void> {
       }
     }
   } catch (error) {
-    throw new Error(`Failed to remove ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to remove ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -139,7 +147,9 @@ export async function removeDir(dirPath: string): Promise<void> {
       await fs.promises.rm(dirPath, { recursive: true, force: true });
     }
   } catch (error) {
-    throw new Error(`Failed to remove directory ${dirPath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to remove directory ${dirPath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -179,7 +189,9 @@ export function readFile(filePath: string): string {
   try {
     return fs.readFileSync(filePath, 'utf-8');
   } catch (error) {
-    throw new Error(`Failed to read file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to read file ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -192,7 +204,9 @@ export function writeFile(filePath: string, content: string): void {
     ensureDir(dir);
     fs.writeFileSync(filePath, content, 'utf-8');
   } catch (error) {
-    throw new Error(`Failed to write file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to write file ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 

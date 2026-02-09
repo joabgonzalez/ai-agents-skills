@@ -82,6 +82,60 @@ After frontmatter, include:
 5. **## Workflows** (optional) - Feature dev, code review, bug fix flows
 6. **## Policies** (optional) - Typing rules, accessibility, version constraints
 
+### ✅ REQUIRED: Add "How to Use Skills" Section
+
+AGENTS.md must include this section BEFORE the Skills Reference table. This is the "push context" that ensures AI models understand how to discover and use skills.
+
+**Template (copy this into AGENTS.md):**
+
+```markdown
+## How to Use Skills (MANDATORY WORKFLOW)
+
+This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
+
+### Step 1: Find the Trigger
+Check the "Skills Reference" table below. Match your task to the "Trigger" column.
+
+### Step 2: Read the Skill
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
+
+Replace `{model}` with your coding agent:
+- **Cursor:** `.cursor/skills/typescript/SKILL.md`
+- **Claude:** `.claude/skills/typescript/SKILL.md`
+- **Copilot:** `.github/skills/typescript/SKILL.md`
+- **Gemini:** `.gemini/skills/typescript/SKILL.md`
+- **Codex:** `.codex/skills/typescript/SKILL.md`
+
+### Step 3: Read Dependencies
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
+
+**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+
+You must read all 6 skills.
+
+### Step 4: Apply Patterns
+- Follow "Critical Patterns" marked with ✅ REQUIRED
+- Use "Decision Tree" for implementation choices
+- Reference inline code examples
+
+### Example Workflow
+
+**Task:** "Create TypeScript interface for User model"
+
+1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
+2. **Read:** `.{model}/skills/typescript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
+4. **Read dependencies:**
+   - `.{model}/skills/conventions/SKILL.md`
+   - `.{model}/skills/javascript/SKILL.md`
+5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
+```
+
+**Why this matters:**
+- Vercel research shows AGENTS.md "push context" achieves 100% success rate vs on-demand discovery
+- All models (Cursor, Claude, Copilot, Gemini, Codex) auto-discover skills from `.{model}/skills/` directories
+- Complete workflow in AGENTS.md ensures consistent interpretation
+
 ### ❌ NEVER: Skip Context Gathering
 
 Don't create an agent without answering the 9 context questions. Incomplete context leads to vague, unhelpful agents.
@@ -107,8 +161,10 @@ critical-partner in skills? → NO → Stop: Must include (mandatory)
 1. **Gather context** → Ask 9 questions, understand project needs
 2. **Create structure** → `mkdir presets/{project-name}` + create `AGENTS.md`
 3. **Write frontmatter** → name, description, skills list
-4. **Write content** → Purpose, Skills Reference table, Workflows, Policies
-5. **Validate** → Run checklist below, verify all skills exist
+4. **Add "How to Use Skills" section** → Complete workflow from template above (BEFORE Skills Reference table)
+5. **Write Skills Reference table** → Use `{model}` placeholders for model-agnostic paths
+6. **Write content** → Purpose, Supported Stack, Workflows, Policies
+7. **Validate** → Run checklist below, verify all skills exist
 
 ---
 
@@ -139,12 +195,14 @@ Primary development assistant ensuring code quality, accessibility, and TypeScri
 
 ## Skills Reference
 
-| Trigger                     | Skill                 | Path                                  |
-| --------------------------- | --------------------- | ------------------------------------- |
-| TypeScript types/interfaces | typescript            | skills/typescript/SKILL.md            |
-| React components/hooks      | react                 | skills/react/SKILL.md                 |
-| Code review                 | critical-partner      | skills/critical-partner/SKILL.md      |
-| Document changes            | process-documentation | skills/process-documentation/SKILL.md |
+**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
+
+| Trigger                     | Skill                 | Relative Path                               |
+| --------------------------- | --------------------- | ------------------------------------------- |
+| TypeScript types/interfaces | typescript            | {model}/skills/typescript/SKILL.md          |
+| React components/hooks      | react                 | {model}/skills/react/SKILL.md               |
+| Code review                 | critical-partner      | {model}/skills/critical-partner/SKILL.md    |
+| Document changes            | process-documentation | {model}/skills/process-documentation/SKILL.md |
 
 ## Supported Stack
 
@@ -174,9 +232,10 @@ Primary development assistant ensuring code quality, accessibility, and TypeScri
 - [ ] `AGENTS.md` with frontmatter: `name`, `description`, `skills`
 - [ ] `critical-partner` in skills (mandatory for all)
 - [ ] `process-documentation` in skills (if technical/management)
-- [ ] All referenced skills exist in `skills/`
+- [ ] "How to Use Skills" section added BEFORE Skills Reference table
+- [ ] Skills Reference table uses `{model}` placeholders (model-agnostic paths)
+- [ ] All referenced skills exist in `.agents/skills/`
 - [ ] Purpose section is clear and actionable
-- [ ] Skills Reference table with triggers and paths
 - [ ] Token-efficient (no filler words)
 - [ ] Follows english-writing skill guidelines
 
