@@ -412,7 +412,6 @@ done
 
 - [ ] Reviewed by critical-partner skill
 - [ ] Feedback incorporated
-- [ ] Changes documented with process-documentation
 
 ### Testing
 
@@ -473,7 +472,6 @@ done
 - [ ] Added to AGENTS.md tables
 - [ ] Synced to model directories
 - [ ] Reviewed by critical-partner
-- [ ] Documented with process-documentation
 
 ---
 

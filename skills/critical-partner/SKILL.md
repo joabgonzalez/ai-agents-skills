@@ -5,7 +5,6 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
-    - conventions
     - architecture-patterns
     - typescript
     - a11y

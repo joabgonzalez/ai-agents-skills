@@ -5,7 +5,9 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
-    - conventions
+    # Only include dependencies that this skill DIRECTLY needs
+    # Do NOT include conventions - it comes transitively via typescript/javascript/react/nodejs
+    # ONLY add conventions if your skill is truly standalone (no technical dependencies)
   dependencies:
     {package-name}: "{version-range}"
 ---
@@ -98,10 +100,13 @@ Otherwise    → {Default action}
 
 ## Conventions
 
-Delegate to [conventions](../conventions/SKILL.md) and [a11y](../a11y/SKILL.md). Add only skill-specific rules:
+**IMPORTANT:** Do NOT duplicate general conventions. Assume users already have conventions via transitive dependencies (typescript → javascript → conventions).
+
+Add ONLY skill-specific rules that are unique to this technology:
 
 - {Unique rule specific to this technology}
 - {Best practice unique to this domain}
+- {NOT general naming, NOT general file organization}
 
 ---
 

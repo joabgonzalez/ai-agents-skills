@@ -184,4 +184,3 @@ Need to record an important decision?
 
 - [architecture-patterns](../architecture-patterns/SKILL.md) — For architecture decisions
 - [critical-partner](../critical-partner/SKILL.md) — For validating proposals
-- [process-documentation](../process-documentation/SKILL.md) — For documenting outcomes

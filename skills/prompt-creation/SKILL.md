@@ -6,7 +6,6 @@ metadata:
   version: "1.0"
   skills:
     - critical-partner
-    - conventions
     - english-writing
 ---
 
