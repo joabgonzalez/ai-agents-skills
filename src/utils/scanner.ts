@@ -13,7 +13,7 @@ export interface InstalledSkill {
 }
 
 /**
- * Scanner - Discover installed skills by scanning directories (Vercel Skills style)
+ * Scanner - Discover installed skills by scanning directories
  * No registry needed - just scan the filesystem
  */
 export class Scanner {

@@ -145,7 +145,6 @@ ai-agents-skills/
 
 - **Zero duplication:** 48 skills stored once, available to 5 models
 - **Always up-to-date:** Changes propagate instantly (symlinks reference same files)
-- **Vercel-compatible:** Matches vercel-labs/skills standard (individual skill symlinks)
 - **Token-efficient:** Models read only the skills they need
 
 **Example flow:**
@@ -197,7 +196,7 @@ npx ai-agents-skills validate --all            # Validate all skills
   - **Layer 1:** `skills/` (source of truth — real files)
   - **Layer 2:** `.agents/skills/` → `skills/` (canonical shared symlinks)
   - **Layer 3:** `.{model}/skills/` → `.agents/skills/` (model-specific symlinks)
-  - **Individual skill symlinks:** Each skill gets its own symlink (Vercel-compatible, NOT directory-level)
+  - **Individual skill symlinks:** Each skill gets its own symlink (NOT directory-level)
   - **Instant propagation:** Changes to source files visible to all models immediately
 - **Auto-generated instructions:** Each model gets an instruction file listing all installed skills with their metadata
 - **Dependency-safe removal:** `remove` command validates dependencies before removing skills

@@ -1,10 +1,8 @@
 # ai-agents-skills
 
-**v1.3.2** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.3.3** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
 Install 52 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
-
-**✨ New in v1.3.0**: Follows [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard with push context in AGENTS.md. No instruction files needed - models auto-discover skills!
 
 ## Quick Start
 
@@ -56,13 +54,6 @@ npx ai-agents-skills add --skill react --dry-run
 | `-m, --models <list>` | Target models, comma-separated        |
 | `-d, --dry-run`       | Preview changes without installing    |
 
-**Features:**
-
-- Shows dependency tree before installation (requested skills + dependencies)
-- Auto-resolves transitive dependencies
-- Prevents circular dependencies
-- **Vercel standard** - Updates AGENTS.md with push context
-
 ### `list` — Show installed skills
 
 ```bash
@@ -92,17 +83,6 @@ npx ai-agents-skills sync --dry-run
 | `--add-models <list>` | Add models, comma-separated      |
 | `--update-skills`     | Update skills to latest versions |
 | `-d, --dry-run`       | Preview changes without applying |
-
-**Features:**
-
-- **Version tracking** - Compares installed skill versions with remote repository
-- **Multi-select support** - Can select both "Add models" AND "Update skills" in one command
-- Shows currently installed models before selection
-- Checks for updates BEFORE showing options (improved UX)
-- Only shows "Update skills" option if updates are available
-- Executes in optimal order: updates first, then adds models
-- **Vercel standard** - Updates AGENTS.md with push context (no instruction files)
-- Stateless - no registry files needed
 
 ### `remove` — Remove skills with dependency checking
 

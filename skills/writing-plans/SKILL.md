@@ -11,7 +11,7 @@ metadata:
 
 # Writing Plans
 
-Create executable, granular plans with precise file paths and 2-5 minute tasks. Based on Vercel superpowers planning methodology.
+Create executable, granular plans with precise file paths and 2-5 minute tasks.
 
 ## When to Use
 
@@ -21,6 +21,7 @@ Create executable, granular plans with precise file paths and 2-5 minute tasks. 
 - Planning TDD (test-first) workflows
 
 Don't use for:
+
 - High-level planning or ideation (use brainstorming skill)
 - Debugging plans (use systematic-debugging skill)
 
@@ -34,9 +35,11 @@ Each task must be completable in 2-5 minutes. Break larger work into steps.
 
 ```markdown
 # ❌ WRONG: Task too large
+
 - Implement user authentication
 
 # ✅ CORRECT: Granular tasks
+
 1. Create User entity with email/password fields (2 min)
 2. Add bcrypt password hashing utility (3 min)
 3. Write UserRepository.findByEmail method (2 min)
@@ -45,6 +48,7 @@ Each task must be completable in 2-5 minutes. Break larger work into steps.
 ```
 
 **Why 2-5 minutes?**
+
 - Small enough to complete without interruption
 - Large enough to deliver tangible value
 - Easy to estimate and track progress
@@ -56,15 +60,18 @@ Specify exact files and line ranges for changes.
 
 ```markdown
 # ❌ WRONG: Vague location
+
 - Update the user service
 
 # ✅ CORRECT: Precise file path
+
 - **File**: `src/services/UserService.ts:45-67`
 - **Action**: Replace login method with async implementation
 - **Lines affected**: 23 lines (delete 15, add 8)
 ```
 
 **Benefits:**
+
 - No ambiguity about where to work
 - Easier to review changes
 - Clear scope per task
@@ -76,21 +83,25 @@ Write tests before implementation when possible.
 
 ```markdown
 ## Task 1: Write test for user registration
+
 **File**: `tests/auth.test.ts`
 **Test case**: POST /auth/register with valid data returns 201 + user object
 **Expected behavior**:
+
 - Returns status 201
 - Response contains user object with id, email (no password)
 - Database has new user record
 - Password is hashed (not plain text)
 
 ## Task 2: Implement registration endpoint
+
 **File**: `src/routes/auth.ts:12-30`
 **Implementation**: Create POST /auth/register handler
 **Verify**: Run test from Task 1 (should pass)
 ```
 
 **TDD Benefits:**
+
 - Clarifies requirements before coding
 - Ensures testability
 - Provides immediate feedback
@@ -112,7 +123,7 @@ export async function registerUser(data: RegisterDTO): Promise<User> {
   // Check existing user
   const existing = await userRepo.findByEmail(data.email);
   if (existing) {
-    throw new ConflictError('Email already registered');
+    throw new ConflictError("Email already registered");
   }
 
   // Hash password
@@ -144,18 +155,22 @@ Group tasks into batches of 3 for checkpoints.
 ## Batch 1 (Checkpoint after task 3)
 
 ### Task 1: Create User entity (2 min)
+
 **File**: `src/entities/User.ts`
 [implementation]
 
 ### Task 2: Add password hashing utility (3 min)
+
 **File**: `src/utils/crypto.ts`
 [implementation]
 
 ### Task 3: Write UserRepository.findByEmail (2 min)
+
 **File**: `src/repositories/UserRepository.ts:45-60`
 [implementation]
 
 **CHECKPOINT**: Batch 1 Complete
+
 - **Verification**: npm test -- UserEntity.test.ts
 - **Expected**: 8/8 tests passed ✅
 - **Next**: Proceed to Batch 2
@@ -163,21 +178,26 @@ Group tasks into batches of 3 for checkpoints.
 ## Batch 2 (Checkpoint after task 6)
 
 ### Task 4: Implement login endpoint (4 min)
+
 [implementation]
 
 ### Task 5: Add JWT token generation (3 min)
+
 [implementation]
 
 ### Task 6: Write integration test for login (2 min)
+
 [implementation]
 
 **CHECKPOINT**: Batch 2 Complete
+
 - **Verification**: npm test -- auth.test.ts
 - **Expected**: 12/12 tests passed ✅
 - **Next**: Proceed to Batch 3 (deployment)
 ```
 
 **Batch Execution Benefits:**
+
 - Regular verification points
 - Easier to track progress (33%, 66%, 100%)
 - Natural pause points for review
@@ -241,10 +261,11 @@ Plan has >20 tasks?
 
 ## Example: Complete Plan
 
-```markdown
+````markdown
 # Feature: User Registration API
 
 ## Context
+
 - **Goal**: Allow users to register with email/password
 - **Stack**: Express + TypeScript + Postgres + Jest
 - **Time estimate**: 27 minutes (9 tasks × 3 min avg)
@@ -252,7 +273,9 @@ Plan has >20 tasks?
 ## Batch 1: Foundation (9 min)
 
 ### Task 1: Create User entity (2 min)
+
 **File**: `src/entities/User.ts`
+
 ```typescript
 export interface User {
   id: string;
@@ -261,31 +284,40 @@ export interface User {
   createdAt: Date;
 }
 ```
+````
 
 ### Task 2: Add password hashing utility (3 min)
+
 **File**: `src/utils/crypto.ts`
+
 ```typescript
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 export async function hashPassword(plain: string): Promise<string> {
   return bcrypt.hash(plain, 10);
 }
 
-export async function verifyPassword(plain: string, hash: string): Promise<boolean> {
+export async function verifyPassword(
+  plain: string,
+  hash: string,
+): Promise<boolean> {
   return bcrypt.compare(plain, hash);
 }
 ```
 
 ### Task 3: Create UserRepository interface (4 min)
+
 **File**: `src/repositories/UserRepository.ts`
+
 ```typescript
 export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;
-  create(data: Omit<User, 'id' | 'createdAt'>): Promise<User>;
+  create(data: Omit<User, "id" | "createdAt">): Promise<User>;
 }
 ```
 
 **CHECKPOINT**: Batch 1
+
 - Tests: User entity, crypto utils
 - Verification: npm test -- entities/ utils/
 - Expected: 5/5 passed ✅
@@ -293,9 +325,11 @@ export interface IUserRepository {
 ## Batch 2: API Layer (9 min)
 
 ### Task 4: Define registration DTO (2 min)
+
 **File**: `src/dtos/RegisterDTO.ts`
+
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 export const RegisterSchema = z.object({
   email: z.string().email(),
@@ -306,13 +340,15 @@ export type RegisterDTO = z.infer<typeof RegisterSchema>;
 ```
 
 ### Task 5: Implement registration endpoint (5 min)
+
 **File**: `src/routes/auth.ts`
+
 ```typescript
-router.post('/register', async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
   try {
     const data = RegisterSchema.parse(req.body);
     const existing = await userRepo.findByEmail(data.email);
-    if (existing) return res.status(409).json({ error: 'Email exists' });
+    if (existing) return res.status(409).json({ error: "Email exists" });
 
     const hashedPassword = await hashPassword(data.password);
     const user = await userRepo.create({
@@ -328,21 +364,24 @@ router.post('/register', async (req, res, next) => {
 ```
 
 ### Task 6: Write integration test (2 min)
+
 **File**: `tests/auth.test.ts`
+
 ```typescript
-test('POST /auth/register creates user', async () => {
+test("POST /auth/register creates user", async () => {
   const res = await request(app)
-    .post('/auth/register')
-    .send({ email: 'test@example.com', password: 'password123' });
+    .post("/auth/register")
+    .send({ email: "test@example.com", password: "password123" });
 
   expect(res.status).toBe(201);
-  expect(res.body).toHaveProperty('id');
-  expect(res.body.email).toBe('test@example.com');
-  expect(res.body).not.toHaveProperty('password');
+  expect(res.body).toHaveProperty("id");
+  expect(res.body.email).toBe("test@example.com");
+  expect(res.body).not.toHaveProperty("password");
 });
 ```
 
 **CHECKPOINT**: Batch 2
+
 - Tests: Registration endpoint
 - Verification: npm test -- auth.test.ts
 - Expected: 8/8 passed ✅
@@ -350,13 +389,17 @@ test('POST /auth/register creates user', async () => {
 ## Batch 3: Error Handling (9 min)
 
 ### Task 7: Add duplicate email test (2 min)
+
 ### Task 8: Add validation error test (2 min)
+
 ### Task 9: Add error handler middleware (5 min)
 
 **CHECKPOINT**: Batch 3 (Final)
+
 - All tests passing
 - Build succeeds
 - Lint clean
+
 ```
 
 ---
@@ -368,3 +411,4 @@ test('POST /auth/register creates user', async () => {
 - [conventions](../conventions/SKILL.md) - Code organization standards
 - [verification-protocol](../verification-protocol/SKILL.md) - Evidence-based verification
 - [plan-execution](../plan-execution/SKILL.md) - Executing plans with checkpoints
+```
