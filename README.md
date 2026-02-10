@@ -158,16 +158,6 @@ your-project/
 └── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
 ```
 
-**Key Features:**
-
-- ✅ **NO instruction files** - Following [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard (100% success rate)
-- ✅ **Push context** - AGENTS.md has complete "How to Use Skills" workflow
-- ✅ **Auto-discovery** - All models discover skills from `.{model}/skills/`
-- ✅ **Model-agnostic paths** - Skills table uses `{model}` placeholders
-- ✅ **Skills stored once** - Shared via symlinks across all models
-- ✅ **Stateless** - No registry files needed
-- ✅ **Clean removal** - Just `rm -rf .agents/`
-
 ## Available Skills (52)
 
 ### Frameworks
