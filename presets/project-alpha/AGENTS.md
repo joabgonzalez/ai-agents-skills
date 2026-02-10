@@ -12,16 +12,13 @@ metadata:
     - mui
     - ag-grid
     - form-validation
-    - code-quality
     - html
     - a11y
     - conventions
     - technical-communication
     - critical-partner
-    - process-documentation
     - interface-design
     - frontend-dev
-    - humanizer
 ---
 
 # Alpha Template Agent
@@ -33,12 +30,15 @@ Primary development assistant for a web application. Ensures strict typing, MUI 
 This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
 
 ### Step 1: Find the Trigger
+
 Check the "Skills Reference" table below. Match your task to the "Trigger" column.
 
 ### Step 2: Read the Skill
+
 **Path format:** `.{model}/skills/{skill-name}/SKILL.md`
 
 Replace `{model}` with your coding agent:
+
 - **Cursor:** `.cursor/skills/typescript/SKILL.md`
 - **Claude:** `.claude/skills/typescript/SKILL.md`
 - **Copilot:** `.github/skills/typescript/SKILL.md`
@@ -46,6 +46,7 @@ Replace `{model}` with your coding agent:
 - **Codex:** `.codex/skills/typescript/SKILL.md`
 
 ### Step 3: Read Dependencies
+
 Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
 
 **Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
@@ -53,6 +54,7 @@ Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each
 You must read all 6 skills.
 
 ### Step 4: Apply Patterns
+
 - Follow "Critical Patterns" marked with ✅ REQUIRED
 - Use "Decision Tree" for implementation choices
 - Reference inline code examples
@@ -73,23 +75,61 @@ You must read all 6 skills.
 
 **IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
 
-| Trigger                     | Skill                   | Relative Path                                 |
-| --------------------------- | ----------------------- | --------------------------------------------- |
-| TypeScript types/interfaces | typescript              | {model}/skills/typescript/SKILL.md            |
-| JavaScript (ES2020+)        | javascript              | {model}/skills/javascript/SKILL.md            |
-| React components/hooks      | react                   | {model}/skills/react/SKILL.md                 |
-| Webpack build config        | webpack                 | {model}/skills/webpack/SKILL.md               |
-| Redux state / RTK Query     | redux-toolkit           | {model}/skills/redux-toolkit/SKILL.md         |
-| MUI components/theming      | mui                     | {model}/skills/mui/SKILL.md                   |
-| AG Grid tables              | ag-grid                 | {model}/skills/ag-grid/SKILL.md               |
-| Forms, validation schemas   | form-validation         | {model}/skills/form-validation/SKILL.md       |
-| Linting, formatting         | code-quality            | {model}/skills/code-quality/SKILL.md          |
-| Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
-| Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
-| Document changes            | process-documentation   | {model}/skills/process-documentation/SKILL.md |
-| Semantic HTML               | html                    | {model}/skills/html/SKILL.md                  |
-| Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
-| Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
+| Trigger                       | Skill                   | Relative Path                                   |
+| ----------------------------- | ----------------------- | ----------------------------------------------- |
+| TypeScript types/interfaces   | typescript              | {model}/skills/typescript/SKILL.md              |
+| JavaScript (ES2020+)          | javascript              | {model}/skills/javascript/SKILL.md              |
+| React components/hooks        | react                   | {model}/skills/react/SKILL.md                   |
+| Webpack build config          | webpack                 | {model}/skills/webpack/SKILL.md                 |
+| Redux state / RTK Query       | redux-toolkit           | {model}/skills/redux-toolkit/SKILL.md           |
+| MUI components/theming        | mui                     | {model}/skills/mui/SKILL.md                     |
+| AG Grid tables                | ag-grid                 | {model}/skills/ag-grid/SKILL.md                 |
+| Forms, validation schemas     | form-validation         | {model}/skills/form-validation/SKILL.md         |
+| Commit messages, PRs, docs    | technical-communication | {model}/skills/technical-communication/SKILL.md |
+| Code review                   | critical-partner        | {model}/skills/critical-partner/SKILL.md        |
+| Semantic HTML                 | html                    | {model}/skills/html/SKILL.md                    |
+| Accessibility                 | a11y                    | {model}/skills/a11y/SKILL.md                    |
+| Coding standards              | conventions             | {model}/skills/conventions/SKILL.md             |
+| UI/UX design, flows           | interface-design        | {model}/skills/interface-design/SKILL.md        |
+| Frontend development workflow | frontend-dev            | {model}/skills/frontend-dev/SKILL.md            |
+
+## Project Structure & Skills Storage
+
+**IMPORTANT FOR LLMs:** Skills use a 3-layer symlink structure:
+
+```
+your-project/
+├── .agents/skills/        # Canonical symlinks to framework skills/ (shared across models)
+│   ├── react/            → ../../skills/react/
+│   ├── typescript/       → ../../skills/typescript/
+│   └── ...
+├── .claude/skills/        # Claude-specific symlinks to .agents/skills/
+│   ├── react/            → ../../.agents/skills/react/
+│   └── typescript/       → ../../.agents/skills/typescript/
+├── .cursor/skills/        # Cursor-specific symlinks to .agents/skills/
+├── .github/skills/        # Copilot-specific symlinks to .agents/skills/
+├── .gemini/skills/        # Gemini-specific symlinks to .agents/skills/
+├── .codex/skills/         # Codex-specific symlinks to .agents/skills/
+└── AGENTS.md             # This file
+```
+
+**How to access skills:**
+
+- **Preferred:** Read from `.{model}/skills/<skill-name>/SKILL.md` (your model's directory)
+- **If symlinks fail:** Skills are stored in the ai-agents-skills framework installation (referenced via symlinks)
+- **Real files location:** All source skills are in the framework's `skills/` directory
+
+**Why 3 layers?**
+
+1. **Layer 1 (framework skills/):** Source of truth maintained by framework
+2. **Layer 2 (.agents/skills/):** Canonical shared location in your project
+3. **Layer 3 (.{model}/skills/):** Model-specific access for your AI assistant
+
+**Benefits:**
+
+- **Zero duplication:** Skills installed once, available to all 5 AI models
+- **Always up-to-date:** Changes propagate instantly via symlinks
+- **Token-efficient:** Your AI reads only the skills it needs
 
 ## Supported Stack
 

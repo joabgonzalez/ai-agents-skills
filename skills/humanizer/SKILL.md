@@ -4,6 +4,7 @@ description: "Human-centric communication with empathy and clarity. Trigger: Whe
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: "behavioral"
   skills:
     - conventions
     - english-writing
@@ -21,6 +22,29 @@ This skill provides universal patterns for human-centric interaction, empathy, a
 - Designing or reviewing user-facing agent responses
 - Enhancing communication in any skill or prompt
 - Handling sensitive, ambiguous, or negative feedback situations
+
+---
+
+## Skill Type
+
+**humanizer is a behavioral skill** (like brainstorming, systematic-debugging, interface-design) that guides HOW the agent communicates, not WHAT code patterns to use.
+
+### Key Characteristics
+
+- **Agent applies humanizer principles automatically** to all communication
+- **Explicit invocation** when improving user-facing content, error messages, or reviewing tone
+- **NOT a code pattern skill** - provides communication guidelines, not TypeScript/React patterns
+- **Behavioral, not technical** - focuses on human interaction, not software architecture
+
+### Related Behavioral Skills
+
+- [brainstorming](../brainstorming/SKILL.md) - Planning and ideation workflow
+- [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
+- [interface-design](../interface-design/SKILL.md) - UI/UX design thinking
+- [writing-plans](../writing-plans/SKILL.md) - Executable plan creation
+- [code-review](../code-review/SKILL.md) - Two-stage code review process
+
+---
 
 ## Critical Patterns
 

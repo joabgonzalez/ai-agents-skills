@@ -2,7 +2,7 @@
 
 **v1.3.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 48 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 52 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 **✨ New in v1.3.0**: Follows [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard with push context in AGENTS.md. No instruction files needed - models auto-discover skills!
 
@@ -218,7 +218,7 @@ your-project/
 - ✅ **Stateless** - No registry files needed
 - ✅ **Clean removal** - Just `rm -rf .agents/`
 
-## Available Skills (49)
+## Available Skills (52)
 
 ### Frameworks
 
@@ -246,11 +246,11 @@ MUI, AG Grid, Redux Toolkit, Stagehand
 
 ### Quality & Architecture
 
-Conventions, Code Quality, Form Validation, Critical Partner, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Process Documentation, Humanizer, Frontend Design, Frontend Development
+Conventions, Code Quality, Form Validation, Critical Partner, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Humanizer, Frontend Development
 
 ### Behavioral
 
-Brainstorming, Systematic Debugging, Interface Design
+Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
 
 ### Meta (creation tools)
 
