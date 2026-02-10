@@ -130,12 +130,17 @@ export async function addCommand(source: string, options: AddOptions) {
         process.exit(1);
       }
 
+      // Detect already installed skills
+      const installedSkills = projectDetector.getInstalledSkills(project.rootPath);
+
       const selected = await p.multiselect({
         message: 'Select skills to install:',
         options: availableSkills.map((skill) => ({
           value: skill,
           label: skill,
+          hint: installedSkills.includes(skill) ? color.green('installed') : '',
         })),
+        initialValues: installedSkills.length > 0 ? installedSkills : [],
         required: true,
       });
 

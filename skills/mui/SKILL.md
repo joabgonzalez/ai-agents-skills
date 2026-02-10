@@ -9,7 +9,6 @@ metadata:
     - a11y
     - react
     - typescript
-    - humanizer
   dependencies:
     "@mui/material": ">=5.0.0 <6.0.0"
     "@mui/x-charts": ">=6.0.0 <8.0.0"  # Optional - only for data visualization

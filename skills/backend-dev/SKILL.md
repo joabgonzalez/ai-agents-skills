@@ -4,12 +4,12 @@ description: "Backend development workflow with API design and data modeling. Tr
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: "behavioral-technical"
   skills:
     - conventions
     - typescript
     - nodejs
     - architecture-patterns
-    - humanizer
 ---
 
 # Backend Development Skill
@@ -25,117 +25,268 @@ This skill provides universal patterns for back-end development workflow, focusi
 - Preparing for deployment or CI/CD
 - Reviewing or improving code quality and structure
 
+## Skill Type
+
+**backend-dev is a behavioral-technical skill** that guides HOW backend developers think and make architectural decisions, orchestrating technical skills without duplicating their patterns.
+
+### Key Characteristics
+
+- **Role-based thinking**: Embodies Backend Developer mindset and decision-making
+- **Orchestrates technical skills**: Delegates to nodejs, typescript, express, nest, hono
+- **NO code examples**: All code patterns live in technical skills
+- **Architectural guidance**: Provides decision trees for API design, data modeling, error handling
+
+### Related Behavioral Skills
+
+- [brainstorming](../brainstorming/SKILL.md) - Planning and ideation workflow
+- [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
+- [writing-plans](../writing-plans/SKILL.md) - Executable plan creation
+- [code-review](../code-review/SKILL.md) - Two-stage code review process
+
+### Orchestrated Technical Skills
+
+- [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
+- [typescript](../typescript/SKILL.md) - Type-safe backend development
+- [express](../express/SKILL.md) - Express.js framework patterns
+- [nest](../nest/SKILL.md) - NestJS framework patterns
+- [hono](../hono/SKILL.md) - Hono framework patterns
+- [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
+- [form-validation](../form-validation/SKILL.md) - Input validation with zod/yup
+- [unit-testing](../unit-testing/SKILL.md) - Unit testing patterns
+
+---
+
 ## Critical Patterns
 
 ### ✅ REQUIRED: API Design with Versioning
 
 Define clear, versioned contracts to prevent breaking changes.
 
-```typescript
-// ❌ WRONG: No versioning, breaking change affects all clients
-app.get('/api/users', (req, res) => {
-  // Changed response format - breaks existing clients!
-  res.json({ data: users, total: users.length });
-});
+**Decision Tree**:
+```
+Creating new endpoint?
+  → Is this a new feature? → /api/v1/feature
+  → Breaking change to existing endpoint? → Create /api/v2/endpoint, deprecate v1
+  → Non-breaking addition (new field)? → Add to current version
 
-// ✅ CORRECT: Versioned API allows gradual migration
-app.get('/api/v1/users', (req, res) => {
-  res.json(users); // Original format
-});
+Versioning strategy?
+  → URL versioning (/api/v1, /api/v2) - RECOMMENDED (clear, cacheable)
+  → Header versioning (Accept: application/vnd.api.v2+json) - Advanced cases
+  → Query param (?version=2) - Avoid (harder to route, cache)
+```
 
-app.get('/api/v2/users', (req, res) => {
-  // New format with pagination metadata
-  res.json({ data: users, total: users.length, page: 1 });
-});
+**Implementation**: Delegate to framework skills ([express](../express/SKILL.md), [nest](../nest/SKILL.md), [hono](../hono/SKILL.md))
+
+**Deprecation Timeline**:
+1. Announce deprecation (release notes, docs, headers)
+2. Maintain both versions (3-6 months)
+3. Remove deprecated version (after migration period)
+
+**Example Versioning Strategy**:
+```
+v1 (current production)
+  → Add v2 with breaking changes
+  → v1 returns Deprecation header: "Deprecated. Use /api/v2. Sunset: 2026-09-01"
+  → Monitor v1 usage (analytics)
+  → Remove v1 after sunset date
 ```
 
 ### ✅ REQUIRED: Data Modeling with Validation
 
 Validate at boundaries and separate domain logic from persistence.
 
-```typescript
-// ✅ CORRECT: Validate input at API boundary
-import { z } from 'zod';
+**Decision Tree**:
+```
+Validating input?
+  → At API boundary (controller/route)? → YES (always validate)
+  → In domain logic? → NO (assume valid after boundary check)
+  → In database layer? → NO (database constraints are last resort)
 
-const CreateUserSchema = z.object({
-  email: z.string().email(),
-  name: z.string().min(2).max(100),
-  age: z.number().int().positive().optional(),
-});
+Validation library?
+  → TypeScript-first? → zod (RECOMMENDED)
+  → Existing project with yup? → yup (maintain consistency)
+  → Legacy JavaScript? → joi
+```
 
-app.post('/api/v1/users', async (req, res) => {
-  // Validate input
-  const result = CreateUserSchema.safeParse(req.body);
-  if (!result.success) {
-    return res.status(400).json({ errors: result.error.format() });
-  }
+**Implementation**: Delegate to [form-validation](../form-validation/SKILL.md) for validation patterns
 
-  // Domain logic (separate from persistence)
-  const user = await createUser(result.data);
-  res.status(201).json(user);
-});
+**Validation Layers**:
+1. **API Boundary** (controller): Validate shape, types, format (zod/yup)
+2. **Domain Logic** (service): Business rules (e.g., "cannot delete user with active orders")
+3. **Database** (schema): Constraints as safety net (NOT NULL, UNIQUE, CHECK)
+
+**Example Data Flow**:
+```
+Client request
+  ↓
+Controller validates input (zod schema)
+  ↓
+Service applies business logic
+  ↓
+Repository persists to database
+  ↓
+Database enforces constraints (last resort)
 ```
 
 ### ✅ REQUIRED: Centralized Error Handling
 
 Consistent error responses and logging across all endpoints.
 
-```typescript
-// ✅ CORRECT: Centralized error handler middleware
-class AppError extends Error {
-  constructor(
-    public statusCode: number,
-    message: string,
-    public isOperational = true
-  ) {
-    super(message);
-    Object.setPrototypeOf(this, AppError.prototype);
-  }
-}
-
-// Error handler middleware
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  if (err instanceof AppError) {
-    // Operational error - send to client
-    return res.status(err.statusCode).json({
-      status: 'error',
-      message: err.message,
-    });
-  }
-
-  // Programming error - log and send generic message
-  console.error('Unhandled error:', err);
-  res.status(500).json({
-    status: 'error',
-    message: 'Internal server error',
-  });
-};
-
-app.use(errorHandler);
+**Decision Tree**:
 ```
+Handling errors?
+  → Operational error (expected, like 404)? → AppError class, send to client
+  → Programming error (unexpected, like null reference)? → Log, send generic 500
+
+Error response format?
+  → REST API? → { status: "error", message: "...", code: "USER_NOT_FOUND" }
+  → GraphQL? → errors array with extensions { code, message }
+  → RFC 7807? → Problem Details JSON (type, title, status, detail)
+```
+
+**Implementation**: Delegate to framework skills ([express](../express/SKILL.md), [nest](../nest/SKILL.md))
+
+**Error Categories**:
+- **Validation errors** (400): Input doesn't match schema
+- **Authentication errors** (401): Missing or invalid credentials
+- **Authorization errors** (403): Valid credentials, insufficient permissions
+- **Not found errors** (404): Resource doesn't exist
+- **Conflict errors** (409): State conflict (e.g., duplicate email)
+- **Server errors** (500): Unhandled exceptions
+
+**Error Context to Log**:
+- Request ID (for tracing)
+- User ID (if authenticated)
+- Endpoint + method (GET /api/v1/users)
+- Timestamp
+- Stack trace (for 500 errors only)
+- NEVER log passwords or tokens
 
 ### ✅ REQUIRED: Environment-Based Configuration
 
 Never hardcode config values. Use environment variables.
 
-```typescript
-// ✅ CORRECT: Environment-based configuration
-import { z } from 'zod';
-
-const EnvSchema = z.object({
-  NODE_ENV: z.enum(['development', 'production', 'test']),
-  PORT: z.coerce.number().default(3000),
-  DATABASE_URL: z.string().url(),
-  JWT_SECRET: z.string().min(32),
-});
-
-export const env = EnvSchema.parse(process.env);
-
-// Usage
-app.listen(env.PORT, () => {
-  console.log(`Server running on port ${env.PORT}`);
-});
+**Decision Tree**:
 ```
+Need configuration?
+  → Database URL? → DATABASE_URL
+  → API keys/secrets? → JWT_SECRET, STRIPE_KEY (NEVER commit)
+  → Feature flags? → ENABLE_FEATURE=true/false
+  → Port? → PORT (with fallback to 3000)
+
+Validating env vars?
+  → Yes, ALWAYS at startup (fail fast if missing)
+  → Use zod to validate env schema
+```
+
+**Implementation**: Delegate to [nodejs](../nodejs/SKILL.md) for process.env patterns
+
+**Configuration Pattern**:
+```
+env.ts
+  → Validates all required env vars at startup
+  → Exports typed config object
+
+.env.example
+  → Documents all required env vars (committed)
+
+.env
+  → Actual values (NOT committed, in .gitignore)
+```
+
+**Fail Fast on Missing Env Vars**:
+```
+App startup
+  → Load .env file
+  → Validate env vars with zod schema
+  → If validation fails → Throw error, exit process (don't start server)
+  → If validation passes → Continue startup
+```
+
+---
+
+## Architectural Decision-Making
+
+### API Contract Design
+
+**When designing API contracts**:
+
+1. **Identify resources**: What entities exist? (users, products, orders)
+2. **Define operations**: CRUD (POST create, GET read, PATCH update, DELETE delete)
+3. **Model relationships**: users.orders (1:N), orders.products (N:M)
+4. **Version from start**: Start with /api/v1 (easier to add v2 later)
+
+**RESTful Patterns**:
+```
+GET /api/v1/users → List users (pagination, filters)
+GET /api/v1/users/:id → Get single user
+POST /api/v1/users → Create user
+PATCH /api/v1/users/:id → Update user (partial)
+DELETE /api/v1/users/:id → Delete user
+
+Relationships:
+GET /api/v1/users/:id/orders → User's orders (nested resource)
+```
+
+**Red Flags**:
+- Non-RESTful URLs: /api/getUserById?id=123 (use GET /api/v1/users/123)
+- Verbs in URLs: /api/deleteUser (use DELETE /api/v1/users/:id)
+- No versioning: /api/users (add /v1 from start)
+
+### Data Persistence Strategy
+
+**Decision Tree**:
+```
+Choosing database?
+  → Structured data + relations? → PostgreSQL (RECOMMENDED)
+  → Document-oriented + flexible schema? → MongoDB
+  → Key-value cache? → Redis
+  → Time-series data? → TimescaleDB, InfluxDB
+
+ORM vs Query Builder?
+  → TypeScript + type safety? → Prisma (RECOMMENDED)
+  → Need raw SQL flexibility? → Knex, Drizzle
+  → Existing project with TypeORM? → TypeORM (maintain consistency)
+```
+
+**Implementation**: Delegate to [nodejs](../nodejs/SKILL.md) for database patterns
+
+**Repository Pattern**:
+```
+Controller (HTTP layer)
+  ↓
+Service (Business logic)
+  ↓
+Repository (Data access - abstraction over database)
+  ↓
+Database (PostgreSQL, MongoDB, etc.)
+```
+
+**Benefits of Repository Pattern**:
+- Easy to test (mock repository)
+- Database-agnostic (swap Postgres → MongoDB)
+- Centralized query logic
+
+### Performance Optimization
+
+**When to optimize**:
+1. Measure FIRST (APM tools, profiling, load testing)
+2. Identify bottlenecks (slow queries, N+1 problems, large payloads)
+3. Apply targeted fixes (NOT premature optimization)
+
+**Common Optimizations**:
+- **Database queries**: Add indexes, use EXPLAIN ANALYZE, fix N+1 queries
+- **Caching**: Redis for frequently accessed data (user sessions, product catalog)
+- **Pagination**: Limit list endpoints to 50-100 items per page
+- **Compression**: gzip middleware for response bodies
+- **Rate limiting**: Prevent abuse, protect from DDoS
+
+**Red Flags (Premature Optimization)**:
+- Caching everything "just in case"
+- Denormalizing database before profiling queries
+- Optimizing endpoints with <100 requests/day
+
+---
 
 ## Decision Tree
 
@@ -143,6 +294,8 @@ app.listen(env.PORT, () => {
 - Data model change? → Migrate safely and validate
 - Deployment? → Automate with CI/CD
 - Bug found? → Add/expand test coverage
+
+---
 
 ## Edge Cases
 
@@ -155,6 +308,8 @@ app.listen(env.PORT, () => {
 - **Race conditions**: Use database transactions for operations that must be atomic. Implement optimistic locking for concurrent updates. Consider distributed locks for multi-instance deployments.
 
 - **Large response payloads**: Implement pagination for list endpoints. Use streaming for large files. Consider compression (gzip) for response bodies.
+
+---
 
 ## Checklist
 
@@ -173,52 +328,20 @@ app.listen(env.PORT, () => {
 - [ ] Health check endpoint (/health, /ping)
 - [ ] Monitoring and alerting configured (errors, performance)
 
-## Practical Examples
+---
 
-### Example: Complete API Endpoint with Best Practices
+## Workflow Integration
 
-```typescript
-// users.controller.ts
-import { z } from 'zod';
+**E2E Development Workflow**:
 
-const CreateUserSchema = z.object({
-  email: z.string().email(),
-  name: z.string().min(2).max(100),
-  role: z.enum(['user', 'admin']).default('user'),
-});
+1. **brainstorming** → Evaluate alternatives, high-level planning
+2. **writing-plans** → Break into executable tasks (2-5 min, file paths)
+3. **backend-dev** (this skill) → Apply Backend Developer thinking and architecture
+4. **plan-execution** → Execute in batches of 3 with checkpoints
+5. **verification-protocol** → Verify each task (IDENTIFY → RUN → READ → VERIFY → CLAIM)
+6. **code-review** → Two-stage review (spec compliance → code quality)
 
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // 1. Validate input
-    const data = CreateUserSchema.parse(req.body);
-
-    // 2. Business logic
-    const existingUser = await userRepository.findByEmail(data.email);
-    if (existingUser) {
-      throw new AppError(409, 'Email already exists');
-    }
-
-    // 3. Persist to database
-    const user = await userRepository.create(data);
-
-    // 4. Return response
-    res.status(201).json({
-      status: 'success',
-      data: { user },
-    });
-  } catch (error) {
-    next(error); // Pass to centralized error handler
-  }
-};
-
-// Route definition with authentication and rate limiting
-router.post(
-  '/api/v1/users',
-  authenticate, // Middleware: verify JWT token
-  rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }), // 100 requests per 15 min
-  createUser
-);
-```
+---
 
 ## Resources
 

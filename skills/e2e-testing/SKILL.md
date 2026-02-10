@@ -11,7 +11,6 @@ metadata:
     - typescript
     - frontend-dev
     - backend-dev
-    - humanizer
 ---
 # End-to-End Testing Skill
 Orchestrates E2E testing strategy and architecture -- delegates to the playwright and stagehand skills for implementation.

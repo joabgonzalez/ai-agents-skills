@@ -12,7 +12,6 @@ metadata:
     - typescript
     - frontend-dev
     - backend-dev
-    - humanizer
 ---
 
 # Unit Testing Skill

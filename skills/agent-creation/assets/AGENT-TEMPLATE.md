@@ -20,61 +20,62 @@ output: "{description of expected output | data_type}"
 
 ---
 
-## ⚠️ MANDATORY SKILL READING
+## How to Use Skills (MANDATORY WORKFLOW)
 
-**CRITICAL INSTRUCTION: You MUST read the corresponding skill file BEFORE executing any task that matches a trigger below.**
+This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
 
-**Token Efficiency:** Evita espacios innecesarios en las tablas markdown. Las celdas y separadores deben ser compactos para ahorrar tokens y mejorar legibilidad.
+### Step 1: Find the Trigger
+Check the "Skills Reference" table below. Match your task to the "Trigger" column.
 
-### Skill Reading Protocol
+### Step 2: Read the Skill
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
 
-1. **Identify task context** from user request
-2. **Match task to trigger** in Mandatory Skills table below
-3. **Read the ENTIRE skill file** before proceeding with implementation
-4. **Check Extended Mandatory Read Protocol** in [AGENTS.md](../../../AGENTS.md#extended-mandatory-read-protocol) if:
-   - Skill has `references/` directory
-   - Decision Tree indicates "MUST read {reference}"
-   - Critical Pattern says "[CRITICAL] See {reference}"
-   - Task involves 40+ patterns or complex edge cases
-5. **Notify user** which skills you're using for multi-skill tasks (2+ skills)
-6. **Follow skill guidelines** strictly during execution
+Replace `{model}` with your coding agent:
+- **Cursor:** `.cursor/skills/typescript/SKILL.md`
+- **Claude:** `.claude/skills/typescript/SKILL.md`
+- **Copilot:** `.github/skills/typescript/SKILL.md`
+- **Gemini:** `.gemini/skills/typescript/SKILL.md`
+- **Codex:** `.codex/skills/typescript/SKILL.md`
 
-**⚠️ WARNING**: Do NOT proceed with tasks without reading the skill file first. Skill tables provide reference only—actual patterns, decision trees, and edge cases are in the skill files themselves.
+### Step 3: Read Dependencies
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
 
-**⚠️ CRITICAL**: For complex skills with references, consult [Extended Mandatory Read Protocol](../../../AGENTS.md#extended-mandatory-read-protocol) to determine which reference files are required vs optional.
+**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
 
-### Notification Policy
+You must read all 6 skills.
 
-For multi-skill tasks (2+ skills):
+### Step 4: Apply Patterns
+- Follow "Critical Patterns" marked with ✅ REQUIRED
+- Use "Decision Tree" for implementation choices
+- Reference inline code examples
 
-- **Notify user** which skills you're using at the start
-- **Proceed immediately** after notification (no confirmation needed)
-- **Skip notification** for trivial single-skill tasks
+### Example Workflow
 
-Example notification:
+**Task:** "Create TypeScript interface for User model"
 
-> "Using these skills for your request:
->
-> - `{skill-1}` for {purpose}
-> - `{skill-2}` for {purpose}"
+1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
+2. **Read:** `.{model}/skills/typescript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
+4. **Read dependencies:**
+   - `.{model}/skills/conventions/SKILL.md`
+   - `.{model}/skills/javascript/SKILL.md`
+5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
----
+## Skills Reference
 
-## Mandatory Skills (READ BEFORE EXECUTION)
+**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
 
-**⚠️ CRITICAL**: Read the skill file BEFORE performing any task that matches these triggers.
-
-| Trigger (When to Read)                         | Required Skill          | Path                                                      |
-| ---------------------------------------------- | ----------------------- | --------------------------------------------------------- |
-| {Task trigger description}                     | {skill-name}            | [SKILL.md](../../skills/{skill-name}/SKILL.md)            |
-| {Task trigger description}                     | {skill-name}            | [SKILL.md](../../skills/{skill-name}/SKILL.md)            |
-| Create TypeScript types/interfaces             | typescript              | [SKILL.md](../../skills/typescript/SKILL.md)              |
-| Create React components with hooks             | react                   | [SKILL.md](../../skills/react/SKILL.md)                   |
-| Implement accessibility requirements           | a11y                    | [SKILL.md](../../skills/a11y/SKILL.md)                    |
-| Write commit messages, PRs, or documentation   | technical-communication | [SKILL.md](../../skills/technical-communication/SKILL.md) |
-| Code quality review or improvement suggestions | critical-partner        | [SKILL.md](../../skills/critical-partner/SKILL.md)        |
-| Document changes, features, or decisions       | process-documentation   | [SKILL.md](../../skills/process-documentation/SKILL.md)   |
-| Writing or reviewing general code patterns     | conventions             | [SKILL.md](../../skills/conventions/SKILL.md)             |
+| Trigger                     | Skill                   | Relative Path                                 |
+| --------------------------- | ----------------------- | --------------------------------------------- |
+| {Task trigger description}  | {skill-name}            | {model}/skills/{skill-name}/SKILL.md          |
+| {Task trigger description}  | {skill-name}            | {model}/skills/{skill-name}/SKILL.md          |
+| TypeScript types/interfaces | typescript              | {model}/skills/typescript/SKILL.md            |
+| React components/hooks      | react                   | {model}/skills/react/SKILL.md                 |
+| Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
+| Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
+| Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
+| Document changes            | process-documentation   | {model}/skills/process-documentation/SKILL.md |
+| Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
 
 **Example triggers for your specific agent:**
 
@@ -82,7 +83,43 @@ Example notification:
   - "Configure build tool" → webpack/vite skill
   - "Implement state management" → redux-toolkit skill
   - "Style with Material-UI" → mui skill
-  - "Create form validation" → formik + yup skills
+  - "Forms, validation schemas" → form-validation skill
+  - "Linting, formatting" → code-quality skill
+
+## Project Structure & Skills Storage
+
+**IMPORTANT FOR LLMs:** Skills use a 3-layer symlink structure:
+
+```
+your-project/
+├── .agents/skills/        # Canonical symlinks to framework skills/ (shared across models)
+│   ├── react/            → ../../skills/react/
+│   ├── typescript/       → ../../skills/typescript/
+│   └── ...
+├── .claude/skills/        # Claude-specific symlinks to .agents/skills/
+│   ├── react/            → ../../.agents/skills/react/
+│   └── typescript/       → ../../.agents/skills/typescript/
+├── .cursor/skills/        # Cursor-specific symlinks to .agents/skills/
+├── .github/skills/        # Copilot-specific symlinks to .agents/skills/
+├── .gemini/skills/        # Gemini-specific symlinks to .agents/skills/
+├── .codex/skills/         # Codex-specific symlinks to .agents/skills/
+└── AGENTS.md             # This file
+```
+
+**How to access skills:**
+- **Preferred:** Read from `.{model}/skills/<skill-name>/SKILL.md` (your model's directory)
+- **If symlinks fail:** Skills are stored in the ai-agents-skills framework installation (referenced via symlinks)
+- **Real files location:** All source skills are in the framework's `skills/` directory
+
+**Why 3 layers?**
+1. **Layer 1 (framework skills/):** Source of truth maintained by framework
+2. **Layer 2 (.agents/skills/):** Canonical shared location in your project
+3. **Layer 3 (.{model}/skills/):** Model-specific access for your AI assistant
+
+**Benefits:**
+- **Zero duplication:** Skills installed once, available to all 5 AI models
+- **Always up-to-date:** Changes propagate instantly via symlinks
+- **Token-efficient:** Your AI reads only the skills it needs
 
 ---
 
@@ -94,54 +131,50 @@ Example notification:
 
 ---
 
-## When to Use This Agent
+## Supported Stack
 
-Use this agent when:
+{Description of technologies, frameworks, versions, and tools used in the project}
 
-- {Scenario 1}
-- {Scenario 2}
-- {Scenario 3}
-
----
-
-## Workflow
-
-### Phase 1: {Phase Name}
-
-1. {Step 1}
-2. {Step 2}
-3. {Step 3}
-
-### Phase 2: {Phase Name}
-
-1. {Step 1}
-2. {Step 2}
-3. {Step 3}
+**Example:**
+- **Languages:** TypeScript 5.0+, JavaScript (ES2020+)
+- **Frameworks:** React 18+, Next.js 14+
+- **Build:** Vite/Webpack
+- **Styling:** TailwindCSS 3+
+- **State:** Redux Toolkit (if applicable)
+- **Forms:** Context-aware (see form-validation skill — checks package.json for installed library)
+- **Code Quality:** Context-aware (see code-quality skill — checks package.json for installed tools)
 
 ---
 
-## Supported Skills
+## Workflows
 
-- **{skill-name}**: {Brief description of how this skill is used}
-- **{skill-name}**: {Brief description of how this skill is used}
-- **{skill-name}**: {Brief description of how this skill is used}
+### Feature Development
 
----
+1. {Step 1 - Gather requirements}
+2. {Step 2 - Design architecture}
+3. {Step 3 - Implement}
+4. {Step 4 - Test}
+5. {Step 5 - Document and review}
 
-## Skills Reference
+### Code Review
 
-| Skill Name   | Description         | Path                                           |
-| ------------ | ------------------- | ---------------------------------------------- |
-| {skill-name} | {Brief description} | [SKILL.md](../../skills/{skill-name}/SKILL.md) |
-| {skill-name} | {Brief description} | [SKILL.md](../../skills/{skill-name}/SKILL.md) |
+1. {Verification point 1}
+2. {Verification point 2}
+3. {Verification point 3}
 
----
+## Policies
 
-## Policies and Recommendations
+**{Policy category 1}:** {Description}
 
-- **{Policy category 1}**: {Description}
-- **{Policy category 2}**: {Description}
-- **{Policy category 3}**: {Description}
+**{Policy category 2}:** {Description}
+
+**{Policy category 3}:** {Description}
+
+**Example policies:**
+- **Typing:** strict mode, no `any`, explicit return types
+- **Code quality:** Context-aware linting and formatting (see code-quality skill)
+- **Accessibility:** Semantic HTML, keyboard-accessible elements, proper ARIA labels
+- **Versions:** Document exact versions and acceptable ranges
 
 ---
 

@@ -7,7 +7,6 @@ metadata:
   skills:
     - conventions
     - a11y
-    - humanizer
   allowed-tools:
     - file-reader
 ---

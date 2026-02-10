@@ -136,6 +136,54 @@ You must read all 6 skills.
 - All models (Cursor, Claude, Copilot, Gemini, Codex) auto-discover skills from `.{model}/skills/` directories
 - Complete workflow in AGENTS.md ensures consistent interpretation
 
+### ✅ REQUIRED: Add "Project Structure & Skills Storage" Section
+
+AGENTS.md must include this section AFTER the Skills Reference table. This explains the symlink architecture for LLMs that struggle with symlink resolution.
+
+**Template (copy this into AGENTS.md):**
+
+```markdown
+## Project Structure & Skills Storage
+
+**IMPORTANT FOR LLMs:** Skills use a 3-layer symlink structure:
+
+\```
+your-project/
+├── .agents/skills/        # Canonical symlinks to framework skills/ (shared across models)
+│   ├── react/            → ../../skills/react/
+│   ├── typescript/       → ../../skills/typescript/
+│   └── ...
+├── .claude/skills/        # Claude-specific symlinks to .agents/skills/
+│   ├── react/            → ../../.agents/skills/react/
+│   └── typescript/       → ../../.agents/skills/typescript/
+├── .cursor/skills/        # Cursor-specific symlinks to .agents/skills/
+├── .github/skills/        # Copilot-specific symlinks to .agents/skills/
+├── .gemini/skills/        # Gemini-specific symlinks to .agents/skills/
+├── .codex/skills/         # Codex-specific symlinks to .agents/skills/
+└── AGENTS.md             # This file
+\```
+
+**How to access skills:**
+- **Preferred:** Read from `.{model}/skills/<skill-name>/SKILL.md` (your model's directory)
+- **If symlinks fail:** Skills are stored in the ai-agents-skills framework installation (referenced via symlinks)
+- **Real files location:** All source skills are in the framework's `skills/` directory
+
+**Why 3 layers?**
+1. **Layer 1 (framework skills/):** Source of truth maintained by framework
+2. **Layer 2 (.agents/skills/):** Canonical shared location in your project
+3. **Layer 3 (.{model}/skills/):** Model-specific access for your AI assistant
+
+**Benefits:**
+- **Zero duplication:** Skills installed once, available to all 5 AI models
+- **Always up-to-date:** Changes propagate instantly via symlinks
+- **Token-efficient:** Your AI reads only the skills it needs
+```
+
+**Why this matters:**
+- Some LLMs (Cursor, Claude, etc.) struggle resolving multiple levels of symlinks
+- Explicit documentation ensures any AI assistant can find and read skills
+- Fallback instructions prevent skill access failures
+
 ### ❌ NEVER: Skip Context Gathering
 
 Don't create an agent without answering the 9 context questions. Incomplete context leads to vague, unhelpful agents.
@@ -163,8 +211,9 @@ critical-partner in skills? → NO → Stop: Must include (mandatory)
 3. **Write frontmatter** → name, description, skills list
 4. **Add "How to Use Skills" section** → Complete workflow from template above (BEFORE Skills Reference table)
 5. **Write Skills Reference table** → Use `{model}` placeholders for model-agnostic paths
-6. **Write content** → Purpose, Supported Stack, Workflows, Policies
-7. **Validate** → Run checklist below, verify all skills exist
+6. **Add "Project Structure & Skills Storage" section** → Complete symlink documentation from template above (AFTER Skills Reference table)
+7. **Write content** → Purpose, Supported Stack, Workflows, Policies
+8. **Validate** → Run checklist below, verify all skills exist
 
 ---
 
@@ -204,6 +253,41 @@ Primary development assistant ensuring code quality, accessibility, and TypeScri
 | Code review                 | critical-partner      | {model}/skills/critical-partner/SKILL.md    |
 | Document changes            | process-documentation | {model}/skills/process-documentation/SKILL.md |
 
+## Project Structure & Skills Storage
+
+**IMPORTANT FOR LLMs:** Skills use a 3-layer symlink structure:
+
+\```
+your-project/
+├── .agents/skills/        # Canonical symlinks to framework skills/ (shared across models)
+│   ├── react/            → ../../skills/react/
+│   ├── typescript/       → ../../skills/typescript/
+│   └── ...
+├── .claude/skills/        # Claude-specific symlinks to .agents/skills/
+│   ├── react/            → ../../.agents/skills/react/
+│   └── typescript/       → ../../.agents/skills/typescript/
+├── .cursor/skills/        # Cursor-specific symlinks to .agents/skills/
+├── .github/skills/        # Copilot-specific symlinks to .agents/skills/
+├── .gemini/skills/        # Gemini-specific symlinks to .agents/skills/
+├── .codex/skills/         # Codex-specific symlinks to .agents/skills/
+└── AGENTS.md             # This file
+\```
+
+**How to access skills:**
+- **Preferred:** Read from `.{model}/skills/<skill-name>/SKILL.md` (your model's directory)
+- **If symlinks fail:** Skills are stored in the ai-agents-skills framework installation (referenced via symlinks)
+- **Real files location:** All source skills are in the framework's `skills/` directory
+
+**Why 3 layers?**
+1. **Layer 1 (framework skills/):** Source of truth maintained by framework
+2. **Layer 2 (.agents/skills/):** Canonical shared location in your project
+3. **Layer 3 (.{model}/skills/):** Model-specific access for your AI assistant
+
+**Benefits:**
+- **Zero duplication:** Skills installed once, available to all 5 AI models
+- **Always up-to-date:** Changes propagate instantly via symlinks
+- **Token-efficient:** Your AI reads only the skills it needs
+
 ## Supported Stack
 
 - TypeScript 5.0+, React 18+, Vite
@@ -234,6 +318,7 @@ Primary development assistant ensuring code quality, accessibility, and TypeScri
 - [ ] `process-documentation` in skills (if technical/management)
 - [ ] "How to Use Skills" section added BEFORE Skills Reference table
 - [ ] Skills Reference table uses `{model}` placeholders (model-agnostic paths)
+- [ ] "Project Structure & Skills Storage" section added AFTER Skills Reference table
 - [ ] All referenced skills exist in `.agents/skills/`
 - [ ] Purpose section is clear and actionable
 - [ ] Token-efficient (no filler words)

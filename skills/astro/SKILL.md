@@ -10,7 +10,6 @@ metadata:
     - react
     - typescript
     - architecture-patterns
-    - humanizer
   dependencies:
     astro: ">=5.0.0 <6.0.0"
     typescript: ">=5.0.0 <6.0.0"

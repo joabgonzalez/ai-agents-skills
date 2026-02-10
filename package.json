@@ -1,7 +1,7 @@
 {
   "name": "ai-agents-skills",
-  "version": "1.3.0",
-  "description": "Modular CLI for distributing 49+ AI agent skills across Claude, GitHub Copilot, Cursor, Gemini, and Codex",
+  "version": "1.3.1",
+  "description": "Modular CLI for distributing 50+ AI agent skills across Claude, GitHub Copilot, Cursor, Gemini, and Codex",
   "main": "dist/index.js",
   "bin": {
     "ai-agents-skills": "./dist/index.js"

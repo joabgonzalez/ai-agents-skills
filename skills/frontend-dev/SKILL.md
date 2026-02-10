@@ -4,13 +4,14 @@ description: "Frontend workflow with componentization and state management. Trig
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: "behavioral-technical"
   skills:
     - conventions
     - typescript
     - react
     - architecture-patterns
     - a11y
-    - humanizer
+
 ---
 
 # Frontend Development Skill
@@ -26,143 +27,209 @@ This skill provides universal patterns for front-end development workflow, focus
 - Preparing for deployment or CI/CD
 - Reviewing or improving code quality and structure
 
+## Skill Type
+
+**frontend-dev is a behavioral-technical skill** that guides HOW frontend developers think and make architectural decisions, orchestrating technical skills without duplicating their patterns.
+
+### Key Characteristics
+
+- **Role-based thinking**: Embodies Frontend Developer mindset and decision-making
+- **Orchestrates technical skills**: Delegates to react, typescript, a11y, composition-patterns
+- **NO code examples**: All code patterns live in technical skills
+- **Architectural guidance**: Provides decision trees for component hierarchy, state management, data fetching
+
+### Related Behavioral Skills
+
+- [brainstorming](../brainstorming/SKILL.md) - Planning and ideation workflow
+- [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
+- [interface-design](../interface-design/SKILL.md) - UI/UX design thinking
+- [writing-plans](../writing-plans/SKILL.md) - Executable plan creation
+- [code-review](../code-review/SKILL.md) - Two-stage code review process
+
+### Orchestrated Technical Skills
+
+- [react](../react/SKILL.md) - React patterns and hooks
+- [typescript](../typescript/SKILL.md) - Type-safe frontend development
+- [a11y](../a11y/SKILL.md) - Accessibility requirements
+- [composition-patterns](../composition-patterns/SKILL.md) - Component composition
+- [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns
+- [tailwindcss](../tailwindcss/SKILL.md) - Utility-first CSS
+- [form-validation](../form-validation/SKILL.md) - Form validation patterns
+- [react-testing-library](../react-testing-library/SKILL.md) - User-centric testing
+
+---
+
 ## Critical Patterns
 
 ### ✅ REQUIRED: Componentization with Single Responsibility
 
 Build small, reusable components that do one thing well.
 
-```tsx
-// ❌ WRONG: Monolithic component with mixed concerns
-const UserDashboard = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+**Decision Tree**:
+- Component doing >1 thing? → Split into focused components
+- Logic mixed with presentation? → Extract custom hooks
+- Component >100 lines? → Decompose into smaller units
 
-  useEffect(() => {
-    // Data fetching
-    fetch('/api/users').then((res) => res.json()).then(setUsers);
-  }, []);
+**Implementation**: Delegate to [react](../react/SKILL.md) for component patterns
 
-  return (
-    <div>
-      {loading && <Spinner />}
-      {users.map((user) => (
-        <div key={user.id}>
-          <img src={user.avatar} />
-          <h2>{user.name}</h2>
-          <button onClick={() => deleteUser(user.id)}>Delete</button>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// ✅ CORRECT: Decomposed into focused components
-const UserDashboard = () => {
-  const { users, loading } = useUsers(); // Custom hook for data
-
-  return (
-    <div>
-      {loading && <LoadingSpinner />}
-      <UserList users={users} />
-    </div>
-  );
-};
-
-const UserList = ({ users }: { users: User[] }) => (
-  <div>
-    {users.map((user) => (
-      <UserCard key={user.id} user={user} />
-    ))}
-  </div>
-);
-
-const UserCard = ({ user }: { user: User }) => {
-  const { deleteUser } = useUserActions();
-
-  return (
-    <Card>
-      <Avatar src={user.avatar} alt={user.name} />
-      <Heading>{user.name}</Heading>
-      <Button onClick={() => deleteUser(user.id)}>Delete</Button>
-    </Card>
-  );
-};
+**Example Decomposition**:
 ```
+Monolithic UserDashboard (200 lines)
+  ↓
+UserDashboard (layout coordinator, 20 lines)
+  → UserList (renders list, 15 lines)
+    → UserCard (single user, 25 lines)
+      → Avatar (image display, 10 lines)
+      → Button (action trigger, 8 lines)
+  → LoadingSpinner (loading state, 5 lines)
+```
+
+**When to Stop Decomposing**:
+- Component <30 lines AND single responsibility
+- No reusable parts remain
+- Further splitting hurts readability
 
 ### ✅ REQUIRED: State Management with Colocated State
 
 Keep state as local as possible. Lift to global only when necessary.
 
-```tsx
-// ❌ WRONG: All state in global store
-// Redux store
-const initialState = {
-  modalOpen: false, // ← Should be local!
-  users: [],
-  theme: 'light',
-};
-
-// ✅ CORRECT: Local state for component-specific concerns
-const UserModal = () => {
-  const [isOpen, setIsOpen] = useState(false); // Local state
-
-  return (
-    <>
-      <Button onClick={() => setIsOpen(true)}>Open</Button>
-      {isOpen && <Modal onClose={() => setIsOpen(false)} />}
-    </>
-  );
-};
-
-// Global state only for shared data
-const useTheme = () => {
-  const theme = useSelector((state) => state.theme); // Global state
-  return theme;
-};
+**Decision Tree**:
 ```
+Need state?
+  → Used by 1 component? → Local state (useState)
+  → Used by 2-3 sibling components? → Lift to parent
+  → Used across component tree? → Context API
+  → Shared across entire app + complex updates? → Redux/Zustand
+
+Data from server?
+  → Use React Query/SWR (NOT Redux for server state)
+
+Derived state?
+  → Compute during render (NOT useState)
+  → Expensive computation? → useMemo
+```
+
+**Implementation**: Delegate to [react](../react/SKILL.md) for state patterns
+
+**Colocated State Examples**:
+- Modal open/closed → Local state in Modal component
+- Form input values → Local state in Form component (or form library)
+- Theme (light/dark) → Global context (shared across app)
+- User authentication → Global context or Redux
+- Shopping cart items → Global Redux (shared + complex updates)
 
 ### ✅ REQUIRED: Testing with User-Centric Approach
 
 Test behavior, not implementation. Simulate real user interactions.
 
-```tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-
-// ✅ CORRECT: Test from user perspective
-test('adds item to cart when Add button clicked', async () => {
-  render(<ProductPage productId="123" />);
-
-  // Wait for product to load
-  const productName = await screen.findByRole('heading', { name: /laptop/i });
-  expect(productName).toBeInTheDocument();
-
-  // User clicks "Add to Cart"
-  const addButton = screen.getByRole('button', { name: /add to cart/i });
-  fireEvent.click(addButton);
-
-  // Verify success message
-  expect(await screen.findByText(/added to cart/i)).toBeInTheDocument();
-});
+**Decision Tree**:
 ```
+What to test?
+  → User flows (registration, checkout)? → Integration tests (react-testing-library)
+  → Edge cases + error states? → Unit tests (jest)
+  → Full app workflows? → E2E tests (playwright)
+
+How to query elements?
+  → Prefer: getByRole, getByLabelText (accessible queries)
+  → Avoid: getByTestId (implementation detail)
+```
+
+**Implementation**: Delegate to [react-testing-library](../react-testing-library/SKILL.md) and [unit-testing](../unit-testing/SKILL.md)
+
+**Testing Priorities**:
+1. Critical user flows (login, checkout, payment)
+2. Error states (network failure, validation errors)
+3. Edge cases (empty state, loading, no permissions)
+4. Accessibility (keyboard navigation, screen reader)
 
 ### ✅ REQUIRED: Environment-Based Configuration
 
 Use environment variables for configuration. Never hardcode.
 
-```typescript
-// ✅ CORRECT: Environment-based config
-const config = {
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  environment: import.meta.env.MODE, // 'development' | 'production'
-  features: {
-    analytics: import.meta.env.VITE_ENABLE_ANALYTICS === 'true',
-  },
-};
-
-// Usage
-fetch(`${config.apiUrl}/users`);
+**Decision Tree**:
 ```
+Need configuration?
+  → API URL? → VITE_API_URL / NEXT_PUBLIC_API_URL
+  → Feature flags? → VITE_ENABLE_FEATURE=true/false
+  → Environment detection? → import.meta.env.MODE / process.env.NODE_ENV
+
+Sensitive data (API keys)?
+  → NEVER in frontend code
+  → Use backend proxy for API calls
+```
+
+**Implementation**: Delegate to framework-specific skills ([next](../next/SKILL.md), [vite](../vite/SKILL.md))
+
+**Configuration Pattern**:
+```
+config.ts
+  → apiUrl (from env var, fallback to localhost)
+  → environment (development | production)
+  → features (object with boolean flags)
+
+.env.example
+  → Documents all required env vars
+  → Committed to repo
+
+.env.local
+  → Actual values (NOT committed)
+```
+
+---
+
+## Architectural Decision-Making
+
+### Component Hierarchy
+
+**When designing component tree**:
+
+1. **Identify data flow**: Where does data originate? Where is it consumed?
+2. **Find common ancestor**: Lowest component that can own state
+3. **Minimize prop drilling**: If passing props >2 levels, consider context
+4. **Separate concerns**: Layout components (div, flex) vs logic components (data fetching, state)
+
+**Red Flags**:
+- Props passed through 3+ levels without being used
+- Parent component knowing too much about child internals
+- Component receiving >8 props (too many responsibilities)
+
+### Data Fetching Strategy
+
+**Decision Tree**:
+```
+Fetching data?
+  → Static content (marketing page)? → SSG (Static Site Generation)
+  → Dynamic content + SEO critical? → SSR (Server-Side Rendering)
+  → Dynamic content + NOT SEO critical? → CSR (Client-Side Rendering)
+
+Which library?
+  → REST API? → React Query / SWR
+  → GraphQL? → Apollo Client / urql
+  → Real-time updates? → WebSockets + React Query
+```
+
+**Implementation**: Delegate to framework skills ([next](../next/SKILL.md), [react](../react/SKILL.md))
+
+### Performance Optimization
+
+**When to optimize**:
+1. Measure FIRST (React DevTools Profiler, Lighthouse)
+2. Identify bottlenecks (slow renders, large bundles)
+3. Apply targeted fixes (NOT premature optimization)
+
+**Common Optimizations**:
+- Lazy load routes → React.lazy + Suspense
+- Lazy load images → Intersection Observer
+- Memoize expensive calculations → useMemo
+- Prevent unnecessary re-renders → React.memo, useCallback
+- Code splitting → Dynamic imports
+
+**Red Flags (Premature Optimization)**:
+- Using React.memo everywhere "just in case"
+- useCallback for simple functions
+- Optimizing before measuring
+
+---
 
 ## Decision Tree
 
@@ -170,6 +237,8 @@ fetch(`${config.apiUrl}/users`);
 - State needed? → Use local or global store
 - Deployment? → Automate with CI/CD
 - Bug found? → Add/expand test coverage
+
+---
 
 ## Edge Cases
 
@@ -182,6 +251,8 @@ fetch(`${config.apiUrl}/users`);
 - **Memory leaks**: Event listeners, subscriptions, and timers not cleaned up cause memory leaks. Always return cleanup function from useEffect. Unsubscribe from observables.
 
 - **Bundle size bloat**: Importing entire libraries increases bundle size. Use tree-shaking compatible libraries. Import only what you need (import { Button } from 'library' not import * as Library).
+
+---
 
 ## Checklist
 
@@ -200,76 +271,20 @@ fetch(`${config.apiUrl}/users`);
 - [ ] Responsive design tested on mobile and desktop
 - [ ] Browser compatibility verified (Chrome, Firefox, Safari)
 
-## Practical Examples
+---
 
-### Example: Complete Feature with Best Practices
+## Workflow Integration
 
-```tsx
-// UserProfile.tsx - Complete feature with best practices
-import { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
-import { LoadingSpinner, ErrorMessage } from '@/components';
+**E2E Development Workflow**:
 
-// 1. Type-safe validation
-const UpdateProfileSchema = z.object({
-  name: z.string().min(2).max(100),
-  email: z.string().email(),
-  bio: z.string().max(500).optional(),
-});
+1. **brainstorming** → Evaluate alternatives, high-level planning
+2. **writing-plans** → Break into executable tasks (2-5 min, file paths)
+3. **frontend-dev** (this skill) → Apply Frontend Developer thinking and architecture
+4. **plan-execution** → Execute in batches of 3 with checkpoints
+5. **verification-protocol** → Verify each task (IDENTIFY → RUN → READ → VERIFY → CLAIM)
+6. **code-review** → Two-stage review (spec compliance → code quality)
 
-type UpdateProfileData = z.infer<typeof UpdateProfileSchema>;
-
-// 2. Data fetching with loading/error states
-const useUserProfile = (userId: string) => {
-  return useQuery({
-    queryKey: ['user', userId],
-    queryFn: () => fetch(`/api/users/${userId}`).then((res) => res.json()),
-  });
-};
-
-// 3. Mutation with optimistic updates
-const useUpdateProfile = () => {
-  return useMutation({
-    mutationFn: (data: UpdateProfileData) =>
-      fetch('/api/profile', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }).then((res) => res.json()),
-  });
-};
-
-// 4. Component with single responsibility
-export const UserProfile = ({ userId }: { userId: string }) => {
-  const { data: user, isLoading, error } = useUserProfile(userId);
-  const updateProfile = useUpdateProfile();
-  const [isEditing, setIsEditing] = useState(false); // Local state
-
-  if (isLoading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage error={error} />;
-  if (!user) return <div>User not found</div>;
-
-  const handleSubmit = async (data: UpdateProfileData) => {
-    try {
-      await updateProfile.mutateAsync(data);
-      setIsEditing(false);
-    } catch (err) {
-      console.error('Failed to update profile:', err);
-    }
-  };
-
-  return (
-    <div>
-      {isEditing ? (
-        <ProfileForm user={user} onSubmit={handleSubmit} />
-      ) : (
-        <ProfileView user={user} onEdit={() => setIsEditing(true)} />
-      )}
-    </div>
-  );
-};
-```
+---
 
 ## Resources
 

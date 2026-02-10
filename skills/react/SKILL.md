@@ -10,7 +10,6 @@ metadata:
     - typescript
     - javascript
     - architecture-patterns
-    - humanizer
   dependencies:
     react: ">=17.0.0 <19.0.0"
 ---
