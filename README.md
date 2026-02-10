@@ -19,48 +19,6 @@ npx ai-agents-skills add --preset astro-template
 npx ai-agents-skills add --skill react --skill typescript
 ```
 
-## Development with Makefile
-
-For local development, use the Makefile commands:
-
-```bash
-# Install skills locally to all detected models
-make local
-
-# Sync models interactively
-make sync
-
-# List all available skills
-make list
-
-# Add a specific skill
-make add SKILL=typescript
-
-# Remove a specific skill
-make remove SKILL=typescript
-
-# Validate all skills
-make validate
-
-# Build the project
-make build
-
-# Run tests
-make test
-
-# Lint and format code
-make lint
-make format
-
-# Check everything before commit
-make check
-```
-
-**All available commands:**
-```bash
-make help
-```
-
 ## Supported Models
 
 | Model          | Directory  | ID                            |
@@ -129,11 +87,11 @@ npx ai-agents-skills sync --dry-run
 
 **Options:**
 
-| Flag                      | Description                              |
-| ------------------------- | ---------------------------------------- |
-| `--add-models <list>`     | Add models, comma-separated              |
-| `--update-skills`         | Update skills to latest versions         |
-| `-d, --dry-run`           | Preview changes without applying         |
+| Flag                  | Description                      |
+| --------------------- | -------------------------------- |
+| `--add-models <list>` | Add models, comma-separated      |
+| `--update-skills`     | Update skills to latest versions |
+| `-d, --dry-run`       | Preview changes without applying |
 
 **Features:**
 
@@ -162,15 +120,6 @@ npx ai-agents-skills remove --all
 npx ai-agents-skills remove --skills react --confirm
 ```
 
-**Features:**
-
-- Shows removal preview with requested skills and their dependencies
-- Validates dependencies before removal (prevents breaking other skills)
-- Shows which dependencies will be kept (used by other skills)
-- Auto-removes unused dependencies
-- Clean removal from all model directories
-- Alias: `uninstall` still works for backwards compatibility
-
 **Options:**
 
 | Flag                  | Description                       |
@@ -193,7 +142,7 @@ npx ai-agents-skills add --skill react
 4. Creates symlinks in each model directory (`.claude/skills/`, `.github/skills/`, etc.)
 5. Updates AGENTS.md with complete "How to Use Skills" workflow (push context)
 
-### Installed Structure (Vercel Standard)
+### Installed Structure
 
 ```
 your-project/
@@ -210,6 +159,7 @@ your-project/
 ```
 
 **Key Features:**
+
 - ✅ **NO instruction files** - Following [Vercel Skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) standard (100% success rate)
 - ✅ **Push context** - AGENTS.md has complete "How to Use Skills" workflow
 - ✅ **Auto-discovery** - All models discover skills from `.{model}/skills/`
@@ -291,63 +241,6 @@ metadata:
 
 ...
 ```
-
-See [skills/skill-creation/SKILL.md](skills/skill-creation/SKILL.md) for the full guide.
-
-## Development
-
-### Linting & Formatting
-
-This project uses [Biome](https://biomejs.dev/) for fast linting and formatting:
-
-```bash
-# Lint code
-npm run lint
-
-# Lint and auto-fix
-npm run lint:fix
-
-# Format code
-npm run format
-
-# Check everything (lint + test + build)
-npm run check
-# or
-make check
-```
-
-**Why Biome?**
-- ⚡ Fast (Rust-based)
-- 🔧 Combines linter + formatter
-- 🎯 No conflicts between tools
-- 📦 Single config file
-
-### Local Development
-
-```bash
-# Install dependencies
-npm install
-# or
-make install
-
-# Build the project
-npm run build
-# or
-make build
-
-# Run in development mode
-npm run dev -- <command>
-# or
-make dev ARGS="<command>"
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a skill following the [skill-creation](skills/skill-creation/SKILL.md) guide
-3. Run checks: `make check` (lint + test + build)
-4. Ensure AGENTS.md follows Vercel standard (no instruction files)
-5. Submit a pull request
 
 ## License
 
