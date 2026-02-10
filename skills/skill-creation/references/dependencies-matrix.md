@@ -10,17 +10,25 @@ This reference provides a comprehensive matrix of skill dependencies by category
 
 ## Quick Decision Rules
 
-**ALWAYS include:**
+**CRITICAL**: Dependencies come **transitively**. Do NOT duplicate them!
 
-- `conventions` (all skills except base skills like a11y, humanizer)
-- `typescript` (if TypeScript is primary language)
+**ONLY include conventions if:**
+
+- Your skill is standalone (no typescript, javascript, react, nodejs, html deps)
+- Examples: css, brainstorming, humanizer, interface-design, vite, webpack
 
 **Include when applicable:**
 
+- `typescript` (if TypeScript is primary language)
+- `javascript` (if ES2020+ patterns needed)
+- `react` / `nodejs` (if framework-specific)
 - `a11y` (any UI generation: HTML, React, CSS, etc.)
-- `humanizer` (user-facing UI/content: frontend, forms, mobile)
 - `architecture-patterns` (complex logic: frameworks, state management)
-- `javascript` (if ES2020+ patterns needed alongside TypeScript)
+
+**NEVER include:**
+
+- `conventions` if you already have typescript/javascript/react/nodejs (it comes transitively)
+- `humanizer` (now a behavioral skill, NOT a dependency)
 
 **Framework dependencies:**
 
@@ -556,7 +564,6 @@ skills:
 ```yaml
 skills:
   - critical-partner # review and validation
-  - process-documentation # document changes
   - english-writing # all content in English
   # + specific framework skills as needed
 ```
@@ -566,7 +573,6 @@ skills:
 **Rationale**:
 
 - Framework management skills
-- Always include critical-partner, process-documentation
 - `english-writing`: Enforce English in generated content
 
 ---

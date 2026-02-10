@@ -5,13 +5,7 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
-    - conventions
     - jest
-    - react-testing-library
-    - react-native-testing-library
-    - typescript
-    - frontend-dev
-    - backend-dev
 ---
 
 # Unit Testing Skill

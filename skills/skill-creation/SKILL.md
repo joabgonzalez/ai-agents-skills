@@ -7,7 +7,6 @@ metadata:
   skills:
     - reference-creation
     - critical-partner
-    - process-documentation
     - skill-sync
     - english-writing
   allowed-tools:

@@ -5,9 +5,7 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
-    - conventions
     - critical-partner
-    - process-documentation
     - english-writing
   allowed-tools:
     - file-operations

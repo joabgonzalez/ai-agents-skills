@@ -39,11 +39,11 @@ Replace `{model}` with your coding agent:
 
 ### Step 3: Read Dependencies
 
-Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each direct dependency before proceeding.
 
-**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+**Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-You must read all 6 skills.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
 
@@ -57,24 +57,23 @@ You must read all 6 skills.
 
 1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
-3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
-4. **Read dependencies:**
-   - `.{model}/skills/conventions/SKILL.md`
-   - `.{model}/skills/javascript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `javascript`
+4. **Read dependency:**
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Mandatory Skills
 
-**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md` (see Step 2 above)
 
-| Trigger                     | Skill            | Relative Path                            |
-| --------------------------- | ---------------- | ---------------------------------------- |
-| Create or modify skills     | skill-creation   | {model}/skills/skill-creation/SKILL.md   |
-| Create agent definitions    | agent-creation   | {model}/skills/agent-creation/SKILL.md   |
-| Code review or improvements | critical-partner | {model}/skills/critical-partner/SKILL.md |
-| Coding standards            | conventions      | {model}/skills/conventions/SKILL.md      |
-| TypeScript code             | typescript       | {model}/skills/typescript/SKILL.md       |
-| Node.js / CLI development   | nodejs           | {model}/skills/nodejs/SKILL.md           |
+| Trigger                     | Skill            |
+| --------------------------- | ---------------- |
+| Create or modify skills     | skill-creation   |
+| Create agent definitions    | agent-creation   |
+| Code review or improvements | critical-partner |
+| Coding standards            | conventions      |
+| TypeScript code             | typescript       |
+| Node.js / CLI development   | nodejs           |
 
 ## Skills Reference
 

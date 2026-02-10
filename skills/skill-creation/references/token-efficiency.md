@@ -493,7 +493,6 @@ name: skill-creation
 description: This comprehensive skill provides detailed guidance for creating and maintaining standards-compliant skills from simple to complex, with extensive templates, references architecture, inline examples, proper frontmatter, delegation patterns, and JSON schema validation. It supports any topic or technology with a comprehensive 9-step workflow process. Includes optional priority labels for complex skills with 30 or more patterns. Ensures unique responsibilities and token-efficient documentation throughout. Trigger: When creating a new skill, adding agent instructions, or documenting patterns for AI systems to follow.
 skills:
   - critical-partner
-  - process-documentation
   - skill-sync
 allowed-tools:
   - file-operations
@@ -512,7 +511,6 @@ name: skill-creation
 description: Guide for creating standards-compliant skills with templates, references, and validation. Trigger: When creating a new skill or documenting patterns.
 skills:
   - critical-partner
-  - process-documentation
   - skill-sync
 allowed-tools:
   - file-operations

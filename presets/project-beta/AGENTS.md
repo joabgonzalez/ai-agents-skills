@@ -45,11 +45,11 @@ Replace `{model}` with your coding agent:
 
 ### Step 3: Read Dependencies
 
-Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each direct dependency before proceeding.
 
-**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+**Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-You must read all 6 skills.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
 
@@ -63,31 +63,30 @@ You must read all 6 skills.
 
 1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
-3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
-4. **Read dependencies:**
-   - `.{model}/skills/conventions/SKILL.md`
-   - `.{model}/skills/javascript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `javascript`
+4. **Read dependency:**
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Skills Reference
 
-**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md` (see Step 2 above)
 
-| Trigger                       | Skill                   | Relative Path                                   |
-| ----------------------------- | ----------------------- | ----------------------------------------------- |
-| TypeScript types/interfaces   | typescript              | {model}/skills/typescript/SKILL.md              |
-| JavaScript (ES2020+)          | javascript              | {model}/skills/javascript/SKILL.md              |
-| Astro pages/components        | astro                   | {model}/skills/astro/SKILL.md                   |
-| Vite build config             | vite                    | {model}/skills/vite/SKILL.md                    |
-| Tailwind utility classes      | tailwindcss             | {model}/skills/tailwindcss/SKILL.md             |
-| React client islands          | react                   | {model}/skills/react/SKILL.md                   |
-| Semantic HTML                 | html                    | {model}/skills/html/SKILL.md                    |
-| Accessibility                 | a11y                    | {model}/skills/a11y/SKILL.md                    |
-| Commit messages, PRs, docs    | technical-communication | {model}/skills/technical-communication/SKILL.md |
-| Code review                   | critical-partner        | {model}/skills/critical-partner/SKILL.md        |
-| Coding standards              | conventions             | {model}/skills/conventions/SKILL.md             |
-| UI/UX design, flows, visual   | interface-design        | {model}/skills/interface-design/SKILL.md        |
-| Frontend development workflow | frontend-dev            | {model}/skills/frontend-dev/SKILL.md            |
+| Trigger                       | Skill                   |
+| ----------------------------- | ----------------------- |
+| TypeScript types/interfaces   | typescript              |
+| JavaScript (ES2020+)          | javascript              |
+| Astro pages/components        | astro                   |
+| Vite build config             | vite                    |
+| Tailwind utility classes      | tailwindcss             |
+| React client islands          | react                   |
+| Semantic HTML                 | html                    |
+| Accessibility                 | a11y                    |
+| Commit messages, PRs, docs    | technical-communication |
+| Code review                   | critical-partner        |
+| Coding standards              | conventions             |
+| UI/UX design, flows, visual   | interface-design        |
+| Frontend development workflow | frontend-dev            |
 
 ## Project Structure & Skills Storage
 

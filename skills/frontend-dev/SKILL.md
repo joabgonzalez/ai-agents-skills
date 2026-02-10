@@ -6,7 +6,6 @@ metadata:
   version: "1.0"
   type: "behavioral-technical"
   skills:
-    - conventions
     - typescript
     - react
     - architecture-patterns

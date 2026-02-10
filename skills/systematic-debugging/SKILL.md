@@ -186,4 +186,3 @@ After finding root cause?
 - [debugging-strategies.md](references/debugging-strategies.md) — Detailed debugging techniques per technology
 - [common-mistakes.md](references/common-mistakes.md) — Common error patterns and their causes
 - [critical-partner](../critical-partner/SKILL.md) — For reviewing fix quality
-- [process-documentation](../process-documentation/SKILL.md) — For documenting root cause analysis

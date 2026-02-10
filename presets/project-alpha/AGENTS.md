@@ -47,11 +47,11 @@ Replace `{model}` with your coding agent:
 
 ### Step 3: Read Dependencies
 
-Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
+Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each direct dependency before proceeding.
 
-**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+**Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-You must read all 6 skills.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
 
@@ -65,33 +65,32 @@ You must read all 6 skills.
 
 1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
-3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
-4. **Read dependencies:**
-   - `.{model}/skills/conventions/SKILL.md`
-   - `.{model}/skills/javascript/SKILL.md`
+3. **Check frontmatter** → Dependencies: `javascript`
+4. **Read dependency:**
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Skills Reference
 
-**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
+**Path format:** `.{model}/skills/{skill-name}/SKILL.md` (see Step 2 above)
 
-| Trigger                       | Skill                   | Relative Path                                   |
-| ----------------------------- | ----------------------- | ----------------------------------------------- |
-| TypeScript types/interfaces   | typescript              | {model}/skills/typescript/SKILL.md              |
-| JavaScript (ES2020+)          | javascript              | {model}/skills/javascript/SKILL.md              |
-| React components/hooks        | react                   | {model}/skills/react/SKILL.md                   |
-| Webpack build config          | webpack                 | {model}/skills/webpack/SKILL.md                 |
-| Redux state / RTK Query       | redux-toolkit           | {model}/skills/redux-toolkit/SKILL.md           |
-| MUI components/theming        | mui                     | {model}/skills/mui/SKILL.md                     |
-| AG Grid tables                | ag-grid                 | {model}/skills/ag-grid/SKILL.md                 |
-| Forms, validation schemas     | form-validation         | {model}/skills/form-validation/SKILL.md         |
-| Commit messages, PRs, docs    | technical-communication | {model}/skills/technical-communication/SKILL.md |
-| Code review                   | critical-partner        | {model}/skills/critical-partner/SKILL.md        |
-| Semantic HTML                 | html                    | {model}/skills/html/SKILL.md                    |
-| Accessibility                 | a11y                    | {model}/skills/a11y/SKILL.md                    |
-| Coding standards              | conventions             | {model}/skills/conventions/SKILL.md             |
-| UI/UX design, flows           | interface-design        | {model}/skills/interface-design/SKILL.md        |
-| Frontend development workflow | frontend-dev            | {model}/skills/frontend-dev/SKILL.md            |
+| Trigger                       | Skill                   |
+| ----------------------------- | ----------------------- |
+| TypeScript types/interfaces   | typescript              |
+| JavaScript (ES2020+)          | javascript              |
+| React components/hooks        | react                   |
+| Webpack build config          | webpack                 |
+| Redux state / RTK Query       | redux-toolkit           |
+| MUI components/theming        | mui                     |
+| AG Grid tables                | ag-grid                 |
+| Forms, validation schemas     | form-validation         |
+| Commit messages, PRs, docs    | technical-communication |
+| Code review                   | critical-partner        |
+| Semantic HTML                 | html                    |
+| Accessibility                 | a11y                    |
+| Coding standards              | conventions             |
+| UI/UX design, flows           | interface-design        |
+| Frontend development workflow | frontend-dev            |
 
 ## Project Structure & Skills Storage
 
