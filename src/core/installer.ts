@@ -41,7 +41,7 @@ interface InstallTransaction {
 
 /**
  * Installer - Handle skill installation with rollback support
- * No registry needed - just install/uninstall files (Vercel Skills style)
+ * No registry needed - just install/uninstall files
  */
 export class Installer {
   private baseDir: string;
