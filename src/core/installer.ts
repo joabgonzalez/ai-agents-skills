@@ -300,88 +300,89 @@ export class Installer {
     ensureDir(modelDir);
     ensureDir(path.join(modelDir, 'skills'));
 
-    // Copy model-specific instruction template
-    await this.copyModelInstructions(model.name, modelDir, basePath);
+    // Note: Instruction templates are no longer used
+    // await this.copyModelInstructions(model.name, modelDir, basePath);
 
     logger.success(`Setup model directory: ${model.directory}`);
   }
 
   /**
+   * DEPRECATED: Instruction templates are no longer used
    * Copy model-specific instruction templates
    * Replaces {{SKILLS_LIST}} and {{TIMESTAMP}} placeholders
    */
-  private async copyModelInstructions(
-    modelName: string,
-    modelDir: string,
-    baseDir: string
-  ): Promise<void> {
-    // Map model names to their instruction file destinations
-    const instructionMapping: Record<string, { source: string; dest: string }> = {
-      'github-copilot': {
-        source: 'copilot-instructions.md',
-        dest: path.join(modelDir, 'copilot-instructions.md'),
-      },
-      copilot: {
-        source: 'copilot-instructions.md',
-        dest: path.join(modelDir, 'copilot-instructions.md'),
-      },
-      claude: {
-        source: 'claude-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-      codex: {
-        source: 'codex-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-      gemini: {
-        source: 'gemini-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-      cursor: {
-        source: 'cursor-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-    };
+  // private async copyModelInstructions(
+  //   modelName: string,
+  //   modelDir: string,
+  //   baseDir: string
+  // ): Promise<void> {
+  //   // Map model names to their instruction file destinations
+  //   const instructionMapping: Record<string, { source: string; dest: string }> = {
+  //     'github-copilot': {
+  //       source: 'copilot-instructions.md',
+  //       dest: path.join(modelDir, 'copilot-instructions.md'),
+  //     },
+  //     copilot: {
+  //       source: 'copilot-instructions.md',
+  //       dest: path.join(modelDir, 'copilot-instructions.md'),
+  //     },
+  //     claude: {
+  //       source: 'claude-instructions.md',
+  //       dest: path.join(modelDir, 'instructions.md'),
+  //     },
+  //     codex: {
+  //       source: 'codex-instructions.md',
+  //       dest: path.join(modelDir, 'instructions.md'),
+  //     },
+  //     gemini: {
+  //       source: 'gemini-instructions.md',
+  //       dest: path.join(modelDir, 'instructions.md'),
+  //     },
+  //     cursor: {
+  //       source: 'cursor-instructions.md',
+  //       dest: path.join(modelDir, 'instructions.md'),
+  //     },
+  //   };
 
-    const mapping = instructionMapping[modelName.toLowerCase()];
-    if (!mapping) {
-      logger.warn(`No instruction template defined for model: ${modelName}`);
-      return;
-    }
+  //   const mapping = instructionMapping[modelName.toLowerCase()];
+  //   if (!mapping) {
+  //     logger.warn(`No instruction template defined for model: ${modelName}`);
+  //     return;
+  //   }
 
-    const templatePath = path.join(baseDir, TEMPLATES_DIR, mapping.source);
+  //   const templatePath = path.join(baseDir, TEMPLATES_DIR, mapping.source);
 
-    if (!exists(templatePath)) {
-      logger.warn(`Template not found: ${templatePath}`);
-      return;
-    }
+  //   if (!exists(templatePath)) {
+  //     logger.warn(`Template not found: ${templatePath}`);
+  //     return;
+  //   }
 
-    try {
-      // Read template
-      let content = fs.readFileSync(templatePath, 'utf-8');
+  //   try {
+  //     // Read template
+  //     let content = fs.readFileSync(templatePath, 'utf-8');
 
-      // Count skills
-      const skillsDir = path.join(baseDir, 'skills');
-      const skills = fs.readdirSync(skillsDir).filter((file) => {
-        const fullPath = path.join(skillsDir, file);
-        return fs.statSync(fullPath).isDirectory();
-      });
+  //     // Count skills
+  //     const skillsDir = path.join(baseDir, 'skills');
+  //     const skills = fs.readdirSync(skillsDir).filter((file) => {
+  //       const fullPath = path.join(skillsDir, file);
+  //       return fs.statSync(fullPath).isDirectory();
+  //     });
 
-      // Replace placeholders
-      content = content.replace(/\{\{SKILL_COUNT\}\}/g, skills.length.toString());
+  //     // Replace placeholders
+  //     content = content.replace(/\{\{SKILL_COUNT\}\}/g, skills.length.toString());
 
-      // Write processed content
-      fs.writeFileSync(mapping.dest, content, 'utf-8');
+  //     // Write processed content
+  //     fs.writeFileSync(mapping.dest, content, 'utf-8');
 
-      logger.debug(
-        `Generated instructions: ${mapping.source} → ${mapping.dest} (${skills.length} skills)`
-      );
-    } catch (error) {
-      logger.error(
-        `Failed to generate instructions: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
-  }
+  //     logger.debug(
+  //       `Generated instructions: ${mapping.source} → ${mapping.dest} (${skills.length} skills)`
+  //     );
+  //   } catch (error) {
+  //     logger.error(
+  //       `Failed to generate instructions: ${error instanceof Error ? error.message : String(error)}`
+  //     );
+  //   }
+  // }
 
   /**
    * Clear transactions

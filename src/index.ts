@@ -37,6 +37,7 @@ program
     'Models to install (comma-separated, e.g., "copilot,claude,cursor")'
   )
   .option('-s, --skills <skills>', 'Specific skills to install (comma-separated)')
+  .option('-i, --interactive', 'Interactive mode to add/remove skills', false)
   .option('-d, --dry-run', 'Dry run without making changes', false)
   .action(localCommand);
 

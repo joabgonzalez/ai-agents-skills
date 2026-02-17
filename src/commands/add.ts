@@ -88,8 +88,8 @@ export async function addCommand(source: string, options: AddOptions) {
     const choice = await p.select({
       message: 'What would you like to install?',
       options: [
-        { value: 'preset', label: 'Project Starter Preset (AGENTS.md + skills bundle)' },
         { value: 'skills', label: 'Skills' },
+        { value: 'preset', label: 'Project Starter Preset (AGENTS.md + skills bundle)' },
       ],
     });
 
@@ -133,14 +133,28 @@ export async function addCommand(source: string, options: AddOptions) {
       // Detect already installed skills
       const installedSkills = projectDetector.getInstalledSkills(project.rootPath);
 
+      // Show installed skills in a compact format
+      if (installedSkills.length > 0) {
+        p.log.info(`Already installed: ${color.dim(installedSkills.join(', '))}`);
+        console.log();
+      }
+
+      // Filter to show only not installed skills
+      const notInstalledSkills = availableSkills.filter(
+        (skill) => !installedSkills.includes(skill),
+      );
+
+      if (notInstalledSkills.length === 0) {
+        p.cancel('All available skills are already installed');
+        process.exit(0);
+      }
+
       const selected = await p.multiselect({
-        message: 'Select skills to install:',
-        options: availableSkills.map((skill) => ({
+        message: `Select skills to install (${notInstalledSkills.length} available):`,
+        options: notInstalledSkills.map((skill) => ({
           value: skill,
           label: skill,
-          hint: installedSkills.includes(skill) ? color.green('installed') : '',
         })),
-        initialValues: installedSkills.length > 0 ? installedSkills : [],
         required: true,
       });
 
