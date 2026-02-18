@@ -4,13 +4,12 @@ description: "Structured planning, ideation, and decision-making for software pr
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - conventions
+  type: behavioral
 ---
 
 # Brainstorming
 
-Structured approach to planning, ideation, problem decomposition, and trade-off analysis for software projects. Produces actionable decisions with documented rationale.
+Planning, ideation, problem decomposition, and trade-off analysis for software projects. Produces actionable decisions with documented rationale.
 
 ## When to Use
 
@@ -158,13 +157,13 @@ Need to record an important decision?
 
 ## Edge Cases
 
-**Analysis paralysis**: If more than 4 alternatives, filter to top 3 using constraints. Bias toward action.
+**Analysis paralysis**: If >4 alternatives, filter to top 3 using constraints. Bias toward action.
 
-**Unknown requirements**: Flag assumptions explicitly. Propose "spike" tasks to validate assumptions before committing.
+**Unknown requirements**: Flag assumptions explicitly. Propose "spike" tasks to validate before committing.
 
 **Competing priorities**: Use weighted trade-off matrix. Ask user to rank priorities (performance vs speed vs maintainability).
 
-**Reversible vs irreversible decisions**: For reversible decisions (can change later), bias toward the faster option. For irreversible (database schema, public API), invest more in analysis.
+**Reversible vs irreversible decisions**: For reversible (can change later), bias toward faster option. For irreversible (database schema, public API), invest more in analysis.
 
 ---
 

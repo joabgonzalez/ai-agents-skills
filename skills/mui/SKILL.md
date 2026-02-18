@@ -4,10 +4,9 @@ description: "Material UI components with theming and sx prop. Trigger: When usi
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: library
   skills:
-    - a11y
     - react
-    - typescript
   dependencies:
     "@mui/material": ">=5.0.0 <6.0.0"
     "@mui/x-charts": ">=6.0.0 <8.0.0"  # Optional - only for data visualization
@@ -16,34 +15,20 @@ metadata:
 
 # MUI (Material UI) Skill
 
-## Overview
+Material UI for React with theming, sx prop, and accessibility patterns for v5+.
 
-Best practices for using Material UI components in React applications with proper theming, customization, and accessibility.
+## When to Use
 
-## Objective
+- MUI components (Button, Box, Grid, etc.)
+- MUI theming and customization
+- Accessible Material Design UIs
+- MUI X components (DataGrid, Charts)
 
-Enable developers to build consistent, accessible UIs using MUI components with proper theme configuration and customization patterns.
+Don't use for:
+- Non-MUI React (use react skill)
+- Vanilla CSS (use css skill)
 
 ---
-
-## Extended Mandatory Read Protocol
-
-This skill uses the **Extended Mandatory Read Protocol** for complex MUI patterns (40+ patterns total).
-
-### Reading Strategy
-
-1. **ALWAYS read**: This main SKILL.md (covers 80% of common MUI cases)
-2. **Read references/ when**:
-   - Decision Tree indicates "**MUST read** {reference}"
-   - Quick Reference Table marks it "Required Reading: ✅"
-   - Critical Pattern says "**[CRITICAL] See** {reference} for..."
-   - Working with advanced MUI features (DataGrid, complex forms, theming)
-
-### When to Read References
-
-| Situation                             | Read SKILL.md | Read references/ | Which References                    |
-| ------------------------------------- | ------------- | ---------------- | ----------------------------------- |
-| Basic MUI components (Button, Box)    | ✅ Yes        | ❌ No            | SKILL.md covers all needed patterns |
 | Component library patterns            | ✅ Yes        | ✅ Yes           | components.md (required)            |
 | Theme customization / dark mode       | ✅ Yes        | ✅ Yes           | theming.md (required)               |
 | Advanced styling (sx, styled API)     | ✅ Yes        | ✅ Yes           | customization.md (required)         |
@@ -68,33 +53,31 @@ All reference files located in `skills/mui/references/`:
 - **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
 - **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
 
-### Example: Theme Customization Task
+### Example: Theme Task
 
 ```
-1. User: "Set up dark mode with custom palette"
-2. Read: skills/mui/SKILL.md (this file)
-3. Check Decision Tree: "Dark mode? → MUST read theming.md"
-4. Read: skills/mui/references/theming.md (REQUIRED)
-5. Execute: Implement dark mode with createTheme and ThemeProvider
+1. User: "Dark mode with custom palette"
+2. Read: SKILL.md
+3. Decision Tree: "Dark mode? → theming.md"
+4. Read: theming.md
+5. Execute: createTheme + ThemeProvider
 ```
 
 ---
 
-## When to Use
+Use when:
 
-Use this skill when:
+- Building with MUI components
+- MUI theming and design systems
+- sx prop or styled API customization
+- Consistent spacing/typography/colors
+- MUI + React integration
 
-- Building UI with Material-UI components
-- Implementing MUI theming and design system
-- Customizing MUI components with sx prop or styled API
-- Creating consistent spacing, typography, and color systems
-- Integrating MUI with React applications
+Don't use for:
 
-Don't use this skill for:
-
-- Tailwind CSS styling (use tailwindcss skill)
+- Tailwind CSS (use tailwindcss skill)
 - Plain CSS/HTML (use css/html skills)
-- Custom component libraries (use react skill)
+- Custom libraries (use react skill)
 
 ---
 
@@ -212,38 +195,38 @@ const theme = createTheme({
 
 ## Edge Cases
 
-**Theme nesting:** Nested ThemeProviders merge themes. Use this for component-specific overrides.
+**Theme nesting:** Nested ThemeProviders merge; use for component overrides.
 
-**SSR styling:** Use `@mui/material/styles` ServerStyleSheets for server-side rendering to prevent FOUC.
+**SSR styling:** Use ServerStyleSheets to prevent FOUC.
 
-**Custom breakpoints:** Define in theme: `createTheme({ breakpoints: { values: { mobile: 0, tablet: 640, desktop: 1024 } } })`.
+**Custom breakpoints:** `createTheme({ breakpoints: { values: { mobile: 0, tablet: 640 } } })`.
 
-**sx prop performance:** For frequently re-rendered components, use `styled()` instead of sx to avoid inline style recalculation.
+**sx performance:** Frequent re-renders → use `styled()` over sx.
 
-**Icon size inconsistency:** Use `fontSize` prop: `<Icon fontSize="small" />` for consistent sizing.
+**Icon sizing:** Use `fontSize` prop for consistency.
 
 ---
 
-## MUI X Charts (Optional - Context-Aware)
+## MUI X Charts (Context-Aware)
 
-> Data visualization with MUI X Charts - **ONLY when context requires charts**
+> Use **ONLY when context requires charts**
 
-### ✅ REQUIRED [CRITICAL]: Check Context First
+### Check Context First
 
-**ALWAYS verify if charts are needed before suggesting MUI X Charts:**
+Verify charts needed:
 
 ```typescript
-// Step 1: Check AGENTS.md for data visualization requirements
-// Step 2: Check package.json for @mui/x-charts installation
-// Step 3: Check task context for "chart", "graph", "visualization" keywords
+// 1. Check AGENTS.md for viz requirements
+// 2. Check package.json for @mui/x-charts
+// 3. Check task for "chart"/"graph"/"viz"
 
-// ✅ CORRECT: Context-aware
-// Task: "Display revenue as line chart" → Use MUI X Charts
-// Task: "Create a dashboard with KPIs" + package has @mui/x-charts → Use MUI X Charts
+// ✅ CORRECT
+// "Display revenue chart" → Use Charts
+// "Dashboard with KPIs" + has @mui/x-charts → Use Charts
 
-// ❌ WRONG: Suggest charts when not needed
-// Task: "Build settings page" → DON'T suggest charts
-// Task: "Create user profile" → DON'T suggest charts
+// ❌ WRONG
+// "Settings page" → NO charts
+// "User profile" → NO charts
 ```
 
 **Dependencies** (only if charts needed):
@@ -253,18 +236,18 @@ const theme = createTheme({
 }
 ```
 
-### When to Use MUI X Charts
+### When to Use
 
-**Use when:**
-- Task explicitly mentions "chart", "graph", "visualization", "plot"
-- AGENTS.md lists data visualization as requirement
-- Package.json has @mui/x-charts installed
-- Creating dashboards with visual metrics
+Use when:
+- Task mentions "chart"/"graph"/"viz"/"plot"
+- AGENTS.md lists viz requirement
+- package.json has @mui/x-charts
+- Dashboards with visual metrics
 
-**DON'T use when:**
-- Building forms, settings, profiles, authentication pages
-- Simple data display (use Table instead)
-- No explicit visualization requirement
+Don't use for:
+- Forms/settings/profiles/auth
+- Simple data (use Table)
+- No viz requirement
 
 ### Critical Chart Patterns
 
@@ -333,14 +316,11 @@ function RevenueChart() {
 
 ### Edge Cases
 
-**Empty data:** Show placeholder message instead of empty chart
+**Empty data:** Show placeholder, not empty chart
 
-**Large datasets:** Aggregate or sample data for performance
+**Large datasets:** Aggregate/sample for performance
 
-**Accessibility:** Provide table alternative for screen readers
-
-**MUI X Charts References:**
-- [MUI X Charts Documentation](https://mui.com/x/react-charts/)
+**Accessibility:** Provide table for screen readers
 
 ---
 

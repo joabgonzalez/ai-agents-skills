@@ -26,8 +26,6 @@
 
 ## client:load (Immediate)
 
-### ✅ When to Use
-
 - Critical UI components
 - Above-the-fold interactivity
 - Components users immediately interact with
@@ -48,8 +46,6 @@ import SearchBar from '../components/SearchBar';
 ---
 
 ## client:visible (Lazy Load)
-
-### ✅ When to Use
 
 - Below-the-fold components
 - Content that appears on scroll
@@ -79,8 +75,6 @@ import RelatedPosts from '../components/RelatedPosts';
 
 ## client:idle (Low Priority)
 
-### ✅ When to Use
-
 - Non-critical features
 - Analytics, tracking
 - Features users may not use immediately
@@ -104,8 +98,6 @@ import SocialShare from '../components/SocialShare';
 
 ## client:media (Responsive)
 
-### ✅ When to Use
-
 - Mobile vs desktop components
 - Conditional features based on screen size
 
@@ -125,8 +117,6 @@ import DesktopNav from '../components/DesktopNav';
 ---
 
 ## client:only (Client-Side Rendering)
-
-### ✅ When to Use
 
 - Components using browser-only APIs (window, document)
 - Third-party widgets (Google Maps, Stripe)
@@ -149,8 +139,6 @@ import StripeCheckout from '../components/StripeCheckout';
 
 ## No Directive (Static)
 
-### ✅ When to Use
-
 - Static content (headers, footers, text)
 - Components without interactivity
 - Pure presentation components
@@ -169,7 +157,7 @@ import Footer from '../components/Footer.astro';
 <Footer />
 ```
 
-**Benefit:** Zero JavaScript, fastest performance, best for static content.
+**Benefit:** Zero JavaScript, fastest performance.
 
 ---
 
@@ -250,7 +238,7 @@ import Counter from '../components/Counter'; // 5KB component
 
 ## Common Patterns
 
-### ✅ Progressive Enhancement
+### Progressive Enhancement
 
 ```astro
 ---
@@ -261,7 +249,7 @@ import Accordion from '../components/Accordion';
 <Accordion client:visible />
 ```
 
-### ✅ Critical + Non-Critical
+### Critical + Non-Critical
 
 ```astro
 <!-- Critical: Nav must work immediately -->
@@ -271,7 +259,7 @@ import Accordion from '../components/Accordion';
 <ChatWidget client:idle />
 ```
 
-### ✅ Conditional Rendering
+### Conditional Rendering
 
 ```astro
 ---

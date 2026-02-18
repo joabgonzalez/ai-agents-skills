@@ -4,8 +4,7 @@ description: "Evidence-based verification with gate function. Trigger: When veri
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - conventions
+  type: behavioral
 ---
 
 # Verification Protocol
@@ -218,11 +217,11 @@ Verification blocked (environment issue)?
 
 ## Edge Cases
 
-**Flaky tests**: If test fails intermittently, run 3 times. If passes 3/3, consider stable. If fails 1+/3, investigate root cause.
+**Flaky tests**: If fails intermittently, run 3 times. If passes 3/3, consider stable. If fails 1+/3, investigate root cause.
 
 **Slow verification** (>5 min): Note duration. Example: "Ran E2E suite (8 min) → 12/12 passed ✅".
 
-**Manual verification**: When automation not available, document manual steps explicitly.
+**Manual verification**: When automation unavailable, document manual steps explicitly.
 ```markdown
 1. IDENTIFY: Registration form accepts valid input
 2. RUN: Manually open http://localhost:3000/register

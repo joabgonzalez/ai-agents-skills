@@ -4,8 +4,7 @@ description: "Executable plans with granular tasks and file precision. Trigger: 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - brainstorming
+  type: behavioral
 ---
 
 # Writing Plans
@@ -232,9 +231,9 @@ Plan has >20 tasks?
 
 ## Edge Cases
 
-**Very small changes (<2 min)**: Group multiple small changes into single task. Example: "Update 3 import statements across files (2 min)".
+**Very small changes (<2 min)**: Group multiple small changes into single task. Example: "Update 3 import statements (2 min)".
 
-**Very large features (50+ tasks)**: Break into phases with clear milestones. Each phase is a separate plan.
+**Very large features (50+ tasks)**: Break into phases with clear milestones. Each phase is separate plan.
 
 **Refactoring (hard to estimate)**: Add time buffer. Mark as "3-5 min (refactoring)" to signal uncertainty.
 

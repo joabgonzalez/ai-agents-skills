@@ -4,54 +4,25 @@ description: "Backend development workflow with API design and data modeling. Tr
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: "behavioral-technical"
+  type: universal
   skills:
-    - typescript
-    - nodejs
     - architecture-patterns
 ---
 
 # Backend Development Skill
 
-## Overview
-
-This skill provides universal patterns for back-end development workflow, focusing on API design, data modeling, error handling, and deployment. It is technology-agnostic and emphasizes maintainability, scalability, and robustness.
+Universal backend workflow guiding API design, data modeling, error handling, and deployment. Technology-agnostic, orchestrates technical skills (nodejs, express, nest) without duplicating patterns.
 
 ## When to Use
 
 - Designing, building, or refactoring APIs
 - Modeling data and business logic
 - Preparing for deployment or CI/CD
-- Reviewing or improving code quality and structure
+- Reviewing code quality
 
-## Skill Type
-
-**backend-dev is a behavioral-technical skill** that guides HOW backend developers think and make architectural decisions, orchestrating technical skills without duplicating their patterns.
-
-### Key Characteristics
-
-- **Role-based thinking**: Embodies Backend Developer mindset and decision-making
-- **Orchestrates technical skills**: Delegates to nodejs, typescript, express, nest, hono
-- **NO code examples**: All code patterns live in technical skills
-- **Architectural guidance**: Provides decision trees for API design, data modeling, error handling
-
-### Related Behavioral Skills
-
-- [brainstorming](../brainstorming/SKILL.md) - Planning and ideation workflow
-- [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
-- [writing-plans](../writing-plans/SKILL.md) - Executable plan creation
-- [code-review](../code-review/SKILL.md) - Two-stage code review process
-
-### Orchestrated Technical Skills
-
-- [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
-- [typescript](../typescript/SKILL.md) - Type-safe backend development
-- [express](../express/SKILL.md) - Express.js framework patterns
-- [nest](../nest/SKILL.md) - NestJS framework patterns
-- [hono](../hono/SKILL.md) - Hono framework patterns
-- [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
-- [form-validation](../form-validation/SKILL.md) - Input validation with zod/yup
-- [unit-testing](../unit-testing/SKILL.md) - Unit testing patterns
+Don't use for:
+- Technology-specific code (use nodejs, express, nest skills)
+- Frontend development (use frontend-dev skill)
 
 ---
 

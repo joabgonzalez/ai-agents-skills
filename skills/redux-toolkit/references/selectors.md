@@ -17,14 +17,13 @@
 ### ✅ Simple State Selection
 
 ```typescript
-// ✅ Simple selector (inline)
+// Inline selector
 const count = useAppSelector((state) => state.counter.value);
 
-// ✅ Named selector (reusable)
+// Named selector (reusable)
 export const selectCount = (state: RootState) => state.counter.value;
 export const selectStatus = (state: RootState) => state.counter.status;
 
-// Usage:
 const count = useAppSelector(selectCount);
 ```
 
@@ -37,11 +36,10 @@ const count = useAppSelector(selectCount);
 ```typescript
 import { createSelector } from "@reduxjs/toolkit";
 
-// Input selectors
 const selectTodos = (state: RootState) => state.todos;
 const selectFilter = (state: RootState) => state.filter;
 
-// ✅ Memoized selector (only recomputes when inputs change)
+// Memoized selector (only recomputes when inputs change)
 export const selectFilteredTodos = createSelector(
   [selectTodos, selectFilter],
   (todos, filter) => {
@@ -80,24 +78,20 @@ const filteredTodos = useAppSelector(selectFilteredTodos);
 ### ✅ Building Complex Selectors
 
 ```typescript
-// Base selectors
 const selectUsers = (state: RootState) => state.users;
 const selectPosts = (state: RootState) => state.posts;
 const selectCurrentUserId = (state: RootState) => state.auth.userId;
 
-// ✅ Composed selector
 export const selectCurrentUser = createSelector(
   [selectUsers, selectCurrentUserId],
   (users, userId) => users[userId],
 );
 
-// ✅ Further composition
 export const selectCurrentUserPosts = createSelector(
   [selectPosts, selectCurrentUserId],
   (posts, userId) => Object.values(posts).filter((p) => p.authorId === userId),
 );
 
-// ✅ Combining multiple selectors
 export const selectUserWithPosts = createSelector(
   [selectCurrentUser, selectCurrentUserPosts],
   (user, posts) => ({
@@ -142,7 +136,6 @@ export const selectUserById = createSelector(
   (users, userId) => users[userId],
 );
 
-// Usage:
 const user = useAppSelector((state) => selectUserById(state, "123"));
 ```
 
@@ -153,9 +146,8 @@ const user = useAppSelector((state) => selectUserById(state, "123"));
 ### ✅ Per-Component Memoization
 
 ```typescript
-// TodoListItem.tsx
 const TodoListItem = ({ todoId }: { todoId: string }) => {
-  // ✅ Each component instance has own memoized selector
+  // Each component instance has own memoized selector
   const selectTodo = useMemo(
     () =>
       createSelector(
@@ -225,10 +217,10 @@ export const selectSearchResults = createSelector(
 ```typescript
 import { RootState } from "./store";
 
-// ✅ Explicit return type
+// Explicit return type
 export const selectUser = (state: RootState): User | null => state.user.data;
 
-// ✅ Type inference with createSelector
+// Type inference with createSelector
 export const selectUserName = createSelector(
   [selectUser],
   (user) => user?.name ?? "Guest",
@@ -246,7 +238,6 @@ function createEntitySelector<T>(entityKey: keyof RootState) {
   );
 }
 
-// Usage:
 const selectUsers = createEntitySelector<User>("users");
 ```
 
@@ -259,7 +250,7 @@ const selectUsers = createEntitySelector<User>("users");
 ```typescript
 import { shallowEqual } from "react-redux";
 
-// ✅ Prevent re-render if object properties are same
+// Prevent re-render if object properties are same
 const { name, email } = useAppSelector(
   (state) => ({
     name: state.user.name,
@@ -358,13 +349,13 @@ export const selectPostsByCategory = createSelector([selectPosts], (posts) =>
 
 ## Best Practices
 
-1. **Use createSelector** - Always for derived/computed state
-2. **Compose selectors** - Build complex selectors from simple ones
-3. **Keep selectors pure** - No side effects, deterministic output
-4. **Memoize expensive operations** - Filtering, sorting, transforming large arrays
-5. **Select granularly** - Only select data you need to minimize re-renders
-6. **Use factories for parameters** - Create selector instances per component when needed
-7. **Type selectors** - Use TypeScript for type-safe selection
+1. **Use createSelector** — Always for derived/computed state
+2. **Compose selectors** — Build complex selectors from simple ones
+3. **Keep selectors pure** — No side effects, deterministic output
+4. **Memoize expensive operations** — Filtering, sorting, transforming large arrays
+5. **Select granularly** — Only select data you need to minimize re-renders
+6. **Use factories for parameters** — Create selector instances per component when needed
+7. **Type selectors** — Use TypeScript for type-safe selection
 
 ---
 
@@ -374,7 +365,7 @@ export const selectPostsByCategory = createSelector([selectPosts], (posts) =>
 
 **Array/object identity:** createSelector returns same reference unless inputs change. Safe for React.memo.
 
-**Multiple calls:** Calling same selector multiple times with different args creates separate cache entries.
+**Multiple calls:** Calling same selector with different args creates separate cache entries.
 
 **Resetting cache:** Selectors created with `createSelector` have `.clearCache()` method.
 

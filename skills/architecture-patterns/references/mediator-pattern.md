@@ -1,20 +1,6 @@
 # Mediator Pattern
 
-> Centralize complex communication and coordination between components through a mediator object.
-
-## Overview
-
-Mediator pattern reduces coupling between components by having them communicate through a central mediator instead of directly referencing each other.
-
-**Problem**: Components tightly coupled through direct references.  
-**Solution**: Components send messages to mediator; mediator coordinates responses.
-
-**Benefits**:
-
-- Reduced coupling
-- Easier to understand communication flow
-- Centralized coordination logic
-- Components reusable independently
+Reduces component coupling by centralizing communication through a mediator instead of direct references. Components send messages to mediator, which coordinates responses—reducing coupling, centralizing coordination logic, and making components independently reusable.
 
 ---
 
@@ -57,17 +43,14 @@ Problem: Button and TextField know about Dialog. Hard to reuse.
 ```typescript
 // ✅ CORRECT: Mediator pattern
 
-// Mediator interface
 interface IMediator {
   notify(sender: Component, event: string): void;
 }
 
-// Base component
 abstract class Component {
   constructor(protected mediator: IMediator) {}
 }
 
-// Concrete components
 class Button extends Component {
   click(): void {
     this.mediator.notify(this, "button_clicked");
@@ -80,7 +63,6 @@ class TextField extends Component {
   }
 }
 
-// Concrete mediator
 class FormMediator implements IMediator {
   constructor(
     private button: Button,
@@ -119,7 +101,7 @@ button.click(); // Mediator handles coordination
 ### Example 1: Order Processing
 
 ```typescript
-// Order processing involves multiple services
+// Order processing involving multiple services
 interface IOrderMediator {
   notifyOrderPlaced(orderId: string): Promise<void>;
   notifyPaymentReceived(orderId: string): Promise<void>;
@@ -138,7 +120,6 @@ class OrderProcessingMediator implements IOrderMediator {
     const order = await this.orderRepo.findById(orderId);
     if (!order) return;
 
-    // Coordinate multiple services
     await this.inventoryService.reserveItems(order.items);
     await this.emailService.sendOrderConfirmation(order.customerId, orderId);
   }
@@ -150,7 +131,6 @@ class OrderProcessingMediator implements IOrderMediator {
     order.markAsPaid();
     await this.orderRepo.save(order);
 
-    // Trigger next step
     await this.shippingService.createShipment(orderId);
     await this.emailService.sendPaymentConfirmation(order.customerId, orderId);
   }
@@ -171,7 +151,7 @@ class OrderService {
 
   async placeOrder(order: Order): Promise<void> {
     await this.orderRepo.save(order);
-    await this.mediator.notifyOrderPlaced(order.id); // Mediator coordinates
+    await this.mediator.notifyOrderPlaced(order.id);
   }
 }
 
@@ -180,7 +160,7 @@ class PaymentService {
 
   async processPayment(orderId: string, token: string): Promise<void> {
     // Process payment...
-    await this.mediator.notifyPaymentReceived(orderId); // Mediator coordinates
+    await this.mediator.notifyPaymentReceived(orderId);
   }
 }
 ```
@@ -207,14 +187,13 @@ class EventBus {
   }
 }
 
-// Services communicate through event bus (mediator)
+// Services communicate through event bus
 class OrderService {
   constructor(private eventBus: EventBus) {}
 
   async placeOrder(order: Order): Promise<void> {
     await this.orderRepo.save(order);
 
-    // Publish event instead of calling services directly
     await this.eventBus.publish("order.placed", {
       orderId: order.id,
       customerId: order.customerId,
@@ -225,7 +204,6 @@ class OrderService {
 
 class InventoryService {
   constructor(eventBus: EventBus) {
-    // Subscribe to events (decoupled from OrderService)
     eventBus.subscribe("order.placed", this.handleOrderPlaced.bind(this));
   }
 
@@ -263,7 +241,6 @@ await orderService.placeOrder(order); // Event bus coordinates
 ```typescript
 // Redux middleware acts as mediator between actions
 const analyticsMiddleware: Middleware = (store) => (next) => (action) => {
-  // Coordinate side effects based on actions
   if (action.type === "user/login") {
     analytics.identify(action.payload.userId);
   } else if (action.type === "product/addToCart") {
@@ -280,7 +257,6 @@ const loggingMiddleware: Middleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-// Middleware coordinates responses to actions (mediator pattern)
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
@@ -306,7 +282,6 @@ class AppMediator implements IAppMediator {
   ) {}
 
   notifyUserAction(action: string, data?: any): void {
-    // Coordinate multiple services
     this.analytics.track(action, data);
     this.logger.log(`User action: ${action}`);
 
@@ -316,7 +291,6 @@ class AppMediator implements IAppMediator {
   }
 }
 
-// Context provides mediator
 const MediatorContext = createContext<IAppMediator | null>(null);
 
 export const MediatorProvider = ({ children }: Props) => {
@@ -339,7 +313,6 @@ export const useMediator = () => {
   return mediator;
 };
 
-// Components use mediator
 const CheckoutButton = () => {
   const mediator = useMediator();
 
@@ -359,7 +332,6 @@ const CheckoutButton = () => {
 Command Query Responsibility Segregation uses mediator to route commands and queries:
 
 ```typescript
-// Mediator for CQRS
 interface ICommand {}
 interface IQuery<T> {}
 
@@ -444,7 +416,7 @@ const order = await mediator.query(new GetOrderQuery("order-1"));
 
 - Multiple components need to coordinate
 - Complex component interactions
-- Want to decouple components
+- Decoupling components is required
 - Event-driven architecture
 - CQRS pattern
 

@@ -1,10 +1,6 @@
 # Sidecar Pattern
 
-> Deploy auxiliary services alongside main service in the same execution environment.
-
-## Overview
-
-The Sidecar pattern deploys helper services (logging, monitoring, proxying, security) alongside the main application, sharing the same lifecycle and resources. Common in container orchestration (Kubernetes, Docker Compose) for microservices.
+Deploys auxiliary services (logging, monitoring, proxying, security) alongside main application, sharing lifecycle and resources. Common in container orchestration for microservices.
 
 ---
 
@@ -220,20 +216,20 @@ Resource constraints?
 
 ## Advantages
 
-- **Decouples** auxiliary functionality from main service code
-- **Shares resources** (network, storage) without code coupling
-- **Independent deployment** and scaling of sidecars
-- **Technology-agnostic** (sidecar can use different language/runtime)
-- **Reusable** across multiple services (same sidecar image)
-- **Consistent** cross-cutting concerns across all services
+- Decouples auxiliary functionality from main service code
+- Shares resources (network, storage) without code coupling
+- Independent deployment and scaling of sidecars
+- Technology-agnostic (sidecar can use different language/runtime)
+- Reusable across services (same sidecar image)
+- Consistent cross-cutting concerns across all services
 
 ## Disadvantages
 
-- **Increased resource consumption** (each sidecar uses CPU/memory)
-- **More complex orchestration** (more containers to manage)
-- **Potential resource contention** (shared CPU/memory limits)
-- **Network latency** (inter-container communication, though minimal)
-- **Debugging complexity** (more moving parts to troubleshoot)
+- Increased resource consumption (each sidecar uses CPU/memory)
+- More complex orchestration (more containers to manage)
+- Potential resource contention (shared CPU/memory limits)
+- Network latency (inter-container communication, though minimal)
+- Debugging complexity (more moving parts to troubleshoot)
 
 ---
 
@@ -241,7 +237,7 @@ Resource constraints?
 
 - Microservices architecture with shared cross-cutting concerns
 - Need to add functionality without modifying main service
-- Want consistent logging/monitoring across services
+- Consistent logging/monitoring across services
 - Service mesh deployment (Istio, Linkerd)
 - Need to proxy or filter traffic to/from service
 
@@ -249,7 +245,7 @@ Resource constraints?
 
 - Monolithic applications (use middleware instead)
 - Simple services without cross-cutting concerns
-- When resource overhead is unacceptable
+- Resource overhead is unacceptable
 - Serverless environments (Lambda, Cloud Functions)
 - Single-container deployments
 

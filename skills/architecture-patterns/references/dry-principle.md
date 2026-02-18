@@ -1,12 +1,6 @@
 # DRY Principle (Don't Repeat Yourself)
 
-> Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.
-
-## Overview
-
-DRY principle states that duplication of logic, configuration, or knowledge should be eliminated through abstraction or data normalization. It applies to code, data, configuration, and documentation.
-
-**Important:** DRY is about knowledge duplication, not code duplication. Two pieces of code that look similar but represent different concepts should NOT be merged.
+Duplication of logic, configuration, or knowledge should be eliminated through abstraction or data normalization. DRY is about knowledge duplication, not code duplication—similar code representing different concepts should NOT be merged.
 
 ---
 
@@ -103,7 +97,7 @@ app.use(errorHandler);
 // ❌ WRONG: Hardcoded values scattered across codebase
 // user.service.ts
 const MAX_LOGIN_ATTEMPTS = 5;
-const LOCKOUT_DURATION = 30 * 60 * 1000; // 30 minutes
+const LOCKOUT_DURATION = 30 * 60 * 1000;
 
 // auth.middleware.ts
 const MAX_LOGIN_ATTEMPTS = 5;  // ← DUPLICATED
@@ -268,14 +262,14 @@ function formatName(first: string, last: string, format: 'full' | 'short' | 'for
   }
 }
 
-// ✅ CORRECT: Simple inline code is fine when it's clear
+// ✅ CORRECT: Simple inline code is fine when clear
 const fullName = `${first} ${last}`;
 const formalName = `Mr./Ms. ${last}`;
 ```
 
 ### ❌ Single-Use Code (YAGNI)
 
-Don't extract utilities that are used once. Wait until you see the pattern repeated 3+ times.
+Don't extract utilities used once. Wait until the pattern repeats 3+ times.
 
 ```typescript
 // ❌ WRONG: Utility for one-time use

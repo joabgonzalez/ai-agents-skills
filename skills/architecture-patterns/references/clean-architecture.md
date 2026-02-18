@@ -1,19 +1,6 @@
 # Clean Architecture
 
-> Layer-based architecture with strict dependency rules: outer layers depend on inner layers, never the reverse.
-
-## Overview
-
-Clean Architecture organizes code into concentric circles (layers) where dependencies point inward. Inner layers contain business logic and are independent of frameworks, UI, databases, or external services.
-
-**Core principle**: Dependencies flow inward. Outer circles can depend on inner circles, but inner circles cannot depend on outer circles.
-
-**Layers** (from inside out):
-
-1. **Domain** (Entities) - Core business objects and rules
-2. **Application** (Use Cases) - Application-specific business rules
-3. **Infrastructure** (Adapters) - External interfaces (DB, API, UI)
-4. **Presentation** (Controllers/UI) - User interface
+Layer-based architecture organizing code into concentric circles where dependencies point inward. Inner layers contain business logic, independent of frameworks, UI, databases, or external services.
 
 ---
 
@@ -44,12 +31,10 @@ Dependencies: → → → (always point inward)
 
 **Contains**: Core business objects, business rules, domain logic.
 
-**Characteristics**:
-
 - No dependencies on other layers
 - No framework dependencies
 - Pure business logic
-- Can be reused across applications
+- Reusable across applications
 
 ```typescript
 // domain/entities/Order.ts
@@ -88,7 +73,6 @@ export class Order {
     this._status = "cancelled";
   }
 
-  // Domain validation
   validate(): ValidationResult {
     const errors: string[] = [];
 
@@ -127,22 +111,20 @@ export class OrderItem {
 
 **Contains**: Application-specific business rules, orchestration, use cases.
 
-**Characteristics**:
-
 - Orchestrates domain entities
 - Defines interfaces (ports) for infrastructure
 - No knowledge of UI or database specifics
 - Depends only on Domain layer
 
 ```typescript
-// application/ports/IOrderRepository.ts (Interface/Port)
+// application/ports/IOrderRepository.ts
 export interface IOrderRepository {
   findById(id: string): Promise<Order | null>;
   save(order: Order): Promise<void>;
   delete(id: string): Promise<void>;
 }
 
-// application/ports/IPaymentGateway.ts (Interface/Port)
+// application/ports/IPaymentGateway.ts
 export interface IPaymentGateway {
   charge(amount: number, token: string): Promise<PaymentResult>;
   refund(transactionId: string): Promise<void>;
@@ -173,7 +155,7 @@ export class PlaceOrderUseCase {
       return Result.fail(validation.errors.join(", "));
     }
 
-    // 3. Process payment (infrastructure dependency via port)
+    // 3. Process payment via port
     const paymentResult = await this.paymentGateway.charge(
       order.total,
       paymentToken,
@@ -185,10 +167,10 @@ export class PlaceOrderUseCase {
     // 4. Confirm order
     order.confirm();
 
-    // 5. Persist (infrastructure dependency via port)
+    // 5. Persist via port
     await this.orderRepository.save(order);
 
-    // 6. Send notification (side effect)
+    // 6. Send notification
     await this.emailService.sendOrderConfirmation(customerId, order);
 
     return Result.ok(order);
@@ -203,23 +185,18 @@ export class CancelOrderUseCase {
   ) {}
 
   async execute(orderId: string): Promise<Result<void>> {
-    // 1. Retrieve order
     const order = await this.orderRepository.findById(orderId);
     if (!order) {
       return Result.fail("Order not found");
     }
 
-    // 2. Business rule (in domain entity)
     try {
       order.cancel();
     } catch (error) {
       return Result.fail(error.message);
     }
 
-    // 3. Refund payment
     await this.paymentGateway.refund(orderId);
-
-    // 4. Update order
     await this.orderRepository.save(order);
 
     return Result.ok(undefined);
@@ -231,9 +208,7 @@ export class CancelOrderUseCase {
 
 ## Layer 3: Infrastructure (Adapters)
 
-**Contains**: Implementations of ports, database access, external services, frameworks.
-
-**Characteristics**:
+**Contains**: Port implementations, database access, external services, frameworks.
 
 - Implements interfaces defined in Application layer
 - Handles framework-specific code
@@ -251,13 +226,10 @@ export class PostgresOrderRepository implements IOrderRepository {
     });
 
     if (!row) return null;
-
-    // Map database row to domain entity
     return this.toDomain(row);
   }
 
   async save(order: Order): Promise<void> {
-    // Map domain entity to database model
     await this.db.order.upsert({
       where: { id: order.id },
       create: {
@@ -328,8 +300,6 @@ export class StripePaymentGateway implements IPaymentGateway {
 
 **Contains**: User interface, HTTP controllers, CLI, GraphQL resolvers.
 
-**Characteristics**:
-
 - Depends on all inner layers
 - Converts external requests to use case calls
 - Formats use case responses for external consumption
@@ -345,14 +315,12 @@ export class OrderController {
   async create(req: Request, res: Response): Promise<void> {
     const { customerId, items, paymentToken } = req.body;
 
-    // Call use case
     const result = await this.placeOrder.execute(
       customerId,
       items,
       paymentToken,
     );
 
-    // Format response
     if (result.isSuccess) {
       res.status(201).json({
         id: result.value.id,

@@ -4,13 +4,12 @@ description: "Unit testing patterns for frontend and backend. Trigger: When writ
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - jest
+  type: behavioral
 ---
 
 # Unit Testing Skill
 
-Strategic patterns for isolated, maintainable unit tests. This skill orchestrates **jest** and **react-testing-library** -- delegate to them for runner APIs and component queries.
+Patterns for isolated, maintainable unit tests. Orchestrates **jest** and **react-testing-library** -- delegate to them for runner APIs and component queries.
 
 ## When to Use
 
@@ -122,11 +121,11 @@ describe('AccountService.withdraw', () => {
 
 ## Edge Cases
 
-- **Flaky async** -- Always `await` async operations; use fake timers for time-dependent logic
-- **Coverage gaps** -- Write explicit tests for `else`, `catch`, and default branches
-- **Test coupling** -- If renaming a private method breaks tests, test public API only
-- **Shared utilities** -- Extract factories (`createUser()`) into `test/helpers/`
-- **Non-deterministic data** -- Seed random values or freeze `Date.now()`
+- **Flaky async**: Always `await` async operations; use fake timers for time-dependent logic
+- **Coverage gaps**: Write explicit tests for `else`, `catch`, and default branches
+- **Test coupling**: If renaming private method breaks tests, test public API only
+- **Shared utilities**: Extract factories (`createUser()`) into `test/helpers/`
+- **Non-deterministic data**: Seed random values or freeze `Date.now()`
 
 ## Checklist
 

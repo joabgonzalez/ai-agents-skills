@@ -4,13 +4,12 @@ description: "Root cause analysis and systematic error investigation. Trigger: W
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - conventions
+  type: behavioral
 ---
 
 # Systematic Debugging
 
-Structured approach to debugging: reproduce, isolate, diagnose, fix, verify. Replaces ad-hoc "try random things" with systematic root cause analysis.
+Debugging: reproduce, isolate, diagnose, fix, verify. Replaces ad-hoc "try random things" with systematic root cause analysis.
 
 ## When to Use
 
@@ -162,7 +161,7 @@ After finding root cause?
 
 **Heisenbug (disappears when observed)**: Logging or debugger changes timing. Use non-intrusive logging or production telemetry.
 
-**Works in dev, fails in prod**: Environment differences — check env vars, API endpoints, CORS, minification, tree-shaking.
+**Works in dev, fails in prod**: Check env vars, API endpoints, CORS, minification, tree-shaking.
 
 **Flaky tests**: Usually timing-dependent. Add proper waits, mock time, or use deterministic test data.
 

@@ -57,8 +57,6 @@ Start with mobile constraints (smallest screen), then progressively enhance for 
 
 ## Standard Breakpoints (Tailwind-Aligned)
 
-Organized from smallest to largest for mobile-first development.
-
 | Name | Min Width | Device Type | Typical Use | Prefix |
 |------|-----------|-------------|-------------|--------|
 | **Base** | < 640px | Mobile phones | Default styles, no media query | (none) |
@@ -471,7 +469,7 @@ Firefox:
 - iPad (or Android tablet)
 - Desktop browser (Chrome, Firefox, Safari)
 
-**Why?** DevTools can't simulate:
+**DevTools can't simulate:**
 - Touch precision
 - Actual font rendering (iOS vs Android)
 - Performance (animations, scroll)

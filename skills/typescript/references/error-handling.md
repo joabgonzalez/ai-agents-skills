@@ -41,7 +41,7 @@ if (result.success) {
 
 ## Try/Catch with `unknown`
 
-TypeScript 4.4+ types catch clause variables as `unknown` by default (with `useUnknownInCatchVariables` or `strict`). You must narrow before accessing properties.
+TypeScript 4.4+ types catch clause variables as `unknown` by default (with `useUnknownInCatchVariables` or `strict`). Narrow before accessing properties.
 
 ```typescript
 // WRONG: assuming `e` is an Error
@@ -223,7 +223,7 @@ useConfig(result.data); // Config
 
 ## Error Mapping
 
-Transform errors between layers so each layer uses its own error vocabulary. This keeps implementation details from leaking upward.
+Transform errors between layers so each layer uses its own error vocabulary. Keeps implementation details from leaking upward.
 
 ```typescript
 // Layer 1: API errors (from HTTP client)

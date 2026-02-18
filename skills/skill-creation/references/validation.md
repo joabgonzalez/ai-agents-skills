@@ -1,10 +1,6 @@
 # Validation and Compliance
 
-> Complete checklist and validation procedures for ensuring skill quality and standards compliance
-
-## Overview
-
-Validation ensures skills meet all structural, content, and formatting requirements. This guide provides comprehensive checklists, automated validation tools, and manual review procedures.
+Checklists and validation procedures for ensuring skill quality and standards compliance.
 
 ---
 
@@ -12,7 +8,7 @@ Validation ensures skills meet all structural, content, and formatting requireme
 
 ### Context Gathering
 
-Before creating skill, answer:
+Before creating a skill, answer:
 
 - [ ] **Purpose:** What problem does this skill solve?
 - [ ] **Scope:** What's included/excluded?
@@ -347,7 +343,7 @@ Refer to a11y for:
 
 ```bash
 #!/bin/bash
-# validate-skill.sh - Validate skill structure and content
+# validate-skill.sh - Validates skill structure and content
 
 SKILL_DIR="$1"
 ERRORS=0

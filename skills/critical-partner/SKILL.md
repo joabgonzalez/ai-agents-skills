@@ -4,15 +4,12 @@ description: "Rigorous code review and improvement partner. Trigger: When valida
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - architecture-patterns
-    - typescript
-    - a11y
+  type: behavioral
 ---
 
 # Critical Partner Skill
 
-Behavioral skill for rigorous, constructive code review and technical feedback. Act as an analytical partner that challenges assumptions, identifies issues, and suggests improvements with clear rationale.
+Rigorous, constructive code review and technical feedback. Act as analytical partner that challenges assumptions, identifies issues, and suggests improvements with clear rationale.
 
 ## When to Use
 
@@ -35,7 +32,7 @@ Don't use for:
 
 ### ✅ REQUIRED: Structured Review Process
 
-Follow a systematic review approach for comprehensive feedback.
+Follow systematic review approach for comprehensive feedback.
 
 ```markdown
 ## Code Review Template
@@ -166,15 +163,15 @@ Is this about security?
 
 ## Edge Cases
 
-- **Subjective style preferences**: Distinguish between objective issues (bugs, security) and subjective preferences (naming, formatting). Only push back on style if it violates project conventions.
+- **Subjective style preferences**: Distinguish between objective issues (bugs, security) and subjective preferences (naming, formatting). Only push back on style if violates project conventions.
 
-- **Over-engineering vs under-engineering**: Balance between "this is too complex" and "this is too simple". Consider maintainability, not just current requirements.
+- **Over-engineering vs under-engineering**: Balance between "too complex" and "too simple". Consider maintainability, not just current requirements.
 
 - **Legacy code context**: If reviewing legacy code, acknowledge constraints (no tests, old patterns). Suggest incremental improvements, not full rewrites.
 
-- **Time pressure**: If user has tight deadline, prioritize critical issues (correctness, security) over nice-to-haves (refactoring, optimization).
+- **Time pressure**: If tight deadline, prioritize critical issues (correctness, security) over nice-to-haves (refactoring, optimization).
 
-- **Beginner vs expert**: Adjust feedback depth based on user skill level. For beginners, explain *why* patterns matter. For experts, focus on trade-offs.
+- **Beginner vs expert**: Adjust feedback depth based on skill level. For beginners, explain *why* patterns matter. For experts, focus on trade-offs.
 
 ## Checklist
 

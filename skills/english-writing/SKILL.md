@@ -4,17 +4,12 @@ description: "English writing rules for generated content and code. Trigger: Whe
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
 ---
 
 # English Writing
 
-## Overview
-
-This skill enforces clear, consistent, and professional English in all generated content, code comments, documentation, and prompts. It ensures that all outputs meet the project's language and style standards.
-
-## Objective
-
-Guarantee that all written output is in English and follows best practices for clarity, directness, and technical accuracy.
+Enforces clear, professional English in all generated content (code, docs, prompts). Ensures American spelling, ASCII characters, clarity, and technical accuracy.
 
 ## When to Use
 

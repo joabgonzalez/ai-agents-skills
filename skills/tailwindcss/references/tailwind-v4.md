@@ -1,15 +1,6 @@
 # Tailwind CSS v4 Migration Guide
 
-> CSS-first configuration, OKLCH colors, new utilities, and native dark mode support.
-
-## Overview
-
-Tailwind v4 shifts from JavaScript configuration to **CSS-first design**:
-- `@import 'tailwindcss'` replaces `@tailwind` directives
-- `@theme` blocks replace `tailwind.config.js` theme configuration
-- OKLCH color space for better perceptual uniformity
-- New utilities: `size-*`, improved animations
-- Native dark mode with `@custom-variant`
+CSS-first configuration using `@theme` blocks, OKLCH colors, `size-*` utilities, and `@custom-variant` dark mode replace JavaScript config patterns.
 
 ---
 

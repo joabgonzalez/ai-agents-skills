@@ -4,14 +4,14 @@ description: "Semantic HTML with proper elements and structure. Trigger: When wr
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: domain
   skills:
-    - conventions
     - a11y
 ---
 
 # HTML Skill
 
-Write semantic, accessible HTML following modern web standards with proper document structure, meta tags, and element selection.
+Semantic, accessible HTML with modern standards, proper structure, meta tags.
 
 ## When to Use
 
@@ -22,7 +22,7 @@ Use when:
 - Building forms with proper labels and inputs
 - Adding metadata and head elements
 
-Don't use for React JSX patterns (use react skill) or detailed accessibility guidance (use a11y skill).
+Don't use for React JSX (react skill) or accessibility details (a11y skill).
 
 ## Critical Patterns
 
@@ -103,7 +103,7 @@ Don't use for React JSX patterns (use react skill) or detailed accessibility gui
 </html>
 ```
 
-Conventions: follow **conventions** skill for organization; follow **a11y** skill for ARIA, keyboard nav, and semantic guidance.
+Conventions: **conventions** for organization; **a11y** for ARIA/keyboard/semantics.
 
 ## Decision Tree
 
@@ -151,11 +151,11 @@ Conventions: follow **conventions** skill for organization; follow **a11y** skil
 
 ## Edge Cases
 
-- **Multiple h1:** HTML5 allows it, but screen readers work better with one per page
-- **Empty links:** Avoid `<a href="#">`; use `<button>` for actions
-- **Div soup:** Overuse of `<div>` harms semantics; prefer semantic elements
-- **Form without action:** Must have `action` or JS handler; omitting both causes reload
-- **Button without type:** Default is `submit`; always specify `type="button"` for non-submit buttons
+- **Multiple h1:** Allowed, but one per page better for screen readers
+- **Empty links:** Use `<button>` for actions, not `<a href="#">`
+- **Div soup:** Prefer semantic elements over `<div>`
+- **Form without action:** Needs `action` or JS handler
+- **Button type:** Default `submit`; specify `type="button"` for non-submit
 
 ## Checklist
 

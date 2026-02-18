@@ -4,18 +4,16 @@ description: "Modern React with hooks and functional components. Trigger: When c
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
     - a11y
-    - typescript
-    - javascript
-    - architecture-patterns
   dependencies:
     react: ">=17.0.0 <19.0.0"
 ---
 
 # React Skill
 
-Modern React patterns using hooks, functional components, and best practices for building maintainable UIs with proper state management and performance optimization.
+Hooks, functional components, state management, and performance optimization for React apps.
 
 ## When to Use
 
@@ -90,7 +88,7 @@ const shouldUse = condition ? value : defaultValue;
 
 ### Conventions
 
-Defer to `conventions` skill for code organization/naming and `a11y` skill for semantic HTML, keyboard navigation, and ARIA attributes.
+Defer to `conventions` for code organization and `a11y` for semantic HTML/ARIA.
 
 ## Decision Tree
 
@@ -158,7 +156,7 @@ useEffect(() => {
 
 **Children prop:** Use `React.ReactNode` type. For render props: `{(data) => <Component data={data} />}`.
 
-**Architecture patterns:** Only apply Clean Architecture / SOLID when AGENTS.md specifies it, the codebase already uses domain/application/infrastructure folders, or the user requests it. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) and [frontend-integration.md](../architecture-patterns/references/frontend-integration.md).
+**Architecture patterns:** Apply Clean Architecture/SOLID only when AGENTS.md specifies it, codebase uses domain/application/infrastructure folders, or user requests. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md).
 
 ## Checklist
 

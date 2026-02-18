@@ -1,24 +1,14 @@
 # {Sub-Topic Name}
 
-> Reference guide for {skill-name} skill - {Sub-Topic Name} patterns and usage
-
-## Overview
-
-{2-3 sentence introduction to this sub-topic. What does it cover? Why is it important?}
-
-This guide covers:
-
-- {Key aspect 1}
-- {Key aspect 2}
-- {Key aspect 3}
+{1-2 sentence summary: what this reference covers and why it matters.}
 
 ---
 
 ## Core Patterns
 
-### {Pattern Name 1}
+### ✅ REQUIRED: {Pattern Name 1}
 
-{Detailed explanation of the pattern, when to use it, and why it matters}
+{Detailed explanation: when to use, why it matters.}
 
 **Basic Usage:**
 
@@ -30,18 +20,15 @@ This guide covers:
 **Advanced Usage:**
 
 ```{language}
-// More complex scenario
+// Complex scenario
 {code showing advanced application}
 ```
 
 **When to use:**
-
 - {Use case 1}
 - {Use case 2}
-- {Use case 3}
 
 **When NOT to use:**
-
 - {Anti-pattern scenario 1}
 - {Anti-pattern scenario 2}
 
@@ -57,10 +44,8 @@ This guide covers:
 ```
 
 **Key points:**
-
 - {Important detail 1}
 - {Important detail 2}
-- {Important detail 3}
 
 ---
 
@@ -75,18 +60,18 @@ This guide covers:
 {code}
 ```
 
-**Pros:** {Benefits of approach A}  
-**Cons:** {Drawbacks of approach A}
+**Pros:** {Benefits}
+**Cons:** {Drawbacks}
 
-**Option B: {Alternative Approach}**
+**Option B: {Alternative}**
 
 ```{language}
 // Approach B
 {code}
 ```
 
-**Pros:** {Benefits of approach B}  
-**Cons:** {Drawbacks of approach B}
+**Pros:** {Benefits}
+**Cons:** {Drawbacks}
 
 **Recommendation:** {When to use A vs B}
 
@@ -96,28 +81,27 @@ This guide covers:
 
 ### Pitfall 1: {Common Mistake}
 
-**Problem:**
-{Description of what developers commonly get wrong}
+**Problem:** {What developers get wrong}
 
 ```{language}
-// ❌ WRONG: Common mistake
+// ❌ WRONG
 {problematic code}
 ```
 
 **Solution:**
 
 ```{language}
-// ✅ CORRECT: Proper approach
+// ✅ CORRECT
 {correct code}
 ```
 
-**Why it matters:** {Explanation of consequences}
+**Why it matters:** {Consequences}
 
 ---
 
-### Pitfall 2: {Another Common Issue}
+### Pitfall 2: {Another Issue}
 
-{Similar structure as Pitfall 1}
+{Similar structure}
 
 ---
 
@@ -125,18 +109,17 @@ This guide covers:
 
 ### Example 1: {Realistic Scenario}
 
-{Description of a common real-world use case}
+{Description of common use case}
 
 ```{language}
 // Complete working example
-{substantial code example showing multiple patterns together}
+{substantial code showing multiple patterns}
 ```
 
 **Explanation:**
-
-- {Step 1 explanation}
-- {Step 2 explanation}
-- {Step 3 explanation}
+- {Step 1}
+- {Step 2}
+- {Step 3}
 
 ---
 
@@ -154,22 +137,20 @@ This guide covers:
 
 ### Technique 1: {Advanced Pattern}
 
-{When you've mastered the basics, these techniques optimize further}
+{When basics are mastered, use these for optimization}
 
 ```{language}
 // Advanced implementation
-{sophisticated code example}
+{sophisticated code}
 ```
 
 **Prerequisites:**
-
-- {Understanding of concept X}
-- {Knowledge of pattern Y}
+- {Understanding of X}
+- {Knowledge of Y}
 
 **Use cases:**
-
-- {Specific advanced scenario 1}
-- {Specific advanced scenario 2}
+- {Specific scenario 1}
+- {Specific scenario 2}
 
 ---
 
@@ -193,13 +174,13 @@ This guide covers:
 
 ---
 
-## Gotchas and Edge Cases
+## Edge Cases
 
 ### Edge Case 1: {Specific Scenario}
 
-{Description of edge case}
+{Description}
 
-**Scenario:** {Detailed context}
+**Scenario:** {Context}
 
 **Solution:**
 
@@ -214,12 +195,12 @@ This guide covers:
 
 {Description}
 
-**Affected environments:** {List of browsers/platforms/versions}
+**Affected environments:** {Browsers/platforms/versions}
 
 **Workaround:**
 
 ```{language}
-{workaround code}
+{workaround}
 ```
 
 ---
@@ -228,15 +209,14 @@ This guide covers:
 
 ### Testing {Sub-Topic} Components
 
-{Guidelines for testing this specific sub-topic}
+{Guidelines for testing this sub-topic}
 
 ```{language}
 // Example test
-{test code demonstrating best practices}
+{test code}
 ```
 
 **What to test:**
-
 - [ ] {Test case 1}
 - [ ] {Test case 2}
 - [ ] {Test case 3}
@@ -245,17 +225,15 @@ This guide covers:
 
 ## Performance Considerations
 
-### {Performance Aspect 1}
+### {Performance Aspect}
 
-{How this sub-topic impacts performance}
+{How this impacts performance}
 
 **Metrics to monitor:**
-
 - {Metric 1}
 - {Metric 2}
 
 **Optimization tips:**
-
 - {Tip 1}
 - {Tip 2}
 
@@ -265,15 +243,14 @@ This guide covers:
 
 ### Common Debug Scenarios
 
-**Problem: {Issue Description}**
+**Problem: {Issue}**
 
 ```{language}
-// Symptom code
-{code that exhibits the problem}
+// Symptom
+{code exhibiting problem}
 ```
 
 **Debugging steps:**
-
 1. {Step 1}
 2. {Step 2}
 3. {Step 3}
@@ -281,7 +258,7 @@ This guide covers:
 **Solution:**
 
 ```{language}
-// Fixed code
+// Fixed
 {corrected implementation}
 ```
 
@@ -289,26 +266,6 @@ This guide covers:
 
 ## Related Topics
 
-- See [another-sub-topic.md](another-sub-topic.md) for {related content}
-- See [third-topic.md](third-topic.md) for {complementary information}
+- See [another-topic.md](another-topic.md) for {related content}
+- See [third-topic.md](third-topic.md) for {complementary info}
 - Back to [main SKILL.md](../SKILL.md) for overview
-
----
-
-## External References
-
-- [{Official Documentation Title}]({URL}) - {Brief description}
-- [{Tutorial/Guide Name}]({URL}) - {What it covers}
-- [{Tool/Library Docs}]({URL}) - {Why relevant}
-
----
-
-## Changelog
-
-**Last updated:** {Date}
-
-**Recent changes:**
-
-- {Change 1 with date}
-- {Change 2 with date}
-- {Change 3 with date}

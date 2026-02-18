@@ -1,10 +1,6 @@
 # Token Efficiency Guide
 
-> Complete strategies for creating token-efficient skills without sacrificing clarity or precision
-
-## Overview
-
-Token efficiency means maximizing information density while maintaining clarity. Every word must add unique value. This guide covers frontmatter optimization, content compression, and writing techniques for minimal tokens with maximum precision.
+Strategies for creating token-efficient skills without sacrificing clarity. Maximize information density - every word must add unique value.
 
 ---
 
@@ -52,13 +48,13 @@ description: Prettier code formatting. Trigger: When configuring Prettier.
 
 ```yaml
 # ❌ WORDY (142 characters, ~35 tokens)
-description: This comprehensive skill provides detailed guidance and best practices for creating and maintaining skills in the project using proper conventions and standards. Trigger: When creating skills.
+description: This skill provides guidance and best practices for creating and maintaining skills in the project using conventions and standards. Trigger: When creating skills.
 
 # ✅ CONCISE (89 characters, ~22 tokens, 37% reduction)
 description: Guide for creating standards-compliant skills with templates and validation. Trigger: When creating a new skill.
 ```
 
-**Technique:** Remove filler words ("comprehensive", "detailed", "various", "proper")
+**Technique:** Remove filler words
 
 ### Input/Output Specificity
 
@@ -490,7 +486,7 @@ Rough estimates:
 ```yaml
 ---
 name: skill-creation
-description: This comprehensive skill provides detailed guidance for creating and maintaining standards-compliant skills from simple to complex, with extensive templates, references architecture, inline examples, proper frontmatter, delegation patterns, and JSON schema validation. It supports any topic or technology with a comprehensive 9-step workflow process. Includes optional priority labels for complex skills with 30 or more patterns. Ensures unique responsibilities and token-efficient documentation throughout. Trigger: When creating a new skill, adding agent instructions, or documenting patterns for AI systems to follow.
+description: Guidance for creating and maintaining standards-compliant skills from simple to complex, with templates, references architecture, inline examples, frontmatter, delegation patterns, and JSON schema validation. Supports any topic or technology with a 9-step workflow process. Includes optional priority labels for complex skills with 30 or more patterns. Ensures unique responsibilities and token-efficient documentation. Trigger: When creating a new skill, adding agent instructions, or documenting patterns for AI systems to follow.
 skills:
   - critical-partner
   - skill-sync
@@ -500,7 +496,7 @@ allowed-tools:
   - write-file
 ---
 
-{775 lines of content with verbose explanations}
+{775 lines of content}
 ```
 
 ### After (300 lines + 9 references, 61% reduction in SKILL.md)

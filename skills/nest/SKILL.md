@@ -4,32 +4,31 @@ description: "NestJS modular architecture with dependency injection. Trigger: Wh
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
     - nodejs
-    - typescript
-    - architecture-patterns
   dependencies:
     "@nestjs/core": ">=10.0.0 <11.0.0"
 ---
 
 # NestJS Skill
 
-Build scalable server-side applications using NestJS modules, dependency injection, and decorators.
+Scalable server apps with NestJS modules, dependency injection, and decorators.
 
 ## When to Use
-- Building modular server-side apps
-- Using dependency injection
-- Structuring scalable APIs
+- Modular server apps
+- Dependency injection
+- Scalable APIs
 
 Don't use for:
-- Simple single-file scripts or CLIs (use plain Node.js)
-- Lightweight edge functions (use Hono or Express)
-- Frontend-only projects with no server logic
+- Single-file scripts/CLIs (use Node.js)
+- Lightweight edge functions (use Hono/Express)
+- Frontend-only projects
 
 ## Critical Patterns
 
 ### Module / Controller / Service Structure
-Every feature lives in its own module that declares controllers and providers.
+Each feature in own module with controllers and providers.
 ```typescript
 // CORRECT: one module encapsulates the feature
 @Module({
@@ -42,7 +41,7 @@ export class UsersModule {}
 ```
 
 ### Dependency Injection
-Inject services through constructor parameters; never instantiate manually.
+Inject via constructor; never instantiate manually.
 ```typescript
 // CORRECT: let the DI container manage instances
 @Controller("users")
@@ -57,7 +56,7 @@ export class UsersController {
 ```
 
 ### Guards, Pipes, and Interceptors
-Use the built-in lifecycle hooks for cross-cutting concerns.
+Built-in lifecycle hooks for cross-cutting concerns.
 ```typescript
 // CORRECT: guard for auth, pipe for validation, interceptor for transform
 @UseGuards(AuthGuard)
@@ -68,7 +67,7 @@ export class UsersController {}
 ```
 
 ### DTOs with class-validator
-Define Data Transfer Objects with decorators for automatic validation.
+DTOs with decorators for auto-validation.
 ```typescript
 export class CreateUserDto {
   @IsString() @MinLength(2) name: string;
@@ -82,7 +81,7 @@ create(@Body() dto: CreateUserDto) {
 ```
 
 ### Exception Filters
-Map domain errors to HTTP responses in a single place.
+Map domain errors to HTTP responses centrally.
 ```typescript
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
@@ -125,11 +124,11 @@ export class UsersController {
 ```
 
 ## Edge Cases
-- **Circular dependencies**: Use `forwardRef(() => SomeModule)` when two modules depend on each other.
-- **Request-scoped providers**: Default is singleton; use `Scope.REQUEST` only when truly needed as it hurts performance.
-- **Module import order**: `ConfigModule` must be imported before modules that depend on config values.
-- **Global pipes vs local**: `app.useGlobalPipes()` skips DI; prefer `APP_PIPE` provider for pipes needing injected deps.
-- **Testing with mocks**: Override providers in `Test.createTestingModule()` rather than mocking imports.
+- **Circular deps**: Use `forwardRef(() => SomeModule)` for mutual dependencies.
+- **Request-scoped providers**: Default singleton; `Scope.REQUEST` hurts performance.
+- **Module order**: Import `ConfigModule` before dependent modules.
+- **Global pipes**: `app.useGlobalPipes()` skips DI; use `APP_PIPE` provider for injected deps.
+- **Test mocks**: Override providers in `Test.createTestingModule()`, not imports.
 
 ## Checklist
 - [ ] Each feature has its own module with controllers and providers

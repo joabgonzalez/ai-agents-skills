@@ -4,26 +4,16 @@ description: "Clear technical writing for documentation and commits. Trigger: Wh
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
-    - conventions
     - english-writing
 ---
 
 # Technical Communication Skill
 
-## Overview
-
-Best practices for clear, concise, and effective technical communication in software development contexts.
-
-## Objective
-
-Enable developers to communicate technical concepts clearly through documentation, code comments, commit messages, and team collaboration.
-
----
+Clear technical writing for documentation, code comments, commit messages, and architecture decisions. Emphasizes conciseness and developer-friendly communication.
 
 ## When to Use
-
-Use this skill when:
 
 - Writing API documentation or README files
 - Creating code comments and JSDoc

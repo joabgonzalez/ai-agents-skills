@@ -1,15 +1,6 @@
 # SOLID Principles
 
-> Complete guide to the 5 SOLID principles with backend and frontend examples.
-
-## Overview
-
-SOLID principles are foundation for maintainable, testable object-oriented code. Originally by Robert C. Martin (Uncle Bob), these principles apply to class-based programming in any language.
-
-**Applicability**:
-
-- **Backend**: Apply to all services, repositories, controllers
-- **Frontend**: Apply to complex components, state slices, service layers (when project requires architecture patterns)
+Foundation for maintainable, testable object-oriented code by Robert C. Martin. Applies to class-based programming in any language—backend services/repositories/controllers and frontend complex components/state slices/service layers.
 
 ---
 
@@ -24,8 +15,6 @@ SOLID principles are foundation for maintainable, testable object-oriented code.
 ---
 
 ## 1. Single Responsibility Principle (SRP)
-
-### Definition
 
 > A class should have one, and only one, reason to change.
 
@@ -133,20 +122,16 @@ class UserService {
   ) {}
 
   async createUser(userData: CreateUserDTO): Promise<Result<User>> {
-    // Validation
     const validation = this.validator.validate(userData);
     if (!validation.valid) {
       return Result.fail(validation.errors.join(", "));
     }
 
-    // Password hashing
     const hashedPassword = await this.passwordService.hash(userData.password);
 
-    // Create user
     const user = new User({ ...userData, password: hashedPassword });
     await this.repository.create(user);
 
-    // Side effects (can be moved to event handlers)
     this.logger.info(`User created: ${user.id}`);
     await this.emailService.sendWelcome(user.email);
 
@@ -167,18 +152,15 @@ const UserProfile = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Data fetching
     setLoading(true);
     fetch('/api/user')
       .then(res => res.json())
       .then(data => {
-        // Validation
         if (!data.email || !data.name) {
           setError('Invalid user data');
           return;
         }
 
-        // Transformation
         const user = {
           ...data,
           displayName: `${data.firstName} ${data.lastName}`
@@ -190,7 +172,6 @@ const UserProfile = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Rendering logic
   if (loading) return <Spinner />;
   if (error) return <Alert>{error}</Alert>;
   if (!user) return null;
@@ -248,8 +229,6 @@ export const UserProfile = () => {
 
 ## 2. Open/Closed Principle (OCP)
 
-### Definition
-
 > Software entities should be open for extension, but closed for modification.
 
 Add new functionality by adding new code, not modifying existing code. Use abstractions (interfaces, abstract classes) to allow extension.
@@ -275,12 +254,10 @@ class NotificationService {
 ```typescript
 // ✅ CORRECT: Extend with new class, don't modify existing
 
-// Abstraction
 interface INotificationChannel {
   send(user: User, message: string): Promise<void>;
 }
 
-// Implementations
 class EmailChannel implements INotificationChannel {
   async send(user: User, message: string): Promise<void> {
     await sendEmail(user.email, message);
@@ -306,7 +283,6 @@ class SlackChannel implements INotificationChannel {
   }
 }
 
-// Service uses abstraction
 class NotificationService {
   constructor(private channels: INotificationChannel[]) {}
 
@@ -364,7 +340,6 @@ const PhoneField = (props: TextFieldProps) => (
   <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" {...props} />
 );
 
-// Form uses composition
 const UserForm = () => (
   <form>
     <TextField name="name" />
@@ -378,8 +353,6 @@ const UserForm = () => (
 ---
 
 ## 3. Liskov Substitution Principle (LSP)
-
-### Definition
 
 > Subtypes must be substitutable for their base types without breaking the program.
 
@@ -450,7 +423,7 @@ makeSwim(new Penguin()); // ✅ Works
 interface IUserRepository {
   findById(id: string): Promise<User | null>;
   save(user: User): Promise<void>;
-  delete(id: string): Promise<void>; // Contract says "delete is async"
+  delete(id: string): Promise<void>;
 }
 
 class PostgresRepository implements IUserRepository {
@@ -505,8 +478,6 @@ class InMemoryRepository implements IUserRepository {
 ---
 
 ## 4. Interface Segregation Principle (ISP)
-
-### Definition
 
 > No client should be forced to depend on methods it does not use.
 
@@ -701,11 +672,9 @@ const UserProfileContainer = () => {
 
 ## 5. Dependency Inversion Principle (DIP)
 
-### Definition
-
 > High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions.
 
-Depend on interfaces, not concrete implementations. This enables dependency injection and testability.
+Depend on interfaces, not concrete implementations. Enables dependency injection and testability.
 
 ### Backend Example
 
@@ -734,12 +703,10 @@ class UserService {
 ```typescript
 // ✅ CORRECT: Both depend on IEmailService abstraction
 
-// Abstraction (interface)
 interface IEmailService {
   send(to: string, subject: string, body: string): Promise<void>;
 }
 
-// Low-level module depends on abstraction
 class SendGridEmailService implements IEmailService {
   async send(to: string, subject: string, body: string): Promise<void> {
     await sendgrid.send({ to, subject, html: body });
@@ -754,7 +721,6 @@ class AWSEmailService implements IEmailService {
   }
 }
 
-// High-level module depends on abstraction
 class UserService {
   constructor(
     private userRepo: IUserRepository,
@@ -807,7 +773,6 @@ const UserList = () => {
 ```typescript
 // ✅ CORRECT: Component depends on abstraction (hook)
 
-// Abstraction
 interface IUserApi {
   useGetUsers: () => { data: User[]; isLoading: boolean; error: Error | null };
 }

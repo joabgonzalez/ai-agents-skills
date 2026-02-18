@@ -4,16 +4,14 @@ description: "Unit, integration, and snapshot testing with Jest. Trigger: When w
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
-    - javascript
+  type: tooling
   dependencies:
     jest: ">=29.0.0 <30.0.0"
 ---
 
 # Jest Skill
 
-Jest is the standard test runner for JS/TS projects with built-in mocking, assertions, and coverage.
+Standard test runner for JS/TS projects with built-in mocking, assertions, and coverage.
 
 ## When to Use
 
@@ -113,11 +111,11 @@ describe('OrderService.placeOrder', () => {
 
 ## Edge Cases
 
-- **ES module mocking** -- Use `jest.unstable_mockModule` for ESM; `jest.mock` is CommonJS only
-- **Flaky async** -- Always `await` assertions; use `jest.useFakeTimers()` for time-dependent logic
-- **Snapshot drift** -- Review diffs carefully; update with `--updateSnapshot` intentionally
-- **Timer leaks** -- Call `jest.useRealTimers()` in `afterEach` to prevent bleed between tests
-- **Global state** -- Use `jest.resetModules()` if a module caches state at import time
+- **ES module mocking**: `jest.unstable_mockModule` for ESM; `jest.mock` is CommonJS only
+- **Flaky async**: Always `await` assertions; use `jest.useFakeTimers()` for time-dependent logic
+- **Snapshot drift**: Review diffs carefully; update with `--updateSnapshot` intentionally
+- **Timer leaks**: Call `jest.useRealTimers()` in `afterEach` to prevent bleed
+- **Global state**: Use `jest.resetModules()` if module caches state at import
 
 ## Checklist
 

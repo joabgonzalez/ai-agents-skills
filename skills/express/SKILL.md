@@ -4,32 +4,31 @@ description: "Express.js routing, middleware, and error handling. Trigger: When 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
     - nodejs
-    - typescript
-    - architecture-patterns
   dependencies:
     express: ">=4.18.0 <5.0.0"
 ---
 
 # Express.js Skill
 
-Build REST APIs and server logic with Express.js v4.x middleware and routing.
+REST APIs and server logic with Express v4.x middleware and routing.
 
 ## When to Use
-- Building REST APIs
-- Composing middleware stacks
-- Handling HTTP requests/responses
+- REST APIs
+- Middleware stacks
+- HTTP request/response handling
 
 Don't use for:
-- Static site generation (use Next.js or Astro)
+- Static site generation (use Next.js/Astro)
 - GraphQL-first APIs (use Apollo Server)
-- Edge/serverless with zero cold-start needs (use Hono)
+- Edge/serverless zero cold-start (use Hono)
 
 ## Critical Patterns
 
 ### Router Modularization
-Group related routes into Router instances to keep `app.ts` clean.
+Group routes into Router instances for clean `app.ts`.
 ```typescript
 // CORRECT: modular router in routes/users.ts
 const router = Router();
@@ -40,7 +39,7 @@ export default router;
 ```
 
 ### Async Error Wrapper
-Express 4.x does not catch rejected promises. Wrap async handlers.
+Express 4 doesn't catch rejected promises. Wrap async handlers.
 ```typescript
 // CORRECT: wrapper forwards rejections to error middleware
 const asyncHandler = (fn: RequestHandler): RequestHandler =>
@@ -53,7 +52,7 @@ router.get("/users/:id", asyncHandler(async (req, res) => {
 ```
 
 ### Centralized Error Middleware
-Define a single error handler as the last middleware in the stack.
+Single error handler as last middleware in stack.
 ```typescript
 // CORRECT: 4-argument signature signals error middleware
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
@@ -65,7 +64,7 @@ app.use(errorHandler);
 ```
 
 ### Input Validation Middleware
-Validate request bodies before they reach route logic.
+Validate bodies before route logic.
 ```typescript
 const CreateUser = z.object({ name: z.string(), email: z.string().email() });
 const validate = (schema: z.ZodSchema): RequestHandler =>
@@ -78,7 +77,7 @@ const validate = (schema: z.ZodSchema): RequestHandler =>
 ```
 
 ### Proper Status Codes
-Return semantically correct HTTP status codes for each operation.
+Return correct HTTP codes per operation.
 ```typescript
 // CORRECT: 201 for creation, 204 for no-content delete
 router.post("/users", asyncHandler(async (req, res) => {
@@ -121,11 +120,11 @@ app.post("/users", asyncHandler(async (req: any, res: any) => {
 ```
 
 ## Edge Cases
-- **Async error propagation**: Express 4 silently swallows rejected promises; always use an async wrapper or upgrade to Express 5.
-- **Middleware ordering**: Error middleware must be registered after all routes; auth middleware must come before protected routes.
-- **Large payloads**: Set `express.json({ limit: "1mb" })` explicitly to prevent 413 errors or memory abuse.
-- **Double response**: Calling `res.json()` twice throws; guard with `if (res.headersSent) return next(err)`.
-- **Missing Content-Type**: Clients omitting `Content-Type: application/json` get an empty `req.body`; validate early.
+- **Async errors**: Express 4 swallows rejected promises; use async wrapper.
+- **Middleware order**: Error middleware after routes; auth before protected routes.
+- **Large payloads**: Set `express.json({ limit: "1mb" })` to prevent 413/memory issues.
+- **Double response**: `res.json()` twice throws; guard with `if (res.headersSent)`.
+- **Missing Content-Type**: No `Content-Type: application/json` → empty `req.body`.
 
 ## Checklist
 - [ ] Every async route handler is wrapped or uses express-async-errors

@@ -304,12 +304,12 @@ const [open, setOpen] = useState(false);
 
 ## Best Practices
 
-1. **Use semantic components** - Button for actions, Link for navigation
+1. **Semantic components** - Button for actions, Link for navigation
 2. **Consistent spacing** - Use theme spacing (sx={{ p: 2 }})
-3. **Responsive layouts** - Use Grid with xs/sm/md/lg/xl breakpoints
-4. **Accessibility** - Provide aria-label for IconButtons, use proper roles
-5. **Typography hierarchy** - Use h1-h6 variants appropriately
-6. **Loading states** - Use LoadingButton or Skeleton for async operations
+3. **Responsive layouts** - Grid with xs/sm/md/lg/xl breakpoints
+4. **Accessibility** - aria-label on IconButtons, proper roles
+5. **Typography hierarchy** - h1-h6 variants appropriately
+6. **Loading states** - LoadingButton or Skeleton for async operations
 
 ---
 

@@ -4,14 +4,14 @@ description: "Two-stage code review: spec compliance then code quality. Trigger:
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
     - critical-partner
-    - typescript
 ---
 
 # Code Review
 
-Systematic two-stage code review: verify spec compliance FIRST, then assess code quality. Never reversed.
+Two-stage code review: verify spec compliance FIRST, then assess code quality. Never reversed.
 
 ## When to Use
 
@@ -210,7 +210,7 @@ Reviewing architectural decisions?
 
 **Partial implementation**: Review completed parts only. Note: "Reviewed implemented features. Features X, Y not yet implemented."
 
-**Breaking changes**: Check if breaking changes are intentional and documented. Flag unintentional breaks.
+**Breaking changes**: Check if intentional and documented. Flag unintentional breaks.
 
 **Performance regressions**: If spec includes performance requirements, verify with benchmarks.
 

@@ -4,16 +4,16 @@ description: "Node.js backend patterns with async I/O and process management. Tr
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: language
   skills:
     - typescript
-    - architecture-patterns
   dependencies:
     node: ">=18.0.0 <23.0.0"
 ---
 
 # Node.js Skill
 
-Async I/O patterns, process management, and backend service development using Node.js runtime.
+Async I/O, process management, backend services with Node.js runtime.
 
 ## When to Use
 
@@ -24,9 +24,9 @@ Async I/O patterns, process management, and backend service development using No
 - Developing real-time applications (WebSockets, SSE)
 
 Don't use for:
-- CPU-intensive tasks (use worker threads or separate processes)
-- Browser-only code (use javascript or typescript skills)
-- Framework-specific patterns (use express, nest, hono skills)
+- CPU-intensive tasks (worker threads/separate processes)
+- Browser code (javascript/typescript skills)
+- Framework patterns (express, nest, hono skills)
 
 ## Critical Patterns
 
@@ -37,7 +37,7 @@ All I/O operations must be asynchronous to avoid blocking the event loop.
 ```typescript
 // ❌ WRONG: Blocking synchronous I/O
 import fs from 'fs';
-const data = fs.readFileSync('/path/to/file'); // Blocks event loop
+const data = fs.readFileSync('/path/to/file'); // Blocks
 
 // ✅ CORRECT: Non-blocking async I/O
 import fs from 'fs/promises';
@@ -136,15 +136,15 @@ Memory-intensive operations?
 
 ## Edge Cases
 
-- **Unhandled promise rejections**: Always attach .catch() to promises or use try/catch with async/await. Use global process.on('unhandledRejection') as fallback.
+- **Unhandled rejections**: `.catch()` or try/catch. Use `process.on('unhandledRejection')` as fallback.
 
-- **Memory leaks in long-running apps**: Use --inspect flag with Chrome DevTools to profile memory. Common causes: global event listeners not removed, closures retaining references, unbounded caches.
+- **Memory leaks**: `--inspect` flag with Chrome DevTools. Common: event listeners not removed, closures, unbounded caches.
 
-- **Child process management**: Child processes don't automatically exit when parent exits. Always listen for 'exit' event and kill children explicitly on shutdown.
+- **Child processes**: Don't auto-exit with parent. Listen for 'exit' event, kill explicitly.
 
-- **File descriptor limits**: Operating systems limit open file descriptors (default: ~1024). Use ulimit -n to increase or implement connection pooling.
+- **File descriptors**: OS limits (default ~1024). Use `ulimit -n` or connection pooling.
 
-- **Event loop blocking**: CPU-intensive operations (large JSON parsing, regex) block event loop. Offload to worker threads or break into chunks with setImmediate().
+- **Event loop blocking**: CPU tasks block loop. Use worker threads or `setImmediate()`.
 
 ## Checklist
 

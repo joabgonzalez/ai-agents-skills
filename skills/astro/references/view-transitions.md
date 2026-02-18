@@ -14,8 +14,6 @@
 
 ## Basic Setup
 
-### ✅ Enable View Transitions
-
 ```astro
 ---
 // src/layouts/Layout.astro
@@ -32,13 +30,13 @@ import { ViewTransitions } from 'astro:transitions';
 </html>
 ```
 
-**Effect:** All navigation becomes SPA-like with smooth transitions.
+All navigation becomes SPA-like with smooth transitions.
 
 ---
 
 ## Transition Directives
 
-### ✅ Persist Elements Across Pages
+### Persist Elements Across Pages
 
 ```astro
 ---
@@ -54,7 +52,7 @@ import { ViewTransitions } from 'astro:transitions';
 </audio>
 ```
 
-### ✅ Animate Specific Elements
+### Animate Specific Elements
 
 ```astro
 ---
@@ -73,7 +71,7 @@ import { fade, slide } from 'astro:transitions';
 </div>
 ```
 
-### ✅ Name Elements for Morph Transitions
+### Name Elements for Morph Transitions
 
 ```astro
 <!-- src/pages/index.astro -->
@@ -87,8 +85,6 @@ import { fade, slide } from 'astro:transitions';
 ---
 
 ## Custom Animations
-
-### ✅ Define Custom Transitions
 
 ```css
 /* global.css */
@@ -112,11 +108,10 @@ import { fade, slide } from 'astro:transitions';
 }
 ```
 
-### ✅ Per-Element Custom Transitions
+### Per-Element Custom Transitions
 
 ```astro
 <style>
-  /* Custom transition for specific element */
   ::view-transition-old(hero-image),
   ::view-transition-new(hero-image) {
     animation-duration: 0.5s;
@@ -130,8 +125,6 @@ import { fade, slide } from 'astro:transitions';
 ---
 
 ## Lifecycle Events
-
-### ✅ Handle Transition Events
 
 ```astro
 <script>
@@ -165,7 +158,7 @@ import { fade, slide } from 'astro:transitions';
 
 ## Fallback Behavior
 
-### ✅ Disable for Specific Links
+### Disable for Specific Links
 
 ```astro
 <!-- External link (no transition) -->
@@ -175,11 +168,10 @@ import { fade, slide } from 'astro:transitions';
 <a href="/page" data-astro-reload>Full Reload</a>
 ```
 
-### ✅ Conditional View Transitions
+### Conditional View Transitions
 
 ```astro
 ---
-// Disable on mobile
 const isMobile = /iPhone|iPad|Android/i.test(Astro.request.headers.get('user-agent'));
 ---
 
@@ -209,18 +201,18 @@ const isMobile = /iPhone|iPad|Android/i.test(Astro.request.headers.get('user-age
 
 ## Best Practices
 
-1. **Use `transition:persist`** for elements that should maintain state (audio, video, forms)
-2. **Name transitions** with `transition:name` for semantic morphing effects
-3. **Keep animations short** (200-400ms) for perceived performance
-4. **Test on slow devices** to ensure transitions don't cause jank
-5. **Respect user preferences** with `prefers-reduced-motion`
-6. **Provide fallback** for browsers without View Transitions API support
+1. Use `transition:persist` for elements that should maintain state (audio, video, forms)
+2. Use `transition:name` for semantic morphing effects
+3. Keep animations short (200-400ms) for perceived performance
+4. Test on slow devices to ensure transitions don't cause jank
+5. Respect user preferences with `prefers-reduced-motion`
+6. Provide fallback for browsers without View Transitions API support
 
 ---
 
 ## Edge Cases
 
-**SPA mode conflicts:** View Transitions work best with MPA routing. If using SPA mode, disable View Transitions.
+**SPA mode conflicts:** View Transitions work best with MPA routing. Disable View Transitions if using SPA mode.
 
 **State persistence:** Use `transition:persist` or save state in `localStorage` during lifecycle events.
 

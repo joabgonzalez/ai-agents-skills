@@ -1,10 +1,6 @@
 # ESLint
 
-> Code quality enforcement with rules and plugins
-
-## Overview
-
-ESLint is the most mature JavaScript/TypeScript linter with the largest plugin ecosystem. Best for enterprise projects needing custom rules and specific framework plugins.
+Most mature JavaScript/TypeScript linter with the largest plugin ecosystem. Best for enterprise projects needing custom rules and framework-specific plugins.
 
 **Dependencies:**
 ```json

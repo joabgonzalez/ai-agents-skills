@@ -7,14 +7,11 @@
 - Improving perceived performance
 - Implementing instant navigation
 - Reducing time-to-interactive for links
-- Optimizing resource loading
 - Configuring prefetch behavior
 
 ---
 
 ## Basic Setup
-
-### ✅ Enable Prefetch
 
 ```javascript
 // astro.config.mjs
@@ -38,7 +35,7 @@ export default defineConfig({
 
 ## Prefetch Strategies
 
-### ✅ Hover Prefetch (Default)
+### Hover Prefetch (Default)
 
 ```astro
 <!-- Prefetches on hover (300ms delay) -->
@@ -48,36 +45,36 @@ export default defineConfig({
 <a href="/contact" data-astro-prefetch="hover">Contact</a>
 ```
 
-**When to use:** Most links (balances performance and data usage)
+**Use for:** Most links — balances performance and data usage.
 
-### ✅ Tap Prefetch (Mobile-Friendly)
+### Tap Prefetch (Mobile-Friendly)
 
 ```astro
 <!-- Prefetches on touchstart/mousedown (before click) -->
 <a href="/products" data-astro-prefetch="tap">Products</a>
 ```
 
-**When to use:** High-priority navigation on mobile devices
+**Use for:** High-priority navigation on mobile devices.
 
-### ✅ Viewport Prefetch (Proactive)
+### Viewport Prefetch (Proactive)
 
 ```astro
 <!-- Prefetches when link enters viewport -->
 <a href="/blog" data-astro-prefetch="viewport">Blog</a>
 ```
 
-**When to use:** Content-heavy pages, below-the-fold links
+**Use for:** Content-heavy pages, below-the-fold links.
 
-### ✅ Load Prefetch (Immediate)
+### Load Prefetch (Immediate)
 
 ```astro
 <!-- Prefetches immediately on page load -->
 <a href="/dashboard" data-astro-prefetch="load">Dashboard</a>
 ```
 
-**When to use:** Critical next step (signup → dashboard)
+**Use for:** Critical next step (signup → dashboard).
 
-### ✅ Disable Prefetch
+### Disable Prefetch
 
 ```astro
 <!-- Never prefetch -->
@@ -87,13 +84,13 @@ export default defineConfig({
 <a href="https://example.com">Example</a>
 ```
 
-**When to use:** Large pages, authenticated routes, external links
+**Use for:** Large pages, authenticated routes, external links.
 
 ---
 
 ## Advanced Configuration
 
-### ✅ Global Configuration
+### Global Configuration
 
 ```javascript
 // astro.config.mjs
@@ -101,23 +98,15 @@ export default defineConfig({
   prefetch: {
     defaultStrategy: "hover",
     prefetchAll: true, // Prefetch all internal links
-
-    // Or target specific patterns
-    // prefetchAll: false,
-    // include: ['/blog/*', '/products/*'],
-    // exclude: ['/admin/*'],
   },
 });
 ```
 
-### ✅ Prefetch with Intent
+### Prefetch with Intent
 
 ```astro
 ---
-// High-intent links (prefetch early)
 const primaryLinks = ['/pricing', '/features', '/demo'];
-
-// Low-intent links (prefetch on hover)
 const secondaryLinks = ['/about', '/careers', '/blog'];
 ---
 
@@ -133,8 +122,6 @@ const secondaryLinks = ['/about', '/careers', '/blog'];
 ---
 
 ## Prefetch with View Transitions
-
-### ✅ Combine Prefetch + View Transitions
 
 ```astro
 ---
@@ -154,13 +141,13 @@ import { ViewTransitions } from 'astro:transitions';
 </html>
 ```
 
-**Benefit:** Instant navigation + smooth animations
+**Benefit:** Instant navigation + smooth animations.
 
 ---
 
 ## Performance Optimization
 
-### ✅ Prioritize Critical Links
+### Prioritize Critical Links
 
 ```astro
 <nav>
@@ -176,7 +163,7 @@ import { ViewTransitions } from 'astro:transitions';
 </nav>
 ```
 
-### ✅ Conditional Prefetch
+### Conditional Prefetch
 
 ```astro
 ---
@@ -193,7 +180,7 @@ const isLoggedIn = !!user;
 </nav>
 ```
 
-### ✅ Save Data Mode
+### Save Data Mode
 
 ```astro
 <script>
@@ -213,8 +200,6 @@ const isLoggedIn = !!user;
 
 ## Prefetch API Routes
 
-### ✅ Prefetch JSON Data
-
 ```typescript
 // src/pages/api/products.ts
 export async function GET() {
@@ -229,16 +214,11 @@ export async function GET() {
 ```
 
 ```astro
----
-// Prefetch data for client-side use
----
-
 <script>
   // Prefetch data on hover
   document.querySelector('#products-link').addEventListener('mouseenter', async () => {
     const response = await fetch('/api/products');
     const products = await response.json();
-    // Cache for instant access on navigation
     sessionStorage.setItem('products', JSON.stringify(products));
   });
 </script>
@@ -250,26 +230,26 @@ export async function GET() {
 
 ## Best Practices
 
-1. **Use `hover` as default** - Good balance of performance and data usage
-2. **Use `load` sparingly** - Only for critical next steps (1-2 links max)
-3. **Disable for large pages** - Avoid prefetching pages >1MB
-4. **Respect user preferences** - Check `navigator.connection.saveData`
-5. **Combine with View Transitions** - Prefetch + smooth animations = perceived instant
-6. **Cache prefetched pages** - Service workers or client-side caching
+1. Use `hover` as default — good balance of performance and data usage
+2. Use `load` sparingly — only for critical next steps (1-2 links max)
+3. Disable for large pages — avoid prefetching pages >1MB
+4. Check `navigator.connection.saveData` for user preferences
+5. Combine with View Transitions — prefetch + smooth animations = perceived instant
+6. Use service workers or client-side caching for prefetched pages
 
 ---
 
 ## Edge Cases
 
-**Authenticated routes:** Prefetching may not work if page requires authentication. Middleware can block prefetch requests.
+**Authenticated routes:** Middleware can block prefetch requests.
 
 **Dynamic content:** Prefetched pages may become stale. Use short cache TTLs or disable prefetch.
 
-**Mobile data:** Prefetching consumes data. Use `tap` or `viewport` strategies on mobile.
+**Mobile data:** Use `tap` or `viewport` strategies on mobile.
 
 **SEO crawlers:** Bots don't trigger prefetch. Ensure pages load without prefetch dependency.
 
-**Large pages:** Prefetching 5MB pages wastes bandwidth. Use `data-astro-prefetch="false"`.
+**Large pages:** Use `data-astro-prefetch="false"` for pages over 5MB.
 
 ---
 

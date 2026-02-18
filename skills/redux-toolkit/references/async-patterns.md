@@ -25,7 +25,7 @@ interface User {
   email: string;
 }
 
-// ✅ CORRECT: Type arguments <ReturnType, ArgumentType>
+// Type arguments <ReturnType, ArgumentType>
 export const fetchUser = createAsyncThunk<User, string>(
   "users/fetchUser",
   async (userId: string) => {
@@ -81,7 +81,6 @@ export const fetchUser = createAsyncThunk<User, string>(
       const response = await fetch(`/api/users/${userId}`);
 
       if (!response.ok) {
-        // ✅ Return custom error payload
         return rejectWithValue({
           status: response.status,
           message: await response.text(),
@@ -90,7 +89,6 @@ export const fetchUser = createAsyncThunk<User, string>(
 
       return response.json();
     } catch (error) {
-      // ✅ Handle network errors
       return rejectWithValue({
         status: 0,
         message: error instanceof Error ? error.message : "Network error",
@@ -122,7 +120,7 @@ export const fetchUser = createAsyncThunk<
 // In slice:
 .addCase(fetchUser.rejected, (state, action) => {
   if (action.payload) {
-    // ✅ Typed error payload
+    // Typed error payload
     state.error = `${action.payload.status}: ${action.payload.message}`;
   } else {
     state.error = action.error.message || 'Unknown error';
@@ -140,17 +138,13 @@ export const fetchUser = createAsyncThunk<
 export const addTodoAndFetch = createAsyncThunk<Todo, string>(
   "todos/addTodoAndFetch",
   async (text, { getState, dispatch }) => {
-    // ✅ Access current state
     const state = getState() as RootState;
     const userId = state.user.id;
 
-    // Create todo
     const todo = { id: nanoid(), text, userId };
 
-    // ✅ Dispatch other actions
     dispatch(todosSlice.actions.addTodo(todo));
 
-    // Sync with API
     const response = await fetch("/api/todos", {
       method: "POST",
       body: JSON.stringify(todo),
@@ -167,7 +161,6 @@ export const addTodoAndFetch = createAsyncThunk<Todo, string>(
 export const fetchUser = createAsyncThunk<User, string>(
   "users/fetchUser",
   async (userId, { signal }) => {
-    // ✅ Pass AbortSignal to fetch
     const response = await fetch(`/api/users/${userId}`, {
       signal,
     });
@@ -209,7 +202,6 @@ export const updateUser = createAsyncThunk<User, UpdateUserArgs>(
   },
 );
 
-// Usage:
 dispatch(
   updateUser({ userId: "123", name: "John", email: "john@example.com" }),
 );
@@ -233,7 +225,7 @@ export const fetchUser = createAsyncThunk<User, string>(
       const state = getState() as RootState;
       const { loading, data } = state.user;
 
-      // ✅ Skip if already loading or data exists
+      // Skip if already loading or data exists
       if (loading || data?.id === userId) {
         return false;
       }
@@ -262,9 +254,8 @@ const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(deleteTodo.rejected, (state, action) => {
-      // ✅ Rollback on error
+      // Rollback on error
       if (action.meta.arg) {
-        // Re-add the deleted todo
         const deletedTodo =
           action.meta.requestStatus === "pending"
             ? findDeletedTodo(action.meta.arg)
@@ -280,7 +271,7 @@ const todosSlice = createSlice({
 export const deleteTodo = createAsyncThunk<void, string>(
   "todos/deleteTodo",
   async (todoId, { dispatch }) => {
-    // ✅ Optimistic: remove before API call
+    // Optimistic: remove before API call
     dispatch(todosSlice.actions.todoRemoved(todoId));
 
     const response = await fetch(`/api/todos/${todoId}`, {
@@ -304,7 +295,7 @@ export const deleteTodo = createAsyncThunk<void, string>(
 export const startPolling = createAsyncThunk<void, number>(
   "data/startPolling",
   async (intervalMs, { dispatch, signal }) => {
-    // ✅ Poll until aborted
+    // Poll until aborted
     while (!signal.aborted) {
       await dispatch(fetchData());
       await delay(intervalMs);
@@ -315,7 +306,6 @@ export const startPolling = createAsyncThunk<void, number>(
 // Helper
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Usage:
 const pollingPromise = dispatch(startPolling(5000)); // Every 5s
 
 // Stop polling:
@@ -332,7 +322,6 @@ pollingPromise.abort();
 export const fetchDashboardData = createAsyncThunk(
   "dashboard/fetchAll",
   async (_, { dispatch }) => {
-    // ✅ Parallel execution
     const [users, posts, comments] = await Promise.all([
       dispatch(fetchUsers()).unwrap(),
       dispatch(fetchPosts()).unwrap(),
@@ -386,13 +375,13 @@ const appSlice = createSlice({
 
 ## Best Practices
 
-1. **Type async thunks** - Use generics: `createAsyncThunk<ReturnType, ArgType, ThunkConfig>`
-2. **Handle all states** - pending, fulfilled, rejected in extraReducers
-3. **Use rejectWithValue** - Return custom error payloads for better error handling
-4. **Cancel requests** - Pass `signal` to fetch for proper cancellation
-5. **Prevent duplicates** - Use `condition` option to skip unnecessary requests
-6. **Optimistic updates** - Update UI immediately, rollback on error
-7. **Use unwrap()** - In components to handle promise results directly
+1. **Type async thunks** — Use generics: `createAsyncThunk<ReturnType, ArgType, ThunkConfig>`
+2. **Handle all states** — pending, fulfilled, rejected in extraReducers
+3. **Use rejectWithValue** — Return custom error payloads for better error handling
+4. **Cancel requests** — Pass `signal` to fetch for proper cancellation
+5. **Prevent duplicates** — Use `condition` option to skip unnecessary requests
+6. **Optimistic updates** — Update UI immediately, rollback on error
+7. **Use unwrap()** — In components to handle promise results directly
 
 ---
 

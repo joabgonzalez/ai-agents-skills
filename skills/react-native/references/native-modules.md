@@ -16,13 +16,12 @@
 ### ✅ Auto-Linking (React Native 0.60+)
 
 ```bash
-# Install package
 npm install react-native-vector-icons
 
-# iOS: Install pods (auto-linking)
+# iOS
 cd ios && pod install
 
-# Android: Auto-linked automatically
+# Android: auto-linked
 ```
 
 ### ✅ Manual Linking (Legacy)
@@ -44,7 +43,7 @@ class CalendarModule: NSObject {
 
   @objc
   func createEvent(_ name: String, location: String) {
-    // Native iOS code
+    // iOS implementation
   }
 
   @objc
@@ -72,7 +71,7 @@ class CalendarModule(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun createEvent(name: String, location: String) {
-    // Native Android code
+    // Android implementation
   }
 }
 

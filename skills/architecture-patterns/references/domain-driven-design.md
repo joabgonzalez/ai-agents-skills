@@ -1,15 +1,6 @@
 # Domain-Driven Design (DDD)
 
-> Strategic and tactical patterns for modeling complex business domains with ubiquitous language, bounded contexts, entities, value objects, and aggregates.
-
-## Overview
-
-DDD is both a philosophy and set of patterns for building software that closely models complex business domains. Focuses on collaboration between domain experts and developers using shared language.
-
-**Two aspects**:
-
-1. **Strategic DDD**: High-level organization (bounded contexts, context mapping, ubiquitous language)
-2. **Tactical DDD**: Implementation patterns (entities, value objects, aggregates, repositories, domain services)
+Philosophy and pattern set for building software that closely models complex business domains through collaboration between domain experts and developers using shared language.
 
 ---
 
@@ -97,8 +88,6 @@ export class Product {
 
 Object with unique identity that persists over time. Identity matters more than attributes.
 
-**Characteristics**:
-
 - Has unique ID
 - Mutable (attributes can change)
 - Compared by ID, not attributes
@@ -133,8 +122,6 @@ console.log(user1.equals(user2)); // true - same identity, even if different att
 ### Value Object
 
 Object with no identity. Defined entirely by its attributes. Immutable.
-
-**Characteristics**:
 
 - No unique ID
 - Immutable (create new instance to "change")
@@ -210,8 +197,6 @@ console.log(email.toString()); // 'user@example.com'
 
 Cluster of entities and value objects with a single root entity. Maintains consistency boundaries.
 
-**Rules**:
-
 - One entity is the **Aggregate Root** (entry point)
 - External objects can only reference the root
 - Root enforces invariants
@@ -245,7 +230,6 @@ export class Order {
       throw new Error("Cannot modify confirmed order");
     }
 
-    // Check if item already exists
     const existing = this._items.find((i) => i.productId === productId);
     if (existing) {
       existing.increaseQuantity(quantity);
@@ -479,7 +463,7 @@ export class SendOrderConfirmationEmail {
 
 ## Frontend Application
 
-DDD can apply to frontend with complex business logic:
+DDD applies to frontend with complex business logic:
 
 ```typescript
 // domain/entities/ShoppingCart.ts (Frontend aggregate)

@@ -27,7 +27,7 @@
 
 ### ✅ Controlled Components
 
-**Definition:** React state is the "single source of truth"
+React state is the single source of truth.
 
 ```typescript
 function ControlledInput() {
@@ -42,21 +42,13 @@ function ControlledInput() {
 }
 ```
 
-**Pros:**
+**Pros:** Immediate value access, real-time validation, easy conditional logic, easy reset/transform.
 
-- Immediate access to value
-- Easy validation
-- Conditional logic (enable/disable, show/hide)
-- Easy to reset or transform input
-
-**Cons:**
-
-- Slightly more code
-- Re-renders on every keystroke
+**Cons:** Slightly more code, re-renders on every keystroke.
 
 ### ✅ Uncontrolled Components
 
-**Definition:** DOM is the source of truth, access via ref
+DOM is the source of truth, accessed via ref.
 
 ```typescript
 function UncontrolledInput() {
@@ -75,17 +67,9 @@ function UncontrolledInput() {
 }
 ```
 
-**Pros:**
+**Pros:** Less code, better performance (no re-renders), good for large forms with minimal interaction.
 
-- Less code
-- Better performance (no re-renders)
-- Good for large forms with minimal interaction
-
-**Cons:**
-
-- Can't access value without ref
-- Harder to validate in real-time
-- More complex with conditional logic
+**Cons:** No value access without ref, harder to validate in real-time, complex conditional logic.
 
 ---
 
@@ -119,7 +103,6 @@ function LoginForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
     const newErrors: Partial<FormData> = {};
     if (!formData.email) newErrors.email = 'Email is required';
     if (!formData.password) newErrors.password = 'Password is required';
@@ -129,7 +112,6 @@ function LoginForm() {
       return;
     }
 
-    // Submit
     submitLogin(formData);
   };
 
@@ -420,7 +402,6 @@ function FileUpload() {
 
     setFile(selectedFile);
 
-    // Generate preview for images
     if (selectedFile.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onloadend = () => {

@@ -1,11 +1,6 @@
 # Complete Skill Examples
 
-> Full skill examples for simple, medium, and complex structures
-
-## Overview
-
-This document provides complete, copy-pasteable skill examples demonstrating proper structure
-at each complexity level. Use these as starting points for new skills.
+Full skill examples demonstrating proper structure at simple, medium, and complex levels. Use as starting points for new skills.
 
 ---
 
@@ -258,7 +253,7 @@ Handles complex forms with field-level and form-level validation.
 
 ## Objective
 
-Implement robust, accessible forms with validation, error handling, and submission logic
+Implement accessible forms with validation, error handling, and submission logic
 using Formik's hooks and components.
 
 ---

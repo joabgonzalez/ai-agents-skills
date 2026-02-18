@@ -4,7 +4,7 @@
 
 ## Import Grouping Order
 
-Always group imports in this order, with blank lines between groups:
+Group imports in this order, with blank lines between groups:
 
 ```typescript
 // 1. External libraries (node_modules)

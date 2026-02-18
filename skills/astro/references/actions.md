@@ -39,7 +39,6 @@ export const server = {
       const user = await authenticateUser(email, password);
       if (!user) throw new Error("Invalid credentials");
 
-      // Set cookie
       context.cookies.set("auth_token", generateToken(user), {
         httpOnly: true,
         secure: true,

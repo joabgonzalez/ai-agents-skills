@@ -4,10 +4,19 @@ description: "{Brief description}. Trigger: {When AI should invoke - be specific
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: {behavioral|universal|language|framework|library|tooling|domain}
   skills:
-    # Only include dependencies that this skill DIRECTLY needs
-    # Do NOT include conventions - it comes transitively via typescript/javascript/react/nodejs
-    # ONLY add conventions if your skill is truly standalone (no technical dependencies)
+    # Determine dependencies based on TYPE - see references/dependencies-matrix.md
+    # behavioral → can ONLY depend on other behavioral (prefer NONE)
+    # universal → can ONLY depend on behavioral
+    # language → prefer NONE (self-sufficient)
+    # framework → can depend on framework, language, domain, behavioral
+    # library → can depend on library, framework, language, domain, behavioral
+    # tooling → can depend on what it wraps
+    # domain → prefer NONE (or depend on related domain, behavioral)
+    #
+    # CRITICAL: Dependencies are TRANSITIVE - do NOT duplicate!
+    # If skill A depends on B, and B depends on C, then A gets C automatically
   dependencies:
     {package-name}: "{version-range}"
 ---

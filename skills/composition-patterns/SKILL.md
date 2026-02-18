@@ -4,14 +4,12 @@ description: "Component composition patterns for React, Astro, and React Native.
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
-    - react
+  type: behavioral
 ---
 
 # Composition Patterns
 
-Component composition patterns for building flexible, reusable UI across React, Astro, and React Native. Focus on API design over implementation details.
+Build flexible, reusable UI with component composition for React, Astro, React Native.
 
 ## When to Use
 
@@ -82,7 +80,7 @@ function PageLayout({ header, sidebar, children, footer }: PageLayoutProps) {
   );
 }
 
-// Usage — consumer decides what goes in each slot
+// Consumer decides slot content
 <PageLayout
   header={<NavBar />}
   sidebar={<SideMenu items={menuItems} />}
@@ -128,7 +126,7 @@ function TabContent({ value, children }: { value: string; children: ReactNode })
 Tabs.Trigger = TabTrigger;
 Tabs.Content = TabContent;
 
-// Usage — clean, declarative API
+// Clean, declarative API
 <Tabs defaultValue="tab1">
   <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>
   <Tabs.Trigger value="tab2">Details</Tabs.Trigger>
@@ -139,7 +137,7 @@ Tabs.Content = TabContent;
 
 ### ✅ REQUIRED: Headless Components
 
-Provide behavior without styling — consumer controls UI.
+Behavior without styling, consumer controls UI.
 
 ```typescript
 // ✅ CORRECT: Headless toggle hook
@@ -192,7 +190,7 @@ function Box<E extends ElementType = 'div'>({ as, children, ...props }: Polymorp
   return <Component {...props}>{children}</Component>;
 }
 
-// Usage — same component, different elements
+// Same component, different elements
 <Box>Default div</Box>
 <Box as="section" className="mt-4">Section element</Box>
 <Box as="article">Article element</Box>
@@ -311,11 +309,11 @@ function ScreenLayout({ header, children, footer }: ScreenLayoutProps) {
 
 ## Edge Cases
 
-**When to use render props over children**: When consumer needs access to internal state (e.g., `isOpen`, `selectedIndex`).
+**Render props vs children**: Use render props when consumer needs internal state access.
 
-**Compound components without Context**: For 2-3 sub-components, `React.Children.map` can work. For 4+ or deeply nested, use Context.
+**Compound without Context**: 2-3 sub-components use `React.Children.map`, 4+ use Context.
 
-**TypeScript generics with composition**: Use generic components for type-safe data rendering (e.g., `<List<User> items={users} renderItem={...} />`).
+**TS generics**: Type-safe data rendering (`<List<User> items={users} renderItem={...} />`).
 
 ---
 

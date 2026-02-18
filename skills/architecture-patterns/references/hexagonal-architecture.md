@@ -1,32 +1,6 @@
 # Hexagonal Architecture (Ports and Adapters)
 
-> Decouple core business logic from external dependencies through ports (interfaces) and adapters (implementations).
-
-## Overview
-
-Hexagonal Architecture (also called Ports and Adapters) isolates the application core from external concerns. The core defines interfaces (ports), and external systems provide implementations (adapters).
-
-**Core idea**: Application core at the center, surrounded by ports (interfaces). Adapters connect external systems to ports.
-
-```
-         ┌──────────────────────────────────┐
-         │        Adapters (Outside)        │
-         │  ┌────────────────────────────┐  │
-         │  │    Ports (Interfaces)      │  │
-         │  │  ┌──────────────────────┐  │  │
-         │  │  │  Application Core    │  │  │
-         │  │  │  (Business Logic)    │  │  │
-         │  │  └──────────────────────┘  │  │
-         │  │                            │  │
-         │  └────────────────────────────┘  │
-         └──────────────────────────────────┘
-```
-
-**Benefits**:
-
-- Easy to swap implementations (DB, payment gateway, etc.)
-- Testable (mock adapters)
-- Technology-agnostic core
+Isolates application core from external concerns—core defines interfaces (ports), external systems provide implementations (adapters). Enables easy implementation swapping, testability via mocks, and technology-agnostic core.
 
 ---
 
@@ -34,7 +8,7 @@ Hexagonal Architecture (also called Ports and Adapters) isolates the application
 
 ### Port (Interface)
 
-Interface defined by the application core that describes what it needs from the outside world.
+Interface defined by the application core describing what it needs from the outside world.
 
 **Two types**:
 
@@ -74,7 +48,6 @@ export class RegisterUserUseCase {
   ) {}
 
   async execute(email: string, name: string): Promise<Result<User>> {
-    // Business logic
     const existingUser = await this.userRepository.findByEmail(email);
     if (existingUser) {
       return Result.fail("Email already registered");
@@ -92,14 +65,14 @@ export class RegisterUserUseCase {
 ### 2. Secondary Ports (Interfaces)
 
 ```typescript
-// core/ports/IUserRepository.ts (Secondary port)
+// core/ports/IUserRepository.ts
 export interface IUserRepository {
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   save(user: User): Promise<void>;
 }
 
-// core/ports/IEmailService.ts (Secondary port)
+// core/ports/IEmailService.ts
 export interface IEmailService {
   sendWelcome(email: string, name: string): Promise<void>;
 }
@@ -196,20 +169,16 @@ export class UserCLI {
 const db = new PrismaClient();
 const sendgrid = new SendGridClient(process.env.SENDGRID_KEY);
 
-// Create adapters
 const userRepository = new PostgresUserRepository(db);
 const emailService = new SendGridEmailService(sendgrid);
 
-// Create use case with dependencies
 const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   emailService,
 );
 
-// Create primary adapter
 const userController = new UserController(registerUserUseCase);
 
-// HTTP routes
 app.post("/users/register", (req, res) => userController.register(req, res));
 ```
 
@@ -223,10 +192,9 @@ app.post("/users/register", (req, res) => userController.register(req, res));
 // __tests__/RegisterUser.test.ts
 describe("RegisterUserUseCase", () => {
   it("should register new user", async () => {
-    // Mock adapters
     const mockRepo: IUserRepository = {
       findById: jest.fn(),
-      findByEmail: jest.fn().mockResolvedValue(null), // No existing user
+      findByEmail: jest.fn().mockResolvedValue(null),
       save: jest.fn(),
     };
 
@@ -234,7 +202,6 @@ describe("RegisterUserUseCase", () => {
       sendWelcome: jest.fn(),
     };
 
-    // Test use case with mocks
     const useCase = new RegisterUserUseCase(mockRepo, mockEmail);
     const result = await useCase.execute("test@example.com", "John");
 
@@ -253,7 +220,7 @@ describe("RegisterUserUseCase", () => {
 
     const mockRepo: IUserRepository = {
       findById: jest.fn(),
-      findByEmail: jest.fn().mockResolvedValue(existingUser), // Email exists
+      findByEmail: jest.fn().mockResolvedValue(existingUser),
       save: jest.fn(),
     };
 
@@ -284,7 +251,7 @@ describe("User Registration (Integration)", () => {
   beforeAll(() => {
     db = new PrismaClient();
     userRepository = new PostgresUserRepository(db);
-    emailService = new ConsoleEmailService(); // Mock email for tests
+    emailService = new ConsoleEmailService();
     useCase = new RegisterUserUseCase(userRepository, emailService);
   });
 
@@ -293,7 +260,6 @@ describe("User Registration (Integration)", () => {
 
     expect(result.isSuccess).toBe(true);
 
-    // Verify in database
     const savedUser = await db.user.findUnique({
       where: { email: "integration@test.com" },
     });

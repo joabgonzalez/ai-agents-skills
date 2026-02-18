@@ -4,6 +4,7 @@ description: "User-centric React component testing. Trigger: When testing React 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
     - react
     - jest
@@ -111,11 +112,11 @@ describe('ContactForm', () => {
 
 ## Edge Cases
 
-- **Portals/modals** -- Use `screen` queries since portals render outside the parent DOM node
-- **Async state** -- Wrap assertions in `waitFor` when state updates after await or setTimeout
-- **Act warnings** -- Ensure async operations complete; `findBy*` handles this automatically
-- **Providers** -- Create a `renderWithProviders` wrapper for context (theme, router, store)
-- **Cleanup** -- RTL calls `cleanup` automatically with Jest; do not call manually
+- **Portals/modals**: Use `screen` queries since portals render outside parent DOM
+- **Async state**: Wrap assertions in `waitFor` when state updates after await or setTimeout
+- **Act warnings**: Ensure async operations complete; `findBy*` handles automatically
+- **Providers**: Create `renderWithProviders` wrapper for context (theme, router, store)
+- **Cleanup**: RTL calls `cleanup` automatically with Jest; do not call manually
 
 ## Checklist
 

@@ -4,14 +4,14 @@ description: "UI/UX design patterns and design thinking for software projects. T
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: domain
   skills:
-    - conventions
     - a11y
 ---
 
 # Interface Design
 
-Design thinking process for planning user interfaces: user flows, wireframing, component hierarchy, and validation checkpoints. Focus on UX decisions before implementation.
+Plan UI with user flows, wireframing, component hierarchy, validation. UX decisions before implementation.
 
 ## When to Use
 
@@ -22,9 +22,9 @@ Design thinking process for planning user interfaces: user flows, wireframing, c
 - User asks "how should this look?" or "what's the best UX for X?"
 
 Don't use for:
-- Implementation details (use react, mui, css skills)
-- Accessibility specifics (use a11y)
-- Backend API design (use architecture-patterns)
+- Implementation (react, mui, css skills)
+- Accessibility (a11y)
+- Backend APIs (architecture-patterns)
 
 ---
 
@@ -32,7 +32,7 @@ Don't use for:
 
 ### ✅ REQUIRED: User-First Design Process
 
-Follow this process before writing UI code.
+Process before writing UI code.
 
 ```markdown
 ## Design Process
@@ -151,13 +151,13 @@ identify state needs, then implement."
 
 ### ✅ REQUIRED: Apply Visual Design System
 
-Use consistent typography, spacing, and color systems for visual harmony.
+Consistent typography, spacing, color for visual harmony.
 
-**Typography:** Modular scale (0.75rem → 3rem), line-height rules (headings 1.1-1.3, body 1.5-1.7), fluid sizing with `clamp()`
+**Typography:** Modular scale (0.75rem → 3rem), line-height (headings 1.1-1.3, body 1.5-1.7), fluid `clamp()`
 
-**Spacing:** 8-point grid (4px → 64px), consistent component spacing (cards 16-24px, sections 32-64px)
+**Spacing:** 8pt grid (4px → 64px), consistent spacing (cards 16-24px, sections 32-64px)
 
-**Color:** Semantic naming (brand, success, error), WCAG contrast ratios (4.5:1 body text, 3:1 UI components)
+**Color:** Semantic naming, WCAG ratios (4.5:1 text, 3:1 UI)
 
 See [visual-design.md](references/visual-design.md) for complete typography scale, spacing system, color contrast calculations, and iconography patterns.
 
@@ -179,9 +179,9 @@ Motion communicates state changes and guides attention — it doesn't decorate.
 
 **Timing:** 100-150ms (feedback), 200-300ms (toggles), 300-500ms (modals), 500ms+ (choreography)
 
-**Performance:** Use `transform`/`opacity` only for 60fps, avoid layout-triggering properties (`width`, `height`, `top`, `left`)
+**Performance:** `transform`/`opacity` for 60fps, avoid layout properties (`width`, `height`, `top`, `left`)
 
-**Accessibility:** Support `prefers-reduced-motion` (disable animations for users who request it)
+**Accessibility:** Support `prefers-reduced-motion`
 
 See [interaction-design.md](references/interaction-design.md) for micro-interactions, loading states, gesture patterns, and spring physics animations.
 
@@ -234,13 +234,13 @@ Accessibility concerns?
 
 ## Edge Cases
 
-**Responsive design**: Plan for mobile-first, then expand. Not the other way around.
+**Responsive**: Mobile-first, then expand.
 
-**Loading states**: Every async operation needs: loading, success, error, empty states.
+**Loading states**: Every async needs loading, success, error, empty.
 
-**Empty states**: Design what users see with zero data (first-time use, no results).
+**Empty states**: Design for zero data (first use, no results).
 
-**Error recovery**: Users should never hit a dead end. Always provide a way forward.
+**Error recovery**: Always provide way forward.
 
 ---
 

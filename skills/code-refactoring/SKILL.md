@@ -4,16 +4,14 @@ description: "Systematic code refactoring with risk mitigation. Trigger: When re
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
-    - architecture-patterns
-    - typescript
-    - systematic-debugging
     - unit-testing
 ---
 
 # Code Refactoring Skill
 
-Systematic approach to refactoring legacy code, migrating technologies, and resolving technical debt with minimal risk and maximum impact.
+Refactoring legacy code, migrating technologies, and resolving technical debt with minimal risk and maximum impact.
 
 ## When to Use
 
@@ -33,7 +31,7 @@ Systematic approach to refactoring legacy code, migrating technologies, and reso
 
 ### ✅ REQUIRED: Safety Snapshot Before Starting
 
-Create a safety net BEFORE touching any code.
+Create safety net BEFORE touching any code.
 
 ```bash
 # ✅ CORRECT: Safety snapshot workflow
@@ -65,7 +63,7 @@ echo "Bundle size: $(du -h dist/)" >> baseline-metrics.txt
 
 ### ✅ REQUIRED: Test Coverage Before Refactoring
 
-Never refactor production code without comprehensive test coverage.
+Never refactor production code without test coverage.
 
 ```typescript
 // ❌ WRONG: Refactoring without tests

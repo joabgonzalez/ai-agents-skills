@@ -1,6 +1,6 @@
 # useEffect Patterns
 
-> Complete guide to side effects, cleanup, dependencies, and async operations
+> Side effects, cleanup, dependencies, and async operations
 
 ## When to Read This
 
@@ -27,12 +27,7 @@ useEffect(() => {
 }, []); // Empty array = mount only
 ```
 
-**Use cases:**
-
-- Setting up global event listeners
-- Initializing third-party libraries
-- WebSocket connections
-- Subscriptions that don't depend on props/state
+**Use cases:** Global event listeners, initializing third-party libraries, WebSocket connections, subscriptions that don't depend on props/state.
 
 ### ✅ Reactive Effect (With Dependencies)
 
@@ -47,7 +42,6 @@ useEffect(() => {
 ```
 
 **Rules:**
-
 - Include ALL values from component scope used inside effect
 - ESLint rule `exhaustive-deps` helps catch missing dependencies
 - If linter suggests adding dependency, add it (don't disable)
@@ -107,7 +101,6 @@ useEffect(() => {
     setData(data);
   });
 
-  // Cleanup: unsubscribe when component unmounts or effect re-runs
   return () => {
     subscription.unsubscribe();
   };
@@ -144,7 +137,6 @@ useEffect(() => {
 
   window.addEventListener("resize", handleResize);
 
-  // Cleanup: remove listener
   return () => {
     window.removeEventListener("resize", handleResize);
   };
@@ -276,7 +268,7 @@ useEffect(() => {
 
   fetchUser(userId).then((user) => {
     if (!cancelled) {
-      setUser(user); // Only update if not cancelled
+      setUser(user);
     }
   });
 
@@ -344,7 +336,6 @@ function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-// Usage: Search with debounce
 function SearchInput() {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 500);
@@ -437,7 +428,6 @@ useEffect(() => {
 ### ✅ Conditional Effect Execution
 
 ```typescript
-// Skip effect if condition not met
 useEffect(() => {
   if (!isAuthenticated) return;
   if (!userId) return;
@@ -564,18 +554,9 @@ useEffect(() => {
 }, []);
 ```
 
-**Use `useLayoutEffect` when:**
+**Use `useLayoutEffect` when:** Measuring DOM elements, synchronous DOM mutations to prevent flicker, animations that need to be in sync with render.
 
-- Measuring DOM elements
-- Synchronous DOM mutations to prevent flicker
-- Animations that need to be in sync with render
-
-**Use `useEffect` for:**
-
-- Data fetching
-- Subscriptions
-- Event listeners
-- Most side effects
+**Use `useEffect` for:** Data fetching, subscriptions, event listeners, most side effects.
 
 ---
 

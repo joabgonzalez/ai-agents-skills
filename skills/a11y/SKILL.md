@@ -4,25 +4,16 @@ description: "Universal accessibility with WCAG 2.1/2.2 Level AA. Trigger: When 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: domain
   allowed-tools:
     - file-reader
 ---
 
 # Accessibility (a11y) Skill
 
-## Overview
-
-This skill centralizes accessibility guidelines and best practices for all technologies and frameworks used in the project, including HTML, CSS, React, MUI, Astro, React Native, and more. It covers semantic structure, ARIA usage, color contrast, keyboard navigation, and compliance with WCAG and WAI-ARIA standards.
-
-## Objective
-
-Ensure all user interfaces meet accessibility standards (WCAG 2.1/2.2 Level AA minimum) across all technologies. This skill provides universal accessibility guidance that technology-specific skills can reference.
-
----
+Ensures WCAG 2.1/2.2 Level AA compliance: semantic structure, ARIA, contrast, keyboard nav.
 
 ## When to Use
-
-Use this skill when:
 
 - Building UI components with interactive elements
 - Implementing forms, modals, or custom widgets
@@ -31,11 +22,11 @@ Use this skill when:
 - Reviewing accessibility compliance
 - Testing with screen readers
 
-Don't use this skill for:
+Don't use for:
 
-- Technology-specific implementation (delegate to react, html, etc.)
-- General coding patterns (use conventions skill)
-- Pure backend logic (no UI)
+- Tech-specific implementation (react, html skills)
+- General patterns (conventions skill)
+- Backend logic (no UI)
 
 ---
 
@@ -107,47 +98,45 @@ Don't use this skill for:
 
 ### Semantic HTML
 
-- Use semantic elements (`<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`)
-- Proper heading hierarchy (h1 → h2 → h3, no skipping levels)
-- Use `<button>` for actions, `<a>` for navigation
-- Form labels must be associated with inputs
+- Semantic elements (`<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`)
+- Heading hierarchy (h1 → h2 → h3, no skipping)
+- `<button>` for actions, `<a>` for navigation
+- Labels associated with inputs
 
 ### ARIA
 
-- Use ARIA only when semantic HTML is insufficient
-- Prefer native elements over ARIA roles
-- Common patterns: `aria-label`, `aria-labelledby`, `aria-describedby`
-- Required for dynamic content: `aria-live`, `aria-atomic`
+- Only when semantic HTML insufficient
+- Prefer native elements
+- Common: `aria-label`, `aria-labelledby`, `aria-describedby`
+- Dynamic content: `aria-live`, `aria-atomic`
 
 ### Keyboard Navigation
 
-- All interactive elements must be keyboard accessible
-- Logical tab order (use tabindex only when necessary)
+- All interactive elements keyboard accessible
+- Logical tab order (tabindex when needed)
 - Visible focus indicators
-- Escape key closes modals/dropdowns
+- Escape closes modals/dropdowns
 
 ### Color and Contrast
 
-- Text contrast ratio 4.5:1 minimum (7:1 for Level AAA)
-- Large text (18pt+) minimum 3:1
-- Don't rely solely on color to convey information
+- Text 4.5:1 min (7:1 AAA), large text 3:1 min
+- Don't rely on color alone
 - Test with color blindness simulators
-- **UI component contrast 3:1** (WCAG 2.1)
-- **Focus indicators contrast 3:1** (WCAG 2.2)
+- UI components 3:1 (WCAG 2.1)
+- Focus indicators 3:1 (WCAG 2.2)
 
 ### Touch Targets & Interaction
 
-- **Touch target size minimum 24x24px** (WCAG 2.2)
-- Recommend 44x44px for better usability (WCAG 2.1 AAA)
+- 24x24px min (WCAG 2.2), 44x44px recommended (AAA)
 - Adequate spacing between targets
-- **No dragging movements required** unless essential (WCAG 2.2)
+- No dragging required unless essential (WCAG 2.2)
 
 ### Screen Readers
 
-- Provide alternative text for images (`alt` attribute)
-- Use `aria-hidden="true"` for decorative elements
-- Announce dynamic content changes with `aria-live`
-- Test with screen readers (NVDA, JAWS, VoiceOver)
+- Alt text for images
+- `aria-hidden="true"` for decorative elements
+- `aria-live` for dynamic changes
+- Test with NVDA, JAWS, VoiceOver
 
 ## Decision Tree
 

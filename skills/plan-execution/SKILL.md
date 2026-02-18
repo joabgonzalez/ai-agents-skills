@@ -4,6 +4,7 @@ description: "Batch execution with checkpoints. Trigger: When executing plans wi
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
     - writing-plans
     - verification-protocol

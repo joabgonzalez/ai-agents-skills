@@ -4,13 +4,12 @@ description: "Modern JavaScript (ES2020+) patterns. Trigger: When writing JavaSc
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - conventions
+  type: language
 ---
 
 # JavaScript Skill
 
-Modern JavaScript patterns and best practices for ES2020+ development, emphasizing clean async code, safe property access, and modern syntax.
+Modern JS/TS patterns for ES2020+ with async code, safe property access, modern syntax.
 
 ## When to Use
 
@@ -21,14 +20,14 @@ Use when:
 - Implementing async operations (promises, async/await)
 - Using destructuring, optional chaining, nullish coalescing
 
-Don't use for TypeScript-specific patterns (use typescript skill), React patterns (use react skill), or Node.js backend specifics.
+Don't use for TypeScript (typescript skill), React (react skill), or Node.js backend.
 
 ## Critical Patterns
 
 ### ES Module Imports
 
 ```javascript
-// CORRECT: Named imports — explicit, tree-shakeable
+// CORRECT: Named imports (explicit, tree-shakeable)
 import { readFileSync, existsSync } from "fs";
 import { join, resolve } from "path";
 
@@ -64,7 +63,7 @@ const count = needed();
 const API_URL = "https://api.example.com";
 let count = 0;
 
-// WRONG: var is function-scoped, causes hoisting issues
+// WRONG: var (function-scoped, hoisting issues)
 var count = 0;
 ```
 
@@ -81,7 +80,7 @@ async function fetchData() {
   }
 }
 
-// WRONG: promise chains (less readable)
+// WRONG: promise chains
 function fetchData() {
   return fetch(url)
     .then((res) => res.json())
@@ -95,7 +94,7 @@ function fetchData() {
 // CORRECT: safe access + nullish coalescing
 const name = user?.profile?.name ?? "Anonymous";
 const result = obj?.method?.();
-const port = config.port ?? 3000; // 0 is valid, won't fallback
+const port = config.port ?? 3000; // 0 won't fallback
 
 // WRONG: || treats 0, '', false as falsy
 const port = config.port || 3000; // 0 fallbacks to 3000!
@@ -131,7 +130,7 @@ const posts = await fetchPosts();
 const comments = await fetchComments();
 ```
 
-Conventions: follow **conventions** skill for naming, organization, and documentation.
+Conventions: **conventions** skill for naming/organization/docs.
 
 ## Decision Tree
 
@@ -175,11 +174,11 @@ const greeting = `Hello, ${name}!`;
 
 ## Edge Cases
 
-- **Parallel async:** Use `Promise.all()` for concurrent execution, not sequential awaits
-- **Array holes:** Sparse arrays behave differently in `.map()` vs `.forEach()`; use `.filter(Boolean)` to clean
-- **Number precision:** Floating point is imprecise; use decimal.js for financial calculations
-- **Equality:** Always `===`; never `==` (type coercion causes bugs)
-- **this binding:** Arrow functions don't bind `this`; use regular functions for methods needing `this`
+- **Parallel async:** `Promise.all()` for concurrent execution
+- **Array holes:** `.filter(Boolean)` to clean sparse arrays
+- **Number precision:** Use decimal.js for financial calculations
+- **Equality:** Always `===` (never `==`)
+- **this binding:** Arrow functions don't bind `this`
 
 ## Checklist
 

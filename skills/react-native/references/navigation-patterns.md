@@ -69,7 +69,7 @@ function DetailsScreen({ route, navigation }: Props) {
     headerStyle: { backgroundColor: '#f4511e' },
     headerTintColor: '#fff',
     headerRight: () => (
-      <Button onPress={() => alert('This is a button!')} title="Info" />
+      <Button onPress={() => alert('Info')} title="Info" />
     ),
   }}
 />
@@ -189,11 +189,10 @@ import { useFocusEffect } from "@react-navigation/native";
 
 useFocusEffect(
   React.useCallback(() => {
-    // Screen focused - do something
-    fetchData();
+    fetchData(); // on focus
 
     return () => {
-      // Screen unfocused - cleanup
+      // cleanup on blur
     };
   }, []),
 );

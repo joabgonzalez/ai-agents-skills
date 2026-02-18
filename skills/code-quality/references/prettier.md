@@ -1,10 +1,6 @@
 # Prettier
 
-> Opinionated code formatter with minimal configuration
-
-## Overview
-
-Prettier is an opinionated code formatter that enforces consistent style by parsing and reprinting code. Best for teams wanting zero-debate formatting across JavaScript, TypeScript, CSS, JSON, Markdown, and more.
+Opinionated code formatter enforcing consistent style across JavaScript, TypeScript, CSS, JSON, and Markdown. Best for teams wanting zero-debate formatting.
 
 **Dependencies:**
 ```json

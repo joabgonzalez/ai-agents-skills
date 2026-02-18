@@ -4,10 +4,9 @@ description: "Managed workflow for cross-platform mobile apps with EAS. Trigger:
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
     - react-native
-    - typescript
-    - a11y
   dependencies:
     expo: ">=50.0.0 <51.0.0"
     react-native: ">=0.73.0 <1.0.0"
@@ -18,31 +17,21 @@ metadata:
 
 # Expo Skill
 
-## Overview
-
-This skill provides guidance for developing cross-platform mobile applications using Expo, covering setup, development workflow, native features, and deployment.
-
-## Objective
-
-Enable developers to build, test, and deploy mobile applications efficiently using Expo's managed workflow with proper TypeScript support and React Native best practices.
-
----
+Cross-platform mobile with Expo managed workflow. Setup, native features (EAS Build/Update), deployment with TypeScript and React Native.
 
 ## When to Use
 
-Use this skill when:
+- Cross-platform mobile (iOS + Android)
+- Expo managed workflow
+- EAS Build/Update config
+- Native features via Expo SDK
+- OTA updates
 
-- Building cross-platform mobile apps (iOS + Android)
-- Using Expo managed workflow
-- Configuring EAS Build or EAS Update
-- Accessing native features via Expo SDK
-- Deploying OTA updates
+Don't use for:
 
-Don't use this skill for:
-
-- Bare React Native projects (use react-native skill)
-- Web-only applications
-- Custom native modules not supported by Expo
+- Bare React Native (use react-native skill)
+- Web-only apps
+- Unsupported custom native modules
 
 ---
 
@@ -89,29 +78,29 @@ const Component: React.FC<Props> = ({ title }) => {
 
 ## Conventions
 
-- Use TypeScript for type safety
-- Follow React Native component patterns
-- Leverage Expo SDK for native features
-- Use Expo Go for development testing
-- Implement proper error handling for native features
+- TypeScript for type safety
+- React Native patterns
+- Expo SDK for native features
+- Expo Go for dev testing
+- Error handling for native features
 
 ---
 
 ## Decision Tree
 
-**Need native feature?** → Check Expo SDK first, use managed module if available.
+**Native feature?** → Check Expo SDK first.
 
-**Custom native code needed?** → Use config plugins or eject to bare workflow.
+**Custom native code?** → Config plugins or eject.
 
-**Building for stores?** → Use EAS Build for cloud builds.
+**Store builds?** → EAS Build (cloud).
 
-**Need OTA updates?** → Use EAS Update for instant app updates.
+**OTA updates?** → EAS Update.
 
-**Platform-specific code?** → Use `Platform.select()` or `.ios.tsx`/`.android.tsx` files.
+**Platform code?** → `Platform.select()` or `.ios.tsx`/`.android.tsx`.
 
-**Testing?** → Use Expo Go for development, physical devices or simulators for final testing.
+**Testing?** → Expo Go (dev), devices/simulators (final).
 
-**Navigation?** → Use Expo Router or React Navigation.
+**Navigation?** → Expo Router or React Navigation.
 
 ---
 
@@ -142,10 +131,10 @@ const styles = StyleSheet.create({
 
 ## Edge Cases
 
-- Handle platform-specific code with Platform API
-- Manage permissions properly
-- Test on both iOS and Android
-- Handle offline scenarios
+- Platform code via Platform API
+- Proper permission management
+- Test iOS and Android
+- Handle offline
 
 ## References
 

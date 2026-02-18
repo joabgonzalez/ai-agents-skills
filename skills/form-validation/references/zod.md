@@ -1,10 +1,6 @@
 # Zod Validation
 
-> TypeScript-first schema validation with automatic type inference
-
-## Overview
-
-Zod provides runtime validation with compile-time type safety through automatic type inference. Best for TypeScript projects needing both validation and types from a single source of truth.
+Runtime validation with compile-time type safety through automatic type inference. Best for TypeScript projects needing both validation and types from a single source.
 
 **Dependencies:**
 ```json
@@ -87,7 +83,7 @@ const email = z.string(); // Too permissive
 ### Custom Refinements
 
 ```typescript
-// ✅ CORRECT: Custom validation logic
+// Custom validation logic
 const passwordSchema = z
   .string()
   .refine((val) => val.length >= 8, {

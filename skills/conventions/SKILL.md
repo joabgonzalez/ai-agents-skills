@@ -4,25 +4,16 @@ description: "General coding conventions and best practices shared across techno
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: universal
   allowed-tools:
     - file-reader
 ---
 
 # Coding Conventions Skill
 
-## Overview
-
-This skill centralizes general coding conventions and best practices that apply across multiple technologies and frameworks. It covers code organization, documentation, naming, and type import strategies.
-
-## Objective
-
-Ensure consistent coding practices across the codebase regardless of technology stack. This skill delegates technology-specific conventions to their respective skills (e.g., TypeScript, React, MUI).
-
----
+General conventions: code organization, naming, docs, type imports. Tech-specific rules in respective skills.
 
 ## When to Use
-
-Use this skill when:
 
 - Establishing general code organization patterns
 - Defining naming conventions across technologies
@@ -30,26 +21,10 @@ Use this skill when:
 - Creating project structure guidelines
 - Reviewing code for general best practices
 
-Don't use this skill for:
-
-- Technology-specific patterns (use typescript, react, etc.)
-- Accessibility rules (use a11y skill)
-- Framework-specific conventions (use framework skill)
-- **Architecture patterns** (use [architecture-patterns](../architecture-patterns/SKILL.md) when project already uses SOLID, Clean Architecture, DDD)
-
-### Scope Rule
-
-**conventions covers what applies to ALL/MOST technologies.** If a convention is specific to one technology (e.g., React hooks rules, TypeScript generics), it belongs in that technology's skill.
-
-### Skills That Build on conventions
-
-This skill is a dependency for 40+ skills. Technology skills extend these conventions with their own specifics:
-
-- **typescript** → Adds strict typing, generics, utility types
-- **react** → Adds component naming, hook rules, JSX patterns
-- **nodejs** → Adds module patterns, error handling, async patterns
-- **code-quality** → Adds linting/formatting tool configuration
-- **architecture-patterns** → Adds layer organization, SOLID, DIP
+Don't use for:
+- Tech patterns (typescript, react skills)
+- Accessibility (a11y skill)
+- Architecture (architecture-patterns skill)
 
 ---
 
@@ -58,17 +33,17 @@ This skill is a dependency for 40+ skills. Technology skills extend these conven
 ### ✅ REQUIRED: Consistent Naming Conventions
 
 ```typescript
-// ✅ CORRECT: Proper naming by type
+// ✅ CORRECT: Proper naming
 const userId = 123; // camelCase for variables
 function getUserData() {} // camelCase for functions
 class UserService {} // PascalCase for classes
-const MAX_RETRY_COUNT = 3; // UPPER_SNAKE_CASE for constants
+const MAX_RETRY_COUNT = 3; // UPPER_SNAKE_CASE constants
 
 // ❌ WRONG: Inconsistent naming
 const UserID = 123; // Wrong case
 function GetUserData() {} // Wrong case
 class userService {} // Wrong case
-const maxRetryCount = 3; // Wrong case for constant
+const maxRetryCount = 3; // Wrong case
 ```
 
 ### ✅ REQUIRED: Group and Organize Imports
@@ -125,7 +100,7 @@ import * as p from '@clack/prompts'; // uses intro, spinner, select, multiselect
 ### ✅ REQUIRED: Separate Type Imports
 
 ```typescript
-// ✅ CORRECT: import type for type-only imports
+// ✅ CORRECT: import type
 import { UserService } from './services/UserService';
 import type { User, UserRole } from './types';
 
@@ -220,15 +195,15 @@ Which concern?
 
 ## Edge Cases
 
-**Abbreviations:** Use well-known abbreviations (HTTP, API, URL, ID) but avoid custom ones. `userId` is OK, `usrId` is not.
+**Abbreviations:** Well-known OK (HTTP, API, URL, ID), avoid custom (`userId` OK, `usrId` not).
 
-**Acronyms in names:** Treat as words: `HttpService` not `HTTPService`, `apiKey` not `aPIKey`.
+**Acronyms:** Treat as words (`HttpService` not `HTTPService`, `apiKey` not `aPIKey`).
 
-**File naming:** Match export name: `UserService.ts` exports `UserService`, `index.ts` for barrel exports.
+**File naming:** Match export (`UserService.ts` exports `UserService`, `index.ts` for barrels).
 
-**Boolean naming:** Use `is`, `has`, `should` prefixes: `isActive`, `hasPermission`, `shouldRender`.
+**Booleans:** `is`, `has`, `should` prefixes (`isActive`, `hasPermission`, `shouldRender`).
 
-**Callback naming:** Use `handle` or `on` prefix: `handleClick`, `onSubmit`.
+**Callbacks:** `handle` or `on` prefix (`handleClick`, `onSubmit`).
 
 ---
 

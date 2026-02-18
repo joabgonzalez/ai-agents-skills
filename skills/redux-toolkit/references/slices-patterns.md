@@ -32,7 +32,7 @@ const counterSlice = createSlice({
   } as CounterState,
   reducers: {
     increment: (state) => {
-      // ✅ Immer allows "mutations"
+      // Immer allows "mutations"
       state.value += 1;
     },
     decrement: (state) => {
@@ -61,12 +61,11 @@ export default counterSlice.reducer;
 ```typescript
 reducers: {
   addTodo: (state, action: PayloadAction<Todo>) => {
-    // ✅ CORRECT: Push directly (immer makes it immutable)
+    // Push directly (immer makes it immutable)
     state.todos.push(action.payload);
   },
 
   toggleTodo: (state, action: PayloadAction<string>) => {
-    // ✅ CORRECT: Find and mutate
     const todo = state.todos.find(t => t.id === action.payload);
     if (todo) {
       todo.completed = !todo.completed;
@@ -115,7 +114,7 @@ const todosSlice = createSlice({
         state.push(action.payload);
       },
       prepare: (text: string) => {
-        // ✅ Generate ID and timestamp in prepare
+        // Generate ID and timestamp in prepare
         return {
           payload: {
             id: nanoid(),
@@ -200,21 +199,18 @@ const userSlice = createSlice({
 ```typescript
 extraReducers: (builder) => {
   builder
-    // Pattern: All pending cases
     .addMatcher(
       (action) => action.type.endsWith("/pending"),
       (state) => {
         state.loading = true;
       },
     )
-    // Pattern: All fulfilled cases
     .addMatcher(
       (action) => action.type.endsWith("/fulfilled"),
       (state) => {
         state.loading = false;
       },
     )
-    // Pattern: All rejected cases
     .addMatcher(
       (action) => action.type.endsWith("/rejected"),
       (state, action) => {
@@ -250,7 +246,6 @@ const appSlice = createSlice({
     ) => {
       const { postId, comment } = action.payload;
 
-      // ✅ CORRECT: Direct nested mutation
       if (!state.posts[postId].comments) {
         state.posts[postId].comments = [];
       }
@@ -261,7 +256,6 @@ const appSlice = createSlice({
       state,
       action: PayloadAction<{ userId: string; profile: Profile }>,
     ) => {
-      // ✅ CORRECT: Deep property update
       state.users[action.payload.userId].profile = action.payload.profile;
     },
   },
@@ -277,7 +271,6 @@ const appSlice = createSlice({
 ```typescript
 reducers: {
   removeItem: (state, action: PayloadAction<string>) => {
-    // ✅ CORRECT: Check existence before mutating
     const index = state.items.findIndex(item => item.id === action.payload);
     if (index !== -1) {
       state.items.splice(index, 1);
@@ -285,7 +278,6 @@ reducers: {
   },
 
   incrementIfPositive: (state, action: PayloadAction<number>) => {
-    // ✅ CORRECT: Conditional mutation
     if (action.payload > 0) {
       state.count += action.payload;
     }
@@ -309,11 +301,10 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    reset: () => initialState, // ✅ Return initial state
+    reset: () => initialState, // Return initial state
 
     // Or:
     resetData: (state) => {
-      // ✅ Reassign properties
       state.data = null;
       state.loading = false;
     },
@@ -339,18 +330,12 @@ features/
 ### ✅ Export Pattern
 
 ```typescript
-// counterSlice.ts
 const counterSlice = createSlice({
   /* ... */
 });
 
-// Export actions
 export const { increment, decrement } = counterSlice.actions;
-
-// Export reducer
 export default counterSlice.reducer;
-
-// Export selectors
 export const selectCount = (state: RootState) => state.counter.value;
 ```
 
@@ -358,13 +343,13 @@ export const selectCount = (state: RootState) => state.counter.value;
 
 ## Best Practices
 
-1. **Use immer mutations** - Direct mutations in reducers (immer handles immutability)
-2. **Don't mix return + mutation** - Either mutate draft state OR return new state
-3. **Use prepare callbacks** - Generate IDs, timestamps in prepare, not reducers
-4. **Keep reducers pure** - No side effects (API calls, random values) in reducers
-5. **Use extraReducers** - Handle async thunk states (pending/fulfilled/rejected)
-6. **Type action payloads** - Use `PayloadAction<T>` for type safety
-7. **Organize by feature** - Slice + thunks + selectors in same directory
+1. **Use immer mutations** — Direct mutations in reducers (immer handles immutability)
+2. **Don't mix return + mutation** — Either mutate draft state OR return new state
+3. **Use prepare callbacks** — Generate IDs, timestamps in prepare, not reducers
+4. **Keep reducers pure** — No side effects (API calls, random values) in reducers
+5. **Use extraReducers** — Handle async thunk states (pending/fulfilled/rejected)
+6. **Type action payloads** — Use `PayloadAction<T>` for type safety
+7. **Organize by feature** — Slice + thunks + selectors in same directory
 
 ---
 

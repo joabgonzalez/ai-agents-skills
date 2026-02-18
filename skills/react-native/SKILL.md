@@ -4,11 +4,9 @@ description: "Cross-platform mobile development with React Native. Trigger: When
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
-    - a11y
     - react
-    - typescript
-    - architecture-patterns
   dependencies:
     react-native: ">=0.70.0 <1.0.0"
     react: ">=17.0.0 <19.0.0"
@@ -16,35 +14,20 @@ metadata:
 
 # React Native Skill
 
-## Overview
+Cross-platform iOS/Android with React Native. Native components, platform code, navigation, and performance.
 
-Mobile development patterns with React Native for iOS and Android applications.
+## When to Use
 
-## Objective
+- Mobile apps for iOS/Android
+- Platform-specific features
+- Native modules/APIs
+- Performance/bundle optimization
 
-Guide developers in building cross-platform mobile apps with React Native using proper patterns and performance optimization.
+Don't use for:
+- Web apps (use react skill)
+- Expo-managed (use expo skill)
 
 ---
-
-## Extended Mandatory Read Protocol
-
-This skill uses the **Extended Mandatory Read Protocol** for complex React Native patterns (40+ patterns total).
-
-### Reading Strategy
-
-1. **ALWAYS read**: This main SKILL.md (covers 80% of common React Native cases)
-2. **Read references/ when**:
-   - Decision Tree indicates "**MUST read** {reference}"
-   - Quick Reference Table marks it "Required Reading: ✅"
-   - Critical Pattern says "**[CRITICAL] See** {reference} for..."
-   - Working with advanced features (navigation, animations, native modules)
-
-### When to Read References
-
-| Situation                            | Read SKILL.md | Read references/ | Which References                    |
-| ------------------------------------ | ------------- | ---------------- | ----------------------------------- |
-| Basic React Native components        | ✅ Yes        | ❌ No            | SKILL.md covers all needed patterns |
-| Navigation (Stack/Tab/Drawer)        | ✅ Yes        | ✅ Yes           | navigation-patterns.md (required)   |
 | Gestures, animations                 | ✅ Yes        | ✅ Yes           | gestures-animations.md (required)   |
 | Platform-specific code (iOS/Android) | ✅ Yes        | ✅ Yes           | platform-specific.md (required)     |
 | Performance optimization             | ✅ Yes        | ✅ Yes           | performance-rn.md (required)        |
@@ -68,33 +51,33 @@ All reference files located in `skills/react-native/references/`:
 - **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
 - **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
 
-### Example: Navigation Task
+### Example: Navigation
 
 ```
-1. User: "Set up Stack and Tab navigation"
-2. Read: skills/react-native/SKILL.md (this file)
-3. Check Decision Tree: "Navigation? → MUST read navigation-patterns.md"
-4. Read: skills/react-native/references/navigation-patterns.md (REQUIRED)
-5. Execute: Implement Stack and Tab navigators with React Navigation
+1. User: "Stack and Tab navigation"
+2. Read: SKILL.md
+3. Decision Tree: "Navigation? → navigation-patterns.md"
+4. Read: navigation-patterns.md
+5. Execute: Stack/Tab navigators
 ```
 
 ---
 
 ## When to Use
 
-Use this skill when:
+Use when:
 
-- Building cross-platform mobile apps (iOS + Android)
-- Using bare React Native (not Expo managed workflow)
-- Implementing platform-specific features
-- Optimizing mobile performance
-- Integrating native modules
+- Cross-platform mobile (iOS + Android)
+- Bare React Native (not Expo managed)
+- Platform-specific features
+- Mobile performance optimization
+- Native module integration
 
-Don't use this skill for:
+Don't use for:
 
-- Expo managed workflow (use expo skill)
-- Web-only React apps (use react skill)
-- Native iOS/Android development
+- Expo managed (use expo skill)
+- Web-only React (use react skill)
+- Native iOS/Android dev
 
 ---
 
@@ -181,11 +164,11 @@ Refer to react for:
 
 ### React Native Specific
 
-- Use Platform-specific code when necessary
-- Implement proper list virtualization with FlatList
-- Handle safe areas properly
-- Optimize images and assets
-- Use Hermes engine for better performance
+- Platform-specific code when needed
+- FlatList virtualization
+- Proper safe area handling
+- Image/asset optimization
+- Hermes engine for performance
 
 ---
 
@@ -233,20 +216,20 @@ const MyList = ({ items }) => (
 
 ## Advanced Architecture Patterns
 
-**⚠️ Context Check**: Architecture patterns apply to React Native the same way as React. Mobile apps with business logic benefit from architecture patterns.
+**⚠️ Context Check**: Same as React. Mobile apps with business logic benefit.
 
 ### When to Apply
 
-- **AGENTS.md mentions architecture**: Project specifies "Clean Architecture", "SOLID", "DDD"
-- **Enterprise mobile apps**: Banking, healthcare, fintech, ERP apps
-- **Complex business logic**: Authentication, payments, offline sync, data transformations
-- **Large teams**: >10 developers requiring consistent structure
+- AGENTS.md specifies architecture (Clean/SOLID/DDD)
+- Enterprise apps (banking, healthcare, fintech, ERP)
+- Complex logic (auth, payments, offline sync)
+- Large teams (>10 devs)
 
 ### When NOT to Apply
 
-- Simple apps (content display, basic forms)
-- Prototypes or MVPs
-- No mention in AGENTS.md
+- Simple apps (content, basic forms)
+- Prototypes/MVPs
+- No AGENTS.md mention
 
 ### Architecture Integration
 
@@ -294,29 +277,29 @@ const LoginScreen = () => {
 };
 ```
 
-### For Complete Guide
+### Complete Guide
 
-**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) - React Native uses same patterns as React.
+See [frontend-integration.md](../architecture-patterns/references/frontend-integration.md) - same patterns as React.
 
-**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for pattern selection.
+See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) for selection.
 
 ---
 
 ## Edge Cases
 
-**Keyboard handling:** Use `KeyboardAvoidingView` or `react-native-keyboard-aware-scroll-view`.
+**Keyboard:** Use `KeyboardAvoidingView` or keyboard-aware scroll.
 
-**Android back button:** Handle with `BackHandler` API, especially for modals.
+**Android back:** Handle with `BackHandler`, especially modals.
 
-**Permissions:** Request runtime permissions on Android 6+, handle denied state gracefully.
+**Permissions:** Request runtime (Android 6+), handle denial.
 
-**Deep linking:** Configure URL schemes for both iOS and Android, handle different app states.
+**Deep linking:** Configure URL schemes (iOS/Android), handle app states.
 
-**Offline support:** Use `NetInfo` to detect connectivity, queue operations when offline.
+**Offline:** Use `NetInfo`, queue operations offline.
 
-**Bundle size:** Use Hermes, enable ProGuard on Android, analyze bundle with Metro.
+**Bundle size:** Hermes, ProGuard (Android), Metro analysis.
 
-**Debugging:** Use Flipper for network/Redux inspection, React DevTools, Chrome debugger.
+**Debugging:** Flipper (network/Redux), React DevTools, Chrome.
 
 ---
 

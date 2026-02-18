@@ -4,6 +4,7 @@ description: "Synchronization across model directories. Trigger: After creating 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
 ---
 
 # Skill Sync

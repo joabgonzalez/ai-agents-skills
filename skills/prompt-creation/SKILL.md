@@ -4,8 +4,8 @@ description: "Context prompts for AI assistants with schema validation. Trigger:
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
-    - critical-partner
     - english-writing
 ---
 

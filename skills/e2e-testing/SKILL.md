@@ -4,15 +4,13 @@ description: "End-to-end testing patterns and best practices. Trigger: When writ
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
-    - playwright
     - stagehand
     - typescript
-    - frontend-dev
-    - backend-dev
 ---
 # End-to-End Testing Skill
-Orchestrates E2E testing strategy and architecture -- delegates to the playwright and stagehand skills for implementation.
+Orchestrates E2E testing strategy and architecture -- delegates to playwright and stagehand skills.
 ## When to Use
 - Designing test suites for frontend or backend user flows
 - Automating browser or API flows across services
@@ -105,11 +103,11 @@ test.describe('Checkout flow', () => {
 });
 ```
 ## Edge Cases
-- **Flaky network**: Mock external APIs with `page.route()` in CI.
-- **Data races**: Isolate test data per worker; never share DB rows between parallel tests.
-- **CI differences**: Pin browser versions; use `playwright install --with-deps`.
-- **Long suites**: Shard across CI workers (`--shard=1/4`).
-- **Auth expiry**: Generate short-lived tokens per run; don't cache sessions across runs.
+- **Flaky network**: Mock external APIs with `page.route()` in CI
+- **Data races**: Isolate test data per worker; never share DB rows between parallel tests
+- **CI differences**: Pin browser versions; use `playwright install --with-deps`
+- **Long suites**: Shard across CI workers (`--shard=1/4`)
+- **Auth expiry**: Generate short-lived tokens per run; don't cache sessions across runs
 ## Checklist
 - [ ] Each test covers a complete user flow from entry to outcome
 - [ ] All selectors use `getByRole`, `getByTestId`, or `getByLabel`

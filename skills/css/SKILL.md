@@ -4,8 +4,8 @@ description: "Modern CSS with Grid, Flexbox, and custom properties. Trigger: Whe
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: domain
   skills:
-    - conventions
     - a11y
   allowed-tools:
     - file-reader
@@ -13,7 +13,7 @@ metadata:
 
 # CSS Modern Skill
 
-Write maintainable, performant CSS using modern features: Grid, Flexbox, custom properties, container queries, and cascade layers.
+Maintainable CSS with Grid, Flexbox, custom properties, container queries, cascade layers.
 
 ## When to Use
 
@@ -24,7 +24,7 @@ Use when:
 - Using custom properties, container queries, `@layer`
 - Creating animations and transitions
 
-Don't use for Tailwind utilities (use tailwindcss skill) or MUI sx prop (use mui skill).
+Don't use for Tailwind (tailwindcss skill) or MUI sx (mui skill).
 
 ## Critical Patterns
 
@@ -118,23 +118,23 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 }
 ```
 
-Conventions: follow **conventions** skill for naming/organization; follow **a11y** skill for contrast, focus indicators, and accessible animations.
+Conventions: **conventions** for naming/organization; **a11y** for contrast/focus/animations.
 
 ## Decision Tree
 
-**One-dimensional layout?** -> Flexbox (`flex-direction`, `justify-content`, `align-items`).
+**One-dimensional layout?** -> Flexbox.
 
-**Two-dimensional layout?** -> CSS Grid (`grid-template-columns`, `grid-template-rows`).
+**Two-dimensional layout?** -> Grid.
 
-**Responsive sizing?** -> `clamp()`, `min()`, `max()` for fluid values.
+**Responsive sizing?** -> `clamp()`, `min()`, `max()`.
 
-**Theme values?** -> Define in `:root` as custom properties, reference with `var()`.
+**Theme values?** -> `:root` custom properties + `var()`.
 
-**Center element?** -> Flexbox: `display: flex; place-content: center;` or Grid: `place-items: center`.
+**Center element?** -> Flexbox `place-content: center` or Grid `place-items: center`.
 
-**Hide element?** -> `display: none` removes from flow; `visibility: hidden` keeps space; `opacity: 0` for transitions.
+**Hide element?** -> `display: none` (removes), `visibility: hidden` (keeps space), `opacity: 0` (transitions).
 
-**Responsive breakpoints?** -> Container queries for component-level, media queries for viewport-level.
+**Responsive breakpoints?** -> Container queries (component), media queries (viewport).
 
 ## Example
 

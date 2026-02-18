@@ -4,57 +4,26 @@ description: "Frontend workflow with componentization and state management. Trig
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: "behavioral-technical"
+  type: universal
   skills:
-    - typescript
-    - react
     - architecture-patterns
-    - a11y
 
 ---
 
 # Frontend Development Skill
 
-## Overview
-
-This skill provides universal patterns for front-end development workflow, focusing on componentization, state management, testing, and deployment. It is technology-agnostic and emphasizes maintainability, scalability, and quality.
+Universal frontend workflow guiding componentization, state management, testing, and deployment. Technology-agnostic, orchestrates technical skills (react, typescript, a11y) without duplicating patterns.
 
 ## When to Use
 
-- Building, refactoring, or scaling front-end applications
+- Building, refactoring, or scaling frontend apps
 - Managing state, side effects, or data flow
 - Preparing for deployment or CI/CD
-- Reviewing or improving code quality and structure
+- Reviewing code quality
 
-## Skill Type
-
-**frontend-dev is a behavioral-technical skill** that guides HOW frontend developers think and make architectural decisions, orchestrating technical skills without duplicating their patterns.
-
-### Key Characteristics
-
-- **Role-based thinking**: Embodies Frontend Developer mindset and decision-making
-- **Orchestrates technical skills**: Delegates to react, typescript, a11y, composition-patterns
-- **NO code examples**: All code patterns live in technical skills
-- **Architectural guidance**: Provides decision trees for component hierarchy, state management, data fetching
-
-### Related Behavioral Skills
-
-- [brainstorming](../brainstorming/SKILL.md) - Planning and ideation workflow
-- [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
-- [interface-design](../interface-design/SKILL.md) - UI/UX design thinking
-- [writing-plans](../writing-plans/SKILL.md) - Executable plan creation
-- [code-review](../code-review/SKILL.md) - Two-stage code review process
-
-### Orchestrated Technical Skills
-
-- [react](../react/SKILL.md) - React patterns and hooks
-- [typescript](../typescript/SKILL.md) - Type-safe frontend development
-- [a11y](../a11y/SKILL.md) - Accessibility requirements
-- [composition-patterns](../composition-patterns/SKILL.md) - Component composition
-- [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns
-- [tailwindcss](../tailwindcss/SKILL.md) - Utility-first CSS
-- [form-validation](../form-validation/SKILL.md) - Form validation patterns
-- [react-testing-library](../react-testing-library/SKILL.md) - User-centric testing
+Don't use for:
+- Technology-specific code (use react, typescript skills)
+- Backend development (use backend-dev skill)
 
 ---
 

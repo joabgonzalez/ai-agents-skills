@@ -29,7 +29,7 @@ export const store = configureStore({
   },
 });
 
-// ✅ Infer RootState and AppDispatch types
+// Infer RootState and AppDispatch types
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 ```
@@ -45,7 +45,6 @@ export type AppDispatch = typeof store.dispatch;
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "./store";
 
-// ✅ Pre-typed hooks
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
 ```
@@ -57,7 +56,6 @@ import { useAppDispatch, useAppSelector } from './store/hooks';
 import { increment } from './features/counter/counterSlice';
 
 function Counter() {
-  // ✅ Fully typed state
   const count = useAppSelector(state => state.counter.value);
   const dispatch = useAppDispatch();
 
@@ -78,13 +76,11 @@ function Counter() {
 ```typescript
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// ✅ Define state interface
 interface CounterState {
   value: number;
   status: "idle" | "loading" | "failed";
 }
 
-// ✅ Initial state with type
 const initialState: CounterState = {
   value: 0,
   status: "idle",
@@ -94,17 +90,17 @@ const counterSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
-    // ✅ Action without payload
+    // Action without payload
     increment: (state) => {
       state.value += 1;
     },
 
-    // ✅ Action with typed payload
+    // Action with typed payload
     incrementByAmount: (state, action: PayloadAction<number>) => {
       state.value += action.payload;
     },
 
-    // ✅ Action with complex payload
+    // Action with complex payload
     updateStatus: (
       state,
       action: PayloadAction<{ status: CounterState["status"]; error?: string }>,
@@ -134,7 +130,7 @@ interface User {
   email: string;
 }
 
-// ✅ Type arguments: <ReturnType, ArgumentType>
+// Type arguments: <ReturnType, ArgumentType>
 export const fetchUser = createAsyncThunk<User, string>(
   "user/fetchById",
   async (userId: string) => {
@@ -152,7 +148,7 @@ interface ValidationError {
   field: string;
 }
 
-// ✅ Type arguments: <ReturnType, ArgumentType, ThunkConfig>
+// Type arguments: <ReturnType, ArgumentType, ThunkConfig>
 export const updateUser = createAsyncThunk<
   User,
   { id: string; name: string },
@@ -187,7 +183,7 @@ export const addTodoAndSync = createAsyncThunk<
   string,
   { state: RootState }
 >("todos/addAndSync", async (text, { getState }) => {
-  // ✅ getState() is typed as RootState
+  // getState() is typed as RootState
   const userId = getState().auth.userId;
 
   const todo = { id: nanoid(), text, userId };
@@ -209,10 +205,10 @@ export const addTodoAndSync = createAsyncThunk<
 ```typescript
 import { RootState } from "../../store";
 
-// ✅ Explicit return type
+// Explicit return type
 export const selectCount = (state: RootState): number => state.counter.value;
 
-// ✅ Type inference
+// Type inference
 export const selectStatus = (state: RootState) => state.counter.status;
 // Inferred return type: 'idle' | 'loading' | 'failed'
 ```
@@ -225,7 +221,7 @@ import { createSelector } from "@reduxjs/toolkit";
 const selectTodos = (state: RootState) => state.todos;
 const selectFilter = (state: RootState) => state.filter;
 
-// ✅ Types inferred from input selectors
+// Types inferred from input selectors
 export const selectFilteredTodos = createSelector(
   [selectTodos, selectFilter],
   (todos, filter) => {
@@ -251,10 +247,9 @@ interface Todo {
   completed: boolean;
 }
 
-// ✅ Create typed adapter
 const todosAdapter = createEntityAdapter<Todo>();
 
-// ✅ Extend EntityState for additional properties
+// Extend EntityState for additional properties
 interface TodosState extends EntityState<Todo, string> {
   loading: boolean;
   error: string | null;
@@ -271,7 +266,7 @@ const todosSlice = createSlice({
   },
 });
 
-// ✅ Generate typed selectors
+// Generate typed selectors
 export const todosSelectors = todosAdapter.getSelectors<RootState>(
   (state) => state.todos,
 );
@@ -289,11 +284,11 @@ const todosSlice = createSlice({
   initialState: [] as Todo[],
   reducers: {
     addTodo: {
-      // ✅ Type the reducer
+      // Type the reducer
       reducer: (state, action: PayloadAction<Todo>) => {
         state.push(action.payload);
       },
-      // ✅ Type the prepare callback
+      // Type the prepare callback
       prepare: (text: string) => ({
         payload: {
           id: nanoid(),
@@ -325,7 +320,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // ✅ Action types inferred from thunk
+      // Action types inferred from thunk
       .addCase(fetchUser.pending, (state) => {
         state.loading = true;
       })
@@ -357,7 +352,6 @@ const todosSlice = createSlice({
   name: "todos",
   initialState: [] as Todo[],
   reducers: {
-    // ✅ Actions maintain discriminated union
     todoAdded: (state, action: PayloadAction<Todo>) => {
       state.push(action.payload);
     },
@@ -392,7 +386,6 @@ function createGenericSlice<T extends { id: string }>(
   });
 }
 
-// Usage:
 const usersSlice = createGenericSlice<User>("users", []);
 const postsSlice = createGenericSlice<Post>("posts", []);
 ```
@@ -456,13 +449,13 @@ interface AppState {
 
 ## Best Practices
 
-1. **Infer types from store** - Use `typeof store.getState` for RootState
-2. **Create pre-typed hooks** - Define once, use everywhere
-3. **Type action payloads** - Use `PayloadAction<T>` for all payloads
-4. **Type thunk arguments** - Specify return, arg, and config types
-5. **Type selectors explicitly** - Add return types to selector functions
-6. **Use EntityState** - Extend for adapter-based state
-7. **Avoid any** - TypeScript strict mode catches errors early
+1. **Infer types from store** — Use `typeof store.getState` for RootState
+2. **Create pre-typed hooks** — Define once, use everywhere
+3. **Type action payloads** — Use `PayloadAction<T>` for all payloads
+4. **Type thunk arguments** — Specify return, arg, and config types
+5. **Type selectors explicitly** — Add return types to selector functions
+6. **Use EntityState** — Extend for adapter-based state
+7. **Avoid any** — TypeScript strict mode catches errors early
 
 ---
 

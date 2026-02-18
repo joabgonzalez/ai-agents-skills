@@ -4,9 +4,9 @@ description: "Fresh subagents per task with two-stage reviews. Trigger: When coo
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
     - writing-plans
-    - code-review
     - verification-protocol
 ---
 

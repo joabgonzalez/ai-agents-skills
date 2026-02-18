@@ -70,8 +70,8 @@ const fullName = `${firstName} ${lastName}`;
 ```
 
 ```typescript
-// ❌ WRONG: Every value memoized (no benefit)
-const count = useMemo(() => items.length, [items]); // items.length is cheap!
+// ❌ WRONG: items.length is cheap
+const count = useMemo(() => items.length, [items]);
 
 // ✅ CORRECT: Direct access
 const count = items.length;
@@ -81,7 +81,6 @@ const count = items.length;
 
 ```typescript
 function Chart({ data }) {
-  // ✅ Memoize: Complex statistical computation
   const statistics = useMemo(() => {
     return {
       mean: calculateMean(data),
@@ -183,9 +182,9 @@ function Search({ initialQuery }) {
     setResults(data);
   }, []); // No external dependencies
 
-  // ❌ PROBLEM: Uses external value
+  // ❌ PROBLEM: Missing initialQuery dependency
   const handleSearchWithFilter = useCallback(async (query: string) => {
-    const data = await searchAPI(query, initialQuery); // Uses initialQuery
+    const data = await searchAPI(query, initialQuery);
     setResults(data);
   }, []); // Missing initialQuery dependency!
 
@@ -227,7 +226,7 @@ interface Props {
   metadata: Metadata;
 }
 
-// ✅ Custom comparison (only re-render when user.id changes)
+// Only re-render when user.id changes
 const UserCard = React.memo(
   ({ user, metadata }: Props) => {
     return <div>{user.name}</div>;
@@ -262,7 +261,6 @@ function Parent() {
   const config = useMemo(() => ({ theme: 'dark', size: 'large' }), []);
   const handleClick = useCallback(() => console.log('Click'), []);
 
-  // MemoizedChild only re-renders when props actually change
   return <MemoizedChild config={config} onClick={handleClick} />;
 }
 ```
@@ -698,7 +696,6 @@ function App() {
   );
 }
 
-// Preload link component
 function PreloadLink({ to, children, preload }: PreloadLinkProps) {
   return (
     <Link to={to} onMouseEnter={preload} onFocus={preload}>

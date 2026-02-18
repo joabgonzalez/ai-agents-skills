@@ -1,10 +1,6 @@
 # Skill Structure and Organization
 
-> Complete guide to organizing skills from simple single-file to complex multi-reference architecture
-
-## Overview
-
-Skill structure varies by complexity: simple skills use SKILL.md only, medium skills add assets/ for templates, and complex skills include references/ for detailed sub-topic guides. This document covers all structural patterns and organization strategies.
+Organizing skills from simple single-file to complex multi-reference architecture based on pattern count and natural sub-topics.
 
 ---
 
@@ -187,7 +183,7 @@ skills/{skill-name}/
 - Overview and objective (30 lines)
 - When to Use (10 lines)
 - Top 10-15 CRITICAL patterns with inline examples (120 lines)
-- Comprehensive Decision Tree (30 lines)
+- Decision Tree (30 lines)
 - Conventions and delegation (20 lines)
 - Basic example (30 lines)
 - Resources linking to ALL references (30 lines)

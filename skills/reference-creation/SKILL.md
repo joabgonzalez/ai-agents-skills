@@ -4,8 +4,8 @@ description: "Reference files for complex skills (40+ patterns). Trigger: When c
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
-    - critical-partner
     - english-writing
   allowed-tools:
     - file-operations
@@ -151,30 +151,87 @@ Every `references/` directory MUST have README.md:
 - See [performance.md](performance.md) for optimization techniques
 ```
 
+### ✅ REQUIRED [CRITICAL]: Token Efficiency
+
+References must be precise yet economical. Remove filler, condense verbose phrases, eliminate redundancy.
+
+**Filler words to remove:**
+- "comprehensive", "detailed", "robust", "various", "multiple"
+- "This reference provides...", "It is important to note...", "Please note that..."
+- "In order to", "It should be noted", "Keep in mind"
+
+**Condensing patterns:**
+
+```markdown
+# ❌ WRONG (verbose)
+This section provides comprehensive guidance on how to implement custom hooks in React applications.
+
+When creating custom hooks, you should always ensure that you follow the Rules of Hooks.
+
+# ✅ CORRECT (token-efficient)
+Covers custom hook implementation in React.
+
+Follow Rules of Hooks when creating custom hooks.
+```
+
+**Edge cases condensing:**
+
+```markdown
+# ❌ WRONG (verbose)
+**Strong emotions (frustration, anger):** When handling strong emotions like frustration or anger, you should respond calmly and professionally. It is important to acknowledge the frustration explicitly and offer immediate help to resolve the issue.
+
+# ✅ CORRECT (token-efficient)
+**Strong emotions (frustration, anger):** Respond calmly, acknowledge frustration explicitly, offer immediate help.
+```
+
+**List condensing:**
+
+```markdown
+# ❌ WRONG (redundant)
+**What to validate:**
+- You should validate user input at the API boundary
+- You should validate email format
+- You should validate password strength
+- You should validate all required fields are present
+
+# ✅ CORRECT (concise)
+**Validate:**
+- User input at API boundary
+- Email format, password strength
+- Required fields present
+```
+
+**Rule:** Every word must add value. If removing a word doesn't lose meaning, remove it.
+
 ### ✅ REQUIRED: Reference File Structure
 
 Each reference file follows:
 
-```text
+```markdown
 # {Sub-Topic Name}
 
-> {One-line description}
+{1-2 sentence summary: what this covers and why it matters.}
+
+---
 
 ## Core Patterns
 
-### Pattern Name 1
+### ✅ REQUIRED: {Pattern Name 1}
 {Explanation with inline example}
 
 ---
 
 ## Common Pitfalls
-- **Pitfall 1**: {Description and solution}
+
+### Pitfall 1: {Common Mistake}
+**Problem:** {Description}
+**Solution:** {Code/approach}
 
 ---
 
 ## Real-World Examples
 
-### Example: {Use Case}
+### Example 1: {Use Case}
 {Complete working code}
 
 ---
@@ -182,6 +239,11 @@ Each reference file follows:
 ## Related Topics
 - See [other-reference.md](other-reference.md) for...
 ```
+
+**CRITICAL**:
+- NO "Overview" or "Purpose" section. Start with concise summary (1-2 lines) immediately after title.
+- Apply token efficiency: remove filler words, condense verbose phrases, eliminate redundancy.
+- Every word must add value. If removing a word doesn't lose meaning, remove it.
 
 ### ❌ NEVER: Create Catch-All References
 
@@ -244,6 +306,10 @@ References count: 4-9 files?
 README.md created with navigation?
 → No: MUST create (CRITICAL)
 → Yes: Validate cross-links and sync
+
+Token efficiency applied?
+→ No: Remove filler words, condense verbose phrases, eliminate redundancy
+→ Yes: Ready for review
 ```
 
 ---
@@ -258,9 +324,11 @@ README.md created with navigation?
    - Checkpoint: ✅ README.md has Quick Navigation table, Reading Strategy per use case
 4. **Distribute content** → Top 15 in SKILL.md, deep dives in references
    - Checkpoint: ✅ SKILL.md under 300 lines, references 200-600 lines each, no duplicated content
-5. **Cross-link** → SKILL.md↔references, references↔references
+5. **Apply token efficiency** → Remove filler words, condense verbose phrases, eliminate redundancy
+   - Checkpoint: ✅ No filler words ("comprehensive", "detailed"), condensed edge cases, efficient lists
+6. **Cross-link** → SKILL.md↔references, references↔references
    - Checkpoint: ✅ All links verified, SKILL.md Resources section lists all references
-6. **Validate** → Run checklist, verify links work
+7. **Validate** → Run checklist, verify links work
    - Checkpoint: ✅ Checklist complete, synced to model directories
 
 ---
@@ -351,8 +419,12 @@ See [interface-design/references/README.md](../interface-design/references/READM
 - [ ] SKILL.md retains top 15 critical patterns, under 300 lines
 - [ ] References expand (not duplicate) SKILL.md content
 - [ ] Cross-links: SKILL.md→references, references→SKILL.md, references↔references
-- [ ] Consistent structure across all reference files
-- [ ] Token-efficient (omit empty sections)
+- [ ] Consistent structure across all reference files (# Title, summary, ## Core Patterns)
+- [ ] Token efficiency applied:
+  - [ ] No filler words ("comprehensive", "detailed", "robust", "various")
+  - [ ] No verbose phrases ("This reference provides...", "It is important to note...")
+  - [ ] Condensed edge cases (brief descriptions, no redundancy)
+  - [ ] Efficient lists (no "You should...", direct statements)
 - [ ] Synced to model directories
 
 ---

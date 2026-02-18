@@ -4,25 +4,24 @@ description: "Browser automation and test orchestration. Trigger: When automatin
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
-    - typescript
-    - javascript
     - playwright
   dependencies:
     stagehand: ">=1.0.0 <2.0.0"
 ---
 # Stagehand Skill
-AI-powered browser automation that uses natural language instructions to interact with and extract data from web pages.
+AI browser automation with natural language for interaction/extraction.
 ## When to Use
 - Automating browser flows where selectors are fragile or unknown
 - Extracting structured data from web pages
 - Discovering page elements before writing precise selectors
-- Don't use for: deterministic test suites (use playwright), static API scraping, non-browser automation
+- Don't use for: deterministic tests (playwright), static scraping, non-browser
 ## Critical Patterns
 ### page.act() for AI-Driven Actions
-Describe what you want in natural language -- Stagehand finds the element and performs the action.
+Natural language instructions, Stagehand finds element and acts.
 ```typescript
-// CORRECT: descriptive instruction, single clear action
+// CORRECT: descriptive, single action
 await page.act('Click the "Sign in" button');
 await page.act('Type "user@example.com" into the email field');
 // WRONG: vague or compound instruction
@@ -30,7 +29,7 @@ await page.act('Do the login thing');
 await page.act('Fill the form and submit it');
 ```
 ### page.extract() for Structured Data
-Define a Zod schema and let Stagehand pull typed data from the page.
+Zod schema extracts typed data from page.
 ```typescript
 import { z } from 'zod';
 const product = await page.extract({
@@ -39,18 +38,18 @@ const product = await page.extract({
     name: z.string(), price: z.number(), inStock: z.boolean(),
   }),
 });
-// WRONG: no schema -- returns unstructured text you must parse
+// WRONG: no schema (unstructured text)
 const raw = await page.extract({ instruction: 'Get product info' });
 ```
 ### page.observe() for Element Discovery
-Inspect what the AI sees on the page before writing act or extract calls.
+Inspect AI view before act/extract calls.
 ```typescript
 const actions = await page.observe('What actions are available?');
 console.log(actions); // [{ description: "Sign in button", selector: "..." }]
 await page.act('Click the sign in button');
 ```
 ### Precise Prompting
-One action per `act()`, specific nouns, and quoted literal values produce reliable results.
+One action per `act()`, specific nouns, quoted literals.
 ```typescript
 // CORRECT: specific, single-step instructions
 await page.act('Click the "Add to cart" button for "Wireless Mouse"');
@@ -58,7 +57,7 @@ await page.act('Click the "Add to cart" button for "Wireless Mouse"');
 await page.act('Click the button');
 ```
 ### Error Handling with Retries
-Wrap actions in retry logic -- AI-driven actions can fail on dynamic pages.
+Retry logic for AI actions on dynamic pages.
 ```typescript
 async function actWithRetry(page: Page, instruction: string, retries = 3) {
   for (let i = 0; i < retries; i++) {
@@ -111,7 +110,7 @@ const pageData = await page.extract({
   }),
 });
 
-// WRONG: Multiple extract calls (slow, 4 LLM requests)
+// WRONG: Multiple extracts (slow, 4 LLM requests)
 const name = await page.extract({ instruction: 'Get product name', schema: z.object({ name: z.string() }) });
 const price = await page.extract({ instruction: 'Get price', schema: z.object({ price: z.number() }) });
 const inStock = await page.extract({ instruction: 'Check if in stock', schema: z.object({ inStock: z.boolean() }) });

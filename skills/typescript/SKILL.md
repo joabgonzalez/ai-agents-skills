@@ -4,15 +4,14 @@ description: "Strict typing and type-safe development. Trigger: When implementin
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - javascript
+  type: language
   dependencies:
     typescript: ">=5.0.0 <6.0.0"
 ---
 
 # TypeScript Skill
 
-Strict typing, type safety, and modern TypeScript patterns. Avoid `any`, leverage generics and utility types, and enforce compile-time correctness.
+Strict typing with compile-time correctness. Avoid `any`, leverage generics/utility types.
 
 ## When to Use
 
@@ -26,9 +25,9 @@ Strict typing, type safety, and modern TypeScript patterns. Avoid `any`, leverag
 
 **Don't use for:**
 
-- Runtime validation (use [form-validation](../form-validation/SKILL.md))
-- JavaScript-only patterns (use javascript skill)
-- Framework-specific typing (delegate to react, mui, etc.)
+- Runtime validation ([form-validation](../form-validation/SKILL.md))
+- JS-only patterns (javascript skill)
+- Framework typing (react, mui skills)
 
 ## Critical Patterns
 
@@ -40,7 +39,7 @@ function process(data: any) {
   return data.value;
 }
 
-// GOOD: Use unknown with type guards
+// GOOD: unknown with type guards
 function process(data: unknown) {
   if (typeof data === "object" && data !== null && "value" in data) {
     return (data as { value: string }).value;
@@ -75,7 +74,7 @@ interface User {
 type Status = "pending" | "approved" | "rejected";
 type UserWithStatus = User & { status: Status };
 
-// BAD: Empty object type (too permissive)
+// BAD: Empty object (too permissive)
 const user: {} = { anything: "allowed" };
 ```
 
@@ -87,7 +86,7 @@ function getProperty<T extends object, K extends keyof T>(obj: T, key: K): T[K] 
   return obj[key];
 }
 
-// BAD: Unconstrained (no type safety)
+// BAD: Unconstrained
 function getProperty<T>(obj: T, key: string): any {
   return obj[key];
 }
@@ -96,14 +95,14 @@ function getProperty<T>(obj: T, key: string): any {
 ### Use `import type` for type-only imports
 
 ```typescript
-// GOOD: Separate type import
+// GOOD: Separate type imports
 import type { User, Product } from "./types";
 import { fetchUser } from "./api";
 
 // GOOD: Inline type keyword when mixing values and types
 import { Installer, type Model } from "../core/installer";
 
-// BAD: Importing types as values (emits unnecessary JS)
+// BAD: Types as values (emits unnecessary JS)
 import { User, Product } from "./types";
 ```
 
@@ -150,7 +149,7 @@ const config = {
   endpoint: "/api/users",
   timeout: 5000,
 } satisfies Config;
-// Inferred as { endpoint: string, timeout: number }, validated against Config
+// Inferred type + validated against Config
 ```
 
 ### Use `as const` for literal types
@@ -224,9 +223,9 @@ function isUser(value: unknown): value is User {
 }
 ```
 
-- **Circular type references:** Break cycles by extracting shared interfaces or using type parameters.
-- **Index signatures:** Use `Record<string, Type>` for dynamic keys; mapped types for known keys with dynamic values.
-- **Const assertions:** `as const` creates `{ readonly mode: 'development' }`, not `{ mode: string }`.
+- **Circular types:** Extract shared interfaces or use type parameters.
+- **Index signatures:** `Record<string, Type>` for dynamic keys; mapped types for known keys.
+- **Const assertions:** `as const` creates readonly literal types.
 
 ## Checklist
 

@@ -2,11 +2,9 @@
 
 > "Motion should communicate, not decorate."
 
-Interaction design focuses on temporal and kinetic dimensions of UI: motion timing, micro-interactions, feedback patterns, and gesture-based interactions.
+Interaction design covers the temporal and kinetic dimensions of UI: motion timing, micro-interactions, feedback patterns, and gesture-based interactions.
 
 ## Motion Timing Guidelines
-
-Different UI elements require different animation durations for optimal perception.
 
 | Duration | Use Case | Example | Reasoning |
 |----------|----------|---------|-----------|
@@ -288,7 +286,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 #### Easing Functions
 
 ```typescript
-// ✅ CORRECT: Matched easing for use case
+// Matched easing for use case
 const easings = {
   easeInOut: [0.4, 0, 0.2, 1],     // Most UI transitions (smooth start/end)
   easeOut: [0, 0, 0.2, 1],          // Entrances (elements arriving)
@@ -366,7 +364,7 @@ const SwipeToDismiss = ({ onDismiss, children }: Props) => (
 
 ---
 
-## Performance Optimization
+## Performance
 
 ### 60fps Animation Checklist
 

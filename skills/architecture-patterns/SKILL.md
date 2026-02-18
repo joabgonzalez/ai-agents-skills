@@ -4,17 +4,15 @@ description: "SOLID, DDD, Clean Architecture, DRY, and Sidecar patterns. Trigger
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
+  type: behavioral
   dependencies:
     typescript: ">=4.5.0"
   allowed-tools:
-    - read-file
 ---
 
 # Architecture Patterns
 
-SOLID, DDD, Clean/Hexagonal Architecture, DRY, Sidecar, and behavioral patterns (Mediator, Result) for maintainable, testable backend services. Apply to frontend only when AGENTS.md or codebase structure requires it.
+SOLID, DDD, Clean/Hexagonal, DRY, Sidecar, behavioral patterns for maintainable backend. Frontend only when AGENTS.md/codebase requires.
 
 ## When to Use
 
@@ -24,8 +22,8 @@ SOLID, DDD, Clean/Hexagonal Architecture, DRY, Sidecar, and behavioral patterns 
 - Microservices or multi-layered services
 
 Don't use for:
-- Scripts/utilities (<200 LOC), prototypes, basic CRUD without business logic
-- Frontend projects unless AGENTS.md or codebase demands it
+- Scripts/utilities (<200 LOC), prototypes, basic CRUD
+- Frontend unless AGENTS.md/codebase demands
 
 ---
 
@@ -33,7 +31,7 @@ Don't use for:
 
 ### ✅ REQUIRED: Single Responsibility Principle (SRP)
 
-Each class/module has ONE reason to change. Separate data access, validation, and orchestration.
+One reason to change per class/module. Separate data access, validation, orchestration.
 
 ```typescript
 // ✅ Repo for data, validator for rules, service for orchestration
@@ -56,21 +54,21 @@ export class UserService {
     return Result.ok(user);
   }
 }
-// ❌ Validation + DB + email all in one class — violates SRP
+// ❌ Validation + DB + email in one class (violates SRP)
 ```
 
 See [solid-principles.md](references/solid-principles.md) for all 5 SOLID principles.
 
 ### ✅ REQUIRED: Dependency Inversion (DIP)
 
-Depend on abstractions. Enables swapping implementations and mocking in tests.
+Depend on abstractions. Enables swapping implementations, mocking.
 
 ```typescript
 export interface IEmailService {
   send(to: string, subject: string, body: string): Promise<void>;
 }
 export class UserService {
-  constructor(private emailService: IEmailService) {} // ← interface, not concrete class
+  constructor(private emailService: IEmailService) {} // Interface, not concrete
   async registerUser(user: User) { await this.emailService.send(user.email, "Welcome", "..."); }
 }
 export class SendGridEmailService implements IEmailService { /* adapter */ }
@@ -131,7 +129,7 @@ export class OrderService {
 }
 export class StripeAdapter implements IPaymentGateway { /* ... */ }
 export class PayPalAdapter implements IPaymentGateway { /* ... */ }
-// ❌ Calling stripe.charges.create() directly in service — coupled to vendor
+// ❌ Direct stripe.charges.create() (coupled to vendor)
 ```
 
 ### ✅ REQUIRED: Result Pattern
@@ -202,13 +200,13 @@ Skill-specific: `I` prefix for port interfaces, one class per file, organize by 
 
 ## Edge Cases
 
-**Frontend resistance:** Start with Result pattern (low friction), demonstrate testability, add layers gradually.
+**Frontend resistance:** Start with Result pattern, demo testability, add layers gradually.
 
-**Mixing styles:** Pick one primary pattern (usually Clean Architecture), use others as complements.
+**Mixing styles:** One primary pattern (usually Clean), others as complements.
 
-**Legacy migration:** Apply patterns to new features only, anti-corruption layer for legacy, refactor one module at a time.
+**Legacy migration:** New features only, anti-corruption layer, one module at a time.
 
-**Over-abstraction:** Skip architecture for simple CRUD. Ask: "Is this abstraction paying for itself?"
+**Over-abstraction:** Skip for simple CRUD. Ask: "Does this abstraction pay for itself?"
 
 ---
 

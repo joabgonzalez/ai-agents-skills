@@ -101,7 +101,7 @@ metadata:
 
 ### metadata.allowed-tools (optional)
 
-**Purpose:** Specific tools the AI agent needs. Only include when the skill requires particular tools (e.g., file operations). **Do not add generic tools** like `documentation-reader` or `web-search`.
+**Purpose:** Specific tools the AI agent needs. Only include when the skill requires particular tools (e.g., file operations). Do not add generic tools like `documentation-reader` or `web-search`.
 
 ```yaml
 # ✅ CORRECT: Skill-specific tools

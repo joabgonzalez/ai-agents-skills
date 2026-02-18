@@ -23,8 +23,6 @@ Use a modular scale for consistent, harmonious type sizing.
 
 ### Line-Height Rules
 
-Different content types require different line-heights for optimal readability.
-
 | Content Type | Line Height | Reasoning |
 |--------------|-------------|-----------|
 | Headings | 1.1 - 1.3 | Tighter spacing for visual impact |
@@ -44,8 +42,6 @@ code, pre { line-height: 1.5; font-family: monospace; }
 ```
 
 ### Font Pairing Examples
-
-Combine fonts with contrasting characteristics for hierarchy and interest.
 
 | Heading Font | Body Font | Style |
 |--------------|-----------|-------|
@@ -120,8 +116,6 @@ Prevent layout shift during font loading.
 ## Spacing System (8-Point Grid)
 
 ### Base Scale
-
-Consistent spacing creates visual rhythm and hierarchy.
 
 ```css
 /* ✅ Base 8-point scale */
@@ -220,8 +214,6 @@ Name colors by purpose, not appearance.
 
 ### Contrast Ratios (WCAG Compliance)
 
-Ensure sufficient contrast for accessibility.
-
 | Use Case | Ratio | Level | Example |
 |----------|-------|-------|---------|
 | Body text (<18px) | 4.5:1 | AA | #222 on #fff |
@@ -261,8 +253,6 @@ const ratio = getContrastRatio(textColor, bgColor); // 16.1:1 (passes AAA)
 
 ### Dark Mode with CSS Custom Properties
 
-Pair light and dark values in a single system.
-
 ```css
 /* ✅ CORRECT: Paired light/dark */
 :root {
@@ -300,8 +290,6 @@ body { color: #222; background: #fff; }
 
 ### Sizing System
 
-Consistent icon sizes for visual harmony.
-
 ```css
 /* ✅ Icon sizing scale */
 --icon-xs: 12px;
@@ -338,7 +326,7 @@ Visual center ≠ mathematical center. Adjust for perceived balance.
 ### Reusable Component Pattern
 
 ```tsx
-// ✅ Type-safe icon component
+// Type-safe icon component
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 interface IconProps {

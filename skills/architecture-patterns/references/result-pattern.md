@@ -1,29 +1,6 @@
 # Result Pattern
 
-> Type-safe error handling without exceptions. Return explicit success/failure instead of throwing.
-
-## Overview
-
-The Result pattern wraps operation outcomes in a type that explicitly represents success or failure. Alternative to throwing exceptions for expected errors (validation, not found, business rule violations).
-
-**Benefits**:
-
-- Type-safe error handling
-- Explicit error paths (no hidden throws)
-- Composable (chain operations)
-- Forces consumers to handle errors
-
-**Use when**:
-
-- API calls that can fail
-- Validation that can have multiple errors
-- Business operations with expected failures
-- You want to avoid try/catch everywhere
-
-**Don't use for**:
-
-- Unexpected errors (use throw for programmer errors: null pointer, out of bounds)
-- Trivial operations that never fail
+Type-safe error handling wrapping operation outcomes in a type representing success or failure. Alternative to exceptions for expected errors—provides explicit error paths, composability, and forces consumers to handle errors.
 
 ---
 
@@ -47,7 +24,6 @@ export class Result<T> {
     return new Result(false, undefined, error);
   }
 
-  // Helper methods
   map<U>(fn: (value: T) => U): Result<U> {
     if (!this.isSuccess) {
       return Result.fail(this.error!);
@@ -99,18 +75,15 @@ class UserService {
   }
 
   async createUser(data: CreateUserDTO): Promise<Result<User>> {
-    // Validation
     if (!data.email.includes("@")) {
       return Result.fail("Invalid email address");
     }
 
-    // Check duplicates
     const existing = await this.repo.findByEmail(data.email);
     if (existing) {
       return Result.fail("Email already registered");
     }
 
-    // Create
     const user = await this.repo.create(data);
     return Result.ok(user);
   }
@@ -214,7 +187,6 @@ const useCreateUser = () => {
   const createUser = async (data: CreateUserDTO) => {
     setIsLoading(true);
 
-    // Client-side validation
     if (!data.email.includes('@')) {
       setResult(Result.fail('Invalid email format'));
       setIsLoading(false);
@@ -227,7 +199,6 @@ const useCreateUser = () => {
       return;
     }
 
-    // API call
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -375,7 +346,7 @@ const CreateUserForm = () => {
 
 ## Advanced: Either<L, R> Pattern
 
-For operations that can return two different success types or need more context in errors:
+For operations returning two different success types or needing more context in errors:
 
 ```typescript
 type Either<L, R> = Left<L> | Right<R>;
@@ -499,21 +470,17 @@ const user = userOption.isSome() ? userOption.value : new GuestUser();
 // Application layer (use case)
 class PlaceOrderUseCase {
   async execute(items: OrderItem[], token: string): Promise<Result<Order>> {
-    // Validation
     if (items.length === 0) {
       return Result.fail("Order must have items");
     }
 
-    // Business logic
     const order = new Order(generateId(), items, "pending");
 
-    // External dependency (payment)
     const paymentResult = await this.payment.charge(order.total, token);
     if (!paymentResult.isSuccess) {
       return Result.fail(`Payment failed: ${paymentResult.error}`);
     }
 
-    // Persistence
     const saveResult = await this.orderRepo.save(order);
     if (!saveResult.isSuccess) {
       return Result.fail(`Save failed: ${saveResult.error}`);
@@ -563,7 +530,6 @@ class DuplicationCheckService {
 
 class UserService {
   async createUser(data: CreateUserDTO): Promise<Result<User>> {
-    // Chain results
     const validationResult = this.validator.validate(data);
     if (!validationResult.isSuccess) {
       return Result.fail(validationResult.error);
@@ -611,8 +577,6 @@ class UserService {
 
 ## Libraries
 
-If you don't want to implement yourself:
-
 - **TypeScript**: [neverthrow](https://github.com/supermacro/neverthrow)
 - **fp-ts**: [Either](https://gcanti.github.io/fp-ts/modules/Either.ts.html), [Option](https://gcanti.github.io/fp-ts/modules/Option.ts.html)
 - **Rust-inspired**: [ts-results](https://github.com/vultix/ts-results)
@@ -624,7 +588,7 @@ If you don't want to implement yourself:
 **Use Result pattern when**:
 
 - Operation can fail for expected reasons
-- You want type-safe error handling
+- Type-safe error handling is needed
 - Consumers should explicitly handle errors
 - Chaining multiple operations that can fail
 

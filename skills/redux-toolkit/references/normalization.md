@@ -77,7 +77,6 @@ interface Todo {
   completed: boolean;
 }
 
-// ✅ Create adapter
 const todosAdapter = createEntityAdapter<Todo>({
   // Optional: custom ID selector
   selectId: (todo) => todo.id,
@@ -86,7 +85,6 @@ const todosAdapter = createEntityAdapter<Todo>({
   sortComparer: (a, b) => a.text.localeCompare(b.text),
 });
 
-// ✅ Use adapter's initial state
 const todosSlice = createSlice({
   name: "todos",
   initialState: todosAdapter.getInitialState({
@@ -95,7 +93,6 @@ const todosSlice = createSlice({
     error: null,
   }),
   reducers: {
-    // ✅ Use adapter's CRUD methods
     todoAdded: todosAdapter.addOne,
     todosReceived: todosAdapter.setAll,
     todoUpdated: todosAdapter.updateOne,
@@ -126,7 +123,6 @@ reducers: {
   upsertTodos: todosAdapter.upsertMany,
 }
 
-// Usage:
 dispatch(addTodo({ id: '1', text: 'Buy milk', completed: false }));
 dispatch(addTodos([todo1, todo2, todo3]));
 dispatch(setTodos(apiResponse)); // Replace all
@@ -137,14 +133,10 @@ dispatch(upsertTodo(updatedTodo)); // Add if new, update if exists
 
 ```typescript
 reducers: {
-  // Update single
   updateTodo: todosAdapter.updateOne,
-
-  // Update multiple
   updateTodos: todosAdapter.updateMany,
 }
 
-// Usage:
 dispatch(updateTodo({
   id: '1',
   changes: { completed: true },
@@ -160,17 +152,11 @@ dispatch(updateTodos([
 
 ```typescript
 reducers: {
-  // Remove single
   removeTodo: todosAdapter.removeOne,
-
-  // Remove multiple
   removeTodos: todosAdapter.removeMany,
-
-  // Remove all
   removeAllTodos: todosAdapter.removeAll,
 }
 
-// Usage:
 dispatch(removeTodo('1'));
 dispatch(removeTodos(['1', '2', '3']));
 dispatch(removeAllTodos());
@@ -183,12 +169,10 @@ dispatch(removeAllTodos());
 ### ✅ Generated Selectors
 
 ```typescript
-// ✅ Generate selectors for the slice
 const todosSelectors = todosAdapter.getSelectors<RootState>(
   (state) => state.todos,
 );
 
-// Available selectors:
 export const {
   selectAll, // Returns all entities as array
   selectById, // Returns entity by ID
@@ -197,7 +181,6 @@ export const {
   selectTotal, // Returns count of entities
 } = todosSelectors;
 
-// Usage:
 const allTodos = useAppSelector(selectAll);
 const todo = useAppSelector((state) => selectById(state, "1"));
 const todoIds = useAppSelector(selectIds);
@@ -229,7 +212,7 @@ export const selectTodosByIds = createSelector(
 ```typescript
 const todosAdapter = createEntityAdapter<Todo>({
   sortComparer: (a, b) => {
-    // ✅ Sort by completed, then by text
+    // Sort by completed, then by text
     if (a.completed !== b.completed) {
       return a.completed ? 1 : -1; // Incomplete first
     }
@@ -272,14 +255,12 @@ export const selectSortedTodos = createSelector(
 ### ✅ One-to-Many (Posts → Comments)
 
 ```typescript
-// Posts with comment IDs
 interface Post {
   id: string;
   title: string;
   commentIds: string[];
 }
 
-// Comments adapter
 const commentsAdapter = createEntityAdapter<Comment>();
 const postsAdapter = createEntityAdapter<Post>();
 
@@ -350,7 +331,7 @@ const todosSlice = createSlice({
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.loading = false;
-        // ✅ setAll replaces all entities
+        // setAll replaces all entities
         todosAdapter.setAll(state, action.payload);
       });
   },
@@ -363,13 +344,13 @@ const todosSlice = createSlice({
 export const deleteTodo = createAsyncThunk(
   "todos/delete",
   async (todoId: string, { dispatch, rejectWithValue }) => {
-    // ✅ Optimistic: remove immediately
+    // Optimistic: remove immediately
     dispatch(todosSlice.actions.removeTodo(todoId));
 
     try {
       await fetch(`/api/todos/${todoId}`, { method: "DELETE" });
     } catch (error) {
-      // ✅ Rollback on error (re-fetch or restore from cache)
+      // Rollback on error (re-fetch or restore from cache)
       dispatch(fetchTodos());
       return rejectWithValue("Failed to delete");
     }
@@ -404,7 +385,7 @@ const todosSlice = createSlice({
     builder.addCase(fetchTodosPage.fulfilled, (state, action) => {
       const { todos, page, totalPages } = action.payload;
 
-      // ✅ Add new page (don't replace)
+      // Add new page (don't replace)
       todosAdapter.addMany(state, todos);
       state.currentPage = page;
       state.totalPages = totalPages;
@@ -443,13 +424,13 @@ reducers: {
 
 ## Best Practices
 
-1. **Use for collections** - EntityAdapter is ideal for arrays of entities with IDs
-2. **Normalize relationships** - Store IDs, populate in selectors
-3. **Use upsert** - For adding or updating (idempotent operations)
-4. **Sort in adapter** - Use sortComparer for consistent ordering
-5. **Generate selectors** - Use `getSelectors()` for standard operations
-6. **Single source of truth** - Each entity type in one adapter
-7. **Type IDs consistently** - Use string or number, be consistent
+1. **Use for collections** — EntityAdapter is ideal for arrays of entities with IDs
+2. **Normalize relationships** — Store IDs, populate in selectors
+3. **Use upsert** — For adding or updating (idempotent operations)
+4. **Sort in adapter** — Use sortComparer for consistent ordering
+5. **Generate selectors** — Use `getSelectors()` for standard operations
+6. **Single source of truth** — Each entity type in one adapter
+7. **Type IDs consistently** — Use string or number, be consistent
 
 ---
 

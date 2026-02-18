@@ -4,10 +4,9 @@ description: "Predictable state management with Redux Toolkit. Trigger: When imp
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: library
   skills:
     - react
-    - typescript
-    - architecture-patterns
   dependencies:
     "@reduxjs/toolkit": ">=2.0.0 <3.0.0"
     react-redux: ">=8.0.0 <10.0.0"
@@ -15,52 +14,36 @@ metadata:
 
 # Redux Toolkit Skill
 
-## Overview
+Redux state with simplified API. createSlice, configureStore, RTK Query for predictable state and async logic.
 
-Modern Redux state management using Redux Toolkit's simplified API and best practices.
+## When to Use
 
-## Objective
+- Global state with Redux Toolkit
+- Slices with createSlice
+- Async logic (RTK Query/createAsyncThunk)
+- Replacing legacy Redux
 
-Enable developers to implement predictable state management with Redux Toolkit's createSlice, configureStore, and other utilities.
-
----
-
-## 📚 Extended Mandatory Read Protocol
-
-**CRITICAL**: This skill uses the extended protocol with references/ directory for deep-dive guides.
-
-### Reading Rules
-
-- **SKILL.md (this file)**: Critical patterns and decision tree (handles 80% of cases)
-- **references/ directory**: Detailed guides for complex scenarios (40+ patterns per topic)
-
-### When to Read References
-
-Check the Decision Tree below. When it says **"MUST read [reference]"**, you must read that file before proceeding.
-
-**Conditional language guide:**
-
-- **"MUST read"** → Obligatory reading
-- **"CHECK"** → Suggested for deeper understanding
-- **"OPTIONAL"** → For learning only
+Don't use for:
+- Local state (use useState/useReducer)
+- Server state caching (use React Query/SWR)
 
 ---
 
 ## When to Use
 
-Use this skill when:
+Use when:
 
-- Managing global application state in React
-- Creating Redux slices with actions and reducers
-- Setting up Redux store with middleware
-- Implementing async operations with thunks
-- Normalizing state with EntityAdapter
-- Data fetching and caching with RTK Query
+- Global app state in React
+- Redux slices (actions/reducers)
+- Store setup with middleware
+- Async ops with thunks
+- Normalizing with EntityAdapter
+- Data fetching/caching (RTK Query)
 
-Don't use this skill for:
+Don't use for:
 
-- Component-local state (use React useState)
-- Non-React Redux (general Redux patterns)
+- Local state (use useState)
+- Non-React Redux
 
 ---
 
@@ -138,10 +121,10 @@ Refer to react for:
 
 ### Redux Toolkit Specific
 
-- Use createSlice for reducers and actions
-- Implement typed hooks (useAppDispatch, useAppSelector)
-- Use createAsyncThunk for async operations
-- Leverage immer for immutable updates
+- createSlice for reducers/actions
+- Typed hooks (useAppDispatch, useAppSelector)
+- createAsyncThunk for async
+- Immer for immutable updates
 - Follow Redux style guide
 
 ## Decision Tree
@@ -204,47 +187,45 @@ export const store = configureStore({
 
 ## Edge Cases
 
-**Circular dependencies:** Avoid importing slices into each other. Use middleware or thunks for cross-slice logic.
+**Circular deps:** Avoid importing slices; use middleware/thunks for cross-slice.
 
-**State serialization:** Redux requires serializable state. Store non-serializable data (functions, promises) elsewhere or use middleware.
+**Serialization:** No functions/promises in state; use middleware.
 
-**Large state updates:** For bulk updates, combine multiple actions or use batch from react-redux.
+**Large updates:** Combine actions or batch from react-redux.
 
-**Middleware order:** Custom middleware should come after thunk but before serializableCheck. Configure in middleware array.
+**Middleware order:** Custom after thunk, before serializableCheck.
 
-**EntityAdapter sorting:** Provide `sortComparer` in adapter for consistent ordering. Updates re-sort automatically.
+**EntityAdapter:** `sortComparer` for ordering; updates re-sort auto.
 
-**Hot reloading:** Use `module.hot` to preserve store state during development hot reloads.
+**Hot reload:** `module.hot` preserves state during dev reloads.
 
 ---
 
 ## Advanced Architecture Patterns
 
-**⚠️ Context Check Required**: Advanced architecture patterns (Clean Architecture, DDD, SOLID) apply only when:
+**⚠️ Context Check**: Apply only when:
 
-1. **AGENTS.md explicitly specifies** architecture requirements
-2. **Codebase already uses** domain/, application/, infrastructure/ folders
-3. **User explicitly requests** architectural patterns
+1. AGENTS.md specifies architecture
+2. Codebase has domain/application/infrastructure folders
+3. User requests patterns
 
-**If none apply** → Use Redux Toolkit best practices above, skip architecture patterns.
+**If none** → Use Redux Toolkit practices, skip architecture.
 
-### Applicable Patterns for Redux
+### Applicable Patterns
 
-- **SRP**: One slice per domain (user, order, product - not one appSlice)
-- **Clean Architecture**: RTK Query as Infrastructure, domain entities separate
-- **Result Pattern**: Wrap mutations/async thunks with Result<T> for type-safe errors
+- **SRP**: One slice per domain (user, order - not appSlice)
+- **Clean Architecture**: RTK Query as Infrastructure
+- **Result Pattern**: Wrap mutations/thunks with Result<T>
 
-### For Complete Guide
+### Complete Guide
 
-**MUST read** [architecture-patterns/references/frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
-
-- Redux Toolkit with Clean Architecture
-- SRP for slices (one responsibility per slice)
-- RTK Query as Infrastructure adapter
+See [frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
+- Redux Toolkit + Clean Architecture
+- SRP for slices
+- RTK Query as Infrastructure
 - Result Pattern with mutations
-- Complete examples with layer separation
 
-**Also see**: [architecture-patterns/SKILL.md](../architecture-patterns/SKILL.md) for pattern selection guidance.
+See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) for selection.
 
 ---
 

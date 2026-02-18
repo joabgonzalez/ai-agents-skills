@@ -110,7 +110,6 @@ const [state, dispatch] = useReducer(reducer, {
   error: null,
 });
 
-// Usage
 dispatch({ type: "FETCH_START" });
 dispatch({ type: "FETCH_SUCCESS", payload: userData });
 ```
@@ -141,7 +140,6 @@ const reducer = produce((draft: State, action: Action) => {
 ### ✅ Extract Reusable Logic
 
 ```typescript
-// ✅ Custom hook for localStorage
 function useLocalStorage<T>(key: string, initialValue: T) {
   const [value, setValue] = useState<T>(() => {
     const stored = localStorage.getItem(key);
@@ -178,7 +176,6 @@ function useInterval(callback: () => void, delay: number | null) {
   }, [delay]);
 }
 
-// Usage
 useInterval(() => {
   console.log("Tick");
 }, 1000);
@@ -197,7 +194,6 @@ function useToggle(initialValue = false) {
   return { value, toggle, setTrue, setFalse };
 }
 
-// Usage
 const modal = useToggle();
 modal.setTrue(); // Open
 modal.toggle(); // Close
@@ -291,7 +287,6 @@ function usePrevious<T>(value: T): T | undefined {
   return ref.current;
 }
 
-// Usage
 const [count, setCount] = useState(0);
 const prevCount = usePrevious(count);
 // prevCount is always the previous value
@@ -328,7 +323,6 @@ const CustomInput = forwardRef<InputHandle, { placeholder?: string }>((props, re
   return <input ref={inputRef} {...props} />;
 });
 
-// Usage
 function Parent() {
   const inputRef = useRef<InputHandle>(null);
 
@@ -376,7 +370,6 @@ useEffect(() => {
 ### ✅ Exhaustive Dependencies
 
 ```typescript
-// ✅ CORRECT: All dependencies listed
 function SearchResults({ query, filters }) {
   const [results, setResults] = useState([]);
 
@@ -474,7 +467,7 @@ function useMutation<T>(mutationFn: (data: T) => Promise<void>) {
 
 ### useId — SSR-Safe Unique IDs
 
-Generate unique IDs that are stable across server and client rendering.
+Generate unique IDs stable across server and client rendering.
 
 ```typescript
 // ✅ CORRECT: useId for form label association
@@ -553,7 +546,6 @@ function SearchResults({ query }: { query: string }) {
 Subscribe to external stores (non-React state) safely.
 
 ```typescript
-// Custom hook for window width using external store pattern
 function useWindowWidth(): number {
   return useSyncExternalStore(
     (callback) => {
@@ -565,7 +557,6 @@ function useWindowWidth(): number {
   );
 }
 
-// Usage
 function ResponsiveLayout() {
   const width = useWindowWidth();
   return width > 768 ? <DesktopLayout /> : <MobileLayout />;
