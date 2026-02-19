@@ -1,6 +1,6 @@
 ---
 name: code-conventions
-description: "Universal meta-conventions that apply to any technology. Trigger: When establishing naming, file structure, code organization, or reviewing general best practices across any codebase."
+description: "Universal naming, structure, and organization conventions. Trigger: When establishing coding standards or reviewing conventions across any technology."
 license: "Apache 2.0"
 metadata:
   version: "2.0"

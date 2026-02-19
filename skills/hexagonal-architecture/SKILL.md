@@ -143,6 +143,7 @@ Multiple ways to trigger same use case (HTTP + CLI)?
 interface IPaymentGateway { charge(amount: number, token: string): Promise<PaymentResult>; }
 
 // Use Case (core — no infra imports)
+// Result<T>: typed wrapper for success/failure — Result.ok(value) | Result.fail("error")
 class PlaceOrderUseCase {
   constructor(private payment: IPaymentGateway) {}
   async execute(order: Order, token: string): Promise<Result<Order>> {

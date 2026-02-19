@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: "UI/UX design patterns and design thinking for software projects. Trigger: When designing user interfaces, planning UX flows, or evaluating UI decisions."
+description: "UI/UX design patterns for software. Trigger: When designing user interfaces, planning UX flows, or evaluating UI decisions."
 license: "Apache 2.0"
 metadata:
   version: "1.0"

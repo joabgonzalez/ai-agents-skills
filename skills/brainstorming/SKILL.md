@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "Structured planning, ideation, and decision-making for software projects. Trigger: When planning features, evaluating alternatives, or making architectural decisions."
+description: "Structured ideation and decision-making for software. Trigger: When planning features, evaluating alternatives, or making architectural decisions."
 license: "Apache 2.0"
 metadata:
   version: "1.0"

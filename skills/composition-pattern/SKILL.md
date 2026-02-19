@@ -97,6 +97,23 @@ const { isOpen, toggle, getToggleProps, getContentProps } = useToggle();
 <div {...getContentProps()} className="my-panel">Content</div>
 ```
 
+### ✅ REQUIRED: Polymorphic Components (as/tag Prop)
+
+Let consumers control the rendered HTML element or component type.
+
+```
+// Consumer decides the element — same styles, different semantic output
+<Text as="h1">Title</Text>      → renders <h1>
+<Text as="p">Paragraph</Text>   → renders <p>
+<Text as="label">Label</Text>   → renders <label>
+
+// Button that can render as an anchor
+<Button as="a" href="/page">Go</Button>  → renders <a href="/page">
+<Button>Submit</Button>                   → renders <button>
+```
+
+Use when the component's visual style is fixed but the HTML element varies by context (semantic correctness, accessibility, SEO). Never hard-code the element when it varies across use sites.
+
 ### ❌ NEVER: Prop Explosion
 
 ```

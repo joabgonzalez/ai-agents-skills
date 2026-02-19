@@ -17,7 +17,7 @@ metadata:
 
 # Skill Creation
 
-Create skills from simple single-file to complex multi-reference architectures. Each skill must have unique responsibility and delegate to code-conventions/a11y when applicable.
+Create skills from simple single-file to complex multi-reference architectures. Each skill must have unique responsibility and be self-sufficient.
 
 ## When to Use
 
@@ -108,9 +108,9 @@ skills/{skill-name}/
 
 For complex skills, invoke [reference-creation](../reference-creation/SKILL.md) skill.
 
-### ✅ REQUIRED: Delegate to General Skills
+### ✅ REQUIRED: Self-Sufficient Content
 
-Don't duplicate rules from code-conventions, a11y, humanizer, or architecture-patterns. Declare them in `metadata.skills` and add only skill-specific rules.
+Don't duplicate universal rules (naming, formatting, accessibility) — they apply everywhere. Include only skill-specific content. Each skill must work on its own without relying on the reader having other skills loaded.
 
 ### ✅ REQUIRED: Token Efficiency
 

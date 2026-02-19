@@ -37,8 +37,13 @@ export class Result<T> {
     public readonly error?: string
   ) {}
 
-  static ok<T>(value: T): Result<T>   { return new Result(true, value); }
+  static ok<T>(value: T): Result<T>       { return new Result(true, value); }
   static fail<T>(error: string): Result<T> { return new Result(false, undefined, error); }
+
+  // Chain operations: if this failed, propagates failure; if success, applies fn
+  flatMap<U>(fn: (value: T) => Result<U>): Result<U> {
+    return this.isSuccess ? fn(this.value!) : Result.fail<U>(this.error!);
+  }
 }
 
 // Usage
@@ -50,6 +55,22 @@ function divide(a: number, b: number): Result<number> {
 const result = divide(10, 2);
 if (result.isSuccess) console.log(result.value); // 5
 else console.error(result.error);
+```
+
+### ✅ REQUIRED: Chain with flatMap
+
+```typescript
+function parseAge(s: string): Result<number> {
+  const n = parseInt(s);
+  return isNaN(n) ? Result.fail("Not a number") : Result.ok(n);
+}
+function validateAge(n: number): Result<number> {
+  return n >= 0 && n < 150 ? Result.ok(n) : Result.fail("Age out of range");
+}
+
+// Chain: each step only runs if the previous succeeded
+const result = parseAge("25").flatMap(validateAge);
+if (result.isSuccess) console.log(result.value); // 25
 ```
 
 ### ✅ REQUIRED: Service Layer Returns Result
@@ -101,16 +122,16 @@ Programmer error (null pointer, wrong arg type)?
   → Throw exception (not Result)
 
 Multiple operations that can fail sequentially?
-  → Chain with flatMap/map, or check isSuccess at each step
+  → Chain with flatMap, or check isSuccess at each step
 
 API endpoint needs to return different HTTP codes per error?
   → Service returns Result → controller maps Result to HTTP status
 
 Need typed error variants (ValidationError, NotFoundError)?
-  → Use Either<L, R> pattern → see advanced-patterns.md
+  → Add a discriminated union error type to Result<T, E> — see references/advanced-patterns.md
 
-Operation may or may not return a value?
-  → Use Option<T> pattern → see advanced-patterns.md
+Operation may or may not return a value (nullable)?
+  → Return Result<T | undefined> or use a dedicated wrapper — see references/advanced-patterns.md
 ```
 
 ---

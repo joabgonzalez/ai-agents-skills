@@ -9,7 +9,7 @@ metadata:
 
 # Sidecar Pattern
 
-Deploys auxiliary services alongside main application in the same pod/container group, sharing lifecycle and network namespace. Common in microservices for cross-cutting concerns.
+Deploys auxiliary services alongside the main application, sharing lifecycle. In Kubernetes, sidecars run in the same pod and share a network namespace (communicate via localhost). In Docker Compose, sidecars share a Docker network (communicate via service name). Common in microservices for cross-cutting concerns.
 
 ## When to Use
 
@@ -32,7 +32,8 @@ Don't use for:
 Sidecar and main service start, stop, and scale together.
 
 ```yaml
-# Docker Compose — shared lifecycle
+# Docker Compose — shared lifecycle (shared Docker network, not network namespace)
+# Services communicate via service name, e.g., http://order-service:3000
 services:
   order-service:
     build: ./order-service
@@ -43,7 +44,7 @@ services:
     volumes:
       - ./logs:/fluentd/log
       - ./fluent.conf:/fluentd/etc/fluent.conf
-    depends_on: [order-service]  # Same lifecycle
+    depends_on: [order-service]  # Starts after; stops when compose stack stops
 ```
 
 ### ✅ REQUIRED: Network Transparency

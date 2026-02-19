@@ -18,6 +18,8 @@ metadata:
 
 Fast sites with SSG/SSR, minimal JS, TypeScript, and client island architecture.
 
+> Client island examples use React (`@astrojs/react`). For Vue, Svelte, or Solid islands, replace `<ReactComp client:load />` with your framework's component — the directive syntax (`client:load`, `client:visible`, `client:idle`) is identical.
+
 ## When to Use
 
 - Static sites (SSG), server-rendered (SSR), or hybrid

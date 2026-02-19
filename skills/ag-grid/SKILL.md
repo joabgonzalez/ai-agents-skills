@@ -20,6 +20,8 @@ metadata:
 
 React data tables with sorting, filtering, pagination, inline editing, and Excel-like features. TypeScript typing, accessibility, and virtualization.
 
+> Examples use `ag-grid-react`. Column config API (`ColDef`, `onGridReady`) is framework-agnostic — adapt cell renderers to your framework's component syntax for Angular/Vue.
+
 ## When to Use
 
 - Data tables with sorting/filtering/pagination

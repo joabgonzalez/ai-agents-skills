@@ -15,6 +15,8 @@ metadata:
 
 Async I/O, process management, backend services with Node.js runtime.
 
+> Examples use TypeScript. For JavaScript, remove type annotations (`: string`, `interface`, `<T>`, `Promise<T>`) — patterns apply identically.
+
 ## When to Use
 
 - Building backend services or REST/GraphQL APIs

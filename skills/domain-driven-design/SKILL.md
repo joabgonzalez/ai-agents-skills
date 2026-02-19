@@ -97,17 +97,81 @@ class Order {
 }
 ```
 
+### ✅ REQUIRED: Repository — Abstract Persistence
+
+Interface that hides database details from the domain. Domain only knows about the interface; infrastructure implements it.
+
+```typescript
+// Domain layer: interface only
+interface OrderRepository {
+  findById(id: string): Promise<Order | null>;
+  save(order: Order): Promise<void>;
+  delete(id: string): Promise<void>;
+}
+
+// Infrastructure layer: concrete implementation
+class PostgresOrderRepository implements OrderRepository {
+  async findById(id: string) { /* SQL query */ }
+  async save(order: Order)   { /* SQL insert/update */ }
+}
+```
+
+### ✅ REQUIRED: Domain Service — Cross-Aggregate Logic
+
+Stateless service for business logic that doesn't naturally belong to a single entity or value object.
+
+```typescript
+// ✅ CORRECT: logic spans multiple aggregates → Domain Service
+class PricingService {
+  calculate(order: Order, customer: Customer): Money {
+    const base = order.totalPrice();
+    const discount = customer.loyaltyDiscount();
+    return base.subtract(discount);
+  }
+}
+
+// ❌ WRONG: putting cross-aggregate logic inside an aggregate
+class Order {
+  calculateWithCustomer(customer: Customer) { /* Order shouldn't know Customer */ }
+}
+```
+
+### ❌ NEVER: Anemic Domain Model
+
+Objects that are only data containers with no behavior. Moves business logic to services, destroying the domain model.
+
+```typescript
+// ❌ WRONG: anemic — only data, no behavior
+class Order {
+  id: string; items: OrderItem[]; status: string;
+  // No methods. Business logic lives in OrderService.
+}
+class OrderService {
+  confirm(order: Order) { order.status = "confirmed"; } // leaking business rules
+}
+
+// ✅ CORRECT: rich domain model — behavior lives in the entity
+class Order {
+  confirm(): void {
+    if (this.status !== "pending") throw new Error("Only pending orders can be confirmed");
+    this.status = "confirmed";
+  }
+}
+```
+
 ---
 
 ## Decision Tree
 
 ```
-Complex business rules?              → Apply DDD Aggregates + Entities
-Multiple teams on different areas?   → Define Bounded Contexts with explicit APIs
-Technical jargon in domain model?    → Build Ubiquitous Language with domain experts
-Objects defined by attributes only?  → Use Value Objects (immutable, no ID)
-Side effects from domain events?     → Use Domain Events to decouple
-Simple CRUD?                         → Skip DDD, not worth the complexity
+Complex business rules?                → Apply DDD Aggregates + Entities
+Multiple teams on different areas?     → Define Bounded Contexts with explicit APIs
+Technical jargon in domain model?      → Build Ubiquitous Language with domain experts
+Objects defined by attributes only?    → Use Value Objects (immutable, no ID)
+Side effects from domain events?       → Use Domain Events to decouple
+Need to persist an aggregate?          → Define a Repository interface
+Logic spans multiple aggregates?       → Extract to a Domain Service
+Simple CRUD?                           → Skip DDD, not worth the complexity
 ```
 
 ---
@@ -126,4 +190,4 @@ Simple CRUD?                         → Skip DDD, not worth the complexity
 
 ## Resources
 
-- [tactical-strategic.md](references/tactical-strategic.md) — Strategic + tactical DDD, Repositories, Domain Services, Context Map
+- [tactical-strategic.md](references/tactical-strategic.md) — Context Map patterns, advanced tactical DDD, strategic design
