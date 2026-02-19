@@ -433,5 +433,5 @@ See [interface-design/references/README.md](../interface-design/references/READM
 
 - [REFERENCE-TEMPLATE.md](assets/REFERENCE-TEMPLATE.md) - Template for individual reference files
 - [skill-creation](../skill-creation/SKILL.md) - Main skill creation workflow
-- [conventions](../conventions/SKILL.md) - Coding standards
+- [code-conventions](../code-conventions/SKILL.md) - Coding standards
 - [critical-partner](../critical-partner/SKILL.md) - Quality validation

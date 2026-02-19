@@ -68,12 +68,12 @@ license: "MIT"            # ✅ Alternative
 # ✅ CORRECT: YAML list syntax
 metadata:
   skills:
-    - conventions
+    - code-conventions
     - a11y
 
 # ❌ WRONG: Array syntax
 metadata:
-  skills: ["conventions", "a11y"]
+  skills: ["code-conventions", "a11y"]
 
 # ✅ OMIT if no dependencies
 ```
@@ -146,7 +146,7 @@ metadata:
   version: "1.0"
   skills:
     - react
-    - conventions
+    - code-conventions
   dependencies:
     formik: ">=2.0.0 <3.0.0"
 ---
@@ -185,12 +185,12 @@ metadata:
 # ✅ CORRECT
 metadata:
   skills:
-    - conventions
+    - code-conventions
     - a11y
 
 # ❌ WRONG
 metadata:
-  skills: ["conventions", "a11y"]
+  skills: ["code-conventions", "a11y"]
 ```
 
 **Empty fields:** OMIT completely (saves tokens)
@@ -206,7 +206,7 @@ metadata:
 metadata:
   version: "1.0"
   skills:
-    - conventions
+    - code-conventions
 ```
 
 ---
@@ -248,9 +248,9 @@ metadata:
 **Wrong array syntax:**
 ```yaml
 metadata:
-  skills: ["conventions"] # ❌
+  skills: ["code-conventions"] # ❌
   skills:
-    - conventions          # ✅
+    - code-conventions          # ✅
 ```
 
 **Name mismatch:**

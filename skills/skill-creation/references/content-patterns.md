@@ -279,7 +279,7 @@ Define rules and best practices. Always delegate to general skills first, then a
 ```markdown
 ## Conventions
 
-Refer to [conventions](../conventions/SKILL.md) for:
+Refer to [code-conventions](../code-conventions/SKILL.md) for:
 
 - Naming patterns
 - Code organization
@@ -301,7 +301,7 @@ Refer to [a11y](../a11y/SKILL.md) for:
 ### Anti-Pattern: Don't Duplicate
 
 ```markdown
-# ❌ WRONG: Duplicating conventions
+# ❌ WRONG: Duplicating code-conventions
 
 ## Conventions
 
@@ -315,7 +315,7 @@ Refer to [a11y](../a11y/SKILL.md) for:
 
 ## Conventions
 
-Refer to conventions for general coding standards.
+Refer to code-conventions for general coding standards.
 
 ### TypeScript-Specific
 

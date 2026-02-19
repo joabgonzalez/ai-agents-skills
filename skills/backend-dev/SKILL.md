@@ -5,8 +5,6 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   type: universal
-  skills:
-    - architecture-patterns
 ---
 
 # Backend Development Skill
@@ -315,7 +313,7 @@ Database (PostgreSQL, MongoDB, etc.)
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - Code organization and naming
+- [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
 - [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
 - [typescript](../typescript/SKILL.md) - Type-safe backend development

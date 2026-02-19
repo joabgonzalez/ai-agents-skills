@@ -77,10 +77,6 @@ module.exports = (env, argv) => {
 
 ## Conventions
 
-Refer to conventions for:
-
-- Project structure
-
 ### Webpack Specific
 
 - Configure loaders for different file types

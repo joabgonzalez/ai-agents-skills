@@ -25,6 +25,7 @@ This directory contains detailed guides for specific aspects of Astro developmen
 | [client-directives.md](client-directives.md)     | client:load/visible/idle/only patterns         | Adding interactivity with minimal JavaScript        |
 | [content-collections.md](content-collections.md) | Content layer, Markdown/MDX, type-safe content | Managing blog posts, documentation, or CMS content  |
 | [actions.md](actions.md)                         | Server actions, form handling, validation      | Implementing form submissions and server-side logic |
+| [composition.md](composition.md)                 | Named slots, fallback content, slot conditions | Building reusable layout components with slots      |
 
 ### 🚀 Performance & Advanced Features
 
@@ -131,6 +132,15 @@ This directory contains detailed guides for specific aspects of Astro developmen
 - Error handling
 - File uploads
 - Progressive enhancement
+
+### [composition.md](composition.md)
+
+**Slot-based component composition**
+
+- Default and named `<slot>` elements
+- Fallback content when slot is empty
+- Conditional slot rendering with `Astro.slots.has()`
+- Layout components with multiple slot regions
 
 ### [view-transitions.md](view-transitions.md)
 

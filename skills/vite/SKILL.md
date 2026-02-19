@@ -76,10 +76,6 @@ export default defineConfig({
 
 ## Conventions
 
-Refer to conventions for:
-
-- Project structure
-
 ### Vite Specific
 
 - Configure vite.config for project needs

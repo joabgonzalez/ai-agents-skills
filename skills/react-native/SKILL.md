@@ -148,20 +148,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 ## Conventions
 
-Refer to conventions for:
-
-- Code organization
-
-Refer to a11y for:
-
-- Accessibility labels
-- Screen reader support
-
-Refer to react for:
-
-- Component patterns
-- Hooks usage
-
 ### React Native Specific
 
 - Platform-specific code when needed
@@ -169,6 +155,7 @@ Refer to react for:
 - Proper safe area handling
 - Image/asset optimization
 - Hermes engine for performance
+- Apply accessibility best practices: accessibilityLabel, accessibilityRole, screen reader support
 
 ---
 

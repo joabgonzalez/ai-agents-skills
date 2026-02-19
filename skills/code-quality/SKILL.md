@@ -4,7 +4,7 @@ description: "Linting and formatting across tools. Trigger: When configuring lin
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: tooling
+  type: domain
 ---
 
 # Code Quality

@@ -4,10 +4,7 @@ description: "End-to-end testing patterns and best practices. Trigger: When writ
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: tooling
-  skills:
-    - stagehand
-    - typescript
+  type: domain
 ---
 # End-to-End Testing Skill
 Orchestrates E2E testing strategy and architecture -- delegates to playwright and stagehand skills.

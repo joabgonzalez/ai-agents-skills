@@ -109,7 +109,7 @@ Otherwise    → {Default action}
 
 ## Conventions
 
-**IMPORTANT:** Do NOT duplicate general conventions. Assume users already have conventions via transitive dependencies (typescript → javascript → conventions).
+**IMPORTANT:** Do NOT duplicate general conventions. Assume users already have code-conventions via transitive dependencies (typescript → javascript → code-conventions).
 
 Add ONLY skill-specific rules that are unique to this technology:
 
@@ -153,7 +153,7 @@ Add ONLY skill-specific rules that are unique to this technology:
 - [ ] Decision Tree (condition→action)
 - [ ] Example section
 - [ ] Edge Cases
-- [ ] Delegates to conventions/a11y (not duplicated)
+- [ ] Delegates to code-conventions/a11y (not duplicated)
 
 ### Quality
 - [ ] Token-efficient (no filler, every word adds value)

@@ -1382,7 +1382,7 @@ curl https://api.example.com/health
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - Code organization and naming
+- [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - SOLID, DDD, Clean Architecture
 - [typescript](../typescript/SKILL.md) - Type-safe refactoring
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Root cause analysis

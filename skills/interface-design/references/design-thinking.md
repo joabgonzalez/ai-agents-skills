@@ -176,4 +176,4 @@ Before implementing, answer:
 
 - See main [SKILL.md](../SKILL.md) for quick design process
 - See [a11y](../../a11y/SKILL.md) for accessibility patterns
-- See [composition-patterns](../../composition-patterns/SKILL.md) for component API design
+- See [composition-pattern](../../composition-pattern/SKILL.md) for component API design

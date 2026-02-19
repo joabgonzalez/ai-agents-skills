@@ -130,8 +130,6 @@ const posts = await fetchPosts();
 const comments = await fetchComments();
 ```
 
-Conventions: **conventions** skill for naming/organization/docs.
-
 ## Decision Tree
 
 **Importing a module?** -> Named imports: `import { x } from 'mod'`. Never `require()` in ES modules.

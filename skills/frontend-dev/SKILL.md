@@ -5,8 +5,6 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   type: universal
-  skills:
-    - architecture-patterns
 
 ---
 
@@ -256,7 +254,7 @@ Which library?
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - Code organization and naming
+- [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Composition, HOC, Render Props)
 - [react](../react/SKILL.md) - React patterns and hooks
 - [typescript](../typescript/SKILL.md) - Type-safe frontend development

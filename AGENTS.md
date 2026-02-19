@@ -9,7 +9,7 @@ metadata:
     - agent-creation
     - typescript
     - nodejs
-    - conventions
+    - code-conventions
     - critical-partner
 ---
 
@@ -43,7 +43,7 @@ Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each
 
 **Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `code-conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
 
@@ -59,7 +59,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
 3. **Check frontmatter** → Dependencies: `javascript`
 4. **Read dependency:**
-   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Mandatory Skills
@@ -71,13 +71,13 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Create or modify skills     | skill-creation   |
 | Create agent definitions    | agent-creation   |
 | Code review or improvements | critical-partner |
-| Coding standards            | conventions      |
+| Coding standards                   | code-conventions      |
 | TypeScript code             | typescript       |
 | Node.js / CLI development   | nodejs           |
 
 ## Skills Reference
 
-52 skills organized by category:
+61 skills organized by category:
 
 - **Frameworks:** React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
 - **Testing:** Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
@@ -85,15 +85,16 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 - **Backend:** Node.js, Express, Nest, Hono, Bun, Backend Development
 - **Build Tools:** Vite, Webpack
 - **Libraries:** MUI, AG Grid, Redux Toolkit, Stagehand
-- **Quality & Architecture:** Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Humanizer, Frontend Development
-- **Behavioral:** Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
+- **Quality & Architecture:** Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring
+- **Architecture Patterns:** Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern
+- **Behavioral:** English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
 - **Meta:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
 ## Project Structure
 
 ```
 ai-agents-skills/
-├── skills/                # 52 skill definitions (SKILL.md format) - SOURCE OF TRUTH
+├── skills/                # 61 skill definitions (SKILL.md format) - SOURCE OF TRUTH
 │   ├── react/
 │   │   ├── SKILL.md
 │   │   └── references/    # Progressive disclosure for complex skills
@@ -142,7 +143,7 @@ ai-agents-skills/
 
 **Benefits:**
 
-- **Zero duplication:** 48 skills stored once, available to 5 models
+- **Zero duplication:** 61 skills stored once, available to 5 models
 - **Always up-to-date:** Changes propagate instantly (symlinks reference same files)
 - **Token-efficient:** Models read only the skills they need
 

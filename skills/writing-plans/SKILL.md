@@ -406,7 +406,7 @@ test("POST /auth/register creates user", async () => {
 
 - [brainstorming](../brainstorming/SKILL.md) - High-level planning and alternatives
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging workflow
-- [conventions](../conventions/SKILL.md) - Code organization standards
+- [code-conventions](../code-conventions/SKILL.md) - Code organization standards
 - [verification-protocol](../verification-protocol/SKILL.md) - Evidence-based verification
 - [plan-execution](../plan-execution/SKILL.md) - Executing plans with checkpoints
 ```

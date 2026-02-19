@@ -569,5 +569,5 @@ const flexContainerVariants = cva("flex items-center gap-2"); // Overkill
 
 - See [tailwind-v4.md](tailwind-v4.md) for v4-specific syntax and migration guide
 - See [interface-design/visual-design.md](../../interface-design/references/visual-design.md) for typography/spacing/color foundations
-- See [composition-patterns](../../composition-patterns/SKILL.md) for polymorphic component patterns
+- See [composition-pattern](../../composition-pattern/SKILL.md) for polymorphic component patterns
 - See main [SKILL.md](../SKILL.md) for Tailwind utilities and configuration

@@ -109,16 +109,6 @@ const store = createStore(
 
 ## Conventions
 
-Refer to conventions for:
-
-- Code organization
-- Naming patterns
-
-Refer to react for:
-
-- Component integration
-- Hooks usage
-
 ### Redux Toolkit Specific
 
 - createSlice for reducers/actions

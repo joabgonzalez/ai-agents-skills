@@ -4,7 +4,7 @@ description: "Unit testing patterns for frontend and backend. Trigger: When writ
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: behavioral
+  type: domain
 ---
 
 # Unit Testing Skill

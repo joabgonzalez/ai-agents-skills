@@ -94,8 +94,6 @@ module.exports = {
 /* WRONG: single-use classes — use utilities directly */
 ```
 
-Conventions: **conventions** for organization; **a11y** for contrast/focus; **css** for fallbacks.
-
 ## Design System Patterns
 
 ### Token Hierarchy

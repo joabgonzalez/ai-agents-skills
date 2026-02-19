@@ -2,7 +2,7 @@
 
 **v1.3.4** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 52 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 61 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 ## Quick Start
 
@@ -117,7 +117,7 @@ npx ai-agents-skills add --skill react
 ```
 
 1. Clones the skill repository to `~/.cache/ai-agents-skills/`
-2. Resolves dependencies: `react` → `javascript`, `typescript`, `conventions`
+2. Resolves dependencies: `react` → `javascript`, `typescript`, `code-conventions`
 3. Copies skills to `.agents/skills/` in your project
 4. Creates symlinks in each model directory (`.claude/skills/`, `.github/skills/`, etc.)
 5. Updates AGENTS.md with complete "How to Use Skills" workflow (push context)
@@ -130,7 +130,7 @@ your-project/
 ├── .agents/skills/           # Canonical copy (symlinks to framework)
 │   ├── react/
 │   ├── typescript/
-│   └── conventions/
+│   └── code-conventions/
 ├── .claude/skills/           # Symlinks → .agents/skills/* (auto-discovered)
 ├── .cursor/skills/           # Symlinks → .agents/skills/* (auto-discovered)
 ├── .github/skills/           # Symlinks → .agents/skills/* (auto-discovered)
@@ -138,7 +138,7 @@ your-project/
 └── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
 ```
 
-## Available Skills (52)
+## Available Skills (61)
 
 ### Frameworks
 
@@ -166,11 +166,15 @@ MUI, AG Grid, Redux Toolkit, Stagehand
 
 ### Quality & Architecture
 
-Conventions, Code Quality, Form Validation, Critical Partner, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Humanizer, Frontend Development
+Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring
+
+### Architecture Patterns
+
+Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern
 
 ### Behavioral
 
-Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
+English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
 
 ### Meta (creation tools)
 
@@ -194,7 +198,7 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
-    - conventions
+    - code-conventions
 ---
 
 # My Skill

@@ -80,7 +80,7 @@ metadata:
 
 ## Conventions
 
-{Delegate to conventions/a11y + skill-specific rules}
+{Delegate to code-conventions/a11y + skill-specific rules}
 
 ## Example
 

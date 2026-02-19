@@ -25,7 +25,7 @@ Ensures WCAG 2.1/2.2 Level AA compliance: semantic structure, ARIA, contrast, ke
 Don't use for:
 
 - Tech-specific implementation (react, html skills)
-- General patterns (conventions skill)
+- General patterns (code-conventions skill)
 - Backend logic (no UI)
 
 ---

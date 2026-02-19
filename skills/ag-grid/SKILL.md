@@ -88,22 +88,11 @@ const columnDefs = [
 
 ## Conventions
 
-Refer to conventions for:
-
-- Code organization
-- Documentation standards
-
-Refer to a11y for:
-
-- Keyboard navigation
-- Screen reader support
-- ARIA attributes
-
 ### AG Grid Specific
 
 - TypeScript interfaces for columns
 - Cell renderers for custom content
-- Accessibility (keyboard, screen reader)
+- Apply accessibility best practices: keyboard navigation, screen reader support, ARIA attributes
 - Built-in features over custom
 - Handle loading/error states
 

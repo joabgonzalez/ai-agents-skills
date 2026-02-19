@@ -86,10 +86,6 @@ const [value, setValue] = useState(0);
 const shouldUse = condition ? value : defaultValue;
 ```
 
-### Conventions
-
-Defer to `conventions` for code organization and `a11y` for semantic HTML/ARIA.
-
 ## Decision Tree
 
 - **Simple state (<3 values)?** -> `useState`. See [hooks-advanced.md](references/hooks-advanced.md) (useState Patterns section).

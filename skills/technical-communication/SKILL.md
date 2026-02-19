@@ -112,11 +112,6 @@ Use the Authorization header with your API key.
 
 ## Conventions
 
-Refer to conventions for:
-
-- Code organization
-- Documentation standards
-
 ### Technical Communication Specific
 
 - Write clear, scannable documentation

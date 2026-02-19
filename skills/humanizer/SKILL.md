@@ -187,7 +187,7 @@ Would either of those work for you?"
 
 - [english-writing](../english-writing/SKILL.md) - Writing style and grammar
 - [technical-communication](../technical-communication/SKILL.md) - Technical documentation patterns
-- [conventions](../conventions/SKILL.md) - Naming and code organization
+- [code-conventions](../code-conventions/SKILL.md) - Naming and code organization
 - [critical-partner](../critical-partner/SKILL.md) - Constructive feedback patterns
 - https://www.plainlanguage.gov/ - Plain language guidelines
 - https://www.nngroup.com/articles/error-message-guidelines/ - Error message UX

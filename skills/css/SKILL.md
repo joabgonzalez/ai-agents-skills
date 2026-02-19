@@ -118,8 +118,6 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 }
 ```
 
-Conventions: **conventions** for naming/organization; **a11y** for contrast/focus/animations.
-
 ## Decision Tree
 
 **One-dimensional layout?** -> Flexbox.

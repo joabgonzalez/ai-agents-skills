@@ -8,6 +8,7 @@ metadata:
   skills:
     - react
     - jest
+    - unit-testing
   dependencies:
     "@testing-library/react": ">=14.0.0 <15.0.0"
 ---

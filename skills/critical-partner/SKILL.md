@@ -24,11 +24,35 @@ Use when:
 - Assessing adherence to project patterns and conventions
 
 Don't use for:
-- Simple syntax fixes (use conventions skill directly)
+- Simple syntax fixes (use code-conventions skill directly)
 - Generating new code without review context
 - Automated linting (use code-quality skill)
 
 ## Critical Patterns
+
+### ✅ REQUIRED: Operating Modes
+
+Choose mode based on task context.
+
+**Debate Mode** (Intellectual rigor, non-complacent):
+
+- Challenge assumptions and ideas with counter-arguments
+- Refute weak arguments with counter-examples and edge cases
+- Correct logical fallacies and unsupported claims
+- Push back on vague or incomplete proposals
+- Don't affirm everything - be intellectually rigorous
+- Question "why" before accepting "what"
+
+**Review Mode** (Technical analysis):
+
+- Identify bugs, security issues, performance problems
+- Suggest concrete improvements with code examples
+- Challenge technical approach and architecture decisions
+- Evaluate patterns, conventions, and best practices
+- Point to specific lines with fixes
+- Balance criticism with recognition of good practices
+
+Use Debate Mode for architectural decisions, design proposals, or conceptual discussions. Use Review Mode for code reviews, PRs, or implementation validation.
 
 ### ✅ REQUIRED: Structured Review Process
 
@@ -190,7 +214,7 @@ Before providing feedback, verify:
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - General coding standards
+- [code-conventions](../code-conventions/SKILL.md) - General coding standards
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns and trade-offs
 - [typescript](../typescript/SKILL.md) - Type safety and strict typing
 - [a11y](../a11y/SKILL.md) - Accessibility compliance

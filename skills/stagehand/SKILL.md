@@ -7,6 +7,7 @@ metadata:
   type: tooling
   skills:
     - playwright
+    - e2e-testing
   dependencies:
     stagehand: ">=1.0.0 <2.0.0"
 ---

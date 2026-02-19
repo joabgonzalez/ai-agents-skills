@@ -79,5 +79,5 @@ Quality checks: pre-creation (delegation, uniqueness), structure validation, con
 
 - **Main Skill**: [SKILL.md](../SKILL.md) - Overview, decision tree, critical patterns
 - **Template**: [SKILL-TEMPLATE.md](../assets/SKILL-TEMPLATE.md) - Skill template
-- **Schema**: [frontmatter-schema.json](../assets/frontmatter-schema.json) - Validation schema (reference only)
+- **Schema**: `assets/frontmatter-schema.json` - Validation schema (reference only, not included in repo)
 - **Reference Creation**: [reference-creation](../../reference-creation/SKILL.md) - Creating references/ directories

@@ -336,7 +336,7 @@ export async function registerUser(email: string, password: string): Promise<Use
 ## Resources
 
 - [critical-partner](../critical-partner/SKILL.md) - General critical feedback
-- [conventions](../conventions/SKILL.md) - Code standards and organization
+- [code-conventions](../code-conventions/SKILL.md) - Code standards and organization
 - [typescript](../typescript/SKILL.md) - Type safety review
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
 - [verification-protocol](../verification-protocol/SKILL.md) - Evidence-based verification

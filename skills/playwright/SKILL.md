@@ -5,6 +5,8 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   type: tooling
+  skills:
+    - e2e-testing
   dependencies:
     playwright: ">=1.40.0 <2.0.0"
 ---

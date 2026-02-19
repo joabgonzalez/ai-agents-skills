@@ -103,8 +103,6 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 </html>
 ```
 
-Conventions: **conventions** for organization; **a11y** for ARIA/keyboard/semantics.
-
 ## Decision Tree
 
 **Interactive element?** -> `<button>` for actions, `<a>` for navigation.

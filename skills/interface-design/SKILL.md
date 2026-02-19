@@ -206,7 +206,7 @@ Choosing between UI patterns?
   → See Common UI Patterns table below or references/design-thinking.md for pattern comparisons
 
 Planning component structure?
-  → Component hierarchy → Identify shared state → Slots/composition (see composition-patterns skill)
+  → Component hierarchy → Identify shared state → Slots/composition (see composition-pattern skill)
 
 Evaluating existing UI?
   → Walk through user flows → Check validation checkpoints → Verify visual consistency → Test responsiveness
@@ -264,6 +264,6 @@ Accessibility concerns?
 - [responsive-design.md](references/responsive-design.md) — Mobile-first strategy, breakpoints, container queries, fluid typography, touch targets
 - [a11y](../a11y/SKILL.md) — Accessibility patterns and ARIA
 - [react](../react/SKILL.md) — React implementation patterns
-- [composition-patterns](../composition-patterns/SKILL.md) — Component composition API design
+- [composition-pattern](../composition-pattern/SKILL.md) — Component composition API design
 - [mui](../mui/SKILL.md) — Material UI component library
 - [tailwindcss](../tailwindcss/SKILL.md) — Utility-first CSS implementation

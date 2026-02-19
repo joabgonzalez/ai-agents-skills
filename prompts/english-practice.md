@@ -304,22 +304,3 @@ When reviewing text, check:
 ✅ I am going to review the code / I am going to do a code review
 
 **Practice**: Avoid literal translations - think about natural English word order
-
----
-
-## Related Skills
-
-- **professional-writing-assistant**: For structuring technical communications
-- **translation-assistant**: For quick translations without deep grammar explanations
-- **technical-communication**: For commit messages and technical documentation
-- **humanizer**: Empathy and clarity patterns
-- **conventions**: General coding standards
-
----
-
-## References
-
-- [Cambridge English Grammar](https://www.cambridgeenglish.org/learning-english/grammar/)
-- [Grammarly Handbook](https://www.grammarly.com/handbook/)
-- [Purdue OWL for ESL](https://owl.purdue.edu/owl/english_as_a_second_language/esl_students/index.html)
-- [Technical Writing Guidelines](https://developers.google.com/tech-writing)

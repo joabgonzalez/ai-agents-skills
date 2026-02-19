@@ -123,20 +123,6 @@ const theme = createTheme({ /* config */ });
 
 ## Conventions
 
-Refer to conventions for:
-
-- Code organization
-
-Refer to a11y for:
-
-- Keyboard navigation
-- ARIA attributes
-
-Refer to react for:
-
-- Component patterns
-- Hooks usage
-
 ### MUI Specific
 
 - Use MUI components over custom HTML when available

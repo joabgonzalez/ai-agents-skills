@@ -8,7 +8,7 @@ metadata:
     - { skill-1 }
     - { skill-2 }
     # Only include skills that are DIRECTLY needed by this agent
-    # Do NOT include conventions - it comes transitively via typescript/javascript/react/nodejs
+    # Do NOT include code-conventions - it comes transitively via typescript/javascript/react/nodejs
 input: "{description of expected input | data_type}"
 output: "{description of expected output | data_type}"
 ---
@@ -43,7 +43,7 @@ Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each
 
 **Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `code-conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
 - Follow "Critical Patterns" marked with ✅ REQUIRED
@@ -58,7 +58,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
 3. **Check frontmatter** → Dependencies: `javascript`
 4. **Read dependency:**
-   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Skills Reference
@@ -74,7 +74,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
 | Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
 | Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
-| Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
+| Coding standards            | conventions             | {model}/skills/code-conventions/SKILL.md           |
 
 **Example triggers for your specific agent:**
 

@@ -28,6 +28,7 @@ This directory contains detailed guides for specific aspects of React developmen
 | Reference                                  | Purpose                                           | Read When                                                  |
 | ------------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------- |
 | [context-patterns.md](context-patterns.md) | Context API, compound components, error boundaries | Sharing state across components or building component APIs |
+| [composition.md](composition.md)           | Children, slots, compound, headless, polymorphic  | Building reusable components with flexible APIs            |
 | [forms-state.md](forms-state.md)           | Controlled vs uncontrolled, validation             | Building forms with state management                       |
 
 ### 🖥️ Server Features
@@ -112,6 +113,17 @@ This directory contains detailed guides for specific aspects of React developmen
 - Render props vs hooks
 - Provider composition
 - Performance considerations with context
+
+### [composition.md](composition.md)
+
+**Composition Over Configuration patterns**
+
+- Children pattern vs configuration props
+- Named slots via ReactNode props
+- Compound components (Context-based)
+- Headless components (hooks for behavior)
+- Polymorphic components (`as` prop)
+- React Native slot patterns
 
 ### [forms-state.md](forms-state.md)
 

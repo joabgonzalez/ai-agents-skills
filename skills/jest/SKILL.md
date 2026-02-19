@@ -5,6 +5,8 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   type: tooling
+  skills:
+    - unit-testing
   dependencies:
     jest: ">=29.0.0 <30.0.0"
 ---

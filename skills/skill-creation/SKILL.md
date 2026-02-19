@@ -8,6 +8,7 @@ metadata:
   skills:
     - reference-creation
     - skill-sync
+    - english-writing
   allowed-tools:
     - file-operations
     - read-file
@@ -16,7 +17,7 @@ metadata:
 
 # Skill Creation
 
-Create skills from simple single-file to complex multi-reference architectures. Each skill must have unique responsibility and delegate to conventions/a11y when applicable.
+Create skills from simple single-file to complex multi-reference architectures. Each skill must have unique responsibility and delegate to code-conventions/a11y when applicable.
 
 ## When to Use
 
@@ -109,7 +110,7 @@ For complex skills, invoke [reference-creation](../reference-creation/SKILL.md) 
 
 ### ✅ REQUIRED: Delegate to General Skills
 
-Don't duplicate rules from conventions, a11y, humanizer, or architecture-patterns. Declare them in `metadata.skills` and add only skill-specific rules.
+Don't duplicate rules from code-conventions, a11y, humanizer, or architecture-patterns. Declare them in `metadata.skills` and add only skill-specific rules.
 
 ### ✅ REQUIRED: Token Efficiency
 
@@ -122,7 +123,7 @@ See [token-efficiency.md](references/token-efficiency.md) for compression strate
 
 ### ❌ NEVER: Duplicate Conventions
 
-Don't rewrite rules from conventions or a11y. Delegate first, then add skill-specific rules.
+Don't rewrite rules that already apply universally (naming, formatting). Skills are self-sufficient — include only skill-specific conventions.
 
 ### ✅ REQUIRED: references/ README.md Structure (Complex Skills Only)
 
@@ -249,8 +250,6 @@ After creation? → Run ai-agents-skills sync or make sync
 
 ## Conventions
 
-Delegate to conventions (naming, code org), a11y (semantics, ARIA), english-writing (generated content). Add only skill-creation-specific rules below.
-
 ### Skill-Creation-Specific
 
 - Lowercase-with-hyphens for directory/file names
@@ -302,7 +301,7 @@ Before finalizing any skill:
 - [ ] Decision Tree (condition→action format)
 - [ ] Example section
 - [ ] Edge Cases
-- [ ] Delegates to conventions/a11y/humanizer (not duplicated)
+- [ ] Delegates to code-conventions/a11y/humanizer (not duplicated)
 
 ### Quality
 - [ ] Token-efficient (no filler, every word adds value)
@@ -325,5 +324,5 @@ Before finalizing any skill:
 | [validation.md](references/validation.md) | Pre-finalization checks |
 
 - [SKILL-TEMPLATE.md](assets/SKILL-TEMPLATE.md) - Main skill template
-- [frontmatter-schema.json](assets/frontmatter-schema.json) - Validation schema (reference only, not enforced by CLI)
+- `assets/frontmatter-schema.json` - Validation schema (reference only, not enforced by CLI)
 - [Agent Skills Spec](https://agentskills.io/) - Official specification

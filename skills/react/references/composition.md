@@ -1,33 +1,10 @@
----
-name: composition-patterns
-description: "Component composition patterns for React, Astro, and React Native. Trigger: When building reusable component APIs, layout systems, or shared UI patterns."
-license: "Apache 2.0"
-metadata:
-  version: "1.0"
-  type: behavioral
----
+# React Composition Patterns
 
-# Composition Patterns
-
-Build flexible, reusable UI with component composition for React, Astro, React Native.
-
-## When to Use
-
-- Building reusable component libraries or design systems
-- Creating layout components (cards, modals, tabs, accordions)
-- Components need flexible content slots
-- Reducing prop drilling through composition
-
-Don't use for:
-- Simple one-off components
-- Components with fixed, non-customizable content
-- Server-only components without interactivity
+> React-specific implementation of Composition Over Configuration patterns.
 
 ---
 
-## Critical Patterns
-
-### ✅ REQUIRED: Children Pattern (Composition Over Configuration)
+## Children Pattern (Composition Over Configuration)
 
 ```typescript
 // ✅ CORRECT: Flexible via children
@@ -56,10 +33,13 @@ function Card({ title, description, buttonText }: CardProps) {
 
 **Rule**: If content varies between uses, accept `children` instead of individual props.
 
-### ✅ REQUIRED: Slots Pattern (Named Children)
+---
+
+## Slots Pattern (Named Children)
+
+Multiple content areas via named `ReactNode` props.
 
 ```typescript
-// ✅ CORRECT: Multiple content slots via props
 interface PageLayoutProps {
   header: ReactNode;
   sidebar?: ReactNode;
@@ -90,12 +70,13 @@ function PageLayout({ header, sidebar, children, footer }: PageLayoutProps) {
 </PageLayout>
 ```
 
-### ✅ REQUIRED: Compound Components
+---
 
-Share implicit state across related components.
+## Compound Components
+
+Share implicit state across related components via Context.
 
 ```typescript
-// ✅ CORRECT: Compound component pattern
 const TabsContext = createContext<{ active: string; setActive: (id: string) => void } | null>(null);
 
 function Tabs({ defaultValue, children }: { defaultValue: string; children: ReactNode }) {
@@ -126,7 +107,7 @@ function TabContent({ value, children }: { value: string; children: ReactNode })
 Tabs.Trigger = TabTrigger;
 Tabs.Content = TabContent;
 
-// Clean, declarative API
+// Usage
 <Tabs defaultValue="tab1">
   <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>
   <Tabs.Trigger value="tab2">Details</Tabs.Trigger>
@@ -135,27 +116,27 @@ Tabs.Content = TabContent;
 </Tabs>
 ```
 
-### ✅ REQUIRED: Headless Components
+**When to use Context vs `React.Children.map`**: Use Context for 4+ sub-components or deeply nested trees. Use `React.Children.map` for 2-3 immediate children only.
 
-Behavior without styling, consumer controls UI.
+---
+
+## Headless Components
+
+Behavior without styling — consumer controls all UI.
 
 ```typescript
-// ✅ CORRECT: Headless toggle hook
 function useToggle(initial = false) {
   const [isOpen, setIsOpen] = useState(initial);
   return {
     isOpen,
     toggle: () => setIsOpen(prev => !prev),
-    open: () => setIsOpen(true),
-    close: () => setIsOpen(false),
+    open:   () => setIsOpen(true),
+    close:  () => setIsOpen(false),
     getToggleProps: () => ({
       onClick: () => setIsOpen(prev => !prev),
       'aria-expanded': isOpen,
     }),
-    getContentProps: () => ({
-      hidden: !isOpen,
-      role: 'region',
-    }),
+    getContentProps: () => ({ hidden: !isOpen, role: 'region' }),
   };
 }
 
@@ -175,7 +156,9 @@ function FAQ({ question, answer }: { question: string; answer: string }) {
 }
 ```
 
-### ✅ REQUIRED: Polymorphic Components
+---
+
+## Polymorphic Components
 
 Render as different HTML elements via `as` prop.
 
@@ -193,27 +176,26 @@ function Box<E extends ElementType = 'div'>({ as, children, ...props }: Polymorp
 // Same component, different elements
 <Box>Default div</Box>
 <Box as="section" className="mt-4">Section element</Box>
-<Box as="article">Article element</Box>
 <Box as="a" href="/home">Link element</Box>
 ```
 
-### ❌ NEVER: Prop-Heavy Configuration Components
+---
+
+## Prop-Heavy Anti-Pattern
 
 ```typescript
 // ❌ WRONG: 10+ props for content configuration
 function Modal({
   title, subtitle, icon, body, footer,
   primaryAction, primaryLabel, secondaryAction, secondaryLabel,
-  showCloseButton, closeOnOverlay,
 }: ModalProps) { /* ... */ }
 
-// ✅ CORRECT: Composition-based
+// ✅ CORRECT: Composition-based with sub-components
 function Modal({ children, onClose }: { children: ReactNode; onClose: () => void }) {
   return <div className="modal">{children}</div>;
 }
-
 Modal.Header = ({ children }: { children: ReactNode }) => <div className="modal-header">{children}</div>;
-Modal.Body = ({ children }: { children: ReactNode }) => <div className="modal-body">{children}</div>;
+Modal.Body   = ({ children }: { children: ReactNode }) => <div className="modal-body">{children}</div>;
 Modal.Footer = ({ children }: { children: ReactNode }) => <div className="modal-footer">{children}</div>;
 
 // Consumer composes freely
@@ -229,63 +211,11 @@ Modal.Footer = ({ children }: { children: ReactNode }) => <div className="modal-
 
 ---
 
-## Decision Tree
+## React Native
 
-```
-Building a component API?
-  Fixed content, no customization needed?
-    → Simple component (no composition needed)
-  Content varies between uses?
-    → Children pattern
-  Multiple distinct content areas?
-    → Slots pattern (named ReactNode props)
-  Related components share implicit state?
-    → Compound components (Context + sub-components)
-  Behavior without styling?
-    → Headless component (hook or render props)
-  Same component renders as different HTML elements?
-    → Polymorphic component (as prop)
-  Need all of the above?
-    → Combine patterns (compound + headless + polymorphic)
-```
-
----
-
-## Astro Composition
-
-```astro
----
-// Astro uses slots for composition (similar to Vue/Svelte)
-interface Props { variant?: 'default' | 'compact'; }
-const { variant = 'default' } = Astro.props;
----
-
-<div class:list={['card', variant]}>
-  <div class="card-header">
-    <slot name="header" />
-  </div>
-  <div class="card-body">
-    <slot />  <!-- Default slot -->
-  </div>
-  <div class="card-footer">
-    <slot name="footer" />
-  </div>
-</div>
-
-<!-- Usage -->
-<Card>
-  <h2 slot="header">Title</h2>
-  <p>Default content</p>
-  <Button slot="footer">Action</Button>
-</Card>
-```
-
----
-
-## React Native Composition
+Same patterns apply — use `children` and named props for slots.
 
 ```typescript
-// Same patterns apply — use children and slots
 function ScreenLayout({ header, children, footer }: ScreenLayoutProps) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -296,41 +226,37 @@ function ScreenLayout({ header, children, footer }: ScreenLayoutProps) {
   );
 }
 
-// Usage
-<ScreenLayout
-  header={<ScreenTitle title="Profile" />}
-  footer={<TabBar />}
->
+<ScreenLayout header={<ScreenTitle title="Profile" />} footer={<TabBar />}>
   <ProfileContent user={user} />
 </ScreenLayout>
 ```
 
 ---
 
-## Edge Cases
+## TypeScript Tips
 
-**Render props vs children**: Use render props when consumer needs internal state access.
+**Type-safe generic data rendering:**
 
-**Compound without Context**: 2-3 sub-components use `React.Children.map`, 4+ use Context.
+```typescript
+// Render props with generics
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T, index: number) => ReactNode;
+  keyExtractor: (item: T) => string;
+}
 
-**TS generics**: Type-safe data rendering (`<List<User> items={users} renderItem={...} />`).
+function List<T>({ items, renderItem, keyExtractor }: ListProps<T>) {
+  return <ul>{items.map((item, i) => <li key={keyExtractor(item)}>{renderItem(item, i)}</li>)}</ul>;
+}
+
+// Usage
+<List<User> items={users} keyExtractor={u => u.id} renderItem={u => <UserCard user={u} />} />
+```
 
 ---
 
-## Checklist
+## Cross-References
 
-- [ ] Components accept `children` for variable content
-- [ ] Layout components use named slots (ReactNode props) for multiple content areas
-- [ ] Related components use compound pattern with shared Context
-- [ ] Reusable behavior uses headless pattern (hooks)
-- [ ] Components avoid 5+ content-configuration props (use composition instead)
-- [ ] Polymorphic components support `as` prop with proper TypeScript types
-
----
-
-## Resources
-
-- [react](../react/SKILL.md) — React-specific patterns
-- [react/context-patterns.md](../react/references/context-patterns.md) — Context API, compound components deep dive
-- [conventions](../conventions/SKILL.md) — Naming and organization
-- Related: [astro](../astro/SKILL.md), [react-native](../react-native/SKILL.md)
+- **Main concept**: [composition-pattern/SKILL.md](../../composition-pattern/SKILL.md)
+- **Context deep dive**: [context-patterns.md](context-patterns.md) — compound components, state sharing
+- **React skill**: [react/SKILL.md](../SKILL.md)

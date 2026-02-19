@@ -26,7 +26,7 @@
 
 1. **READ:** [design-system.md](design-system.md) — CVA setup, variant patterns, compound variants
 2. **EXAMPLE:** Button with size/intent variants
-3. **ALSO SEE:** [composition-patterns](../../composition-patterns/SKILL.md) for polymorphic components
+3. **ALSO SEE:** [composition-pattern](../../composition-pattern/SKILL.md) for polymorphic components
 
 ### Implementing Dark Mode
 
@@ -93,7 +93,7 @@ Migration guide and v4-specific features for Tailwind CSS v4+.
 
 **Component Variants:**
 - design-system.md → CVA setup and patterns
-- composition-patterns → Polymorphic components, variant props
+- composition-pattern → Polymorphic components, variant props
 
 **Animation:**
 - design-system.md → @keyframes in @theme

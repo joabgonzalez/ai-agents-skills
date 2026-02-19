@@ -4,7 +4,7 @@ description: "Form and schema validation across libraries. Trigger: When validat
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: library
+  type: domain
 ---
 
 # Form Validation

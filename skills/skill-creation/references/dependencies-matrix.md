@@ -18,7 +18,7 @@ Every skill must be classified into one of these 7 types:
 | **framework** | Framework patterns and conventions | framework, language, domain, behavioral | react, vue, express, nest, next |
 | **library** | Library-specific patterns | library, framework, language, domain, behavioral | mui, redux-toolkit, formik, zod |
 | **tooling** | Dev tools wrapping other tech | tooling, framework, language, domain, behavioral | vite, webpack, eslint, prettier, expo |
-| **domain** | Domain-specific (not tech-tied) | domain, behavioral | a11y, css, html, composition-patterns |
+| **domain** | Domain-specific (not tech-tied) | domain, behavioral | a11y, css, html, composition-pattern |
 
 ---
 
@@ -63,12 +63,13 @@ skills:
 - `behavioral` only
 
 **Examples:**
-- `frontend-dev` → `[architecture-patterns]`
-- `backend-dev` → `[architecture-patterns]`
-- `fullstack-dev` → `[architecture-patterns]`
+- `frontend-dev` → NO dependencies (self-sufficient)
+- `backend-dev` → NO dependencies (self-sufficient)
+- `fullstack-dev` → NO dependencies (self-sufficient)
+- `architecture-patterns` → NO dependencies (orchestrates via Resources links, not skill deps)
 
 **Rationale:**
-Universal skills provide high-level workflow guidance that works with ANY technology stack. They orchestrate technical skills through documentation links but don't depend on them.
+Universal skills provide high-level workflow guidance that works with ANY technology stack. They orchestrate technical skills through documentation links (Resources section) but don't depend on them.
 
 **Common Mistake:**
 ❌ `frontend-dev` depends on `typescript` - WRONG! Universal skills must be language-agnostic.
@@ -194,8 +195,9 @@ skills:
 - `eslint` → `[javascript, typescript]`
 - `prettier` → NO dependencies (formatter, self-sufficient)
 - `expo` → `[react-native]`
-- `jest` → `[javascript, typescript]`
-- `playwright` → `[javascript, typescript]`
+- `jest` → `[unit-testing]` (testing guide; inherits JS/TS knowledge from guide)
+- `playwright` → `[e2e-testing]` (e2e guide)
+- `stagehand` → `[playwright, e2e-testing]`
 
 **Rationale:**
 Tooling wraps or enhances other technologies. Build tools (Vite, Webpack) are self-sufficient. Linters (ESLint) need language skills. Framework tools (Expo) depend on their base framework.
@@ -204,7 +206,8 @@ Tooling wraps or enhances other technologies. Build tools (Vite, Webpack) are se
 - Build tools (Vite, Webpack, Rollup) → NO dependencies
 - Linters (ESLint, Biome) → `[javascript, typescript]`
 - Formatters (Prettier) → NO dependencies
-- Testing frameworks (Jest, Vitest, Mocha) → `[javascript, typescript]`
+- Testing tools (Jest, Vitest) → `[unit-testing]` (testing guide)
+- E2E testing tools (Playwright, Cypress) → `[e2e-testing]` (e2e guide)
 - Framework tooling (Expo, Create React App) → `[base-framework]`
 
 ---
@@ -227,7 +230,11 @@ skills:
 - `a11y` → NO dependencies (self-sufficient accessibility knowledge)
 - `css` → `[a11y]` (for color contrast, focus states)
 - `html` → `[a11y]` (semantic structure)
-- `composition-patterns` → NO dependencies (self-sufficient patterns)
+- `composition-pattern` → NO dependencies (self-sufficient pattern)
+- `e2e-testing` → NO dependencies (testing guide, not tool)
+- `unit-testing` → NO dependencies (testing guide, not tool)
+- `form-validation` → NO dependencies (validation guide, not library)
+- `code-quality` → NO dependencies (quality guide, not tool)
 
 **Rationale:**
 Domain skills represent knowledge areas that apply across technologies. They should be self-contained unless they have inherent relationships (e.g., CSS needs a11y for color contrast).
@@ -236,6 +243,45 @@ Domain skills represent knowledge areas that apply across technologies. They sho
 - `a11y` → Always self-sufficient (no dependencies)
 - `css`, `html` → Can depend on `a11y` (accessibility is inherent to UI)
 - Design/architecture patterns → Usually self-sufficient
+
+**CRITICAL - Patterns, Architectures, and Guides:**
+
+Domain skills that are patterns, architectures, or general guides MUST be 100% self-sufficient:
+
+```yaml
+# ✅ CORRECT - Testing guide (domain)
+name: e2e-testing
+type: domain
+skills: []  # NO dependencies on tools
+
+# ✅ CORRECT - Pattern (domain)
+name: composition-pattern
+type: domain
+skills: []  # NO dependencies on frameworks
+
+# ❌ WRONG - Testing guide depending on tool
+name: e2e-testing
+type: domain
+skills:
+  - stagehand  # ❌ WRONG - Guide cannot depend on specific tool
+  - typescript # ❌ WRONG - Guide cannot depend on specific language
+```
+
+**Fundamental rule**: Dependencies flow from SPECIFIC → GENERAL, never from GENERAL → SPECIFIC.
+
+- ✅ CORRECT: Tool (stagehand) depends on Guide (e2e-testing)
+- ❌ WRONG: Guide (e2e-testing) depends on Tool (stagehand)
+
+**Examples by category:**
+
+| Category | Type | Dependencies | Example |
+|----------|------|--------------|---------|
+| **Patterns** | domain | [] | composition-pattern, result-pattern, sidecar-pattern |
+| **Architectures** | domain | [] | solid, clean-architecture, domain-driven-design, hexagonal-architecture |
+| **Testing Guides** | domain | [] | e2e-testing, unit-testing |
+| **Validation Guides** | domain | [] | form-validation |
+| **Quality Guides** | domain | [] | code-quality |
+| **Testing Tools** | tooling | [testing-guide] | stagehand, jest, playwright |
 
 ---
 
@@ -302,26 +348,43 @@ Examples:
 
 ### 6. Is it a development tool?
 ```
-Is it for building, testing, or linting (Vite, Jest, ESLint)?
+Is it a SPECIFIC TOOL for building, testing, or linting?
   → YES: type: tooling
   → NO: Continue to #7
 
-Examples:
+CRITICAL: Distinguish between TOOL (specific implementation) and GUIDE (general knowledge):
+- Jest, Playwright, Stagehand → tooling (specific tools)
+- unit-testing, e2e-testing → domain (guides, not tools)
+- ESLint, Prettier, Biome → tooling (specific tools)
+- code-quality → domain (guide, not tool)
+- Zod, Yup, Joi → library (validation libraries)
+- form-validation → domain (guide, not library)
+
+Examples of tooling:
   - vite, webpack (build tools)
-  - jest, playwright (testing)
-  - eslint, prettier (code quality)
+  - jest, playwright, stagehand (testing tools)
+  - eslint, prettier, biome (linting/formatting tools)
+
+Examples of domain (NOT tooling):
+  - e2e-testing (testing guide, applies to ANY tool)
+  - unit-testing (testing guide, applies to ANY tool)
+  - code-quality (quality guide, applies to ANY tool)
 ```
 
 ### 7. Is it domain-specific knowledge?
 ```
-Does it represent a knowledge area (a11y, CSS, design patterns)?
+Does it represent a knowledge area (a11y, CSS, patterns, guides)?
   → YES: type: domain
   → NO: Re-evaluate - might be behavioral or universal
 
 Examples:
   - a11y (accessibility domain)
   - css, html (web platform domains)
-  - composition-patterns (design domain)
+  - composition-pattern (design pattern)
+  - e2e-testing (testing guide)
+  - unit-testing (testing guide)
+  - form-validation (validation guide)
+  - code-quality (quality guide)
 ```
 
 ---
@@ -386,7 +449,6 @@ type: framework
 skills:
   - nodejs
   - typescript
-  - architecture-patterns
 ```
 
 **Reasoning:**
@@ -394,7 +456,7 @@ skills:
 2. **Dependencies**:
    - `nodejs` (runtime)
    - `typescript` (language, NestJS is TS-first)
-   - `architecture-patterns` (DI, modules, clean architecture)
+   - ~~`architecture-patterns`~~ → REMOVED: architecture-patterns is `type: universal`, frameworks cannot depend on universal skills
 3. **NO a11y**: Backend framework, no UI
 4. **Result**: Backend-appropriate dependencies
 
@@ -454,6 +516,48 @@ Before adding a dependency, ask:
 
 ## Common Mistakes
 
+### ❌ WRONG: Inverted Dependencies (General → Specific)
+
+**FUNDAMENTAL RULE**: Dependencies flow from SPECIFIC → GENERAL, never from GENERAL → SPECIFIC.
+
+```yaml
+# ❌ WRONG: General guide depends on specific tool
+name: e2e-testing  # GENERAL guide
+type: domain
+skills:
+  - stagehand   # ❌ WRONG - Guide depends on specific tool
+  - typescript  # ❌ WRONG - Guide depends on specific language
+```
+
+✅ **CORRECT:**
+```yaml
+# Guide is self-sufficient
+name: e2e-testing
+type: domain
+skills: []  # 100% self-sufficient
+
+# Tool depends on guide
+name: stagehand
+type: tooling
+skills:
+  - e2e-testing  # ✅ CORRECT - Tool depends on guide
+  - playwright
+```
+
+**Why this matters**:
+- Guides (e2e-testing, unit-testing, form-validation, code-quality) are GENERAL knowledge that apply to ANY tool
+- Tools (stagehand, jest, playwright, zod) are SPECIFIC implementations
+- GENERAL knowledge cannot depend on SPECIFIC implementations, only the reverse
+
+**Common violations:**
+- ❌ Testing guide depends on testing tool (e2e-testing → stagehand)
+- ❌ Validation guide depends on validation library (form-validation → zod)
+- ❌ Quality guide depends on linter (code-quality → eslint)
+- ✅ Testing tool depends on testing guide (stagehand → e2e-testing)
+- ✅ Validation library depends on validation guide (formik → form-validation)
+
+---
+
 ### ❌ WRONG: Behavioral skill with tech dependencies
 
 ```yaml
@@ -488,8 +592,7 @@ skills:
 ```yaml
 name: frontend-dev
 type: universal
-skills:
-  - architecture-patterns  # Behavioral skill, allowed
+skills: []  # Self-sufficient; reference tech skills via Resources section
 ```
 
 ---

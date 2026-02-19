@@ -13,7 +13,7 @@ Full skill examples demonstrating proper structure at simple, medium, and comple
 name: prettier
 description: Prettier code formatting configuration and integration. Trigger: When configuring code formatting or setting up Prettier.
 skills:
-  - conventions
+  - code-conventions
 dependencies:
   prettier: ">=2.0.0 <4.0.0"
 ---
@@ -122,7 +122,7 @@ Editor integration? → Install Prettier extension + enable format-on-save
 
 ## Conventions
 
-Refer to [conventions](../conventions/SKILL.md) for general coding standards.
+Refer to [code-conventions](../code-conventions/SKILL.md) for general coding standards.
 
 ### Prettier-Specific
 
@@ -492,7 +492,7 @@ Server rendering?
 
 ## Conventions
 
-Refer to [conventions](../conventions/SKILL.md) for general standards.
+Refer to [code-conventions](../code-conventions/SKILL.md) for general standards.
 Refer to [a11y](../a11y/SKILL.md) for accessibility requirements.
 
 ### React-Specific

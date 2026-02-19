@@ -138,13 +138,6 @@ Is there unnecessary direct address? → Remove or rephrase
 Otherwise → Content is compliant
 ```
 
-## Conventions
-
-Refer to conventions for:
-
-- General coding standards
-- Formatting and structure
-
 ## Scope
 
 These rules apply to all generated code, documentation, comments, and prompt content. They do not apply to conversational responses in chat or user-facing explanations unless those are part of generated documentation or code comments.
