@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { localCommand } from './commands/local';
-import { removeCommand } from './commands/remove';
-import { validateCommand } from './commands/validate';
+import packageJson from '../package.json';
 import { addCommand } from './commands/add';
 import { listCommand } from './commands/list';
-import { syncModelsCommand } from './commands/sync-models';
-import { logger, LogLevel } from './utils/logger';
-import packageJson from '../package.json';
+import { removeCommand } from './commands/remove';
+import { syncCommand } from './commands/sync';
+import { LogLevel, logger } from './utils/logger';
 
 const program = new Command();
 
@@ -19,7 +17,6 @@ program
   .option('-v, --verbose', 'Enable verbose logging')
   .option('-q, --quiet', 'Suppress non-error output')
   .hook('preAction', (thisCommand) => {
-    // Set log level based on global options
     const opts = thisCommand.optsWithGlobals();
     if (opts.verbose) {
       logger.setLevel(LogLevel.DEBUG);
@@ -28,82 +25,96 @@ program
     }
   });
 
-// Local command (for managing this repository)
-program
-  .command('local')
-  .description('Manage local installation (for this repository)')
-  .option(
-    '-m, --models <models>',
-    'Models to install (comma-separated, e.g., "copilot,claude,cursor")'
-  )
-  .option('-s, --skills <skills>', 'Specific skills to install (comma-separated)')
-  .option('-i, --interactive', 'Interactive mode to add/remove skills', false)
-  .option('-d, --dry-run', 'Dry run without making changes', false)
-  .action(localCommand);
-
-// Remove command
-program
-  .command('remove')
-  .alias('uninstall') // Keep 'uninstall' as alias for backwards compatibility
-  .description('Remove skills from model directories')
-  .option('-s, --skills <skills>', 'Specific skills to remove (comma-separated)')
-  .option('-m, --models <models>', 'Models to target (comma-separated)')
-  .option('-a, --all', 'Remove all skills', false)
-  .option('--confirm', 'Skip confirmation prompt', false)
-  .option('-d, --dry-run', 'Dry run without making changes', false)
-  .action(removeCommand);
-
-// Validate command
-program
-  .command('validate')
-  .description('Validate frontmatter and dependencies')
-  .option('-s, --skill <skill>', 'Validate specific skill')
-  .option('-a, --all', 'Validate all skills', false)
-  .option('--installed', 'Validate installed skills', false)
-  .action(validateCommand);
-
-// Add command (NPX mode)
-const DEFAULT_REPO = 'joabgonzalez/ai-agents-skills';
+// add — installs skills from remote repo or local ./skills/ dir
 program
   .command('add')
-  .description('Install skills from official repository')
-  .option('-p, --preset <preset>', 'Install project starter preset by ID')
-  .option('-s, --skill <skill>', 'Install specific skill by name')
-  .option('-m, --models <models>', 'Models to install (comma-separated)')
-  .option('-d, --dry-run', 'Dry run without making changes', false)
+  .description('Install skills from remote repository (or local with --local)')
+  .option('-l, --local', 'Use local ./skills/ directory instead of remote repo (dev mode)')
+  .option(
+    '-s, --skill <name>',
+    'Skill to install, can repeat: --skill react --skill typescript',
+    (val, prev: string[] | undefined) => [...(prev ?? []), val]
+  )
+  .option('-p, --preset <preset>', 'Install a project starter preset by ID')
+  .option(
+    '-m, --model <name>',
+    'Target model, can repeat: --model claude --model cursor',
+    (val, prev: string[] | undefined) => [...(prev ?? []), val]
+  )
+  .option('-d, --dry-run', 'Preview changes without making them')
   .action((options) => {
-    addCommand(DEFAULT_REPO, options);
+    addCommand({
+      local: options.local,
+      skill: options.skill ?? [],
+      preset: options.preset,
+      model: options.model ?? [],
+      dryRun: options.dryRun ?? false,
+    });
   });
 
-// List command
+// remove — removes skills from model directories
+program
+  .command('remove')
+  .alias('uninstall')
+  .description('Remove installed skills')
+  .option(
+    '-s, --skill <name>',
+    'Skill to remove, can repeat: --skill react --skill typescript',
+    (val, prev: string[] | undefined) => [...(prev ?? []), val]
+  )
+  .option(
+    '-m, --model <name>',
+    'Limit removal to a specific model, can repeat: --model claude',
+    (val, prev: string[] | undefined) => [...(prev ?? []), val]
+  )
+  .option('-p, --purge', 'Remove all skills and clean up empty directories')
+  .option('--confirm', 'Skip confirmation prompt')
+  .option('-d, --dry-run', 'Preview changes without making them')
+  .action((options) => {
+    removeCommand({
+      skill: options.skill ?? [],
+      model: options.model ?? [],
+      purge: options.purge ?? false,
+      confirm: options.confirm ?? false,
+      dryRun: options.dryRun ?? false,
+    });
+  });
+
+// sync — updates skills and/or adds models
+program
+  .command('sync')
+  .description('Update installed skills or add support for new AI models')
+  .option('-u, --update', 'Update all installed skills to latest versions')
+  .option(
+    '-s, --skill <name>',
+    'Skill to update, can repeat: --skill react --skill typescript',
+    (val, prev: string[] | undefined) => [...(prev ?? []), val]
+  )
+  .option(
+    '-m, --model <name>',
+    'Add a new AI model, can repeat: --model cursor --model windsurf',
+    (val, prev: string[] | undefined) => [...(prev ?? []), val]
+  )
+  .option('-d, --dry-run', 'Preview changes without making them')
+  .action((options) => {
+    syncCommand({
+      update: options.update ?? false,
+      skill: options.skill ?? [],
+      model: options.model ?? [],
+      dryRun: options.dryRun ?? false,
+    });
+  });
+
+// list — lists installed skills and models
 program
   .command('list')
   .alias('ls')
   .description('List installed skills and models')
   .action(listCommand);
 
-// Sync command
-program
-  .command('sync')
-  .description('Sync models or update skills')
-  .option('--add-models <models>', 'Add models to existing installation (comma-separated)')
-  .option('--update-skills', 'Update skills to latest versions', false)
-  .option('-d, --dry-run', 'Dry run without making changes', false)
-  .action(syncModelsCommand);
-
-// Info command
-program
-  .command('info <skill>')
-  .description('Show skill information')
-  .action(async (skill: string) => {
-    // TODO: Implement info command
-    logger.info(`Showing info for skill: ${skill}`);
-  });
-
 // Parse CLI arguments
 program.parse(process.argv);
 
-// Show help if no command provided
 if (!process.argv.slice(2).length) {
   program.outputHelp();
 }

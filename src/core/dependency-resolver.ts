@@ -1,7 +1,6 @@
-import path from 'path';
-import { SkillParser } from './skill-parser';
 import { logger } from '../utils/logger';
 import { extractFrontmatter } from '../utils/yaml';
+import { extractDependencies, extractVersion } from './skill-parser';
 import type { SkillSource } from './skill-source';
 
 /**
@@ -27,11 +26,9 @@ export interface DependencyCycle {
  */
 export class DependencyResolver {
   private skillSource: SkillSource;
-  private skillsCache: Map<string, DependencyNode>;
 
   constructor(skillSource: SkillSource) {
     this.skillSource = skillSource;
-    this.skillsCache = new Map();
   }
 
   /**
@@ -69,8 +66,8 @@ export class DependencyResolver {
 
     try {
       const skillPath = this.skillSource.getSkillPath(skillName);
-      const version = SkillParser.extractVersion(skillPath);
-      const dependencies = SkillParser.extractDependencies(skillPath);
+      const version = extractVersion(skillPath);
+      const dependencies = extractDependencies(skillPath);
 
       // Create node
       const node: DependencyNode = {
@@ -192,7 +189,8 @@ export class DependencyResolver {
     // Topological sort
     const sorted: string[] = [];
     while (queue.length > 0) {
-      const current = queue.shift()!;
+      const current = queue.shift();
+      if (current === undefined) break;
       sorted.push(current);
 
       const currentNode = graph.get(current);
@@ -306,7 +304,11 @@ export class DependencyResolver {
         logger.warn('No frontmatter found in AGENTS.md');
         return [];
       }
-      return frontmatter.metadata?.skills || [];
+      const meta = frontmatter.metadata;
+      if (typeof meta !== 'object' || meta === null || Array.isArray(meta)) return [];
+      const skills = meta.skills;
+      if (!Array.isArray(skills)) return [];
+      return skills.filter((s): s is string => typeof s === 'string');
     } catch (error) {
       logger.error(
         `Failed to parse AGENTS.md: ${error instanceof Error ? error.message : String(error)}`
@@ -376,21 +378,20 @@ export class DependencyResolver {
     }
 
     logger.subsection('From AGENTS.md');
-    bySource['agents-md'].forEach((name) =>
-      logger.listItem(`${name} (v${graph.get(name)?.version})`)
-    );
+    for (const name of bySource['agents-md']) {
+      logger.listItem(`${name} (v${graph.get(name)?.version})`);
+    }
 
     logger.subsection('Meta Skills');
-    bySource['meta-skill'].forEach((name) =>
-      logger.listItem(`${name} (v${graph.get(name)?.version})`)
-    );
+    for (const name of bySource['meta-skill']) {
+      logger.listItem(`${name} (v${graph.get(name)?.version})`);
+    }
 
     logger.subsection('Transitive Dependencies');
-    bySource['skill-dependency'].forEach((name) =>
-      logger.listItem(`${name} (v${graph.get(name)?.version})`)
-    );
+    for (const name of bySource['skill-dependency']) {
+      logger.listItem(`${name} (v${graph.get(name)?.version})`);
+    }
 
-    logger.newline();
     logger.keyValue('Total skills', graph.size.toString());
   }
 }

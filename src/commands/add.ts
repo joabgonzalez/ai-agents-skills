@@ -1,160 +1,186 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import * as p from '@clack/prompts';
 import color from 'picocolors';
-import path from 'path';
-import fs from 'fs';
-import { RepositoryManager, ProjectDetector, ModelDetector, DependencyResolver } from '../core';
-import { RemoteSkillSource } from '../core/skill-source';
+import {
+  DependencyResolver,
+  Installer,
+  ModelDetector,
+  ProjectDetector,
+  RepositoryManager,
+} from '../core';
 import type { PresetInfo } from '../core/repository';
-import { logger, LogLevel } from '../utils/logger';
+import { FileSystemSkillSource } from '../core/skill-source';
+import { showDependencyPreview } from '../utils/dependency-preview';
+import { runInstallLoop, showInstallOutro } from '../utils/install-helpers';
+import { LogLevel, logger } from '../utils/logger';
+
+const DEFAULT_REPO = 'joabgonzalez/ai-agents-skills';
 
 export interface AddOptions {
+  local?: boolean;
+  skill?: string[];
   preset?: string;
-  skill?: string;
-  models?: string;
+  model?: string[];
   dryRun?: boolean;
 }
 
 /**
- * Installs skills from a remote repository. If no source is provided, uses the official repo.
+ * Checks whether --local mode is valid in the current directory.
+ * Requires: ./skills/ dir exists AND package.json name === "ai-agents-skills"
  */
-export async function addCommand(source: string, options: AddOptions) {
+function isLocalModeAvailable(cwd: string): boolean {
+  const skillsDir = path.join(cwd, 'skills');
+  if (!fs.existsSync(skillsDir)) return false;
+
+  const pkgPath = path.join(cwd, 'package.json');
+  if (!fs.existsSync(pkgPath)) return false;
+
+  try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    return pkg.name === 'ai-agents-skills';
+  } catch {
+    return false;
+  }
+}
+
+export async function addCommand(options: AddOptions) {
   p.intro(color.bgCyan(color.black(' ai-agents-skills ')));
 
-  // 1. Fetch repository
-  const repoManager = new RepositoryManager();
-  const s = p.spinner();
+  const cwd = process.cwd();
 
-  s.start(`Fetching repository: ${source}`);
-  const repo = await repoManager.fetchRepository(source);
-  s.stop(`Repository ready`);
+  // 1. Resolve skill source
+  let skillsRootDir: string;
+  let installType: 'local' | 'external';
+
+  if (options.local) {
+    if (!isLocalModeAvailable(cwd)) {
+      p.cancel(
+        '--local requires running from the ai-agents-skills repository root (./skills/ dir + package.json name must be "ai-agents-skills")'
+      );
+      process.exit(1);
+    }
+    skillsRootDir = cwd;
+    installType = 'local';
+    p.log.info(color.dim('Mode: local'));
+  } else {
+    const repoManager = new RepositoryManager();
+    const s = p.spinner();
+    s.start(`Fetching repository: ${DEFAULT_REPO}`);
+    const repo = await repoManager.fetchRepository(DEFAULT_REPO);
+    s.stop('Repository ready');
+    skillsRootDir = repo.cachePath;
+    installType = 'external';
+  }
 
   // 2. Detect project
   const projectDetector = new ProjectDetector();
   const project = await projectDetector.detectProject();
-
   p.log.info(`Project: ${color.cyan(project.rootPath)} ${color.dim(`(${project.type})`)}`);
 
-  // 3. Always show model selection (unless --models flag provided)
+  // 3. Early validation: validate flags before interactive prompts
+  const skillSource = new FileSystemSkillSource(skillsRootDir);
   const modelDetector = new ModelDetector();
-  const installedModels = modelDetector.detectInstalledModels(project.rootPath);
-
-  let selectedModels: string[];
-
-  if (options.models) {
-    selectedModels = options.models.split(',').map((m) => m.trim());
-  } else {
-    const allModels = modelDetector.getAllModelsInfo(project.rootPath);
-
-    const selected = await p.multiselect({
-      message: 'Select AI models to install skills for:',
-      options: allModels.map((m) => ({
-        value: m.id,
-        label: m.name,
-        hint: installedModels.includes(m.id) ? color.green('detected') : '',
-      })),
-      initialValues: installedModels.length > 0 ? installedModels : [],
-      required: true,
-    });
-
-    if (p.isCancel(selected)) {
-      p.cancel('Installation cancelled');
-      process.exit(0);
-    }
-
-    selectedModels = selected as string[];
-  }
-
-  // 4. Determine what to install
-  let skillsToInstall: string[] = [];
-  let presetInfo: PresetInfo | null = null;
 
   if (options.preset) {
-    // Install preset
-    presetInfo = await repoManager.getPreset(repo.cachePath, options.preset);
-
-    if (!presetInfo) {
+    const repoManagerCheck = new RepositoryManager();
+    const testPreset = await repoManagerCheck.getPreset(skillsRootDir, options.preset);
+    if (!testPreset) {
       p.cancel(`Preset not found: ${options.preset}`);
       process.exit(1);
     }
+  }
 
-    skillsToInstall = presetInfo.skills;
-    p.log.info(`Preset: ${color.green(presetInfo.name)}`);
-    p.log.message(color.dim(presetInfo.description));
-  } else if (options.skill) {
-    // Install specific skill
-    skillsToInstall = [options.skill];
-  } else {
-    // Interactive mode
-    const choice = await p.select({
-      message: 'What would you like to install?',
-      options: [
-        { value: 'skills', label: 'Skills' },
-        { value: 'preset', label: 'Project Starter Preset (AGENTS.md + skills bundle)' },
-      ],
-    });
-
-    if (p.isCancel(choice)) {
-      p.cancel('Installation cancelled');
+  if (options.skill && options.skill.length > 0) {
+    const availableSkills = skillSource.listSkills();
+    const alreadyInstalled = projectDetector.getInstalledSkills(project.rootPath);
+    const unknown = options.skill.filter((s) => !availableSkills.includes(s));
+    const alreadyDone = options.skill.filter(
+      (s) => availableSkills.includes(s) && alreadyInstalled.includes(s)
+    );
+    for (const s of unknown) {
+      p.log.warn(`'${s}': skill not found in repository`);
+    }
+    for (const s of alreadyDone) {
+      p.log.warn(`'${s}': already installed — use ${color.cyan(`sync --skill ${s}`)} to update`);
+    }
+    const validSkills = options.skill.filter(
+      (s) => !unknown.includes(s) && !alreadyDone.includes(s)
+    );
+    if (validSkills.length === 0) {
+      p.cancel('Nothing to install');
       process.exit(0);
     }
+    if (validSkills.length < options.skill.length) {
+      options.skill = validSkills;
+    }
+  }
 
-    if (choice === 'preset') {
-      const presets = await repoManager.listPresets(repo.cachePath);
+  if (options.model && options.model.length > 0) {
+    const allModelsCheck = modelDetector.getAllModelsInfo(project.rootPath);
+    const knownIds = new Set(allModelsCheck.map((m) => m.id));
+    const unknown = options.model.filter((m) => !knownIds.has(m));
+    for (const m of unknown) {
+      p.log.warn(`'${m}': unknown model — supported: ${Array.from(knownIds).join(', ')}`);
+    }
+    const validSpecified = options.model.filter((m) => knownIds.has(m));
+    if (validSpecified.length === 0) {
+      p.cancel('No valid models specified');
+      process.exit(1);
+    }
+    // Merge with already-installed models — same behavior as interactive flow
+    // (installed models always receive skills; --model adds to that, not replaces)
+    const installedModels = modelDetector.detectInstalledModels(project.rootPath);
+    const allTargets = [...new Set([...installedModels, ...validSpecified])];
+    const targetNames = allTargets
+      .map((id) => {
+        const name = allModelsCheck.find((m) => m.id === id)?.name ?? id;
+        return installedModels.includes(id) ? `${name} ${color.dim('(configured)')}` : name;
+      })
+      .join(', ');
+    p.log.info(`Installing to: ${color.dim(targetNames)}`);
+    options.model = allTargets;
+  }
 
-      if (presets.length === 0) {
-        p.cancel('No presets found in repository');
-        process.exit(1);
+  // 4. Model selection
+  let selectedModels: string[];
+
+  if (options.model && options.model.length > 0) {
+    selectedModels = options.model;
+  } else {
+    const installedModels = modelDetector.detectInstalledModels(project.rootPath);
+    const allModels = modelDetector.getAllModelsInfo(project.rootPath);
+    const newModels = allModels.filter((m) => !installedModels.includes(m.id));
+
+    if (installedModels.length > 0) {
+      // Show installed models as static info — skills always go to all installed models
+      const installedNames = installedModels
+        .map((id) => allModels.find((m) => m.id === id)?.name ?? id)
+        .join(', ');
+      p.log.info(`Already configured: ${color.dim(installedNames)}`);
+
+      if (newModels.length > 0) {
+        // Let user optionally add more models
+        const additional = await p.multiselect({
+          message: 'Also install to additional models? (optional — press Enter to skip)',
+          options: newModels.map((m) => ({ value: m.id, label: m.name })),
+          required: false,
+        });
+
+        if (p.isCancel(additional)) {
+          p.cancel('Installation cancelled');
+          process.exit(0);
+        }
+
+        selectedModels = [...installedModels, ...(additional as string[])];
+      } else {
+        selectedModels = installedModels;
       }
-
-      const selectedPreset = await p.select({
-        message: 'Select agent preset:',
-        options: presets.map((preset) => ({
-          value: preset.id,
-          label: preset.name,
-          hint: `${preset.skills.length} skills`,
-        })),
-      });
-
-      if (p.isCancel(selectedPreset)) {
-        p.cancel('Installation cancelled');
-        process.exit(0);
-      }
-
-      presetInfo = presets.find((preset) => preset.id === selectedPreset) ?? null;
-      skillsToInstall = presetInfo!.skills;
     } else {
-      const availableSkills = repoManager.listSkills(repo.cachePath);
-
-      if (availableSkills.length === 0) {
-        p.cancel('No skills found in repository');
-        process.exit(1);
-      }
-
-      // Detect already installed skills
-      const installedSkills = projectDetector.getInstalledSkills(project.rootPath);
-
-      // Show installed skills in a compact format
-      if (installedSkills.length > 0) {
-        p.log.info(`Already installed: ${color.dim(installedSkills.join(', '))}`);
-        console.log();
-      }
-
-      // Filter to show only not installed skills
-      const notInstalledSkills = availableSkills.filter(
-        (skill) => !installedSkills.includes(skill),
-      );
-
-      if (notInstalledSkills.length === 0) {
-        p.cancel('All available skills are already installed');
-        process.exit(0);
-      }
-
+      // No models configured yet — show full list
       const selected = await p.multiselect({
-        message: `Select skills to install (${notInstalledSkills.length} available):`,
-        options: notInstalledSkills.map((skill) => ({
-          value: skill,
-          label: skill,
-        })),
+        message: 'Select AI models to install skills for:',
+        options: allModels.map((m) => ({ value: m.id, label: m.name })),
         required: true,
       });
 
@@ -163,189 +189,349 @@ export async function addCommand(source: string, options: AddOptions) {
         process.exit(0);
       }
 
-      skillsToInstall = selected as string[];
+      selectedModels = selected as string[];
     }
+  }
+
+  // 5. Skill selection
+  const resolver = new DependencyResolver(skillSource);
+  let skillsToInstall: string[] = [];
+  let presetInfo: PresetInfo | null = null;
+
+  if (options.preset) {
+    const repoManager = new RepositoryManager();
+    presetInfo = await repoManager.getPreset(skillsRootDir, options.preset);
+    if (!presetInfo) {
+      p.cancel(`Preset not found: ${options.preset}`);
+      process.exit(1);
+    }
+    skillsToInstall = presetInfo.skills;
+    p.log.info(`Preset: ${color.green(presetInfo.name)}`);
+    p.log.message(color.dim(presetInfo.description));
+  } else if (options.skill && options.skill.length > 0) {
+    skillsToInstall = options.skill;
+  } else if (options.local) {
+    // Local mode: try AGENTS.md first, fallback to interactive
+    const agentsMdPath = path.join(cwd, 'AGENTS.md');
+    if (fs.existsSync(agentsMdPath)) {
+      skillsToInstall = DependencyResolver.parseAgentsMd(agentsMdPath);
+      p.log.info(`Skills from AGENTS.md: ${color.cyan(skillsToInstall.length.toString())}`);
+    } else {
+      skillsToInstall = await selectSkillsInteractive(
+        projectDetector,
+        project.rootPath,
+        skillSource
+      );
+    }
+  } else {
+    // Remote interactive
+    skillsToInstall = await selectSkillsOrPreset(
+      projectDetector,
+      project.rootPath,
+      skillSource,
+      skillsRootDir
+    );
   }
 
   // 5. Resolve dependencies
-  s.start('Resolving dependencies...');
-
-  const skillSource = new RemoteSkillSource(repo.cachePath);
-  const resolver = new DependencyResolver(skillSource);
+  const s2 = p.spinner();
+  s2.start('Resolving dependencies...');
   const resolved = resolver.buildGraph(skillsToInstall);
 
-  s.stop(`Found ${resolved.size} skills (including dependencies)`);
-  console.log();
-
-  // Show dependency tree
-  const requestedSkills = skillsToInstall;
-  const allSkills = Array.from(resolved.keys());
-  const dependencies = allSkills.filter((skill) => !requestedSkills.includes(skill));
-
-  console.log(color.bold('Installation Preview:'));
-  console.log();
-
-  for (const skill of requestedSkills) {
-    const node = resolved.get(skill);
-    if (node) {
-      console.log(`  ${color.green('●')} ${color.bold(skill)}`);
-      if (node.dependencies.length > 0) {
-        node.dependencies.forEach((dep, idx) => {
-          const isLast = idx === node.dependencies.length - 1;
-          const prefix = isLast ? '└─' : '├─';
-          console.log(`     ${color.dim(prefix)} ${dep}`);
-        });
+  // Validate graph (both modes)
+  const validation = resolver.validateGraph(resolved);
+  if (!validation.valid) {
+    s2.stop('Validation failed');
+    if (validation.cycles) {
+      for (const cycle of validation.cycles) {
+        p.log.error(`Circular dependency: ${cycle.formatted}`);
       }
     }
+    for (const dep of validation.missing) {
+      p.log.error(`Missing dependency: ${dep}`);
+    }
+    p.cancel('Installation cancelled due to validation errors');
+    process.exit(1);
   }
 
-  if (dependencies.length > 0 && dependencies.length !== allSkills.length) {
-    console.log();
-    console.log(color.dim(`  Additional dependencies: ${dependencies.join(', ')}`));
+  // Filter out already-installed skills — add only installs NEW skills; sync updates existing ones
+  const alreadyInstalled = projectDetector.getInstalledSkills(project.rootPath);
+  const fullInstallOrder = resolver.getInstallationOrder(resolved);
+  const installOrder = fullInstallOrder.filter((s) => !alreadyInstalled.includes(s));
+  const skippedAlready = fullInstallOrder.filter((s) => alreadyInstalled.includes(s));
+
+  // Adjust the requested list to only show truly new top-level skills in the preview
+  const newRequestedSkills = skillsToInstall.filter((s) => !alreadyInstalled.includes(s));
+
+  s2.stop(
+    `Found ${installOrder.length} new skill(s) to install${skippedAlready.length > 0 ? ` (${skippedAlready.length} already installed)` : ''}`
+  );
+
+  if (installOrder.length === 0) {
+    p.note(
+      skippedAlready.join(', '),
+      'All selected skills are already installed — use `sync` to update'
+    );
+    p.outro(color.yellow('Nothing to install'));
+    return;
   }
 
-  console.log();
+  if (skippedAlready.length > 0) {
+    p.log.info(`Already installed (skipping): ${color.dim(skippedAlready.join(', '))}`);
+  }
 
-  // 6. Confirm installation
-  const confirm = await p.confirm({
-    message: `Install ${resolved.size} skill(s) to ${selectedModels.length} model(s)?`,
+  let previewSkills: string[];
+  if (newRequestedSkills.length > 0) {
+    previewSkills = newRequestedSkills;
+  } else {
+    // All requested skills are already installed but some deps are missing.
+    // Show the installed parents that have the new dep so the user understands the context.
+    const parentsWithNewDeps = skillsToInstall.filter((s) => {
+      if (!alreadyInstalled.includes(s)) return false;
+      const node = resolved.get(s);
+      return node?.dependencies.some((dep) => installOrder.includes(dep)) ?? false;
+    });
+    previewSkills = parentsWithNewDeps.length > 0 ? parentsWithNewDeps : installOrder;
+  }
+  showDependencyPreview(previewSkills, resolved, alreadyInstalled);
+
+  // 6. Confirm (always shown; dry-run proceeds but makes no changes)
+  const confirmInstall = await p.confirm({
+    message: `Install ${installOrder.length} skill(s) to ${selectedModels.length} model(s)?${options.dryRun ? color.dim(' [dry-run]') : ''}`,
     initialValue: true,
   });
-
-  if (!confirm || p.isCancel(confirm)) {
+  if (!confirmInstall || p.isCancel(confirmInstall)) {
     p.cancel('Installation cancelled');
     process.exit(0);
   }
 
-  // 7. Setup .agents/skills/ directory
-  s.start('Setting up skills directory...');
-
+  // 7. Prepare directories (skip in dry-run)
   const agentsSkillsDir = projectDetector.getSkillsDir(project.rootPath);
-  if (!fs.existsSync(agentsSkillsDir)) {
-    fs.mkdirSync(agentsSkillsDir, { recursive: true });
-  }
-
-  s.stop('Skills directory ready');
-
-  // 8. Setup model directories
-  s.start('Setting up model directories...');
-
-  const prevLevel = logger.getLevel();
-  logger.setLevel(LogLevel.WARN);
-
-  for (const modelId of selectedModels) {
-    const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
-    const skillsDir = path.join(modelDir, 'skills');
-
-    if (!fs.existsSync(skillsDir)) {
-      fs.mkdirSync(skillsDir, { recursive: true });
-    }
-  }
-
-  s.stop(`${selectedModels.length} model directory(s) ready`);
-
-  // 9. Install skills with detailed progress
-  console.log();
-  console.log(color.bold('Installing skills:'));
-  console.log();
-
-  let installedCount = 0;
-  let skippedCount = 0;
-
-  // Get dependency details for each skill from graph
-  const skillDeps = new Map<string, string[]>();
-  const skillNames = Array.from(resolved.keys());
-
-  for (const skillName of skillNames) {
-    const node = resolved.get(skillName);
-    if (node && node.dependencies.length > 0) {
-      skillDeps.set(skillName, node.dependencies);
-    }
-  }
-
-  // Suppress logger during installation
-  logger.setLevel(LogLevel.SILENT);
-
-  for (const skillName of skillNames) {
-    const deps = skillDeps.get(skillName);
-
-    // Show installing status with spinner
-    logger.setLevel(LogLevel.INFO);
-    logger.skillProgress(skillName, 'installing', deps);
-    logger.setLevel(LogLevel.SILENT);
-
-    const srcPath = path.join(repo.cachePath, 'skills', skillName);
-    const dstPath = path.join(agentsSkillsDir, skillName);
-
-    let skillInstalled = false;
-
-    // Copy to .agents/skills/ if not exists
-    if (!fs.existsSync(dstPath)) {
-      if (!options.dryRun) {
-        fs.cpSync(srcPath, dstPath, { recursive: true });
-      }
-      skillInstalled = true;
+  if (!options.dryRun) {
+    if (!fs.existsSync(agentsSkillsDir)) {
+      fs.mkdirSync(agentsSkillsDir, { recursive: true });
     }
 
-    // Create symlinks for each model
     for (const modelId of selectedModels) {
       const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
       const skillsDir = path.join(modelDir, 'skills');
-      const symlinkSrc = path.relative(skillsDir, path.join(agentsSkillsDir, skillName));
-      const symlinkDst = path.join(skillsDir, skillName);
-
-      if (!fs.existsSync(symlinkDst) && !options.dryRun) {
-        fs.symlinkSync(symlinkSrc, symlinkDst, 'dir');
+      if (!fs.existsSync(skillsDir)) {
+        fs.mkdirSync(skillsDir, { recursive: true });
       }
-    }
-
-    // Update with final status
-    logger.setLevel(LogLevel.INFO);
-    const status = skillInstalled ? 'completed' : 'skipped';
-    process.stdout.write('\x1b[1A\r\x1b[K');
-    logger.skillProgress(skillName, status, deps);
-    logger.setLevel(LogLevel.SILENT);
-
-    if (skillInstalled) {
-      installedCount++;
-    } else {
-      skippedCount++;
     }
   }
 
-  // Restore logger level
-  logger.setLevel(prevLevel);
-  console.log();
+  // 8. Install
+  if (options.dryRun) {
+    showDryRunPaths(installOrder, project.rootPath, selectedModels, modelDetector, installType);
+  }
 
-  // 10. Copy AGENTS.md if preset
+  p.log.message(color.bold(options.dryRun ? 'Skills (dry run):' : 'Installing skills:'));
+  // Build direct new deps first, then compute full transitive chain for display
+  const directDeps = new Map<string, string[]>();
+  for (const skillName of installOrder) {
+    const node = resolved.get(skillName);
+    if (node && node.dependencies.length > 0) {
+      directDeps.set(
+        skillName,
+        node.dependencies.filter((d) => !alreadyInstalled.includes(d))
+      );
+    }
+  }
+  function getDepChain(name: string, visited = new Set<string>()): string[] {
+    if (visited.has(name)) return [];
+    visited.add(name);
+    const chain: string[] = [];
+    for (const dep of directDeps.get(name) ?? []) {
+      if (!visited.has(dep)) {
+        chain.push(dep);
+        chain.push(...getDepChain(dep, visited));
+      }
+    }
+    return chain;
+  }
+  const skillDeps = new Map<string, string[]>();
+  for (const skillName of installOrder) {
+    const chain = getDepChain(skillName);
+    if (chain.length > 0) skillDeps.set(skillName, chain);
+  }
+
+  const installer =
+    installType === 'local'
+      ? new Installer(skillsRootDir)
+      : new Installer(skillsRootDir, project.rootPath);
+  const prevLogLevel = logger.getLevel();
+  logger.setLevel(LogLevel.SILENT);
+
+  const topLevelSkills = new Set(newRequestedSkills);
+  const counts = await runInstallLoop(
+    installOrder,
+    skillDeps,
+    async (skillName) => {
+      let installedToAny = false;
+
+      for (const modelId of selectedModels) {
+        const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
+        try {
+          const wasInstalled = await installer.installSkill(
+            skillName,
+            modelDir,
+            installType,
+            options.dryRun ?? false
+          );
+          if (wasInstalled) installedToAny = true;
+        } catch {
+          // Continue with other models
+        }
+      }
+
+      return installedToAny;
+    },
+    topLevelSkills
+  );
+
+  logger.setLevel(prevLogLevel);
+
+  // 9. Copy AGENTS.md if preset
   if (presetInfo && !options.dryRun) {
     const agentsSrc = path.join(presetInfo.path, 'AGENTS.md');
     const agentsDst = path.join(project.rootPath, 'AGENTS.md');
-
     if (fs.existsSync(agentsSrc) && !fs.existsSync(agentsDst)) {
       fs.copyFileSync(agentsSrc, agentsDst);
       p.log.success(`Copied AGENTS.md for preset: ${presetInfo.name}`);
     }
   }
 
-  // 11. Summary
-  const summaryLines = [];
-  summaryLines.push(`Models: ${color.cyan(selectedModels.length.toString())}`);
-  summaryLines.push(`Skills installed: ${color.green(installedCount.toString())}`);
-  if (skippedCount > 0) {
-    summaryLines.push(
-      `Skills skipped: ${color.yellow(skippedCount.toString())} ${color.dim('(already up-to-date)')}`
-    );
-  }
-  if (presetInfo) {
-    summaryLines.push(`Preset: ${color.cyan(presetInfo.name)}`);
+  showInstallOutro(counts, selectedModels.length, options.dryRun ?? false);
+}
+
+function showDryRunPaths(
+  skillNames: string[],
+  rootPath: string,
+  modelIds: string[],
+  modelDetector: ModelDetector,
+  installType: 'local' | 'external'
+): void {
+  const agentsSkillsBase = path.join(rootPath, '.agents', 'skills');
+  const lines: string[] = [];
+
+  for (const skillName of skillNames) {
+    lines.push(`${color.cyan('◆')} ${color.bold(skillName)}`);
+
+    const agentsEntry = path.join(agentsSkillsBase, skillName);
+    const agentsRel = path.relative(rootPath, agentsEntry);
+
+    if (installType === 'local') {
+      const sourceRel = path.join('skills', skillName);
+      lines.push(
+        `  ${color.dim(`${sourceRel}/`)} ${color.dim('→')} ${color.dim(`${agentsRel}/`)} ${color.dim('(symlink)')}`
+      );
+    } else {
+      lines.push(`  ${color.dim(`${agentsRel}/`)} ${color.dim('(copy from cache)')}`);
+    }
+
+    for (const modelId of modelIds) {
+      const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
+      const modelEntry = path.join(modelDir, 'skills', skillName);
+      const modelRel = path.relative(rootPath, modelEntry);
+      const agentsTarget = path.relative(path.dirname(modelEntry), agentsEntry);
+      lines.push(
+        `  ${color.dim(modelRel)} ${color.dim('→')} ${color.dim(agentsTarget)} ${color.dim('(symlink)')}`
+      );
+    }
+
+    lines.push('');
   }
 
-  p.note(summaryLines.join('\n'), 'Summary');
+  p.note(lines.join('\n').trimEnd(), 'Paths that would be created');
+}
 
-  if (options.dryRun) {
-    p.outro(color.yellow('DRY RUN - No changes were made'));
-  } else {
-    p.outro(color.green('Installation complete!'));
+async function selectSkillsInteractive(
+  projectDetector: ProjectDetector,
+  rootPath: string,
+  skillSource: FileSystemSkillSource
+): Promise<string[]> {
+  const availableSkills = skillSource.listSkills();
+  if (availableSkills.length === 0) {
+    p.cancel('No skills found in repository');
+    process.exit(1);
   }
+
+  const installedSkills = projectDetector.getInstalledSkills(rootPath);
+  const notInstalled = availableSkills.filter((s) => !installedSkills.includes(s));
+
+  if (notInstalled.length === 0) {
+    p.cancel('All available skills are already installed');
+    process.exit(0);
+  }
+
+  if (installedSkills.length > 0) {
+    p.log.info(`Already installed: ${color.dim(installedSkills.join(', '))}`);
+  }
+
+  const selected = await p.multiselect({
+    message: `Select skills to install (${notInstalled.length} available):`,
+    options: notInstalled.map((skill) => ({ value: skill, label: skill })),
+    required: true,
+  });
+
+  if (p.isCancel(selected)) {
+    p.cancel('Installation cancelled');
+    process.exit(0);
+  }
+
+  return selected as string[];
+}
+
+async function selectSkillsOrPreset(
+  projectDetector: ProjectDetector,
+  rootPath: string,
+  skillSource: FileSystemSkillSource,
+  skillsRootDir: string
+): Promise<string[]> {
+  const choice = await p.select({
+    message: 'What would you like to install?',
+    options: [
+      { value: 'skills', label: 'Skills' },
+      { value: 'preset', label: 'Project Starter Preset (AGENTS.md + skills bundle)' },
+    ],
+  });
+
+  if (p.isCancel(choice)) {
+    p.cancel('Installation cancelled');
+    process.exit(0);
+  }
+
+  if (choice === 'preset') {
+    const repoManager = new RepositoryManager();
+    const presets = await repoManager.listPresets(skillsRootDir);
+
+    if (presets.length === 0) {
+      p.cancel('No presets found in repository');
+      process.exit(1);
+    }
+
+    const selectedPreset = await p.select({
+      message: 'Select agent preset:',
+      options: presets.map((preset) => ({
+        value: preset.id,
+        label: preset.name,
+        hint: `${preset.skills.length} skills`,
+      })),
+    });
+
+    if (p.isCancel(selectedPreset)) {
+      p.cancel('Installation cancelled');
+      process.exit(0);
+    }
+
+    const preset = presets.find((pr) => pr.id === selectedPreset);
+    if (!preset) {
+      p.cancel('Installation cancelled');
+      process.exit(0);
+    }
+    return preset.skills;
+  }
+
+  return selectSkillsInteractive(projectDetector, rootPath, skillSource);
 }

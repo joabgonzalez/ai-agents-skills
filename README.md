@@ -1,6 +1,6 @@
 # ai-agents-skills
 
-**v1.3.4** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.4.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
 Install 61 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
@@ -35,24 +35,28 @@ npx ai-agents-skills add --skill react --skill typescript
 # Interactive (prompts for skills, models, and presets)
 npx ai-agents-skills add
 
-# Install a preset with specific models
-npx ai-agents-skills add --preset astro-template --models claude,copilot
+# Install a preset
+npx ai-agents-skills add --preset astro-template
+
+# Target specific models
+npx ai-agents-skills add --model claude --model copilot
 
 # Install specific skills
 npx ai-agents-skills add --skill react --skill typescript
 
-# Preview without changes
+# Preview without changes — shows exact paths that would be created
 npx ai-agents-skills add --skill react --dry-run
 ```
 
 **Options:**
 
-| Flag                  | Description                           |
-| --------------------- | ------------------------------------- |
-| `-p, --preset <id>`   | Install a project starter preset      |
-| `-s, --skill <name>`  | Install a specific skill (repeatable) |
-| `-m, --models <list>` | Target models, comma-separated        |
-| `-d, --dry-run`       | Preview changes without installing    |
+| Flag                 | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `-l, --local`        | Use local `./skills/` directory (dev mode only) |
+| `-p, --preset <id>`  | Install a project starter preset                |
+| `-s, --skill <name>` | Install a specific skill (repeatable)           |
+| `-m, --model <name>` | Target a specific model (repeatable)            |
+| `-d, --dry-run`      | Preview changes — shows exact symlink paths     |
 
 ### `list` — Show installed skills
 
@@ -66,11 +70,14 @@ npx ai-agents-skills list
 # Interactive (prompts for actions: add models and/or update skills)
 npx ai-agents-skills sync
 
-# Add models to existing installation
-npx ai-agents-skills sync --add-models copilot,cursor
+# Update ALL installed skills to latest versions (no prompts)
+npx ai-agents-skills sync --update
 
-# Update skills to latest versions
-npx ai-agents-skills sync --update-skills
+# Update specific skills to latest versions
+npx ai-agents-skills sync --skill react --skill typescript
+
+# Add models to existing installation
+npx ai-agents-skills sync --model copilot --model cursor
 
 # Preview without changes
 npx ai-agents-skills sync --dry-run
@@ -78,37 +85,41 @@ npx ai-agents-skills sync --dry-run
 
 **Options:**
 
-| Flag                  | Description                      |
-| --------------------- | -------------------------------- |
-| `--add-models <list>` | Add models, comma-separated      |
-| `--update-skills`     | Update skills to latest versions |
-| `-d, --dry-run`       | Preview changes without applying |
+| Flag                 | Description                                        |
+| -------------------- | -------------------------------------------------- |
+| `-u, --update`       | Update all installed skills to latest (no prompts) |
+| `-s, --skill <name>` | Update a specific skill (repeatable)               |
+| `-m, --model <name>` | Add a specific model (repeatable)                  |
+| `-d, --dry-run`      | Preview changes without applying                   |
 
 ### `remove` — Remove skills with dependency checking
 
 ```bash
-# Interactive removal
+# Interactive — first choose: select skills or remove all (purge)
 npx ai-agents-skills remove
 
-# Remove specific skills
-npx ai-agents-skills remove --skills react,typescript
+# Remove specific skills (with dependency check)
+npx ai-agents-skills remove --skill react --skill typescript
 
-# Remove all skills (confirmation required)
-npx ai-agents-skills remove --all
+# Remove all skill entries from all models + ask about AGENTS.md
+npx ai-agents-skills remove --purge
 
-# Skip confirmation
-npx ai-agents-skills remove --skills react --confirm
+# Skip confirmation prompt (useful for automation)
+npx ai-agents-skills remove --skill react --confirm
+
+# Dry-run: same interactive flow, no changes applied
+npx ai-agents-skills remove --skill react --dry-run
 ```
 
 **Options:**
 
-| Flag                  | Description                       |
-| --------------------- | --------------------------------- |
-| `-s, --skills <list>` | Skills to remove, comma-separated |
-| `-m, --models <list>` | Target models, comma-separated    |
-| `-a, --all`           | Remove all skills                 |
-| `--confirm`           | Skip confirmation prompt          |
-| `-d, --dry-run`       | Preview without making changes    |
+| Flag                 | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
+| `-s, --skill <name>` | Remove a specific skill (repeatable)                                      |
+| `-m, --model <name>` | Target a specific model (repeatable)                                      |
+| `-p, --purge`        | Remove all skill entries from all models; asks separately about AGENTS.md |
+| `--confirm`          | Skip confirmation prompt (works in both normal and dry-run mode)          |
+| `-d, --dry-run`      | Same flow as normal — prompts included — but no changes applied           |
 
 ## How It Works
 
