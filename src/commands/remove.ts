@@ -242,6 +242,19 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
         modelDetector,
         projectDetector
       );
+      const wouldClean = predictCleanupDirs(
+        project.rootPath,
+        targetModels,
+        modelDetector,
+        projectDetector,
+        skillsToActuallyRemove
+      );
+      if (wouldClean.length > 0) {
+        p.note(
+          wouldClean.map((d) => `${color.red('◆')} ${color.dim(d)}`).join('\n'),
+          'Directories that would also be removed'
+        );
+      }
     }
 
     // Execute
@@ -279,11 +292,25 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
 
     logger.setLevel(removeLogLevel);
 
-    p.note(
-      `Skills removed: ${color.green(removedCount.toString())}\n` +
-        `Affected models: ${color.cyan(targetModels.length.toString())}`,
-      'Summary'
-    );
+    // Clean up empty container directories after removal
+    let cleanedDirs: string[] = [];
+    if (!options.dryRun) {
+      cleanedDirs = cleanupEmptyDirs(
+        project.rootPath,
+        targetModels,
+        modelDetector,
+        projectDetector
+      );
+    }
+
+    const summaryLines = [
+      `Skills removed: ${color.green(removedCount.toString())}`,
+      `Affected models: ${color.cyan(targetModels.length.toString())}`,
+    ];
+    if (cleanedDirs.length > 0) {
+      summaryLines.push(color.dim(`Cleaned up: ${cleanedDirs.join(', ')}`));
+    }
+    p.note(summaryLines.join('\n'), 'Summary');
 
     if (options.dryRun) {
       p.outro(color.yellow('DRY RUN - No changes were made'));
@@ -319,6 +346,92 @@ function showDryRunRemovePaths(
   p.note(lines.join('\n').trimEnd(), 'Paths that would be deleted');
 }
 
+/**
+ * Remove empty skills/ and model parent directories after skill deletion.
+ * Only removes a directory when it is completely empty (no other files/folders).
+ * Returns relative paths of cleaned-up directories.
+ */
+function cleanupEmptyDirs(
+  rootPath: string,
+  modelIds: string[],
+  modelDetector: ModelDetector,
+  projectDetector: ProjectDetector
+): string[] {
+  const cleaned: string[] = [];
+
+  for (const modelId of modelIds) {
+    const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
+    const modelSkillsDir = path.join(modelDir, 'skills');
+    if (fs.existsSync(modelSkillsDir) && fs.readdirSync(modelSkillsDir).length === 0) {
+      fs.rmSync(modelSkillsDir, { recursive: true, force: true });
+      cleaned.push(path.relative(rootPath, modelSkillsDir));
+      if (fs.existsSync(modelDir) && fs.readdirSync(modelDir).length === 0) {
+        fs.rmSync(modelDir, { recursive: true, force: true });
+        cleaned.push(path.relative(rootPath, modelDir));
+      }
+    }
+  }
+
+  const agentsSkillsDir = projectDetector.getSkillsDir(rootPath);
+  if (fs.existsSync(agentsSkillsDir) && fs.readdirSync(agentsSkillsDir).length === 0) {
+    fs.rmSync(agentsSkillsDir, { recursive: true, force: true });
+    cleaned.push(path.relative(rootPath, agentsSkillsDir));
+    const agentsDir = projectDetector.getAgentsDir(rootPath);
+    if (fs.existsSync(agentsDir) && fs.readdirSync(agentsDir).length === 0) {
+      fs.rmSync(agentsDir, { recursive: true, force: true });
+      cleaned.push(path.relative(rootPath, agentsDir));
+    }
+  }
+
+  return cleaned;
+}
+
+/**
+ * Predict which directories would be cleaned up if the given skills were removed.
+ * Simulates cleanupEmptyDirs without touching the filesystem.
+ */
+function predictCleanupDirs(
+  rootPath: string,
+  modelIds: string[],
+  modelDetector: ModelDetector,
+  projectDetector: ProjectDetector,
+  skillsToRemove: string[]
+): string[] {
+  const wouldClean: string[] = [];
+  const removedSet = new Set(skillsToRemove);
+
+  for (const modelId of modelIds) {
+    const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
+    const modelSkillsDir = path.join(modelDir, 'skills');
+    if (!fs.existsSync(modelSkillsDir)) continue;
+    const remaining = fs.readdirSync(modelSkillsDir).filter((e) => !removedSet.has(e));
+    if (remaining.length === 0) {
+      wouldClean.push(path.relative(rootPath, modelSkillsDir));
+      const remainingInModel = fs.readdirSync(modelDir).filter((e) => e !== 'skills');
+      if (remainingInModel.length === 0) {
+        wouldClean.push(path.relative(rootPath, modelDir));
+      }
+    }
+  }
+
+  const agentsSkillsDir = projectDetector.getSkillsDir(rootPath);
+  if (fs.existsSync(agentsSkillsDir)) {
+    const remaining = fs.readdirSync(agentsSkillsDir).filter((e) => !removedSet.has(e));
+    if (remaining.length === 0) {
+      wouldClean.push(path.relative(rootPath, agentsSkillsDir));
+      const agentsDir = projectDetector.getAgentsDir(rootPath);
+      if (fs.existsSync(agentsDir)) {
+        const remainingInAgents = fs.readdirSync(agentsDir).filter((e) => e !== 'skills');
+        if (remainingInAgents.length === 0) {
+          wouldClean.push(path.relative(rootPath, agentsDir));
+        }
+      }
+    }
+  }
+
+  return wouldClean;
+}
+
 async function purgeCommand(
   options: RemoveOptions,
   rootPath: string,
@@ -332,22 +445,21 @@ async function purgeCommand(
   const agentsMdPath = path.join(rootPath, 'AGENTS.md');
   const hasAgentsMd = fs.existsSync(agentsMdPath);
 
-  // Build the list of individual entries that will be removed
-  const skillEntries: string[] = installedSkills.map((skill) => path.join(agentsSkillsDir, skill));
-  for (const modelId of installedModels) {
-    const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
-    for (const skill of installedSkills) {
-      const entry = path.join(modelDir, 'skills', skill);
-      if (fs.existsSync(entry)) skillEntries.push(entry);
-    }
-  }
+  const wouldClean = predictCleanupDirs(
+    rootPath,
+    installedModels,
+    modelDetector,
+    projectDetector,
+    installedSkills
+  );
 
   p.note(
     [
       `Skills: ${color.red(installedSkills.length.toString())} (${installedSkills.join(', ') || 'none'})`,
       `Models: ${color.cyan(installedModels.join(', ') || 'none')}`,
-      `Entries to remove: ${color.dim(skillEntries.length.toString())} skill dirs/symlinks`,
-      color.dim('Note: container dirs (.agents/skills/, .claude/skills/, etc.) are preserved'),
+      wouldClean.length > 0
+        ? `Empty dirs to remove: ${color.dim(wouldClean.join(', '))}`
+        : '',
       hasAgentsMd ? `AGENTS.md: ${color.yellow('will confirm separately')}` : '',
     ]
       .filter(Boolean)
@@ -367,7 +479,6 @@ async function purgeCommand(
   }
 
   if (!options.dryRun) {
-    // Remove only individual skill entries, leave container directories intact
     for (const skill of installedSkills) {
       const agentsEntry = path.join(agentsSkillsDir, skill);
       if (fs.existsSync(agentsEntry)) {
@@ -381,7 +492,13 @@ async function purgeCommand(
         }
       }
     }
-    p.log.success(`Removed ${installedSkills.length} skill(s) from all models`);
+
+    const cleanedDirs = cleanupEmptyDirs(rootPath, installedModels, modelDetector, projectDetector);
+
+    p.log.success(
+      `Removed ${installedSkills.length} skill(s) from all models` +
+        (cleanedDirs.length > 0 ? ` · cleaned up: ${cleanedDirs.join(', ')}` : '')
+    );
 
     if (hasAgentsMd) {
       const removeAgentsMd = await p.confirm({
@@ -395,7 +512,8 @@ async function purgeCommand(
     }
   } else {
     p.log.info(
-      `DRY RUN: would remove ${installedSkills.length} skill(s) from .agents/skills/ and ${installedModels.length} model dir(s)` +
+      `DRY RUN: would remove ${installedSkills.length} skill(s) from ${installedModels.length} model dir(s)` +
+        (wouldClean.length > 0 ? ` and clean up ${wouldClean.length} empty dir(s)` : '') +
         (hasAgentsMd ? ', and ask about AGENTS.md' : '')
     );
   }

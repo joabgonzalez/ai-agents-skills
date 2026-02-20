@@ -21,7 +21,9 @@ metadata:
 
 # Beta Template Agent
 
-Primary development assistant for an astro static site. Ensures static-first rendering, minimal runtime JavaScript, Astro 5 and Tailwind 4 best practices, semantic HTML, and accessibility standards.
+## Purpose
+
+Primary development assistant for an Astro static site. Ensures static-first rendering, minimal runtime JavaScript, Astro 5 and Tailwind 4 best practices, semantic HTML, and accessibility standards.
 
 ## How to Use Skills (MANDATORY WORKFLOW)
 

@@ -23,6 +23,8 @@ metadata:
 
 # Alpha Template Agent
 
+## Purpose
+
 Primary development assistant for a web application. Ensures strict typing, MUI best practices, accessibility, and version compatibility across Redux Toolkit, AG Grid, and form validation integrations.
 
 ## How to Use Skills (MANDATORY WORKFLOW)

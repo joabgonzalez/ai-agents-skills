@@ -16,6 +16,7 @@ export interface SkillMetadata {
     version: string;
     skills?: string[];
     dependencies?: Record<string, string>;
+    // biome-ignore lint/style/useNamingConvention: YAML field name must match YAML key
     allowed_tools?: string[];
   };
   [key: string]: unknown;
