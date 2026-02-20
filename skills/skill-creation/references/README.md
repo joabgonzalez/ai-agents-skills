@@ -75,7 +75,7 @@ Quality checks: pre-creation (delegation, uniqueness), structure validation, con
 
 ---
 
-## Cross-References
+## Cross-Reference Map
 
 - **Main Skill**: [SKILL.md](../SKILL.md) - Overview, decision tree, critical patterns
 - **Template**: [SKILL-TEMPLATE.md](../assets/SKILL-TEMPLATE.md) - Skill template

@@ -20,6 +20,7 @@ Debugging: reproduce, isolate, diagnose, fix, verify. Replaces ad-hoc "try rando
 - User reports "it doesn't work"
 
 Don't use for:
+
 - Writing new code (use technology-specific skills)
 - Code review (use critical-partner)
 - Planning (use brainstorming)
@@ -154,6 +155,46 @@ After finding root cause?
 ```
 
 ---
+
+## Example
+
+Debugging "user can't log in" using the systematic approach.
+
+```markdown
+## Bug Reproduction
+**Reported behavior:** User enters correct credentials → "Invalid password" error
+**Expected behavior:** User is logged in and redirected to dashboard
+**Steps to reproduce:**
+1. Navigate to /login
+2. Enter registered email + correct password → error shown
+**Reproducible?** Yes, consistently
+**Environment:** Production only; works in dev
+
+## Isolation Strategy
+Layer-by-layer:
+1. UI layer OK — form submits the right values (verified via Network tab)
+2. API layer: POST /auth/login returns 401 → narrows to backend
+
+Add log in AuthService:
+  console.log("stored hash:", user.passwordHash);
+  console.log("compare result:", await bcrypt.compare(password, user.passwordHash));
+  → compare result: false  ← bug confirmed here
+
+## Check Assumptions
+"The password hash is correct" → LOG IT
+  Actual stored hash: "$2b$12$OLD_ROUNDS..." (bcrypt rounds mismatch)
+  Dev DB: rounds=10; Prod DB: rounds=12 — hashes generated with different round counts
+
+## Root Cause
+Password hashes in production were generated during a bcrypt config change.
+Existing users have hashes with old round count; new bcrypt.compare uses new count.
+
+## Fix Verification
+- [ ] Re-hash passwords on next successful login (progressive migration)
+- [ ] Verify login works for affected accounts in staging
+- [ ] Add test: login with hash from each supported round count
+- [ ] Edge case: users who haven't logged in since migration get password reset email
+```
 
 ## Edge Cases
 

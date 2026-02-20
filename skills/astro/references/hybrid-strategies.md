@@ -1,5 +1,12 @@
 # Hybrid Strategies (SSG + SSR)
 
+## Core Patterns
+
+- Mode Selection: Use `output: 'hybrid'` to default all pages to SSG with opt-in SSR via `export const prerender = false`
+- Decision Matrix: Static content (blogs, marketing) stays SSG; user-specific pages (dashboard, cart) use SSR
+- Migration Path: Install adapter, switch `output`, then mark only dynamic pages with `prerender: false`
+- Caching SSR: Add `Cache-Control` headers to SSR endpoints to reduce server load for semi-static data
+
 > Mixing static and dynamic rendering, migration paths, and per-page decisions
 
 ## When to Read This

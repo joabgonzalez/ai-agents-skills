@@ -19,6 +19,7 @@ Wraps operation outcomes in `Result<T>` representing success or failure. Alterna
 - API endpoints that need different HTTP status codes per error type
 
 Don't use for:
+
 - Truly unexpected errors (null pointer, out of memory) → throw exceptions
 - Simple getters that can't fail
 - Internal private helpers
@@ -136,6 +137,45 @@ Operation may or may not return a value (nullable)?
 
 ---
 
+## Example
+
+End-to-end: service returns `Result` → controller maps each failure to the correct HTTP status code.
+
+```typescript
+// Service layer — returns typed Result with business errors
+class OrderService {
+  async placeOrder(userId: string, dto: PlaceOrderDTO): Promise<Result<Order>> {
+    const user = await this.userRepo.findById(userId);
+    if (!user)               return Result.fail("USER_NOT_FOUND");
+    if (!user.isActive)      return Result.fail("USER_INACTIVE");
+    if (dto.items.length === 0) return Result.fail("EMPTY_ORDER");
+
+    const order = Order.create(userId, dto.items);
+    await this.orderRepo.save(order);
+    return Result.ok(order);
+  }
+}
+
+// Controller layer — maps each error code to an appropriate HTTP status
+app.post("/api/v1/orders", async (req, res) => {
+  const result = await orderService.placeOrder(req.user.id, req.body);
+
+  if (result.isSuccess) {
+    return res.status(201).json(result.value);
+  }
+
+  const statusMap: Record<string, number> = {
+    USER_NOT_FOUND: 404,
+    USER_INACTIVE:  403,
+    EMPTY_ORDER:    400,
+  };
+  const status = statusMap[result.error!] ?? 500;
+  return res.status(status).json({ error: result.error });
+});
+```
+
+Patterns applied: service returns `Result.ok` / `Result.fail`, error codes are plain strings the controller maps to HTTP statuses, no try/catch needed — all paths are explicit.
+
 ## Edge Cases
 
 **Team unfamiliarity:** Result pattern has a learning curve. If team is unfamiliar, introduce gradually (one service at a time).
@@ -148,7 +188,7 @@ Operation may or may not return a value (nullable)?
 
 ---
 
-## Result vs Exceptions
+## Conventions
 
 | | Exceptions | Result Pattern |
 |--|--|--|

@@ -18,6 +18,7 @@ Patterns for isolated, maintainable unit tests. Orchestrates **jest** and **reac
 - Refactoring an existing test suite
 
 Don't use for:
+
 - Jest syntax and mock APIs -- delegate to **jest** skill
 - React component queries -- delegate to **react-testing-library** skill
 - Integration or E2E test strategy (different scope)
@@ -82,6 +83,24 @@ expect(result.balance).toBe(20);
 // WRONG: mocking the unit you are testing
 jest.spyOn(service, 'withdraw').mockResolvedValue({ balance: 20 });
 ```
+
+### Positive and Negative Assertions
+
+Every behavior has two sides: what SHOULD happen (positive) and what SHOULD NOT (negative). A test suite that only checks positive paths misses entire failure categories. Test both explicitly.
+
+```typescript
+// ✅ POSITIVE: expected outcome occurs
+expect(user.role).toBe('member');
+expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'Ada' }));
+
+// ✅ NEGATIVE: invalid input is rejected, wrong state is absent
+expect(() => service.create({ name: '' })).toThrow('Name required');
+await expect(service.withdraw('1', 9999)).rejects.toThrow('Insufficient funds');
+expect(result.errors).not.toContain('email'); // valid field must not appear in errors
+expect(repo.save).not.toHaveBeenCalled();     // no side-effect on failure
+```
+
+Negative assertions use Jest matchers — see **jest** skill for `.not`, `.toThrow()`, `.rejects`.
 
 ## Decision Tree
 

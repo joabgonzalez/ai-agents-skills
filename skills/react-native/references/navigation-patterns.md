@@ -2,6 +2,13 @@
 
 > Stack, Tab, Drawer navigation, deep linking, lifecycle
 
+## Core Patterns
+
+- When to Read This
+- Stack Navigator
+- Tab Navigator
+- Drawer Navigator
+
 ## When to Read This
 
 - Setting up React Navigation (Stack, Tab, Drawer)

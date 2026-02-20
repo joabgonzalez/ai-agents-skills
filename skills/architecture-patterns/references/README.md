@@ -48,6 +48,36 @@ Skip architecture patterns. Use technology-specific best practices only.
 
 ---
 
+## File Descriptions
+
+### [backend-integration.md](backend-integration.md)
+
+**Backend architecture pattern implementation examples**
+
+- NestJS and Express project structure with Clean Architecture
+- Dependency injection and module organization
+- Repository pattern and service layer implementation
+- Combining SOLID, Hexagonal, and DDD patterns in Node.js
+
+### [frontend-integration.md](frontend-integration.md)
+
+**Frontend architecture pattern implementation examples**
+
+- React and Redux project structure with SOLID principles
+- Component layer separation and dependency inversion
+- State management with clean architecture boundaries
+- Combining patterns with Astro and React projects
+
+---
+
+## Cross-Reference Map
+
+- [backend-integration.md](backend-integration.md) → Complements SKILL.md by showing full backend implementations (NestJS, Express) of patterns described in the main skill
+- [frontend-integration.md](frontend-integration.md) → Complements SKILL.md by showing full frontend implementations (React, Redux, Astro) of patterns described in the main skill
+- Related skills: [solid](../../solid/SKILL.md), [clean-architecture](../../clean-architecture/SKILL.md), [hexagonal-architecture](../../hexagonal-architecture/SKILL.md), [domain-driven-design](../../domain-driven-design/SKILL.md), [result-pattern](../../result-pattern/SKILL.md), [mediator-pattern](../../mediator-pattern/SKILL.md)
+
+---
+
 ## Back to Main
 
 - [architecture-patterns/SKILL.md](../SKILL.md)

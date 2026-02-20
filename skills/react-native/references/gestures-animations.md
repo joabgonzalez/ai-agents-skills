@@ -2,6 +2,13 @@
 
 > Gesture Handler, Animated API, Reanimated patterns
 
+## Core Patterns
+
+- When to Read This
+- Gesture Handler
+- Animated API
+- Reanimated (v3)
+
 ## When to Read This
 
 - Implementing gestures (tap, pan, swipe)

@@ -3,6 +3,7 @@
 React form state management with built-in Yup validation support. Best for legacy projects or teams familiar with Formik patterns.
 
 **Dependencies:**
+
 ```json
 {
   "formik": ">=2.0.0 <3.0.0",
@@ -606,6 +607,7 @@ const handleSubmit = async (values, { setErrors, setSubmitting }) => {
 | `validationSchema` (Yup) | `resolver: yupResolver(schema)` |
 
 **Migration strategy:**
+
 1. Migrate one form at a time
 2. Start with simple forms
 3. Use same validation schema (Yup) with `yupResolver`

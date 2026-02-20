@@ -1,5 +1,12 @@
 # Astro Middleware
 
+## Core Patterns
+
+- Basic Setup: Export `onRequest` using `defineMiddleware` from `src/middleware.ts` to intercept all SSR requests
+- Authentication: Check cookies, verify tokens, and set `context.locals.user` before passing to pages with `next()`
+- Chaining: Use `sequence()` to compose multiple middleware functions in order (logging → security → auth)
+- Response Modification: Modify response headers (security, caching) after calling `await next()`
+
 > Request/response interception for authentication, logging, redirects
 
 ## When to Read This

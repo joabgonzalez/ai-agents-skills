@@ -2,6 +2,13 @@
 
 > Context API, compound components, render props, and state sharing strategies
 
+## Core Patterns
+
+- When to Read This
+- Context API
+- Context Performance Optimization
+- Compound Components
+
 ## When to Read This
 
 - Sharing state across components

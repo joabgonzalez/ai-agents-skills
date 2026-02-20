@@ -33,7 +33,7 @@ Don't use for:
 
 ## Critical Patterns
 
-### Functional Components with Hooks
+### ✅ REQUIRED: Functional Components with Hooks
 
 ```typescript
 // CORRECT: Functional component with hooks
@@ -49,7 +49,7 @@ class Counter extends React.Component {
 }
 ```
 
-### Proper useEffect Dependencies
+### ✅ REQUIRED: Proper useEffect Dependencies
 
 ```typescript
 // CORRECT: All dependencies included
@@ -63,7 +63,7 @@ useEffect(() => {
 }, []); // userId missing
 ```
 
-### Stable Keys for Lists
+### ✅ REQUIRED: Stable Keys for Lists
 
 ```typescript
 // CORRECT: Unique IDs
@@ -73,7 +73,7 @@ useEffect(() => {
 {items.map((item, index) => <li key={index}>{item.name}</li>)}
 ```
 
-### Never Conditionally Call Hooks
+### ❌ NEVER: Conditionally Call Hooks
 
 ```typescript
 // WRONG: Breaks React rules
@@ -90,8 +90,8 @@ const shouldUse = condition ? value : defaultValue;
 
 - **Simple state (<3 values)?** -> `useState`. See [hooks-advanced.md](references/hooks-advanced.md) (useState Patterns section).
 - **Complex state (4+ related values)?** -> `useReducer`. See [hooks-advanced.md](references/hooks-advanced.md) (useReducer Patterns section).
-- **Side effect?** -> `useEffect` with proper deps. See [useEffect-patterns.md](references/useEffect-patterns.md).
-- **Data fetching?** -> `useEffect` + AbortController. See [useEffect-patterns.md](references/useEffect-patterns.md) (Async Patterns section).
+- **Side effect?** -> `useEffect` with proper deps. See [use-effect-patterns.md](references/use-effect-patterns.md).
+- **Data fetching?** -> `useEffect` + AbortController. See [use-effect-patterns.md](references/use-effect-patterns.md) (Async Patterns section).
 - **Performance issue?** -> Profile first with React DevTools. See [performance.md](references/performance.md).
 - **Expensive computation?** -> `useMemo`. See [performance.md](references/performance.md) (useMemo section).
 - **Callbacks to memoized children?** -> `useCallback`. See [performance.md](references/performance.md) (useCallback section).
@@ -167,6 +167,6 @@ useEffect(() => {
 
 ## Resources
 
-- [references/](references/README.md) -- hooks-advanced, useEffect-patterns, performance, context-patterns, forms-state
+- [references/](references/README.md) -- hooks-advanced, use-effect-patterns, performance, context-patterns, forms-state
 - https://react.dev/
 - https://react.dev/reference/react

@@ -2,6 +2,13 @@
 
 > createSlice, reducers, extraReducers, and immer best practices
 
+## Core Patterns
+
+- When to Read This
+- Basic Slice Creation
+- Immer Patterns
+- Prepare Callbacks
+
 ## When to Read This
 
 - Creating new Redux slices

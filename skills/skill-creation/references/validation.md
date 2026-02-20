@@ -4,6 +4,13 @@ Checklists and validation procedures for ensuring skill quality and standards co
 
 ---
 
+## Core Patterns
+
+- Pre-Creation Validation
+- Structure Validation
+- Frontmatter Validation
+- Content Validation
+
 ## Pre-Creation Validation
 
 ### Context Gathering
@@ -198,8 +205,6 @@ JavaScript? → Use JSDoc
 
 ```
 
-```
-
 ---
 
 ## Reference Files Validation (Complex Skills)
@@ -271,7 +276,7 @@ Refer to a11y for:
 
 # ❌ INVALID: Duplicating code-conventions
 
-## Conventions
+### Conventions
 
 - Use camelCase for variables
 - Use PascalCase for classes

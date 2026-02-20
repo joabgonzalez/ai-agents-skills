@@ -4,6 +4,13 @@
 
 ---
 
+## Core Patterns
+
+- Children Pattern (Composition Over Configuration)
+- Slots Pattern (Named Children)
+- Compound Components
+- Headless Components
+
 ## Children Pattern (Composition Over Configuration)
 
 ```typescript

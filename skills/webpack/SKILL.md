@@ -151,7 +151,7 @@ module.exports = {
 
 ---
 
-## References
+## Resources
 
 - https://webpack.js.org/concepts/
 - https://webpack.js.org/configuration/

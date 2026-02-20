@@ -2,6 +2,14 @@
 
 Layer-based architecture organizing code into concentric circles where dependencies point inward. Inner layers contain business logic, independent of frameworks, UI, databases, or external services.
 
+## Core Patterns
+
+Demonstrates the four concentric layers of Clean Architecture with TypeScript examples spanning backend (Node.js/Express) and frontend (React/Redux). Each layer section shows what belongs there and how it interacts with adjacent layers.
+
+- Domain layer: pure business entities and rules with no external dependencies
+- Application layer: use cases and port interfaces that orchestrate domain logic
+- Infrastructure and Presentation layers: adapters implementing ports and converting external requests
+
 ---
 
 ## The Dependency Rule

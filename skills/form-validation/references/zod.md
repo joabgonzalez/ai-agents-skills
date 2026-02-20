@@ -3,6 +3,7 @@
 Runtime validation with compile-time type safety through automatic type inference. Best for TypeScript projects needing both validation and types from a single source.
 
 **Dependencies:**
+
 ```json
 {
   "zod": ">=3.0.0 <4.0.0"

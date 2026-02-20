@@ -4,6 +4,13 @@ Server Components enable direct database/API access, Suspense enables streaming,
 
 ---
 
+## Core Patterns
+
+- React Server Components (RSC)
+- Suspense for Data Loading
+- Loading and Error States
+- Server Actions
+
 ## React Server Components (RSC)
 
 ### Server vs Client Components

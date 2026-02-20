@@ -22,12 +22,13 @@ Standard test runner for JS/TS projects with built-in mocking, assertions, and c
 - Mocking dependencies and external modules
 
 Don't use for:
+
 - E2E browser testing (use Playwright or Cypress)
 - React component queries (use react-testing-library skill)
 
 ## Critical Patterns
 
-### describe/it Structure
+### ✅ REQUIRED: describe/it Structure
 
 Group related tests with `describe`; name individual cases with `it`.
 
@@ -77,6 +78,28 @@ it('should reject on failure', async () => {
 });
 // WRONG: missing await causes silent pass
 it('silent', () => { expect(service.fetchData()).rejects.toThrow(); });
+```
+
+### Assertion Matchers
+
+Jest matchers cover both sides: what MUST be true (positive) and what MUST NOT be true (negative). This is the API layer — see **unit-testing** skill for the philosophy of when to write each.
+
+```typescript
+// ── Positive matchers (value, shape, behavior) ──
+expect(user.id).toBeDefined();
+expect(user.role).toBe('member');
+expect(users).toContain(newUser);
+expect(mockRepo.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'Ada' }));
+
+// ── Negative matchers (.not modifier) ──
+expect(result.errors).not.toContain('email');
+expect(spy).not.toHaveBeenCalled();
+
+// ── Throw / reject matchers ──
+expect(() => parse(null)).toThrow('Input required');
+expect(() => parse(null)).toThrow(TypeError);
+await expect(service.fetch('bad-id')).rejects.toThrow('Not found');
+await expect(service.fetch('bad-id')).rejects.toBeInstanceOf(NotFoundError);
 ```
 
 ## Decision Tree

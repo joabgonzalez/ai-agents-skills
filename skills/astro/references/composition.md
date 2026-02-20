@@ -1,5 +1,12 @@
 # Astro Composition Patterns
 
+## Core Patterns
+
+- Default and Named Slots: Use `<slot />` for default content and `<slot name="x" />` for multiple named content regions
+- Slot Fallbacks: Provide default content inside `<slot>` elements when no content is passed
+- Conditional Slots: Use `Astro.slots.has('name')` to conditionally render slot wrapper elements
+- Layout Composition: Build page layouts with named slots for head, header, sidebar, and footer regions
+
 > Slot-based composition in Astro components.
 
 ---

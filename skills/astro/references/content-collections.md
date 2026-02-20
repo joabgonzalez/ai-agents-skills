@@ -1,5 +1,12 @@
 # Content Collections
 
+## Core Patterns
+
+- Schema Definition: Use `defineCollection` with Zod schemas in `src/content/config.ts` for type-safe frontmatter validation
+- Querying: Use `getCollection()` with optional filter callbacks to retrieve and filter content entries
+- Dynamic Routes: Combine `getStaticPaths` with `getCollection` to generate pages for each content entry
+- Content Rendering: Call `post.render()` to get the `Content` component for rendering Markdown/MDX bodies
+
 > Type-safe content management with Markdown/MDX
 
 ## When to Read This

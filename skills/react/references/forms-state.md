@@ -2,6 +2,13 @@
 
 > Controlled vs uncontrolled components, validation, multi-step forms, and file uploads
 
+## Core Patterns
+
+- When to Read This
+- Controlled vs Uncontrolled
+- Basic Form Patterns
+- Validation Patterns
+
 ## When to Read This
 
 - Building forms with React

@@ -28,7 +28,7 @@ Don't use for Tailwind (tailwindcss skill) or MUI sx (mui skill).
 
 ## Critical Patterns
 
-### Custom Properties for Theming
+### ✅ REQUIRED: Custom Properties for Theming
 
 ```css
 /* CORRECT */
@@ -48,7 +48,7 @@ Don't use for Tailwind (tailwindcss skill) or MUI sx (mui skill).
 }
 ```
 
-### Grid/Flexbox Over Floats
+### ✅ REQUIRED: Grid/Flexbox Over Floats
 
 ```css
 /* CORRECT */
@@ -65,7 +65,7 @@ Don't use for Tailwind (tailwindcss skill) or MUI sx (mui skill).
 }
 ```
 
-### Respect prefers-reduced-motion
+### ✅ REQUIRED: Respect prefers-reduced-motion
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -76,7 +76,7 @@ Don't use for Tailwind (tailwindcss skill) or MUI sx (mui skill).
 }
 ```
 
-### Modern Responsive Patterns
+### ✅ REQUIRED: Modern Responsive Patterns
 
 ```css
 /* Fluid typography */
@@ -91,7 +91,7 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 .video-container { aspect-ratio: 16 / 9; }
 ```
 
-### Modern Selectors
+### ✅ REQUIRED: Modern Selectors
 
 ```css
 :is(h1, h2, h3) { color: var(--color-heading); }
@@ -99,7 +99,7 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 .card:has(img) { display: grid; }             /* parent selection */
 ```
 
-### Cascade Layers
+### ✅ REQUIRED: Cascade Layers
 
 ```css
 @layer reset, base, components, utilities;

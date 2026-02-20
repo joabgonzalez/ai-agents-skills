@@ -19,6 +19,7 @@ Iron law: "Evidence before claims." Gate function ensures verification happens b
 - Ensuring evidence exists before assertions
 
 Don't use for:
+
 - Code review (use code-review skill)
 - Debugging (use systematic-debugging skill)
 
@@ -54,6 +55,7 @@ NEVER claim completion without verification evidence.
 ```
 
 **Why evidence first?**
+
 - Prevents false positives (claiming done when it's not)
 - Creates audit trail
 - Builds confidence in completion
@@ -76,10 +78,12 @@ Every verification follows this sequence. NEVER skip steps.
 2. **RUN**: `npm run build`
 3. **READ**:
    ```
+
    > tsc --project tsconfig.json
 
    Successfully compiled TypeScript files
    Time: 2.3s
+
    ```
 4. **VERIFY**: ✅ Build succeeded
    - 0 errors
@@ -95,6 +99,7 @@ Every verification follows this sequence. NEVER skip steps.
 2. **RUN**: `npm test -- UserService.test.ts`
 3. **READ**:
    ```
+
    PASS  tests/UserService.test.ts
      UserService
        ✓ registerUser creates user (45ms)
@@ -105,6 +110,7 @@ Every verification follows this sequence. NEVER skip steps.
 
    Tests: 5 passed, 5 total
    Time: 1.2s
+
    ```
 4. **VERIFY**: ✅ All tests green
    - 5/5 passed
@@ -133,12 +139,14 @@ Each task has explicit verification steps.
     "user": { "id": "123", "email": "test@example.com" }
   }
   ```
+
 - [ ] 4. VERIFY:
   - ✅ Status 200
   - ✅ Token is valid JWT
   - ✅ Token payload contains user ID
   - ✅ Password not in response
 - [ ] 5. CLAIM: ✅ Login endpoint verified
+
 ```
 
 ### ❌ NEVER: Skip Verification Steps
@@ -222,6 +230,7 @@ Verification blocked (environment issue)?
 **Slow verification** (>5 min): Note duration. Example: "Ran E2E suite (8 min) → 12/12 passed ✅".
 
 **Manual verification**: When automation unavailable, document manual steps explicitly.
+
 ```markdown
 1. IDENTIFY: Registration form accepts valid input
 2. RUN: Manually open http://localhost:3000/register
@@ -234,6 +243,7 @@ Verification blocked (environment issue)?
 ```
 
 **Partial verification**: When full verification blocked, verify what's possible.
+
 ```markdown
 ## Task: Deploy to staging
 
@@ -260,7 +270,7 @@ Verification blocked (environment issue)?
 
 ---
 
-## Example: Multi-Task Verification
+## Example
 
 ```markdown
 # Feature Verification: User Authentication
@@ -273,6 +283,7 @@ Verification blocked (environment issue)?
 2. **RUN**: `npm test -- auth-register.test.ts`
 3. **READ**:
    ```
+
    PASS tests/auth-register.test.ts
      POST /auth/register
        ✓ creates user with valid data (45ms)
@@ -283,6 +294,7 @@ Verification blocked (environment issue)?
        ✓ enforces min password length (9ms)
 
    Tests: 6 passed, 6 total
+
    ```
 4. **VERIFY**: ✅ All tests passed
 5. **CLAIM**: ✅ Registration endpoint verified
@@ -297,6 +309,7 @@ Verification blocked (environment issue)?
 2. **RUN**: `npm test -- auth-login.test.ts`
 3. **READ**:
    ```
+
    PASS tests/auth-login.test.ts
      POST /auth/login
        ✓ returns JWT on valid credentials (67ms)
@@ -305,6 +318,7 @@ Verification blocked (environment issue)?
        ✓ JWT contains user ID (12ms)
 
    Tests: 4 passed, 4 total
+
    ```
 4. **VERIFY**: ✅ All tests passed
 5. **CLAIM**: ✅ Login endpoint verified
@@ -317,12 +331,14 @@ Verification blocked (environment issue)?
 2. **RUN**: `npm test -- auth-integration.test.ts`
 3. **READ**:
    ```
+
    PASS tests/auth-integration.test.ts
      Authentication flow
        ✓ can register and immediately login (156ms)
        ✓ login fails before registration (45ms)
 
    Tests: 2 passed, 2 total
+
    ```
 4. **VERIFY**: ✅ Integration tests passed
 5. **CLAIM**: ✅ Full auth flow verified
@@ -345,6 +361,7 @@ npm test -- auth
 ```
 
 **Claim**: ✅ User authentication feature complete and verified
+
 ```
 
 ---

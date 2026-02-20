@@ -19,6 +19,7 @@ Centralizes communication between components through a mediator instead of direc
 - Complex form validation where many fields affect each other
 
 Don't use for:
+
 - Simple parent-child communication (props/callbacks are fine)
 - Two components that genuinely belong together
 - Systems where central coordination becomes a bottleneck

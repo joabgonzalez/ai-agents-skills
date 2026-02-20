@@ -8,6 +8,7 @@ description: "Schema validation for JavaScript objects"
 Schema-based validation for JavaScript and TypeScript with async support and built-in Formik integration. Best for legacy projects or when Formik is in use.
 
 **Dependencies:**
+
 ```json
 {
   "yup": ">=1.0.0 <2.0.0"

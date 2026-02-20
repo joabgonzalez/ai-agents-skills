@@ -202,7 +202,7 @@ Tokens expire after 1 hour. Use the refresh endpoint to obtain a new token.
 
 ---
 
-## References
+## Resources
 
 - https://www.writethedocs.org/guide/writing/style-guides/
 - https://developers.google.com/style

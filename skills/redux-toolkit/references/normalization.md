@@ -2,6 +2,13 @@
 
 > createEntityAdapter, normalized state, and CRUD operations
 
+## Core Patterns
+
+- When to Read This
+- Why Normalize?
+- createEntityAdapter
+- CRUD Operations
+
 ## When to Read This
 
 - Managing collections of items (users, posts, products)

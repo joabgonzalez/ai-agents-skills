@@ -24,7 +24,7 @@ Don't use for TypeScript (typescript skill), React (react skill), or Node.js bac
 
 ## Critical Patterns
 
-### ES Module Imports
+### ✅ REQUIRED: ES Module Imports
 
 ```javascript
 // CORRECT: Named imports (explicit, tree-shakeable)
@@ -43,7 +43,7 @@ async function doWork() {
 }
 ```
 
-### No Dead Code
+### ✅ REQUIRED: No Dead Code
 
 ```javascript
 // WRONG: Unused variables and imports
@@ -56,7 +56,7 @@ import { needed } from "./lib";
 const count = needed();
 ```
 
-### const/let, Never var
+### ✅ REQUIRED: const/let, Never var
 
 ```javascript
 // CORRECT
@@ -67,7 +67,7 @@ let count = 0;
 var count = 0;
 ```
 
-### async/await for Async Operations
+### ✅ REQUIRED: async/await for Async Operations
 
 ```javascript
 // CORRECT
@@ -88,7 +88,7 @@ function fetchData() {
 }
 ```
 
-### Optional Chaining and Nullish Coalescing
+### ✅ REQUIRED: Optional Chaining and Nullish Coalescing
 
 ```javascript
 // CORRECT: safe access + nullish coalescing
@@ -103,7 +103,7 @@ const port = config.port || 3000; // 0 fallbacks to 3000!
 const name = (user && user.profile && user.profile.name) || "Anonymous";
 ```
 
-### Explicit Boolean Coercion
+### ✅ REQUIRED: Explicit Boolean Coercion
 
 ```javascript
 // CORRECT
@@ -114,7 +114,7 @@ const isValid = Boolean(value);
 if (data) { /* unclear: existence or truthiness? */ }
 ```
 
-### Promise.all for Parallel Operations
+### ✅ REQUIRED: Promise.all for Parallel Operations
 
 ```javascript
 // CORRECT: parallel

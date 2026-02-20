@@ -2,6 +2,13 @@
 
 > Complete guide to skill frontmatter requirements, YAML syntax, and validation
 
+## Core Patterns
+
+- Required Fields
+- Optional Fields
+- Complete Frontmatter Examples
+- Formatting Rules
+
 ## Required Fields
 
 ### name (required)
@@ -30,6 +37,7 @@ description: "This skill provides comprehensive guidance for TypeScript. Trigger
 ```
 
 Rules:
+
 - Include "Trigger:" clause (mandatory)
 - Under 150 characters
 - Eliminate filler words
@@ -233,12 +241,14 @@ Schema: [frontmatter-schema.json](../assets/frontmatter-schema.json) (reference 
 ## Common Mistakes
 
 **Missing Trigger:**
+
 ```yaml
 description: "TypeScript patterns."                           # ❌
 description: "TypeScript patterns. Trigger: When using TS."   # ✅
 ```
 
 **Empty arrays/objects:**
+
 ```yaml
 metadata:
   skills: []              # ❌ Omit entirely
@@ -246,6 +256,7 @@ metadata:
 ```
 
 **Wrong array syntax:**
+
 ```yaml
 metadata:
   skills: ["code-conventions"] # ❌
@@ -254,6 +265,7 @@ metadata:
 ```
 
 **Name mismatch:**
+
 ```yaml
 # Directory: skills/react-native/
 name: react_native    # ❌ Underscore

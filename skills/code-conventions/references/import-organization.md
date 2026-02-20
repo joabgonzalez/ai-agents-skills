@@ -2,6 +2,13 @@
 
 > Rules for grouping, ordering, and typing imports.
 
+## Core Patterns
+
+- Import Grouping Order
+- Patterns
+- Common Pitfalls
+- Related Topics
+
 ## Import Grouping Order
 
 Group imports in this order, with blank lines between groups:

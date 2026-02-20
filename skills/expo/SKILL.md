@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
 - Test iOS and Android
 - Handle offline
 
-## References
+## Resources
 
 - https://docs.expo.dev/
 - https://reactnative.dev/

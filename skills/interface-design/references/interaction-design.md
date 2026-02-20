@@ -4,6 +4,13 @@
 
 Interaction design covers the temporal and kinetic dimensions of UI: motion timing, micro-interactions, feedback patterns, and gesture-based interactions.
 
+## Core Patterns
+
+- Motion Timing Guidelines
+- Core Interaction Categories
+- Performance
+- Micro-Interaction Examples
+
 ## Motion Timing Guidelines
 
 | Duration | Use Case | Example | Reasoning |
@@ -60,6 +67,7 @@ const Loading = () => (
 ```
 
 **Skeleton principles:**
+
 - Match final content structure (heading positions, image sizes)
 - Use subtle animation (pulse, shimmer)
 - Show immediately (0ms delay)
@@ -79,6 +87,7 @@ const Loading = () => (
 ```
 
 **When to use:**
+
 - **Skeleton:** Page/component loading (known structure)
 - **Determinate:** File uploads, multi-step forms (known progress)
 - **Indeterminate:** API calls, background tasks (unknown duration)
@@ -114,6 +123,7 @@ const Toggle = ({ isOn }: { isOn: boolean }) => {
 ```
 
 **Spring config presets:**
+
 - `default`: tension: 170, friction: 26 (gentle)
 - `gentle`: tension: 120, friction: 14 (slow, smooth)
 - `wobbly`: tension: 180, friction: 12 (bouncy)
@@ -279,6 +289,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 ```
 
 **AnimatePresence modes:**
+
 - `wait`: Exit completes before enter starts (no overlap)
 - `sync`: Exit and enter run simultaneously
 - `popLayout`: Removes exiting element from layout immediately
@@ -328,6 +339,7 @@ Drag, swipe, constraint-based manipulations.
 ```
 
 **Drag properties:**
+
 - `drag`: Direction (`"x"`, `"y"`, or `true` for both)
 - `dragConstraints`: Boundaries (object or ref to parent)
 - `dragElastic`: Stretch beyond constraints (0 = rigid, 1 = infinite)
@@ -391,6 +403,7 @@ const SwipeToDismiss = ({ onDismiss, children }: Props) => (
 ```
 
 **Performance impact:**
+
 - `transform`, `opacity`: ~1ms (GPU)
 - `width`, `height`: ~10ms (CPU layout)
 - `top`, `left`, `margin`: ~10ms (CPU layout)

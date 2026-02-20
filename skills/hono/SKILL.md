@@ -14,19 +14,23 @@ metadata:
 Lightweight, type-safe APIs for edge/serverless platforms.
 
 ## When to Use
+
 - Edge/serverless APIs
 - Lightweight routing/middleware
 - Edge platforms (Cloudflare Workers, Deno Deploy, Bun)
 
 Don't use for:
+
 - Full-stack SSR + React (use Next.js)
 - Heavy ORM/session state (use Express/NestJS)
 - Long-running processes (use Node.js server)
 
 ## Critical Patterns
 
-### Route Chaining
+### ✅ REQUIRED: Route Chaining
+
 Method chaining for compact route groups.
+
 ```typescript
 // CORRECT: chained routes on a single app instance
 const app = new Hono()
@@ -36,8 +40,10 @@ const app = new Hono()
 // WRONG: separate app declarations or loose functions
 ```
 
-### Middleware Composition
+### ✅ REQUIRED: Middleware Composition
+
 `app.use()` for cross-cutting concerns; scope to paths.
+
 ```typescript
 // CORRECT: scoped middleware
 app.use("*", logger());
@@ -46,8 +52,10 @@ app.use("/api/*", bearerAuth({ token: SECRET }));
 // WRONG: auth middleware applied globally to public routes
 ```
 
-### Zod Validation with zValidator
+### ✅ REQUIRED: Zod Validation with zValidator
+
 `@hono/zod-validator` for body/param/query validation.
+
 ```typescript
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
@@ -58,8 +66,10 @@ app.post("/users", zValidator("json", CreateUser), (c) => {
 });
 ```
 
-### Context Helpers
+### ✅ REQUIRED: Context Helpers
+
 Use `c.json()`, `c.text()`, `c.html()` over manual Response.
+
 ```typescript
 // CORRECT: context helpers set headers automatically
 app.get("/health", (c) => c.text("ok"));
@@ -68,8 +78,10 @@ app.get("/old", (c) => c.redirect("/new", 301));
 // WRONG: new Response(JSON.stringify({ status: "up" }))
 ```
 
-### Environment Bindings (Cloudflare Workers)
+### ✅ REQUIRED: Environment Bindings (Cloudflare Workers)
+
 Access bindings via generic type parameter.
+
 ```typescript
 type Env = { Bindings: { DB: D1Database; KV: KVNamespace } };
 const app = new Hono<Env>();
@@ -80,6 +92,7 @@ app.get("/items", async (c) => {
 ```
 
 ## Decision Tree
+
 - Cloudflare Workers? -> Use `Hono<{ Bindings: ... }>` for typed env
 - Need validation? -> Use `@hono/zod-validator` middleware
 - Sub-routes? -> Use `app.route("/prefix", subApp)`
@@ -89,6 +102,7 @@ app.get("/items", async (c) => {
 - Multiple platforms? -> Use adapter exports (`hono/cloudflare-workers`, `hono/bun`)
 
 ## Example
+
 ```typescript
 import { Hono } from "hono";
 import { logger } from "hono/logger";
@@ -106,6 +120,7 @@ export default app;
 ```
 
 ## Edge Cases
+
 - **Cold start**: Hono ~14KB but bundled deps inflate; tree-shake aggressively.
 - **Platform limits**: CF Workers 128MB, 10ms CPU (free)/30s (paid); Deno Deploy 50ms CPU.
 - **Streaming**: Use `c.stream()` for chunked; not all platforms support full streaming.
@@ -114,6 +129,7 @@ export default app;
 - **CORS**: Register `cors()` before handlers for OPTIONS.
 
 ## Checklist
+
 - [ ] Routes use method chaining or `app.route()` for sub-apps
 - [ ] Middleware is scoped to relevant paths, not applied globally when unnecessary
 - [ ] Request bodies are validated with `zValidator` and Zod schemas
@@ -123,6 +139,7 @@ export default app;
 - [ ] The final export matches the target platform adapter
 
 ## Resources
+
 - [Hono Official Documentation](https://hono.dev/)
 - [Hono Middleware List](https://hono.dev/docs/middleware/builtin/basic-auth)
 - [Hono Zod Validator](https://github.com/honojs/middleware/tree/main/packages/zod-validator)

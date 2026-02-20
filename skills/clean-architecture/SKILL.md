@@ -19,6 +19,7 @@ Organizes code into concentric layers where dependencies point inward. Business 
 - Building multi-layered services
 
 Don't use for:
+
 - Simple CRUD APIs without real business rules
 - Scripts and utilities
 - Prototypes
@@ -83,9 +84,7 @@ class StripePaymentGateway     implements IPaymentGateway  { ... }
 ❌ Controller has business logic: app.post('/orders', (req, res) => { if (items.length === 0)... })
 ```
 
----
-
-## Folder Structure
+### ✅ REQUIRED: Standard Folder Structure
 
 ```
 src/
@@ -120,6 +119,47 @@ Frontend or backend?
 ```
 
 ---
+
+## Example
+
+`UserRegistration` use case passing through all four clean architecture layers.
+
+```typescript
+// Domain layer — pure business rule, no imports from outer layers
+class User {
+  static create(email: string, passwordHash: string): User {
+    if (!email.includes("@")) throw new DomainError("Invalid email");
+    return new User(crypto.randomUUID(), email, passwordHash);
+  }
+}
+
+// Application layer — defines ports, orchestrates domain
+interface IUserRepository { save(user: User): Promise<void>; findByEmail(email: string): Promise<User | null>; }
+interface IHashService    { hash(plain: string): Promise<string>; }
+
+class RegisterUserUseCase {
+  constructor(private repo: IUserRepository, private hash: IHashService) {}
+  async execute(email: string, password: string): Promise<Result<User>> {
+    if (await this.repo.findByEmail(email)) return Result.fail("Email already registered");
+    const hashed = await this.hash.hash(password);
+    const user = User.create(email, hashed);
+    await this.repo.save(user);
+    return Result.ok(user);
+  }
+}
+
+// Infrastructure layer — implements ports with real tech
+class PostgresUserRepository implements IUserRepository { /* prisma calls */ }
+class BcryptHashService    implements IHashService    { /* bcrypt calls */ }
+
+// Presentation layer — HTTP concern only
+app.post("/api/v1/users", async (req, res) => {
+  const result = await registerUser.execute(req.body.email, req.body.password);
+  result.isSuccess ? res.status(201).json(result.value) : res.status(400).json({ error: result.error });
+});
+```
+
+Dependency rule satisfied: Domain ← Application ← Infrastructure / Presentation. Domain has zero external imports.
 
 ## Edge Cases
 

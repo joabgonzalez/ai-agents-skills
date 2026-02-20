@@ -2,6 +2,12 @@
 
 > Consistent naming rules for variables, functions, classes, files, and constants.
 
+## Core Patterns
+
+- Core Rules
+- Patterns
+- Related Topics
+
 ## Core Rules
 
 | Type | Convention | Example |

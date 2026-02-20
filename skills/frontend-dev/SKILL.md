@@ -20,6 +20,7 @@ Universal frontend workflow guiding componentization, state management, testing,
 - Reviewing code quality
 
 Don't use for:
+
 - Technology-specific code (use react, typescript skills)
 - Backend development (use backend-dev skill)
 
@@ -32,6 +33,7 @@ Don't use for:
 Build small, reusable components that do one thing well.
 
 **Decision Tree**:
+
 - Component doing >1 thing? → Split into focused components
 - Logic mixed with presentation? → Extract custom hooks
 - Component >100 lines? → Decompose into smaller units
@@ -39,6 +41,7 @@ Build small, reusable components that do one thing well.
 **Implementation**: Delegate to [react](../react/SKILL.md) for component patterns
 
 **Example Decomposition**:
+
 ```
 Monolithic UserDashboard (200 lines)
   ↓
@@ -51,6 +54,7 @@ UserDashboard (layout coordinator, 20 lines)
 ```
 
 **When to Stop Decomposing**:
+
 - Component <30 lines AND single responsibility
 - No reusable parts remain
 - Further splitting hurts readability
@@ -60,6 +64,7 @@ UserDashboard (layout coordinator, 20 lines)
 Keep state as local as possible. Lift to global only when necessary.
 
 **Decision Tree**:
+
 ```
 Need state?
   → Used by 1 component? → Local state (useState)
@@ -78,6 +83,7 @@ Derived state?
 **Implementation**: Delegate to [react](../react/SKILL.md) for state patterns
 
 **Colocated State Examples**:
+
 - Modal open/closed → Local state in Modal component
 - Form input values → Local state in Form component (or form library)
 - Theme (light/dark) → Global context (shared across app)
@@ -89,6 +95,7 @@ Derived state?
 Test behavior, not implementation. Simulate real user interactions.
 
 **Decision Tree**:
+
 ```
 What to test?
   → User flows (registration, checkout)? → Integration tests (react-testing-library)
@@ -103,6 +110,7 @@ How to query elements?
 **Implementation**: Delegate to [react-testing-library](../react-testing-library/SKILL.md) and [unit-testing](../unit-testing/SKILL.md)
 
 **Testing Priorities**:
+
 1. Critical user flows (login, checkout, payment)
 2. Error states (network failure, validation errors)
 3. Edge cases (empty state, loading, no permissions)
@@ -113,6 +121,7 @@ How to query elements?
 Use environment variables for configuration. Never hardcode.
 
 **Decision Tree**:
+
 ```
 Need configuration?
   → API URL? → VITE_API_URL / NEXT_PUBLIC_API_URL
@@ -127,6 +136,7 @@ Sensitive data (API keys)?
 **Implementation**: Delegate to framework-specific skills ([next](../next/SKILL.md), [vite](../vite/SKILL.md))
 
 **Configuration Pattern**:
+
 ```
 config.ts
   → apiUrl (from env var, fallback to localhost)
@@ -141,11 +151,7 @@ config.ts
   → Actual values (NOT committed)
 ```
 
----
-
-## Architectural Decision-Making
-
-### Component Hierarchy
+### ✅ REQUIRED: Component Hierarchy
 
 **When designing component tree**:
 
@@ -155,13 +161,15 @@ config.ts
 4. **Separate concerns**: Layout components (div, flex) vs logic components (data fetching, state)
 
 **Red Flags**:
+
 - Props passed through 3+ levels without being used
 - Parent component knowing too much about child internals
 - Component receiving >8 props (too many responsibilities)
 
-### Data Fetching Strategy
+### ✅ REQUIRED: Data Fetching Strategy
 
 **Decision Tree**:
+
 ```
 Fetching data?
   → Static content (marketing page)? → SSG (Static Site Generation)
@@ -176,14 +184,16 @@ Which library?
 
 **Implementation**: Delegate to framework skills ([next](../next/SKILL.md), [react](../react/SKILL.md))
 
-### Performance Optimization
+### ✅ REQUIRED: Performance Optimization
 
 **When to optimize**:
+
 1. Measure FIRST (React DevTools Profiler, Lighthouse)
 2. Identify bottlenecks (slow renders, large bundles)
 3. Apply targeted fixes (NOT premature optimization)
 
 **Common Optimizations**:
+
 - Lazy load routes → React.lazy + Suspense
 - Lazy load images → Intersection Observer
 - Memoize expensive calculations → useMemo
@@ -191,6 +201,7 @@ Which library?
 - Code splitting → Dynamic imports
 
 **Red Flags (Premature Optimization)**:
+
 - Using React.memo everywhere "just in case"
 - useCallback for simple functions
 - Optimizing before measuring
@@ -199,12 +210,64 @@ Which library?
 
 ## Decision Tree
 
-- New feature? → Create isolated, testable component
-- State needed? → Use local or global store
-- Deployment? → Automate with CI/CD
-- Bug found? → Add/expand test coverage
+```
+New feature?
+  → Create isolated, testable component
+
+State needed?
+  → Local state first; global store only when shared across components
+
+Deployment?
+  → Automate with CI/CD (lint → test → build → deploy)
+
+Bug found?
+  → Add/expand test coverage before fixing
+```
 
 ---
+
+## Example
+
+Building a product list page: component decomposition, state, data fetching, and testing.
+
+```typescript
+// 1. Component decomposition — each piece has one responsibility
+// ProductListPage.tsx (layout coordinator, ~25 lines)
+function ProductListPage() {
+  const { data: products, isLoading, error } = useProducts(); // React Query: server state
+  const [search, setSearch] = useState("");                   // local state: UI only
+
+  if (isLoading) return <LoadingSpinner />;
+  if (error)     return <ErrorBanner message={error.message} />;
+
+  const filtered = products.filter(p => p.name.includes(search)); // derived — no useState
+  return (
+    <>
+      <SearchInput value={search} onChange={setSearch} />
+      <ProductGrid products={filtered} />
+    </>
+  );
+}
+
+// ProductGrid.tsx — renders list, no data fetching concern
+// ProductCard.tsx — single product display, receives data via props
+
+// 2. Data fetching — React Query manages caching + loading/error states
+function useProducts() {
+  return useQuery({ queryKey: ["products"], queryFn: () => api.get("/products") });
+}
+
+// 3. Test — user-centric, tests behavior not implementation
+it("filters products by search input", async () => {
+  render(<ProductListPage />);
+  await screen.findByRole("list");                          // wait for data
+  await userEvent.type(screen.getByRole("searchbox"), "shoe");
+  expect(screen.getByText("Running Shoe")).toBeInTheDocument();
+  expect(screen.queryByText("Blue T-Shirt")).not.toBeInTheDocument();
+});
+```
+
+Patterns applied: component decomposition by responsibility, local state for UI, React Query for server state, derived state computed during render, `getByRole` accessible queries.
 
 ## Edge Cases
 
@@ -239,7 +302,7 @@ Which library?
 
 ---
 
-## Workflow Integration
+## Workflow
 
 **E2E Development Workflow**:
 

@@ -2,6 +2,14 @@
 
 Philosophy and pattern set for building software that closely models complex business domains through collaboration between domain experts and developers using shared language.
 
+## Core Patterns
+
+Covers both Strategic DDD (Ubiquitous Language, Bounded Contexts) and Tactical DDD building blocks with complete TypeScript examples for backend and frontend applications. Includes anti-patterns and a summary decision guide for when to apply DDD.
+
+- Strategic patterns: Ubiquitous Language and Bounded Context with separate Product models per context
+- Tactical building blocks: Entity, Value Object, Aggregate, Repository, Domain Service, Domain Event
+- Anti-patterns: Anemic Domain Model and exposing internal collections
+
 ---
 
 ## Strategic DDD

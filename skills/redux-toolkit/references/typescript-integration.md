@@ -2,6 +2,13 @@
 
 > Type-safe Redux setup, typed hooks, RootState, AppDispatch, and slice typing
 
+## Core Patterns
+
+- When to Read This
+- Store Setup
+- Typed Hooks
+- Slice Typing
+
 ## When to Read This
 
 - Setting up Redux with TypeScript

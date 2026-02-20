@@ -336,7 +336,7 @@ your-project/
 
 ---
 
-## References
+## Resources
 
 - [agents.md spec](https://agents.md/)
 - [Agent Skills](https://agentskills.io/)

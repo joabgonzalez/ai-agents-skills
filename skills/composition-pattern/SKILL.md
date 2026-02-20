@@ -19,6 +19,7 @@ Build flexible, reusable UI by accepting dynamic content instead of configuratio
 - Reducing prop drilling through composition
 
 Don't use for:
+
 - Simple one-off components with fixed content
 - Components with no content variation between uses
 
@@ -45,6 +46,7 @@ Accept content dynamically — don't enumerate content via props.
 **Rule**: If content varies between uses, accept children/slots instead of individual props.
 
 **Framework implementations**:
+
 - React: `children` prop + named `ReactNode` props for slots
 - Vue/Svelte/Astro/Web Components: `<slot>` elements with `name` attribute
 - Angular: `<ng-content select="[slot-name]">`
@@ -150,6 +152,46 @@ Building a component API?
 ```
 
 ---
+
+## Example
+
+Building a composable `Card` component with named slots for header, body, and footer.
+
+```typescript
+// Card component defines structure; consumers control all content
+interface CardProps {
+  header?: React.ReactNode;   // named slot
+  footer?: React.ReactNode;   // named slot
+  children: React.ReactNode;  // default slot (body)
+  className?: string;
+}
+
+function Card({ header, footer, children, className }: CardProps) {
+  return (
+    <div className={`card ${className ?? ""}`}>
+      {header && <div className="card-header">{header}</div>}
+      <div className="card-body">{children}</div>
+      {footer && <div className="card-footer">{footer}</div>}
+    </div>
+  );
+}
+
+// Consumer composes freely — no configuration props needed
+<Card
+  header={<h2>Order Summary</h2>}
+  footer={<Button onClick={checkout}>Checkout</Button>}
+>
+  <OrderItemList items={cart.items} />
+  <PriceSummary total={cart.total} />
+</Card>
+
+// Same Card, completely different content — no prop changes to Card itself
+<Card header={<UserAvatar user={user} />}>
+  <ProfileDetails user={user} />
+</Card>
+```
+
+Patterns applied: children as default slot, named ReactNode props for distinct regions, optional slots (`header && ...`), consumer controls all content.
 
 ## Edge Cases
 

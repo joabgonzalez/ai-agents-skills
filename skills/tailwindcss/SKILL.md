@@ -28,7 +28,7 @@ Don't use for: MUI (use mui skill), plain CSS (use css skill), complex animation
 
 ## Critical Patterns
 
-### Use Utility Classes
+### ✅ REQUIRED: Use Utility Classes
 
 ```html
 <!-- CORRECT -->
@@ -41,7 +41,7 @@ Don't use for: MUI (use mui skill), plain CSS (use css skill), complex animation
 <style>.custom-button { background: blue; padding: 8px 16px; }</style>
 ```
 
-### Configure Theme (Tailwind 3)
+### ✅ REQUIRED: Configure Theme (Tailwind 3)
 
 ```javascript
 // CORRECT: extend theme
@@ -57,7 +57,7 @@ module.exports = {
 // <div class="bg-[#1976d2]"> — use theme colors instead
 ```
 
-### Define Themes with @theme (Tailwind 4+)
+### ✅ REQUIRED: Define Themes with @theme (Tailwind 4+)
 
 ```css
 /* CORRECT */
@@ -72,7 +72,7 @@ module.exports = {
 /* WRONG in Tailwind 4+: using tailwind.config.js for theme tokens */
 ```
 
-### Avoid @apply Overuse
+### ❌ NEVER: @apply Overuse
 
 ```css
 /* WRONG: defeats utility-first purpose */
@@ -83,7 +83,7 @@ module.exports = {
 /* CORRECT: use utilities directly in HTML */
 ```
 
-### @apply for Shared Component Patterns Only
+### ✅ REQUIRED: @apply for Shared Component Patterns Only
 
 ```css
 /* CORRECT: reusable patterns shared across multiple components */
@@ -94,7 +94,7 @@ module.exports = {
 /* WRONG: single-use classes — use utilities directly */
 ```
 
-## Design System Patterns
+## Conventions
 
 ### Token Hierarchy
 

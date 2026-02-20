@@ -2,6 +2,13 @@
 
 > tsconfig.json deep dive, strict mode, and compiler options
 
+## Core Patterns
+
+- When to Read This
+- Strict Mode (REQUIRED)
+- Module Resolution
+- Path Mapping
+
 ## When to Read This
 
 - Setting up new TypeScript project

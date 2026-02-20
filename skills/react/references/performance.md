@@ -2,6 +2,13 @@
 
 > useMemo, useCallback, React.memo, code splitting, and profiling strategies
 
+## Core Patterns
+
+- When to Read This
+- Profiling First
+- useMemo
+- useCallback
+
 ## When to Read This
 
 - Components re-rendering unnecessarily

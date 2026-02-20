@@ -3,6 +3,7 @@
 Most mature JavaScript/TypeScript linter with the largest plugin ecosystem. Best for enterprise projects needing custom rules and framework-specific plugins.
 
 **Dependencies:**
+
 ```json
 {
   "eslint": ">=8.0.0 <10.0.0",

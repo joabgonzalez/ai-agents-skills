@@ -21,6 +21,7 @@ Two-stage code review: verify spec compliance FIRST, then assess code quality. N
 - Ensuring spec compliance before quality assessment
 
 Don't use for:
+
 - General critical feedback on prompts/decisions (use critical-partner)
 - Debugging errors (use systematic-debugging)
 
@@ -31,11 +32,13 @@ Don't use for:
 ### ✅ REQUIRED: Two-Stage Review (NEVER Reversed)
 
 **Stage 1: Spec Compliance** (MUST come first)
+
 - Does code meet requirements?
 - Are all acceptance criteria satisfied?
 - Does behavior match specification?
 
 **Stage 2: Code Quality** (ONLY after Stage 1 passes)
+
 - Is code maintainable?
 - Are best practices followed?
 - Performance considerations?
@@ -61,6 +64,7 @@ Don't use for:
 ```
 
 **Why this order?**
+
 - Spec = correctness (does it work?)
 - Quality = maintainability (is it good?)
 - No point reviewing quality if behavior is wrong
@@ -96,6 +100,7 @@ Review each file separately with clear structure.
 ```
 
 **Benefits:**
+
 - Clear scope per file
 - Easy to navigate review
 - Prevents context switching
@@ -120,6 +125,7 @@ try {
 ```
 
 **Fix**: Log error and provide user-friendly message
+
 ```typescript
 try {
   await updateUser(id, data);
@@ -132,6 +138,7 @@ try {
   };
 }
 ```
+
 ```
 
 **Evidence includes:**
@@ -232,7 +239,7 @@ Reviewing architectural decisions?
 
 ---
 
-## Example: Complete Review
+## Example
 
 ```markdown
 # Code Review: User Registration Feature
@@ -268,6 +275,7 @@ const hashed = await bcrypt.hash(password, 10);
 ```
 
 **Line 45**: Extract magic number to constant
+
 ```typescript
 // Current
 if (password.length < 8) throw new Error('Password too short');
@@ -278,6 +286,7 @@ if (password.length < MIN_PASSWORD_LENGTH) throw new ValidationError('Password t
 ```
 
 **Line 67-70**: Add JSDoc for public method
+
 ```typescript
 /**
  * Registers a new user with email and password
@@ -319,16 +328,19 @@ export async function registerUser(email: string, password: string): Promise<Use
 **Spec Compliance**: ✅ PASS (all requirements met)
 
 **Code Quality**: ⚠️ PASS with minor improvements
+
 - 3 suggestions (non-blocking)
 - All suggestions are enhancements, not fixes
 - Code is production-ready as-is
 
 **Security**: ✅ No issues
+
 - Passwords properly hashed
 - Input validation present
 - Error messages don't leak sensitive info
 
 **Recommendation**: ✅ APPROVE with suggestions
+
 ```
 
 ---

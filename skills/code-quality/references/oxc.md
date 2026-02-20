@@ -5,6 +5,7 @@ Experimental Rust-based JavaScript/TypeScript toolchain with linter, formatter, 
 **Status:** Experimental (2026). API and rules may change between versions.
 
 **Dependencies:**
+
 ```json
 {
   "oxlint": "latest"
@@ -71,12 +72,14 @@ npx oxlint --config oxlintrc.json .
 ## When to Use oxc
 
 **Good fit:**
+
 - CI/CD where lint speed is critical (10x-100x faster than ESLint)
 - Large monorepos where ESLint is slow
 - As complement to ESLint (run oxc first for fast feedback, ESLint for full check)
 - Projects willing to accept experimental tooling
 
 **Bad fit:**
+
 - Need specific ESLint plugins (react-hooks, import, etc.)
 - Need stable, production-proven linting rules
 - Team unfamiliar with experimental tools

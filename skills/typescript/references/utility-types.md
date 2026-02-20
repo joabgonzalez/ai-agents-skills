@@ -2,6 +2,13 @@
 
 > Complete guide to 30+ built-in utility types for type transformations
 
+## Core Patterns
+
+- When to Read This
+- Partial<Type>
+- Required<Type>
+- Readonly<Type>
+
 ## When to Read This
 
 - Transforming existing types (making optional, readonly, etc.)

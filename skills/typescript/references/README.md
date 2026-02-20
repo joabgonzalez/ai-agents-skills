@@ -92,3 +92,12 @@ This directory contains detailed guides for advanced TypeScript features. Main [
 - never type
 - Error unions
 - Exception handling
+
+## Cross-Reference Map
+
+- [config-patterns.md](config-patterns.md) → Project setup; foundational before all other patterns
+- [generics-advanced.md](generics-advanced.md) → Type reuse; builds on type-guards.md and utility-types.md
+- [type-guards.md](type-guards.md) → Runtime type narrowing; pairs with error-handling.md for safe code
+- [utility-types.md](utility-types.md) → Built-in transformations; reduces need for custom types
+- [error-handling.md](error-handling.md) → Type-safe errors; pairs with type-guards.md for safe handling
+- Related skills: [react](../../react/SKILL.md), [nodejs](../../nodejs/SKILL.md)

@@ -4,6 +4,13 @@ Patterns for writing skill content with Critical Patterns, Decision Trees, inlin
 
 ---
 
+## Core Patterns
+
+- Critical Patterns Section
+- Inline Examples
+- Decision Tree Section
+- Decision Tree
+
 ## Critical Patterns Section
 
 Critical Patterns are the CORE of skill content - the most important rules AI must follow. Use visual markers (✅/❌) and inline examples for instant comprehension.
@@ -277,7 +284,7 @@ Define rules and best practices. Always delegate to general skills first, then a
 ### Delegation Pattern
 
 ```markdown
-## Conventions
+### Conventions
 
 Refer to [code-conventions](../code-conventions/SKILL.md) for:
 
@@ -303,7 +310,7 @@ Refer to [a11y](../a11y/SKILL.md) for:
 ```markdown
 # ❌ WRONG: Duplicating code-conventions
 
-## Conventions
+### Conventions
 
 - Use camelCase for variables
 - Use PascalCase for classes
@@ -313,7 +320,7 @@ Refer to [a11y](../a11y/SKILL.md) for:
 
 # ✅ CORRECT: Delegate + specific rules
 
-## Conventions
+### Conventions
 
 Refer to code-conventions for general coding standards.
 

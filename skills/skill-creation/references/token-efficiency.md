@@ -4,6 +4,13 @@ Strategies for creating token-efficient skills without sacrificing clarity. Maxi
 
 ---
 
+## Core Patterns
+
+- Why Token Efficiency Matters
+- Frontmatter Optimization
+- Content Compression
+- Critical Patterns
+
 ## Why Token Efficiency Matters
 
 ### Impact on AI Performance
@@ -120,11 +127,11 @@ Use useState hook for component state management in React.
 
 This section provides comprehensive information about critical patterns.
 
-## Critical Patterns
+### Critical Patterns
 
 # ✅ DIRECT (save 1 line + tokens)
 
-## Critical Patterns
+### Critical Patterns
 ```
 
 **Rule:** Section headings are self-explanatory; skip introductions.
@@ -132,6 +139,30 @@ This section provides comprehensive information about critical patterns.
 ---
 
 ## Code Example Optimization
+
+### Plain Text Code Blocks: Use ``` Not ```text
+
+Omit the `text` language hint — it adds tokens with no rendering benefit.
+
+```
+# ❌ WRONG: unnecessary hint
+```text
+condition? → action
+Otherwise → fallback
+```
+
+# ✅ CORRECT: no hint for plain text
+
+```
+condition? → action
+Otherwise → fallback
+```
+
+```
+
+**Rule:** Only use language hints (`typescript`, `bash`, `json`, etc.) when syntax highlighting adds value.
+
+---
 
 ### Keep Examples Focused
 

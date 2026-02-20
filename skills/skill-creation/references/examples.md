@@ -4,6 +4,13 @@ Full skill examples demonstrating proper structure at simple, medium, and comple
 
 ---
 
+## Core Patterns
+
+- Example 1: Simple Skill (Prettier)
+- Overview
+- Objective
+- When to Use
+
 ## Example 1: Simple Skill (Prettier)
 
 **Indicators:** <15 patterns, single topic, no sub-divisions
@@ -20,18 +27,18 @@ dependencies:
 
 # Prettier
 
-## Overview
+### Skill Context
 
 Prettier is an opinionated code formatter that enforces consistent style across projects.
 Supports JavaScript, TypeScript, CSS, HTML, JSON, Markdown, and more.
 
-## Objective
+### Goal
 
 Enable automatic, consistent code formatting with minimal configuration and maximum team adoption.
 
 ---
 
-## When to Use
+### When to Use
 
 Use this skill when:
 
@@ -48,7 +55,7 @@ Don't use when:
 
 ---
 
-## Critical Patterns
+### Critical Patterns
 
 ### ✅ REQUIRED: Project Configuration
 
@@ -109,7 +116,7 @@ Use pre-commit hook to enforce formatting.
 
 ---
 
-## Decision Tree
+### Decision Tree
 
 ```
 New project? → Add .prettierrc + scripts
@@ -120,7 +127,7 @@ Editor integration? → Install Prettier extension + enable format-on-save
 
 ---
 
-## Conventions
+### Conventions
 
 Refer to [code-conventions](../code-conventions/SKILL.md) for general coding standards.
 
@@ -133,7 +140,7 @@ Refer to [code-conventions](../code-conventions/SKILL.md) for general coding sta
 
 ---
 
-## Example
+### Example
 
 Complete setup for TypeScript React project:
 
@@ -171,7 +178,7 @@ npm run format
 
 ---
 
-## Edge Cases
+### Edge Cases
 
 ### Large Files
 
@@ -200,7 +207,7 @@ npm install --save-dev eslint-config-prettier
 
 ---
 
-## Commands
+### Commands
 
 ```bash
 # Format all files
@@ -218,7 +225,7 @@ npx prettier --check . | grep "Code style issues"
 
 ---
 
-## References
+### References
 
 - [Prettier Docs](https://prettier.io/docs/en/)
 - [Configuration](https://prettier.io/docs/en/configuration.html)
@@ -246,19 +253,19 @@ dependencies:
 
 # Formik
 
-## Overview
+### Skill Context
 
 Formik simplifies form state management, validation, and submission in React.
 Handles complex forms with field-level and form-level validation.
 
-## Objective
+### Goal
 
 Implement accessible forms with validation, error handling, and submission logic
 using Formik's hooks and components.
 
 ---
 
-## When to Use
+### When to Use
 
 Use this skill when:
 
@@ -275,7 +282,7 @@ Don't use when:
 
 ---
 
-## Critical Patterns
+### Critical Patterns
 
 ### ✅ REQUIRED: useFormik Hook
 
@@ -330,7 +337,7 @@ const formik = useFormik({
 
 ---
 
-## Decision Tree
+### Decision Tree
 
 ```
 Simple form (<5 fields)? → useFormik hook
@@ -343,12 +350,12 @@ Multi-step form? → Use Formik context + wizard pattern
 
 ---
 
-## Resources
+### Resources
 
 - Templates: See [assets/form-template.tsx](assets/form-template.tsx)
 - Validation: See [form-validation skill](../../form-validation/SKILL.md)
 
-## References
+### References
 
 - [Formik Docs](https://formik.org/docs/overview)
 - [Yup Integration](https://formik.org/docs/guides/validation#validationschema)
@@ -375,19 +382,19 @@ dependencies:
 
 # React
 
-## Overview
+### Skill Context
 
 React library for building user interfaces with components, hooks, and declarative rendering.
 Supports client and server rendering with React 18+ features.
 
-## Objective
+### Goal
 
 Build maintainable, performant React applications using functional components, hooks,
 proper state management, and modern patterns.
 
 ---
 
-## When to Use
+### When to Use
 
 Use this skill when:
 
@@ -404,7 +411,7 @@ Don't use when:
 
 ---
 
-## Quick Reference
+### Quick Reference
 
 | Task | Solution | Reference |
 |------|----------|-----------|
@@ -416,7 +423,7 @@ Don't use when:
 
 ---
 
-## Critical Patterns
+### Critical Patterns
 
 ### ✅ REQUIRED [CRITICAL]: Hook Dependencies
 
@@ -468,7 +475,7 @@ setItems((items) => {
 
 ---
 
-## Decision Tree
+### Decision Tree
 
 ```
 Need state? → useState (simple) or useReducer (complex)
@@ -490,7 +497,7 @@ Server rendering?
 
 ---
 
-## Conventions
+### Conventions
 
 Refer to [code-conventions](../code-conventions/SKILL.md) for general standards.
 Refer to [a11y](../a11y/SKILL.md) for accessibility requirements.
@@ -505,7 +512,7 @@ Refer to [a11y](../a11y/SKILL.md) for accessibility requirements.
 
 ---
 
-## Example
+### Example
 
 Complete component with hooks:
 
@@ -556,7 +563,7 @@ export function UserProfile({ userId }: Props) {
 
 ---
 
-## Edge Cases
+### Edge Cases
 
 See [hooks.md](references/hooks.md#common-pitfalls) for stale closures, dependency issues.
 See [performance.md](references/performance.md#edge-cases) for profiling large lists.
@@ -564,7 +571,7 @@ See [server-features.md](references/server-features.md#limitations) for Server C
 
 ---
 
-## Resources
+### Resources
 
 ### Detailed Guides
 
@@ -582,7 +589,7 @@ See [server-features.md](references/server-features.md#limitations) for Server C
 - [Component Template](assets/component-template.tsx)
 - [Custom Hook Template](assets/hook-template.tsx)
 
-## References
+### References
 
 - [React Docs](https://react.dev/)
 - [Hooks API](https://react.dev/reference/react)

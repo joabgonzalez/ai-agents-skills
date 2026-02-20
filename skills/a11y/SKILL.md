@@ -140,23 +140,82 @@ Don't use for:
 
 ## Decision Tree
 
-**Interactive element (button, link)?** → Ensure keyboard accessible (Tab, Enter/Space), visible focus indicator, proper role and semantic element.
+```
+Interactive element (button, link)?
+  → Ensure keyboard accessible (Tab, Enter/Space)
+  → Visible focus indicator, proper role and semantic element
 
-**Form field?** → Associate `<label>` with input (htmlFor/id), provide error messages with `aria-describedby`, announce errors with `aria-live`.
+Form field?
+  → Associate <label> with input (htmlFor/id)
+  → Provide error messages with aria-describedby
+  → Announce errors with aria-live
 
-**Dynamic content change?** → Use `aria-live="polite"` for non-urgent updates, `aria-live="assertive"` for critical alerts, `aria-atomic="true"` if entire region should be read.
+Dynamic content change?
+  → Non-urgent: aria-live="polite"
+  → Critical alerts: aria-live="assertive"
+  → Whole region: aria-atomic="true"
 
-**Custom widget (dropdown, modal, tabs)?** → Follow WAI-ARIA Authoring Practices patterns, implement keyboard navigation (Arrow keys, Escape, Enter), manage focus properly.
+Custom widget (dropdown, modal, tabs)?
+  → Follow WAI-ARIA Authoring Practices patterns
+  → Implement keyboard navigation (Arrow keys, Escape, Enter)
+  → Manage focus properly
 
-**Image or icon?** → Decorative: `alt=""` or `aria-hidden="true"`. Informative: descriptive `alt` text. Icon-only button: `aria-label`.
+Image or icon?
+  → Decorative: alt="" or aria-hidden="true"
+  → Informative: descriptive alt text
+  → Icon-only button: aria-label
 
-**Color conveys meaning?** → Add text label, icon, or pattern. Verify 4.5:1 contrast ratio for text, 3:1 for UI components.
+Color conveys meaning?
+  → Add text label, icon, or pattern
+  → Verify 4.5:1 contrast for text, 3:1 for UI components
 
-**Modal or overlay?** → Trap focus inside modal, restore focus on close, allow Escape to dismiss, use `aria-modal="true"` and `role="dialog"`.
+Modal or overlay?
+  → Trap focus inside modal, restore focus on close
+  → Allow Escape to dismiss
+  → Use aria-modal="true" and role="dialog"
 
-**Loading or status change?** → Use `aria-busy="true"` during loading, `role="status"` for status messages, ensure screen reader announces completion.
+Loading or status change?
+  → Use aria-busy="true" during loading
+  → role="status" for status messages
+  → Ensure screen reader announces completion
+```
 
 ---
+
+## Example
+
+Accessible modal dialog: focus trap, ARIA labels, and keyboard navigation applied together.
+
+```typescript
+function ConfirmDeleteModal({ isOpen, onClose, onConfirm }: ModalProps) {
+  const firstFocusRef = useRef<HTMLButtonElement>(null);
+
+  // Restore focus to trigger on close; trap focus inside modal
+  useEffect(() => {
+    if (isOpen) firstFocusRef.current?.focus();
+  }, [isOpen]);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") onClose();          // Escape dismisses modal
+  };
+
+  if (!isOpen) return null;
+  return (
+    // role="dialog" + aria-modal + aria-labelledby link heading to dialog
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title"
+         onKeyDown={handleKeyDown}>
+      <h2 id="modal-title">Delete this item?</h2>
+      <p id="modal-desc">This action cannot be undone.</p>
+      {/* aria-describedby connects description to the confirm button */}
+      <button ref={firstFocusRef} aria-describedby="modal-desc"
+              onClick={onConfirm}>Confirm Delete</button>
+      <button onClick={onClose}>Cancel</button>
+    </div>
+  );
+}
+```
+
+Patterns applied: semantic `role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`, focus management on open, Escape key to dismiss.
 
 ## Edge Cases
 
@@ -183,7 +242,7 @@ WCAG 2.2 updates:\*\*
 
 ---
 
-## References
+## Resources
 
 - https://www.w3.org/WAI/WCAG21/quickref/
 - https://www.w3.org/WAI/ARIA/apg/

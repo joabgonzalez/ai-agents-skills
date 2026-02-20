@@ -18,31 +18,15 @@ Redux state with simplified API. createSlice, configureStore, RTK Query for pred
 
 ## When to Use
 
-- Global state with Redux Toolkit
-- Slices with createSlice
-- Async logic (RTK Query/createAsyncThunk)
+- Global app state in React (slices, store, middleware)
+- Async logic (RTK Query, createAsyncThunk)
+- Normalizing entities with EntityAdapter
 - Replacing legacy Redux
 
 Don't use for:
+
 - Local state (use useState/useReducer)
 - Server state caching (use React Query/SWR)
-
----
-
-## When to Use
-
-Use when:
-
-- Global app state in React
-- Redux slices (actions/reducers)
-- Store setup with middleware
-- Async ops with thunks
-- Normalizing with EntityAdapter
-- Data fetching/caching (RTK Query)
-
-Don't use for:
-
-- Local state (use useState)
 - Non-React Redux
 
 ---
@@ -191,7 +175,7 @@ export const store = configureStore({
 
 ---
 
-## Advanced Architecture Patterns
+### Advanced Architecture Integration
 
 **⚠️ Context Check**: Apply only when:
 
@@ -210,6 +194,7 @@ export const store = configureStore({
 ### Complete Guide
 
 See [frontend-integration.md](../architecture-patterns/references/frontend-integration.md) for:
+
 - Redux Toolkit + Clean Architecture
 - SRP for slices
 - RTK Query as Infrastructure
@@ -219,7 +204,7 @@ See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) for sele
 
 ---
 
-## References
+## Resources
 
 - https://redux-toolkit.js.org/
 - https://redux.js.org/style-guide/

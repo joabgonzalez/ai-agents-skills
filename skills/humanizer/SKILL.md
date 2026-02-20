@@ -20,6 +20,11 @@ Human-centric communication emphasizing empathy, clarity, and emotional intellig
 - Enhancing communication in skills or prompts
 - Handling sensitive or ambiguous feedback
 
+Don't use for:
+
+- Code generation or technical implementation (use language/framework skills)
+- Formal documentation or API specs (use technical-communication)
+
 ---
 
 ## Critical Patterns
@@ -139,7 +144,7 @@ Avoid idioms and cultural references.
 - [ ] Next steps are clear and actionable
 - [ ] Alternatives offered when feature not available
 
-## Practical Examples
+## Examples
 
 ### Example 1: Error Message Transformation
 

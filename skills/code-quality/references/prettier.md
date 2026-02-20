@@ -3,6 +3,7 @@
 Opinionated code formatter enforcing consistent style across JavaScript, TypeScript, CSS, JSON, and Markdown. Best for teams wanting zero-debate formatting.
 
 **Dependencies:**
+
 ```json
 {
   "prettier": ">=3.0.0 <4.0.0"
@@ -115,6 +116,7 @@ module.exports = {
 ```
 
 **Rule of thumb:**
+
 - ESLint: code quality rules (no-unused-vars, no-any, etc.)
 - Prettier: formatting rules (semicolons, quotes, indentation, etc.)
 - eslint-config-prettier: disables ESLint rules that conflict with Prettier

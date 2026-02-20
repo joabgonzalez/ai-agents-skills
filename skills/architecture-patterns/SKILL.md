@@ -138,6 +138,37 @@ Need specific pattern knowledge?
 
 ---
 
+## Example
+
+Repository + Service Layer pattern applied to a user feature in a medium-sized backend.
+
+```
+Request: POST /api/v1/users
+         ↓
+UserController          (Presentation)
+  → validates input with zod
+  → calls UserService.createUser(dto)
+         ↓
+UserService             (Business Logic)
+  → checks email uniqueness
+  → hashes password
+  → calls UserRepository.save(user)
+         ↓
+UserRepository          (Data Access)
+  → IUserRepository interface defined in application layer
+  → PostgresUserRepository implements it in infrastructure
+  → returns saved User entity
+         ↓
+UserController
+  → maps result to 201 Created + UserResponseDTO
+```
+
+Why this fits a medium project (4-10 devs, 10k–100k LOC):
+
+- Clear layer boundaries make code navigable for new team members
+- Repository interface lets tests inject in-memory fakes (no DB required)
+- Service layer owns business rules (uniqueness, hashing) — not the controller
+
 ## Edge Cases
 
 **Over-engineering**: Applying Clean Architecture to a 1000-line app. Start simple, add architecture when pain emerges.

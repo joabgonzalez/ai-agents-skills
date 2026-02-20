@@ -2,6 +2,13 @@
 
 > Dynamic server rendering, Astro.locals, server endpoints, and authentication
 
+## Core Patterns
+
+- When to Read This
+- Project Detection
+- Astro.locals (Server Context)
+- Server Endpoints
+
 ## When to Read This
 
 - Building dynamic pages with user-specific data

@@ -2,6 +2,13 @@
 
 > Side effects, cleanup, dependencies, and async operations
 
+## Core Patterns
+
+- When to Read This
+- Effect Dependency Patterns
+- Cleanup Patterns
+- Async Patterns
+
 ## When to Read This
 
 - Implementing data fetching or subscriptions
@@ -42,6 +49,7 @@ useEffect(() => {
 ```
 
 **Rules:**
+
 - Include ALL values from component scope used inside effect
 - ESLint rule `exhaustive-deps` helps catch missing dependencies
 - If linter suggests adding dependency, add it (don't disable)

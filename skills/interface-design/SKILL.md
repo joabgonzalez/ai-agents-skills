@@ -22,6 +22,7 @@ Plan UI with user flows, wireframing, component hierarchy, validation. UX decisi
 - User asks "how should this look?" or "what's the best UX for X?"
 
 Don't use for:
+
 - Implementation (react, mui, css skills)
 - Accessibility (a11y)
 - Backend APIs (architecture-patterns)
@@ -147,7 +148,7 @@ identify state needs, then implement."
 
 ---
 
-## Visual & Interaction Principles
+## Conventions
 
 ### ✅ REQUIRED: Apply Visual Design System
 
@@ -217,7 +218,7 @@ Accessibility concerns?
 
 ---
 
-## Common UI Patterns
+## Examples
 
 | Pattern | Use When | Example |
 |---------|----------|---------|

@@ -2,6 +2,13 @@
 
 > createSelector, reselect, memoization, and selector composition
 
+## Core Patterns
+
+- When to Read This
+- Basic Selectors
+- Memoized Selectors
+- Selector Composition
+
 ## When to Read This
 
 - Deriving data from Redux state

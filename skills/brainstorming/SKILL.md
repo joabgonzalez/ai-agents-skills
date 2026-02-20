@@ -20,6 +20,7 @@ Planning, ideation, problem decomposition, and trade-off analysis for software p
 - User asks "how should we approach X?" or "what are the options for Y?"
 
 Don't use for:
+
 - Trivial changes (one-line fixes, obvious implementations)
 - Pure code review (use critical-partner)
 - Debugging (use systematic-debugging)
@@ -154,6 +155,44 @@ Need to record an important decision?
 ```
 
 ---
+
+## Example
+
+Brainstorming applied to "Which state management approach for our React app?"
+
+```markdown
+## Problem Statement
+**What:** Choose a state management solution for a mid-size e-commerce app
+**Why:** Current prop-drilling causes 3+ bug reports per sprint; 5-level prop chains
+**Constraints:** React 18, TypeScript, team of 4, no major refactor budget
+**Success criteria:** Shared state readable anywhere, <2 days migration
+
+## Alternatives
+
+### Option A: Context API + useReducer
+- **Pros:** Built-in, no new dependency, sufficient for auth/theme/cart
+- **Cons:** Re-renders all consumers on every update; not great for frequent updates
+- **Effort:** S   **Risk:** Low
+
+### Option B: Zustand
+- **Pros:** Minimal boilerplate, selective subscriptions (no re-render problem), tiny bundle
+- **Cons:** Team unfamiliar (1–2 day ramp-up)
+- **Effort:** S   **Risk:** Low
+
+### Option C: Redux Toolkit
+- **Pros:** Mature, DevTools, scales to large teams
+- **Cons:** Boilerplate overhead; overkill for current app size
+- **Effort:** M   **Risk:** Medium
+
+### Recommendation: Option B (Zustand)
+**Rationale:** Solves re-render issues, minimal API surface, quick ramp-up fits sprint budget.
+
+## Decision Record
+**Decision:** Zustand for global client state; React Query for server state
+**Date:** 2026-02-20
+**Alternatives considered:** Context API, Redux Toolkit
+**Consequences:** Team ramp-up on Zustand (~1 day); no additional infra cost
+```
 
 ## Edge Cases
 

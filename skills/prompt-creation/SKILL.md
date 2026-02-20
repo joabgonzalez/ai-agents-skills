@@ -332,7 +332,7 @@ Corrections: past tense, article usage, word order
 
 ---
 
-## References
+## Resources
 
 - [agent-creation](../agent-creation/SKILL.md) - Creating agent definitions
 - [skill-creation](../skill-creation/SKILL.md) - Creating skill definitions

@@ -2,6 +2,13 @@
 
 > Systematic design constraints for visual consistency through typography, spacing, color, and iconography.
 
+## Core Patterns
+
+- Typography Scale
+- Spacing System (8-Point Grid)
+- Color System
+- Iconography
+
 ## Typography Scale
 
 ### Modular Ratio-Based Sizing
@@ -51,6 +58,7 @@ code, pre { line-height: 1.5; font-family: monospace; }
 | Merriweather | Open Sans | Classic, readable |
 
 **Pairing rules:**
+
 - Contrast serif with sans-serif, OR
 - Use single font family with weight/size variation
 - Limit to 2 font families maximum
@@ -78,6 +86,7 @@ h1 { font-size: 1.5rem; }
 ```
 
 **clamp() formula:**
+
 ```
 clamp(MIN, PREFERRED, MAX)
 PREFERRED = BASE + MULTIPLIER * vw
@@ -107,6 +116,7 @@ Prevent layout shift during font loading.
 ```
 
 **font-display options:**
+
 - `swap`: Show fallback immediately (best for web apps)
 - `optional`: Use custom font only if cached (best for performance)
 - `fallback`: Brief block period, then swap (compromise)
@@ -132,6 +142,7 @@ Prevent layout shift during font loading.
 ```
 
 **Why 8-point grid?**
+
 - Divisible by 2 (scales well)
 - Matches common screen densities (1x, 2x, 3x)
 - Industry standard (iOS, Android, web)
@@ -222,6 +233,7 @@ Name colors by purpose, not appearance.
 | Enhanced accessibility | 7:1 | AAA | #000 on #fff |
 
 **Testing tools:**
+
 - Chrome DevTools: Inspect element → Color picker shows ratio
 - WebAIM Contrast Checker: https://webaim.org/resources/contrastchecker/
 - Figma: A11y plugins (Contrast, Stark)
@@ -279,6 +291,7 @@ body { color: #222; background: #fff; }
 ```
 
 **Dark mode best practices:**
+
 - Plan from the start (retrofitting is painful)
 - Use elevated surfaces (#1e1e1e) instead of pure black
 - Reduce saturation in dark mode (vibrant colors strain eyes)
@@ -300,6 +313,7 @@ body { color: #222; background: #fff; }
 ```
 
 **Usage guidelines:**
+
 - `xs` (12px): Inline with small text, badges
 - `sm` (16px): Inline with body text, table cells
 - `md` (20px): Buttons, form inputs
@@ -433,6 +447,7 @@ Related elements should be visually grouped.
 White space (negative space) is not "empty" — it's a design tool.
 
 **Functions:**
+
 1. **Separation:** Distinguishes groups
 2. **Emphasis:** Draws attention to isolated elements
 3. **Breathing room:** Prevents visual clutter

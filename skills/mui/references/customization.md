@@ -2,6 +2,13 @@
 
 > sx prop, styled API, variants, and performance
 
+## Core Patterns
+
+- When to Read This
+- sx Prop
+- styled API
+- Custom Variants
+
 ## When to Read This
 
 - Customizing component styles

@@ -2,6 +2,14 @@
 
 Isolates application core from external concerns—core defines interfaces (ports), external systems provide implementations (adapters). Enables easy implementation swapping, testability via mocks, and technology-agnostic core.
 
+## Core Patterns
+
+Demonstrates the full port/adapter pattern from application core through secondary ports, secondary adapters, primary adapters, and composition root with TypeScript examples including adapter swapping and both unit and integration testing strategies.
+
+- Secondary ports (interfaces) defined by the application core for repository and email service contracts
+- Secondary adapters implementing ports: Postgres/Mongo repositories, SendGrid/AWS email services
+- Primary adapters as entry points: HTTP controllers and CLI adapters wired at the composition root
+
 ---
 
 ## Core Concepts

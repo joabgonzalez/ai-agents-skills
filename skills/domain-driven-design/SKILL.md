@@ -19,6 +19,7 @@ Builds software that closely models complex business domains through shared lang
 - Long-lived projects where domain knowledge is central
 
 Don't use for:
+
 - Simple CRUD without real business logic
 - Small services (<200 LOC)
 - Tight deadlines with no team DDD experience
@@ -175,6 +176,52 @@ Simple CRUD?                           → Skip DDD, not worth the complexity
 ```
 
 ---
+
+## Example
+
+`Order` aggregate with value objects, a domain event, and a repository interface.
+
+```typescript
+// Value Object — immutable, defined by value, enforces business rules
+class Money {
+  constructor(readonly amount: number, readonly currency: string) {
+    if (amount < 0) throw new Error("Amount cannot be negative");
+  }
+  add(other: Money): Money {
+    if (other.currency !== this.currency) throw new Error("Currency mismatch");
+    return new Money(this.amount + other.amount, this.currency);
+  }
+}
+
+// Domain Event — captures a significant occurrence
+class OrderConfirmedEvent {
+  constructor(readonly orderId: string, readonly total: Money, readonly confirmedAt: Date) {}
+}
+
+// Aggregate Root — enforces invariants, only entry point to OrderItems
+class Order {
+  private items: OrderItem[] = [];
+  private _status: "pending" | "confirmed" = "pending";
+
+  addItem(sku: string, price: Money, qty: number): void {
+    if (this._status !== "pending") throw new Error("Cannot modify confirmed order");
+    this.items.push(new OrderItem(sku, price, qty));
+  }
+
+  confirm(): OrderConfirmedEvent {
+    if (this.items.length === 0) throw new Error("Cannot confirm empty order");
+    this._status = "confirmed";
+    return new OrderConfirmedEvent(this.id, this.totalPrice(), new Date());
+  }
+
+  totalPrice(): Money { return this.items.reduce((sum, i) => sum.add(i.subtotal()), new Money(0, "USD")); }
+}
+
+// Repository interface in domain layer — no DB knowledge here
+interface OrderRepository { save(order: Order): Promise<void>; findById(id: string): Promise<Order | null>; }
+```
+
+Patterns applied: value object (`Money`), aggregate root (`Order`) protecting invariants, domain event (`OrderConfirmedEvent`), repository interface (infrastructure implements it).
 
 ## Edge Cases
 

@@ -11,6 +11,9 @@ metadata:
     - nodejs
     - code-conventions
     - critical-partner
+    - unit-testing
+    - jest
+    - brainstorming
 ---
 
 # AI Agents Skills Framework
@@ -66,14 +69,17 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 
 **Path format:** `.{model}/skills/{skill-name}/SKILL.md` (see Step 2 above)
 
-| Trigger                     | Skill            |
-| --------------------------- | ---------------- |
-| Create or modify skills     | skill-creation   |
-| Create agent definitions    | agent-creation   |
-| Code review or improvements | critical-partner |
-| Coding standards                   | code-conventions      |
-| TypeScript code             | typescript       |
-| Node.js / CLI development   | nodejs           |
+| Trigger                          | Skill            |
+| -------------------------------- | ---------------- |
+| Create or modify skills          | skill-creation   |
+| Create agent definitions         | agent-creation   |
+| Code review or improvements      | critical-partner |
+| Coding standards                 | code-conventions |
+| TypeScript code                  | typescript       |
+| Node.js / CLI development        | nodejs           |
+| Writing unit tests               | unit-testing     |
+| Jest test suite or config        | jest             |
+| Exploring ideas or approaches    | brainstorming    |
 
 ## Skills Reference
 

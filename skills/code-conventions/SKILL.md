@@ -21,6 +21,7 @@ Universal meta-conventions: naming, file structure, code organization. Rules tha
 - Establishing cross-project standards
 
 Don't use for:
+
 - TypeScript-specific patterns (import type, no any) → use typescript skill
 - Framework-specific patterns (hooks, JSX) → use react/vue/etc skill
 - Accessibility → a11y skill
@@ -120,6 +121,7 @@ Is this convention universal (any language/framework)?
 ```
 
 **Quick reference:**
+
 - Naming a variable/function? → camelCase
 - Naming a class/component? → PascalCase
 - Naming a constant? → UPPER_SNAKE_CASE
@@ -130,6 +132,45 @@ Is this convention universal (any language/framework)?
 - TypeScript-specific question? → See typescript skill
 
 ---
+
+## Example
+
+Naming and structure conventions applied to a user authentication module.
+
+```
+src/
+├── auth/
+│   ├── auth.service.ts        # kebab-case file; single responsibility: orchestrates auth
+│   ├── auth.validator.ts      # single responsibility: input validation only
+│   ├── auth.types.ts          # single responsibility: type definitions only
+│   └── AuthForm.tsx           # PascalCase: React component
+```
+
+```typescript
+// auth.service.ts — all names follow conventions
+const MAX_LOGIN_ATTEMPTS = 5;          // UPPER_SNAKE_CASE constant
+
+class AuthService {                    // PascalCase class
+  async loginUser(userId: string): Promise<AuthToken> {  // camelCase method + param
+    const isLocked = await this.isAccountLocked(userId); // boolean: "is" prefix
+    if (isLocked) throw new AccountLockedError();
+    // ...
+  }
+
+  private isAccountLocked(userId: string): Promise<boolean> {}  // camelCase, boolean prefix
+}
+
+// auth.validator.ts — no dead code, no shadowing
+function validateLoginInput(input: LoginInput): ValidationResult {
+  const { email, password } = input;
+  // ✅ `email` and `password` don't shadow outer scope names
+  if (!email.includes("@")) return { valid: false, error: "Invalid email" };
+  if (password.length < 8)  return { valid: false, error: "Password too short" };
+  return { valid: true };
+}
+```
+
+Every file has one clear name that matches its single responsibility. No `utils.ts`, no shadowed variables, no commented-out code.
 
 ## Edge Cases
 

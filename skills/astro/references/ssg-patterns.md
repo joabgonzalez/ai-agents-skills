@@ -2,6 +2,13 @@
 
 > Build-time rendering, getStaticPaths, and static data fetching
 
+## Core Patterns
+
+- When to Read This
+- Project Detection
+- getStaticPaths for Dynamic Routes
+- Pagination
+
 ## When to Read This
 
 - Building static websites (blogs, documentation, marketing)

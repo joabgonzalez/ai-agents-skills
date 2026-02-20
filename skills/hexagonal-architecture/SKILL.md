@@ -19,6 +19,7 @@ Isolates application core from external systems. Core defines interfaces (ports)
 - Business logic must be isolated from framework details
 
 Don't use for:
+
 - Simple CRUD with no testability requirements
 - Scripts with single external dependency
 - Prototypes
@@ -101,9 +102,7 @@ class RegisterUserUseCase {
 }
 ```
 
----
-
-## Primary vs Secondary Ports
+### ✅ REQUIRED: Know Primary vs Secondary Ports
 
 ```
 Primary (Driving) Ports:  Exposed by core, called by adapters

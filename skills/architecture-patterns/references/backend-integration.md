@@ -4,6 +4,13 @@ Concrete backend implementation examples for all architecture patterns. Node.js 
 
 ---
 
+## Core Patterns
+
+- Complete Example: Order Service
+- NestJS Implementation
+- Testing
+- Environment-Based Adapter Selection
+
 ## Complete Example: Order Service
 
 ### Folder Structure

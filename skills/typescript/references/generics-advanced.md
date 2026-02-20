@@ -2,6 +2,13 @@
 
 > Constraints, conditional types, mapped types, and advanced generic patterns
 
+## Core Patterns
+
+- When to Read This
+- Generic Constraints
+- Generic Factory Patterns
+- Conditional Types
+
 ## When to Read This
 
 - Creating reusable generic functions/components

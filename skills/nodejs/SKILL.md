@@ -26,6 +26,7 @@ Async I/O, process management, backend services with Node.js runtime.
 - Developing real-time applications (WebSockets, SSE)
 
 Don't use for:
+
 - CPU-intensive tasks (worker threads/separate processes)
 - Browser code (javascript/typescript skills)
 - Framework patterns (express, nest, hono skills)

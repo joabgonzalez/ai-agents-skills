@@ -2,6 +2,14 @@
 
 Reduces component coupling by centralizing communication through a mediator instead of direct references. Components send messages to mediator, which coordinates responses—reducing coupling, centralizing coordination logic, and making components independently reusable.
 
+## Core Patterns
+
+Provides concrete TypeScript implementations of the Mediator pattern across backend (order processing, event bus) and frontend (Redux middleware, React Context) contexts, including a full CQRS implementation where the mediator routes commands and queries to registered handlers.
+
+- Classic mediator: components notify via interface, mediator coordinates responses without direct coupling
+- Event bus as mediator: publish/subscribe model where services communicate through typed events
+- CQRS mediator: command and query registration with type-safe routing to dedicated handlers
+
 ---
 
 ## Pattern Structure

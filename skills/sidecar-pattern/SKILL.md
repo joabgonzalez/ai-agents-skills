@@ -19,6 +19,7 @@ Deploys auxiliary services alongside the main application, sharing lifecycle. In
 - Configuration management that updates dynamically
 
 Don't use for:
+
 - Monolithic applications (use middleware instead)
 - Single simple services where overhead isn't justified
 - Tight coupling between sidecar and main app logic
@@ -83,9 +84,7 @@ Each sidecar handles one cross-cutting concern.
 ✅ Sidecar handles infrastructure concerns only (logs, metrics, TLS, retries)
 ```
 
----
-
-## Common Use Cases
+### ✅ REQUIRED: Common Deployment Configurations
 
 ```
 Service mesh (Envoy/Istio):

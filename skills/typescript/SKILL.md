@@ -31,7 +31,7 @@ Strict typing with compile-time correctness. Avoid `any`, leverage generics/util
 
 ## Critical Patterns
 
-### Never use `any`
+### ❌ NEVER: use `any`
 
 ```typescript
 // BAD: Disables type checking
@@ -48,7 +48,7 @@ function process(data: unknown) {
 }
 ```
 
-### Enable strict mode
+### ✅ REQUIRED: Enable strict mode
 
 ```json
 {
@@ -61,7 +61,7 @@ function process(data: unknown) {
 }
 ```
 
-### Use proper types for object shapes
+### ✅ REQUIRED: Use proper types for object shapes
 
 ```typescript
 // Interface for extensible objects
@@ -78,7 +78,7 @@ type UserWithStatus = User & { status: Status };
 const user: {} = { anything: "allowed" };
 ```
 
-### Constrain generics
+### ✅ REQUIRED: Constrain generics
 
 ```typescript
 // GOOD: Constrained generic
@@ -92,7 +92,7 @@ function getProperty<T>(obj: T, key: string): any {
 }
 ```
 
-### Use `import type` for type-only imports
+### ✅ REQUIRED: Use `import type` for type-only imports
 
 ```typescript
 // GOOD: Separate type imports
@@ -106,7 +106,7 @@ import { Installer, type Model } from "../core/installer";
 import { User, Product } from "./types";
 ```
 
-### Named imports over namespace imports
+### ✅ REQUIRED: Named imports over namespace imports
 
 ```typescript
 // GOOD: Explicit, tree-shakeable
@@ -121,7 +121,7 @@ import * as path from "path";
 import * as p from "@clack/prompts";
 ```
 
-### No unused code
+### ✅ REQUIRED: No unused code
 
 ```typescript
 // tsconfig.json
@@ -142,7 +142,7 @@ function handler(_event: Event, data: string) {
 }
 ```
 
-### Use `satisfies` for type validation without widening
+### ✅ REQUIRED: Use `satisfies` for type validation without widening
 
 ```typescript
 const config = {
@@ -152,7 +152,7 @@ const config = {
 // Inferred type + validated against Config
 ```
 
-### Use `as const` for literal types
+### ✅ REQUIRED: Use `as const` for literal types
 
 ```typescript
 const ROUTES = {

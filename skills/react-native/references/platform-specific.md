@@ -2,6 +2,13 @@
 
 > Platform.select, iOS/Android differences, platform APIs
 
+## Core Patterns
+
+- When to Read This
+- Platform Detection
+- Platform-Specific Files
+- Common Differences
+
 ## When to Read This
 
 - Writing platform-specific code

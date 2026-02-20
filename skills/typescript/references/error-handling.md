@@ -2,6 +2,13 @@
 
 > Type-safe error patterns, Result types, and exception handling
 
+## Core Patterns
+
+- When to Read This
+- Result Type Pattern
+- Try/Catch with `unknown`
+- Custom Error Classes
+
 ## When to Read This
 
 - Handling errors without exceptions

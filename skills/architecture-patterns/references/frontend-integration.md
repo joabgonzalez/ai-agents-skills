@@ -4,6 +4,13 @@ When and how to apply architecture patterns in frontend projects (React, Redux T
 
 ---
 
+## Core Patterns
+
+- Applicable Patterns
+- Pattern 1: Single Responsibility (SRP)
+- Pattern 2: Dependency Inversion (DIP)
+- Pattern 3: Clean Architecture (Layer Separation)
+
 ## Applicable Patterns
 
 | Pattern                | Frontend Use Case                      | Example                                |

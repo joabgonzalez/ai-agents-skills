@@ -84,7 +84,7 @@ Rule: `{topic-description}.md` (lowercase, hyphens, descriptive)
 
 Every `references/` directory MUST have README.md:
 
-```text
+```
 # {Skill Name} References
 
 > {One-line description}
@@ -121,7 +121,7 @@ Every `references/` directory MUST have README.md:
 - Real-world examples (complete code)
 - Common pitfalls and edge cases
 
-```text
+```
 ### ✅ REQUIRED [CRITICAL]: Custom Hooks
 
 {Brief inline example}
@@ -133,7 +133,7 @@ Every `references/` directory MUST have README.md:
 
 **From SKILL.md to references:**
 
-```text
+```
 ## Resources
 
 - [Hooks](references/hooks.md) - useState, useEffect, custom hooks
@@ -144,7 +144,7 @@ Every `references/` directory MUST have README.md:
 
 **Between references:**
 
-```text
+```
 ## Related Topics
 
 - See [components.md](components.md) for component composition patterns
@@ -156,6 +156,7 @@ Every `references/` directory MUST have README.md:
 References must be precise yet economical. Remove filler, condense verbose phrases, eliminate redundancy.
 
 **Filler words to remove:**
+
 - "comprehensive", "detailed", "robust", "various", "multiple"
 - "This reference provides...", "It is important to note...", "Please note that..."
 - "In order to", "It should be noted", "Keep in mind"
@@ -241,6 +242,7 @@ Each reference file follows:
 ```
 
 **CRITICAL**:
+
 - NO "Overview" or "Purpose" section. Start with concise summary (1-2 lines) immediately after title.
 - Apply token efficiency: remove filler words, condense verbose phrases, eliminate redundancy.
 - Every word must add value. If removing a word doesn't lose meaning, remove it.

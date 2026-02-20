@@ -257,7 +257,7 @@ Plan has >20 tasks?
 
 ---
 
-## Example: Complete Plan
+## Example
 
 ````markdown
 # Feature: User Registration API
@@ -320,7 +320,7 @@ export interface IUserRepository {
 - Verification: npm test -- entities/ utils/
 - Expected: 5/5 passed ✅
 
-## Batch 2: API Layer (9 min)
+### Batch 2: API Layer (9 min)
 
 ### Task 4: Define registration DTO (2 min)
 
@@ -384,7 +384,7 @@ test("POST /auth/register creates user", async () => {
 - Verification: npm test -- auth.test.ts
 - Expected: 8/8 passed ✅
 
-## Batch 3: Error Handling (9 min)
+### Batch 3: Error Handling (9 min)
 
 ### Task 7: Add duplicate email test (2 min)
 

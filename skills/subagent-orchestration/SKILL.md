@@ -1,6 +1,6 @@
 ---
 name: subagent-orchestration
-description: "Fresh subagents per task with two-stage reviews. Trigger: When coordinating multiple agents for complex workflows."
+description: "Fresh subagents per task with two-stage reviews. Trigger: When coordinating parallel agents for complex workflows."
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -22,6 +22,7 @@ Coordinate multiple fresh subagents for complex tasks with two-stage review cycl
 - Two-stage review workflows (spec → quality)
 
 Don't use for:
+
 - Simple sequential tasks (use plan-execution)
 - Single-agent workflows
 - Tasks requiring shared context across steps
@@ -61,6 +62,7 @@ Problem: Carries assumptions from Task 1, stale context, decision fatigue
 ```
 
 **Why fresh agents?**
+
 - **Isolation**: Each agent starts with clean slate
 - **Specialization**: Agent focuses on single task
 - **Parallel**: Independent agents can work simultaneously
@@ -132,6 +134,7 @@ Review each task output in two stages: spec compliance FIRST, then code quality.
 ```
 
 **Two-stage benefits:**
+
 - Prevents quality review on incorrect behavior
 - Clear separation: correctness vs maintainability
 - Architect reviews spec, senior dev reviews quality
@@ -164,6 +167,7 @@ interface IEmailService {
 ```
 
 **Constraints**:
+
 - Follow same error response format as Task 1 (RFC 7807)
 - Use same test patterns (AAA, descriptive names)
 - Rate limiting: 3 requests/10min for reset endpoint
@@ -190,6 +194,7 @@ interface IEmailService {
 6. Send reset email via EmailService
 7. Write tests (happy path + edge cases)
 8. Follow RFC 7807 error format
+
 ```
 
 **Handoff includes:**
@@ -258,6 +263,7 @@ Launch independent tasks in parallel for efficiency.
 ```
 
 **Benefits of parallel execution:**
+
 - Faster total time (15 min + 20 min = 20 min parallel vs 35 min sequential)
 - Better resource utilization
 - Independent quality (one failure doesn't block the other)
@@ -301,6 +307,7 @@ Subagent blocked?
 **Subagent produces incorrect output**: If Stage 1 review fails badly (completely wrong approach), consider launching fresh agent with better instructions instead of asking same agent to fix.
 
 **Cross-task integration needed**: If Task 3 needs to integrate Task 1 + Task 2 outputs, create Integration Task with both outputs as context.
+
 ```markdown
 ## Task 3: Integration (Registration + Password Reset)
 
@@ -334,7 +341,7 @@ Subagent blocked?
 
 ---
 
-## Example: Complete Orchestration
+## Example
 
 ```markdown
 # Subagent Orchestration: User Authentication Feature

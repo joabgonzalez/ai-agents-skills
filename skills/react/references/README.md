@@ -15,7 +15,7 @@ This directory contains detailed guides for specific aspects of React developmen
 | Reference                                      | Purpose                                           | Read When                                                  |
 | ---------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
 | [hooks-advanced.md](hooks-advanced.md)         | useState vs useReducer, custom hooks, composition | Working with complex state or creating reusable hooks      |
-| [useEffect-patterns.md](useEffect-patterns.md) | Cleanup, dependencies, race conditions            | Implementing side effects, subscriptions, or data fetching |
+| [use-effect-patterns.md](use-effect-patterns.md) | Cleanup, dependencies, race conditions            | Implementing side effects, subscriptions, or data fetching |
 
 ### ⚡ Performance & Optimization
 
@@ -61,7 +61,7 @@ This directory contains detailed guides for specific aspects of React developmen
 ### For Forms & Data Fetching
 
 1. Read main [SKILL.md](../SKILL.md)
-2. **MUST read**: [useEffect-patterns.md](useEffect-patterns.md) for data fetching patterns
+2. **MUST read**: [use-effect-patterns.md](use-effect-patterns.md) for data fetching patterns
 3. CHECK: [forms-state.md](forms-state.md) for form-specific patterns
 
 ### For Server-Side / Next.js App Router
@@ -84,7 +84,7 @@ This directory contains detailed guides for specific aspects of React developmen
 - useRef for mutable values
 - useImperativeHandle for ref forwarding
 
-### [useEffect-patterns.md](useEffect-patterns.md)
+### [use-effect-patterns.md](use-effect-patterns.md)
 
 **Complete guide to useEffect and side effects**
 
@@ -144,3 +144,16 @@ This directory contains detailed guides for specific aspects of React developmen
 - Parallel data fetching (avoid waterfalls)
 - Server actions for mutations
 - Loading/error state patterns
+
+---
+
+## Cross-Reference Map
+
+- [hooks-advanced.md](hooks-advanced.md) → Extends SKILL.md's state management patterns; pairs with context-patterns.md for complex state sharing
+- [use-effect-patterns.md](use-effect-patterns.md) → Extends SKILL.md's side effects patterns; foundational for data fetching and subscriptions
+- [performance.md](performance.md) → Extends SKILL.md's performance patterns; pairs with server-features.md for Suspense and concurrent mode
+- [context-patterns.md](context-patterns.md) → Extends SKILL.md's state sharing patterns; pairs with hooks-advanced.md for complex state
+- [composition.md](composition.md) → Extends SKILL.md's component composition patterns; pairs with context-patterns.md for compound components
+- [forms-state.md](forms-state.md) → Extends SKILL.md's form patterns; pairs with [form-validation](../../form-validation/SKILL.md) for schema-based validation
+- [server-features.md](server-features.md) → Extends SKILL.md's server component patterns; pairs with performance.md for concurrent features
+- Related skills: [typescript](../../typescript/SKILL.md), [redux-toolkit](../../redux-toolkit/SKILL.md), [form-validation](../../form-validation/SKILL.md), [mui](../../mui/SKILL.md), [astro](../../astro/SKILL.md)

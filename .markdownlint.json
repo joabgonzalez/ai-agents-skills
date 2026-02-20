@@ -1,0 +1,21 @@
+{
+  "default": false,
+
+  "MD003": { "style": "atx" },
+  "MD018": true,
+  "MD019": true,
+  "MD022": true,
+  "MD023": true,
+
+  "MD009": true,
+  "MD010": true,
+  "MD012": { "maximum": 1 },
+
+  "MD004": { "style": "dash" },
+  "MD030": { "ul_single": 1 },
+
+  "MD031": true,
+  "MD032": true,
+
+  "MD055": { "style": "consistent" }
+}

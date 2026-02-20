@@ -151,7 +151,7 @@ const columnDefs: ColDef<RowData>[] = [
 - Resize events properly
 - Test keyboard navigation
 
-## References
+## Resources
 
 - https://www.ag-grid.com/react-data-grid/
 - https://www.ag-grid.com/react-data-grid/accessibility/

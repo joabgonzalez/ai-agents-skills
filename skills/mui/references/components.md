@@ -2,6 +2,14 @@
 
 > Core Material-UI component patterns and usage
 
+## Core Patterns
+
+- Button variants (contained, outlined, text) and IconButton with Tooltip
+- TextField variants with validation error and helperText display
+- Layout components: Box (flexbox/grid), Container (max-width), Grid (responsive), Stack
+- Navigation components: AppBar, Drawer, Tabs with controlled state
+- Feedback components: Dialog with actions, Snackbar with Alert
+
 ## When to Read This
 
 - Using MUI components for the first time

@@ -141,6 +141,7 @@ Add ONLY skill-specific rules that are unique to this technology:
 ## Checklist
 
 ### Structure
+
 - [ ] Directory: `skills/{skill-name}/`
 - [ ] Frontmatter: `name`, `description` (with Trigger), `metadata.version`
 - [ ] `metadata.skills` follows [dependencies-matrix.md](references/dependencies-matrix.md)
@@ -148,6 +149,7 @@ Add ONLY skill-specific rules that are unique to this technology:
 - [ ] Complex skills: `references/` created (40+ patterns)
 
 ### Content
+
 - [ ] When to Use (with Don't use for)
 - [ ] Critical Patterns with ✅/❌ markers and inline examples
 - [ ] Decision Tree (condition→action)
@@ -156,6 +158,7 @@ Add ONLY skill-specific rules that are unique to this technology:
 - [ ] Delegates to code-conventions/a11y (not duplicated)
 
 ### Quality
+
 - [ ] Token-efficient (no filler, every word adds value)
 - [ ] SKILL.md under 300 lines (complex skills)
 - [ ] All referenced skills exist

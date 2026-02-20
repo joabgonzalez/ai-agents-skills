@@ -3,6 +3,7 @@
 Rust-based toolchain replacing ESLint + Prettier with linting, formatting, and import sorting. Best for new projects or teams wanting simpler tooling with better performance.
 
 **Dependencies:**
+
 ```json
 {
   "@biomejs/biome": ">=2.0.0"

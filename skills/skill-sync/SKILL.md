@@ -37,6 +37,7 @@ skills/react/          → Source of truth
 ```
 
 **Symlinked skills auto-sync** - modifying source propagates instantly. Manual sync is only needed for:
+
 - New skills not yet installed
 - Copied (non-symlinked) installations
 - AGENTS.md / model instruction file changes
@@ -132,6 +133,36 @@ npx ai-agents-skills validate --all  # Verify everything
 
 ---
 
+## Example
+
+Syncing a newly created skill (`my-skill`) across all installed model directories.
+
+```bash
+# 1. Skill was just created at skills/my-skill/SKILL.md
+#    It does not yet exist in any model directory — symlinks are missing.
+
+# 2. Verify it follows skill-creation standards
+npx ai-agents-skills validate --skill my-skill
+# → Output: ✓ my-skill passes all checks
+
+# 3. Run local install to create symlinks in all model directories
+npx ai-agents-skills local
+# → Creates:
+#   .agents/skills/my-skill  → symlink → ../../skills/my-skill
+#   .claude/skills/my-skill  → symlink → ../../.agents/skills/my-skill
+#   .cursor/skills/my-skill  → symlink → ../../.agents/skills/my-skill
+#   (all installed model dirs receive the symlink)
+
+# 4. Verify sync is complete
+npx ai-agents-skills validate --all
+# → Output: ✓ All 63 skills validated across 4 model directories
+
+# 5. Any future edits to skills/my-skill/SKILL.md are auto-propagated
+#    via symlinks — no additional sync command needed.
+```
+
+Key takeaway: only new skills need the sync command. Edits to existing symlinked skills propagate automatically.
+
 ## Edge Cases
 
 **No model directories installed:** Skip sync. Skills will be installed when user runs `npx ai-agents-skills local` for the first time.
@@ -155,7 +186,7 @@ npx ai-agents-skills validate --all  # Verify everything
 
 ---
 
-## References
+## Resources
 
 - [skill-creation](../skill-creation/SKILL.md) - Standards for creating skills
 - [Makefile](../../Makefile) - Available build commands

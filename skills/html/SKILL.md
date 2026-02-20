@@ -26,7 +26,7 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 
 ## Critical Patterns
 
-### Semantic Elements
+### ✅ REQUIRED: Semantic Elements
 
 ```html
 <!-- CORRECT -->
@@ -52,7 +52,7 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 <div class="main">...</div>
 ```
 
-### Proper Heading Hierarchy
+### ✅ REQUIRED: Proper Heading Hierarchy
 
 ```html
 <!-- CORRECT: sequential -->
@@ -65,7 +65,7 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 <h4>Section</h4>
 ```
 
-### Button vs Anchor
+### ✅ REQUIRED: Button vs Anchor
 
 ```html
 <!-- CORRECT: button for actions -->
@@ -78,7 +78,7 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 <a href="#" onclick="doSomething()">Click</a>
 ```
 
-### Essential Meta Tags
+### ✅ REQUIRED: Essential Meta Tags
 
 ```html
 <!DOCTYPE html>

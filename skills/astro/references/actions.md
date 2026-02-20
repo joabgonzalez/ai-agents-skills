@@ -1,5 +1,12 @@
 # Server Actions
 
+## Core Patterns
+
+- Define Actions: Use `defineAction` with Zod schema validation for type-safe server-side form handling
+- Form Integration: Bind actions directly to HTML form `action` attributes for progressive enhancement
+- Client Enhancement: Override form submit with `actions.*()` calls for JavaScript-enhanced UX
+- Authentication Pattern: Access cookies and session data inside action handlers for auth flows
+
 > Type-safe server actions for form handling
 
 ## When to Read This

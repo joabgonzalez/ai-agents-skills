@@ -2,6 +2,13 @@
 
 > Linking native code, bridges, third-party modules
 
+## Core Patterns
+
+- When to Read This
+- Linking Third-Party Libraries
+- Creating Native Modules
+- Using Native Modules
+
 ## When to Read This
 
 - Integrating native iOS/Android code

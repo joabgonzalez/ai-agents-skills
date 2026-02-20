@@ -18,66 +18,16 @@ Cross-platform iOS/Android with React Native. Native components, platform code, 
 
 ## When to Use
 
-- Mobile apps for iOS/Android
-- Platform-specific features
-- Native modules/APIs
-- Performance/bundle optimization
-
-Don't use for:
-- Web apps (use react skill)
-- Expo-managed (use expo skill)
-
----
-| Gestures, animations                 | ✅ Yes        | ✅ Yes           | gestures-animations.md (required)   |
-| Platform-specific code (iOS/Android) | ✅ Yes        | ✅ Yes           | platform-specific.md (required)     |
-| Performance optimization             | ✅ Yes        | ✅ Yes           | performance-rn.md (required)        |
-| Native modules integration           | ✅ Yes        | ✅ Yes           | native-modules.md (required)        |
-| Multiple advanced features           | ✅ Yes        | ✅ Yes           | All relevant references             |
-
-### Available References
-
-All reference files located in `skills/react-native/references/`:
-
-- **README.md**: Overview of all React Native references and navigation guide
-- **navigation-patterns.md**: React Navigation Stack/Tab/Drawer, deep linking (required for navigation)
-- **gestures-animations.md**: Gesture Handler, Animated API, Reanimated (required for animations)
-- **platform-specific.md**: Platform.select, iOS/Android differences (required for platform code)
-- **performance-rn.md**: FlatList optimization, memory management (required for optimization)
-- **native-modules.md**: Linking native code, bridges (required for native integration)
-
-### Conditional Language
-
-- **"MUST read"** → **Obligatory** - Read immediately before proceeding
-- **"CHECK"** or "Consider" → **Suggested** - Read if you need deeper understanding
-- **"OPTIONAL"** → **Ignorable** - Read only for learning or edge cases
-
-### Example: Navigation
-
-```
-1. User: "Stack and Tab navigation"
-2. Read: SKILL.md
-3. Decision Tree: "Navigation? → navigation-patterns.md"
-4. Read: navigation-patterns.md
-5. Execute: Stack/Tab navigators
-```
-
----
-
-## When to Use
-
-Use when:
-
 - Cross-platform mobile (iOS + Android)
 - Bare React Native (not Expo managed)
-- Platform-specific features
+- Platform-specific features and native module integration
 - Mobile performance optimization
-- Native module integration
 
 Don't use for:
 
-- Expo managed (use expo skill)
-- Web-only React (use react skill)
-- Native iOS/Android dev
+- Web apps (use react skill)
+- Expo-managed (use expo skill)
+- Native iOS/Android development only
 
 ---
 
@@ -201,7 +151,7 @@ const MyList = ({ items }) => (
 
 ---
 
-## Advanced Architecture Patterns
+### Advanced Architecture Integration
 
 **⚠️ Context Check**: Same as React. Mobile apps with business logic benefit.
 
@@ -290,7 +240,7 @@ See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) for sele
 
 ---
 
-## References
+## Resources
 
 - https://reactnative.dev/docs/getting-started
 - https://reactnative.dev/docs/performance

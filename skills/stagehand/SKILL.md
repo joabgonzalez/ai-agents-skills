@@ -25,7 +25,7 @@ AI browser automation with natural language for interaction/extraction. Extends 
 
 ## Critical Patterns
 
-### page.act() for AI-Driven Actions
+### ✅ REQUIRED: page.act() for AI-Driven Actions
 
 Natural language instructions, Stagehand finds element and acts.
 
@@ -38,7 +38,7 @@ await page.act("Do the login thing");
 await page.act("Fill the form and submit it");
 ```
 
-### page.extract() for Structured Data
+### ✅ REQUIRED: page.extract() for Structured Data
 
 Zod schema extracts typed data from page.
 
@@ -56,7 +56,7 @@ const product = await page.extract({
 const raw = await page.extract({ instruction: "Get product info" });
 ```
 
-### page.observe() for Element Discovery
+### ✅ REQUIRED: page.observe() for Element Discovery
 
 Inspect AI view before act/extract calls.
 
@@ -66,7 +66,7 @@ console.log(actions); // [{ description: "Sign in button", selector: "..." }]
 await page.act("Click the sign in button");
 ```
 
-### Precise Prompting
+### ✅ REQUIRED: Precise Prompting
 
 One action per `act()`, specific nouns, quoted literals.
 
@@ -77,7 +77,7 @@ await page.act('Click the "Add to cart" button for "Wireless Mouse"');
 await page.act("Click the button");
 ```
 
-### Error Handling with Retries
+### ✅ REQUIRED: Error Handling with Retries
 
 Retry logic for AI actions on dynamic pages.
 
@@ -95,7 +95,7 @@ async function actWithRetry(page: Page, instruction: string, retries = 3) {
 }
 ```
 
-### Combining with Playwright for Hybrid Approach
+### ✅ REQUIRED: Combining with Playwright for Hybrid Approach
 
 Use Stagehand for discovery, then Playwright for stable execution.
 
@@ -117,7 +117,7 @@ test("submit form", async () => {
 });
 ```
 
-### Batch Extraction for Performance
+### ✅ REQUIRED: Batch Extraction for Performance
 
 Extract multiple data points in one call to reduce LLM requests.
 

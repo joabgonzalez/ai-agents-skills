@@ -2,6 +2,13 @@
 
 > Deep dive into useState vs useReducer, custom hooks, and hook composition
 
+## Core Patterns
+
+- When to Read This
+- useState vs useReducer
+- Custom Hooks
+- useRef Patterns
+
 ## When to Read This
 
 - Deciding between useState and useReducer for complex state
@@ -538,6 +545,7 @@ function SearchResults({ query }: { query: string }) {
 ```
 
 **useTransition vs useDeferredValue:**
+
 - `useTransition`: You control when to start the transition (wrap `setState`)
 - `useDeferredValue`: React defers the value automatically (wrap the value)
 

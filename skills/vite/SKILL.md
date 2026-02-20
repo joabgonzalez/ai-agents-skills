@@ -140,7 +140,7 @@ export default defineConfig({
 
 ---
 
-## References
+## Resources
 
 - https://vitejs.dev/guide/
 - https://vitejs.dev/config/

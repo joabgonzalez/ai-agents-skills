@@ -2,6 +2,14 @@
 
 Type-safe error handling wrapping operation outcomes in a type representing success or failure. Alternative to exceptions for expected errors—provides explicit error paths, composability, and forces consumers to handle errors.
 
+## Core Patterns
+
+Documents the full Result pattern implementation with map/flatMap composition, backend API integration, frontend React/Redux usage, and functional programming variants including Either<L,R> and Option<T>. Includes a comparison table of Result vs exceptions and integration guidance with Clean Architecture and SOLID.
+
+- Basic Result<T>: ok/fail constructors with map and flatMap for operation chaining
+- Either<L,R>: typed left/right variants for operations with two distinct success or error types
+- Option<T>: Some/None variant as a type-safe alternative to null/undefined returns
+
 ---
 
 ## Basic Implementation

@@ -4,6 +4,13 @@ Organizing skills from simple single-file to complex multi-reference architectur
 
 ---
 
+## Core Patterns
+
+- Complexity Assessment
+- Simple Skill Structure
+- When to Use
+- Critical Patterns
+
 ## Complexity Assessment
 
 **BEFORE creating structure, assess complexity:**
@@ -94,7 +101,7 @@ metadata:
 
 {Validation checklist}
 
-## Resources
+### Resources
 
 {Links to references/assets/docs}
 ```
@@ -144,7 +151,7 @@ assets/
 ### Linking from SKILL.md
 
 ```markdown
-## Resources
+### Resources
 
 - Templates: See [assets/](assets/) for templates and schemas
   - [SKILL-TEMPLATE.md](assets/SKILL-TEMPLATE.md) - Main skill template

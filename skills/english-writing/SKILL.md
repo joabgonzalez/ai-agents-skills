@@ -138,7 +138,7 @@ Is there unnecessary direct address? → Remove or rephrase
 Otherwise → Content is compliant
 ```
 
-## Scope
+## Conventions
 
 These rules apply to all generated code, documentation, comments, and prompt content. They do not apply to conversational responses in chat or user-facing explanations unless those are part of generated documentation or code comments.
 

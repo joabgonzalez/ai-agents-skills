@@ -25,6 +25,7 @@ Material UI for React with theming, sx prop, and accessibility patterns for v5+.
 - MUI X components (DataGrid, Charts)
 
 Don't use for:
+
 - Non-MUI React (use react skill)
 - Vanilla CSS (use css skill)
 
@@ -193,124 +194,13 @@ const theme = createTheme({
 
 ---
 
-## MUI X Charts (Context-Aware)
+## Resources
 
-> Use **ONLY when context requires charts**
-
-### Check Context First
-
-Verify charts needed:
-
-```typescript
-// 1. Check AGENTS.md for viz requirements
-// 2. Check package.json for @mui/x-charts
-// 3. Check task for "chart"/"graph"/"viz"
-
-// ✅ CORRECT
-// "Display revenue chart" → Use Charts
-// "Dashboard with KPIs" + has @mui/x-charts → Use Charts
-
-// ❌ WRONG
-// "Settings page" → NO charts
-// "User profile" → NO charts
-```
-
-**Dependencies** (only if charts needed):
-```json
-{
-  "@mui/x-charts": ">=6.0.0 <8.0.0"
-}
-```
-
-### When to Use
-
-Use when:
-- Task mentions "chart"/"graph"/"viz"/"plot"
-- AGENTS.md lists viz requirement
-- package.json has @mui/x-charts
-- Dashboards with visual metrics
-
-Don't use for:
-- Forms/settings/profiles/auth
-- Simple data (use Table)
-- No viz requirement
-
-### Critical Chart Patterns
-
-#### ✅ REQUIRED: Provide Axis Labels and Legends
-
-```typescript
-// ✅ CORRECT: Accessible chart
-import { LineChart } from '@mui/x-charts/LineChart';
-
-<LineChart
-  xAxis={[{ label: 'Month', data: months }]}
-  yAxis={[{ label: 'Revenue ($)' }]}
-  series={[{ data: revenue, label: 'Q1 2024' }]}
-/>
-
-// ❌ WRONG: No labels (inaccessible)
-<LineChart
-  xAxis={[{ data: months }]}
-  series={[{ data: revenue }]}
-/>
-```
-
-#### ✅ REQUIRED: Responsive Sizing
-
-```typescript
-// ✅ CORRECT: Container-based sizing
-<Box sx={{ width: '100%', height: 400 }}>
-  <LineChart /* ... */ />
-</Box>
-
-// ❌ WRONG: Fixed sizes (not responsive)
-<LineChart width={800} height={400} />
-```
-
-### Chart Types Decision Tree
-
-**Time series data?** → Use `LineChart`
-
-**Categorical comparison?** → Use `BarChart`
-
-**Part-to-whole relationship?** → Use `PieChart`
-
-**Correlation between variables?** → Use `ScatterChart`
-
-**Multiple metrics?** → Use multiple series in same chart
-
-### Example
-
-```typescript
-import { LineChart } from '@mui/x-charts/LineChart';
-
-function RevenueChart() {
-  return (
-    <Box sx={{ width: '100%', height: 400 }}>
-      <LineChart
-        xAxis={[{ data: [1, 2, 3, 4, 5], label: 'Month' }]}
-        yAxis={[{ label: 'Revenue ($)' }]}
-        series={[
-          { data: [2000, 5000, 3000, 7000, 4000], label: 'Q1 2024' }
-        ]}
-      />
-    </Box>
-  );
-}
-```
-
-### Edge Cases
-
-**Empty data:** Show placeholder, not empty chart
-
-**Large datasets:** Aggregate/sample for performance
-
-**Accessibility:** Provide table for screen readers
-
----
-
-## References
-
+- [components.md](references/components.md) — Button, TextField, Typography, layout components
+- [theming.md](references/theming.md) — createTheme, ThemeProvider, dark mode
+- [customization.md](references/customization.md) — sx prop, styled API, variants
+- [data-display.md](references/data-display.md) — Table, DataGrid, List patterns
+- [forms.md](references/forms.md) — TextField validation, Select, Autocomplete
+- [mui-x-charts.md](references/mui-x-charts.md) — Charts: LineChart, BarChart, PieChart (use only when viz required)
 - https://mui.com/material-ui/getting-started/
 - https://mui.com/material-ui/customization/theming/

@@ -26,6 +26,7 @@ Component testing for React Native apps, focusing on behavior over implementatio
 - Verifying component behavior from user perspective
 
 Don't use for:
+
 - End-to-end tests across app (use Detox or Maestro)
 - Testing native modules directly (use native test frameworks)
 - Performance benchmarking (use React Native performance tools)

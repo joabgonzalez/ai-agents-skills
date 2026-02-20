@@ -27,15 +27,17 @@ Fast sites with SSG/SSR, minimal JS, TypeScript, and client island architecture.
 - Partial hydration with islands
 
 Don't use for:
+
 - Full SPAs (use react)
 - Client-heavy apps with constant state
 - Real-time dashboards with WebSockets
 
 ## Critical Patterns
 
-### Detect Project Type First
+### ✅ REQUIRED: Detect Project Type First
 
 Check `astro.config.mjs` for project type before coding.
+
 ```javascript
 // SSG-only (no adapter) -- default
 export default defineConfig({ output: 'static' });
@@ -49,7 +51,7 @@ export default defineConfig({ output: 'hybrid', adapter: node() });
 // WRONG: Using SSR patterns (prerender: false, Astro.locals) in SSG-only project
 ```
 
-### Use .astro Components by Default
+### ✅ REQUIRED: Use .astro Components by Default
 
 ```astro
 ---
@@ -62,7 +64,7 @@ const { title } = Astro.props;
 <!-- <ReactHeader title={title} client:load /> -->
 ```
 
-### Client Directives Sparingly
+### ✅ REQUIRED: Client Directives Sparingly
 
 ```astro
 <!-- CORRECT: Only interactive components get JS -->
@@ -74,7 +76,7 @@ const { title } = Astro.props;
 <Footer client:load />
 ```
 
-### getStaticPaths for Dynamic Routes (SSG)
+### ✅ REQUIRED: getStaticPaths for Dynamic Routes (SSG)
 
 ```typescript
 export async function getStaticPaths() {
@@ -86,7 +88,7 @@ export async function getStaticPaths() {
 }
 ```
 
-### SSR with prerender: false
+### ✅ REQUIRED: SSR with prerender: false
 
 ```astro
 ---
@@ -97,7 +99,7 @@ const data = await fetchUserData(user.id);
 <h1>Welcome, {user.name}</h1>
 ```
 
-### Configure Output Mode
+### ✅ REQUIRED: Configure Output Mode
 
 ```javascript
 // astro.config.mjs
@@ -117,10 +119,9 @@ export default defineConfig({ output: 'hybrid', adapter: node() });
 - **Adding interactivity?** -> Read [client-directives.md](references/client-directives.md)
 - **Managing content (blog, docs)?** -> Read [content-collections.md](references/content-collections.md)
 - **Building forms?** -> Read [actions.md](references/actions.md)
-- **Smooth page transitions?** -> Read [view-transitions.md](references/view-transitions.md)
+- **Smooth page transitions or faster navigation?** -> Read [client-navigation.md](references/client-navigation.md)
 - **Auth or request logging?** -> Read [middleware.md](references/middleware.md)
 - **API keys or secrets?** -> Read [env-variables.md](references/env-variables.md)
-- **Faster navigation?** -> Read [prefetch.md](references/prefetch.md)
 - **Dynamic routes with known paths?** -> `getStaticPaths` (SSG)
 - **Dynamic routes with user data?** -> `prerender: false` (SSR)
 - **Immediate interaction?** -> `client:load`
@@ -197,6 +198,6 @@ export default defineConfig({
 
 ## Resources
 
-- [references/](references/README.md) -- SSG, SSR, hybrid, client directives, content, actions, middleware, view transitions, env, prefetch
+- [references/](references/README.md) -- SSG, SSR, hybrid, client directives, content, actions, middleware, client navigation, env
 - https://docs.astro.build/
 - https://docs.astro.build/en/guides/client-side-scripts/

@@ -24,6 +24,7 @@ Use when:
 - Assessing adherence to project patterns and conventions
 
 Don't use for:
+
 - Simple syntax fixes (use code-conventions skill directly)
 - Generating new code without review context
 - Automated linting (use code-quality skill)
@@ -183,6 +184,54 @@ Is this about performance?
 
 Is this about security?
   → Identify vulnerabilities → Recommend mitigations → Reference security skills (a11y for XSS, architecture-patterns for auth)
+```
+
+## Example
+
+Critical review of an authentication PR using the structured review process.
+
+```markdown
+## Code Review: PR #42 — JWT Authentication Middleware
+
+### 1. Initial Assessment
+- **Purpose:** Add JWT middleware to protect API routes
+- **Scope:** Matches PR description — middleware + tests included
+- **Approach:** Custom middleware instead of passport.js — reasonable for this codebase size
+
+### 2. Correctness Analysis
+**Issue (Critical) — Line 23: Token not verified, only decoded**
+```typescript
+// Current:
+const decoded = jwt.decode(token);  // ❌ Does NOT verify signature
+// Fix:
+const decoded = jwt.verify(token, process.env.JWT_SECRET!);  // ✅ Verifies signature
+```
+
+**Issue (High) — Line 41: Error message leaks internals**
+
+```typescript
+// Current: res.status(401).json({ error: err.message });  // exposes stack info
+// Fix:     res.status(401).json({ error: "Unauthorized" });
+```
+
+### 3. Quality Evaluation
+
+**What works well:**
+
+- Middleware correctly attached to protected routes only
+- Tests cover the happy path with a valid token
+
+**Missing:**
+
+- No test for expired token or tampered signature
+- No test for missing Authorization header
+
+### 4. Recommendations
+
+- **Critical:** Replace `jwt.decode` with `jwt.verify` — current code accepts unsigned tokens
+- **High:** Sanitize error messages before sending to client
+- **Medium:** Add tests for expired/invalid token cases
+
 ```
 
 ## Edge Cases

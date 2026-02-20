@@ -1,5 +1,12 @@
 # Astro Environment Variables
 
+## Core Patterns
+
+- Public vs Private: Use `PUBLIC_` prefix for client-safe variables; omit it for server-only secrets
+- Environment Files: Layer `.env`, `.env.local`, `.env.development`, and `.env.production` for environment-specific configuration
+- TypeScript Support: Declare variables in `ImportMetaEnv` interface for autocomplete and type checking
+- Validation: Validate all required variables on startup using Zod or custom helpers to fail early
+
 > Managing secrets, API keys, and configuration across environments
 
 ## When to Read This

@@ -2,6 +2,13 @@
 
 > createAsyncThunk, loading states, error handling, and request cancellation
 
+## Core Patterns
+
+- When to Read This
+- Basic Async Thunk
+- Error Handling
+- ThunkAPI Parameters
+
 ## When to Read This
 
 - Implementing API calls from Redux

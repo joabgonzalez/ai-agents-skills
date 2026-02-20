@@ -161,14 +161,6 @@ Detailed description...
 
 See [interface-design/references/README.md](../interface-design/references/README.md) for complete example.
 
-### Modern Pattern Examples
-
-**Design systems:** Token hierarchy (brand → semantic → component), CVA (Class Variance Authority) for type-safe variants, OKLCH color space. See [tailwindcss/references/design-system.md](../tailwindcss/references/design-system.md).
-
-**Design thinking:** Validation checkpoints at each stage (User flow → Component → State → A11y). See [interface-design/SKILL.md](../interface-design/SKILL.md).
-
-**Behavioral workflows:** Structured review templates, decision trees with rationale. See [critical-partner/SKILL.md](../critical-partner/SKILL.md) and [systematic-debugging/SKILL.md](../systematic-debugging/SKILL.md).
-
 ---
 
 ## Decision Tree
@@ -238,28 +230,6 @@ After creation? → Run ai-agents-skills sync or make sync
 6. **Validate and sync** → Run `ai-agents-skills validate --skill {name}` then `make sync`
    - Checkpoint: ✅ Validation passes, skill synced to model directories, SKILL.md under 300 lines (complex)
 
-### Version Management
-
-| Change Type | Version Bump | Example |
-|------------|-------------|---------|
-| Add/update patterns, examples, docs | Minor (1.0→1.1) | New pattern added |
-| Breaking: remove patterns, change responsibility | Major (1.x→2.0) | Skill restructured |
-| New skill | Start at 1.0 | Always |
-
----
-
-## Conventions
-
-### Skill-Creation-Specific
-
-- Lowercase-with-hyphens for directory/file names
-- Include Trigger clause in description
-- Decision Tree in every skill
-- Inline examples under 15 lines
-- SKILL.md max 300 lines for complex skills
-
----
-
 ## Example
 
 See [examples.md](references/examples.md) for complete examples:
@@ -285,10 +255,11 @@ See [examples.md](references/examples.md) for complete examples:
 Before finalizing any skill:
 
 ### Structure & Frontmatter
+
 - [ ] Directory under `skills/` (lowercase-with-hyphens)
 - [ ] Based on SKILL-TEMPLATE.md
 - [ ] `name` and `description` (with Trigger) present
-- [ ] `metadata.version` set (start at "1.0")
+- [ ] `metadata.version` set — new skill starts at `1.0`; minor update → `1.x`; breaking change → `2.0`
 - [ ] `metadata.type` set (behavioral|universal|language|framework|library|tooling|domain)
 - [ ] `metadata.skills` follows type rules from [dependencies-matrix.md](references/dependencies-matrix.md)
 - [ ] No transitive redundancies (verified against dependency chains)
@@ -296,6 +267,7 @@ Before finalizing any skill:
 - [ ] Complex skills: references/ directory created
 
 ### Content
+
 - [ ] When to Use (with Don't use when)
 - [ ] Critical Patterns with ✅/❌ markers and inline examples (<15 lines each)
 - [ ] Decision Tree (condition→action format)
@@ -304,6 +276,7 @@ Before finalizing any skill:
 - [ ] Delegates to code-conventions/a11y/humanizer (not duplicated)
 
 ### Quality
+
 - [ ] Token-efficient (no filler, every word adds value)
 - [ ] SKILL.md under 300 lines (complex skills)
 - [ ] All referenced skills exist

@@ -18,6 +18,7 @@ Eliminate knowledge duplication through abstraction. DRY is about knowledge dupl
 - Shared configuration or constants duplicated across modules
 
 Don't use for:
+
 - Code that looks similar but represents different business concepts
 - Premature abstraction (apply after seeing duplication, not speculatively)
 - Trivial one-off operations

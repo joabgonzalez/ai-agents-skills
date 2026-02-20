@@ -3,6 +3,7 @@
 Performant form state management with uncontrolled components and minimal re-renders. Best for modern React applications prioritizing performance.
 
 **Dependencies:**
+
 ```json
 {
   "react-hook-form": "^7.0.0",
@@ -11,6 +12,7 @@ Performant form state management with uncontrolled components and minimal re-ren
 ```
 
 **Optional resolvers:**
+
 ```json
 {
   "@hookform/resolvers": "^3.0.0",  // For Zod/Yup integration

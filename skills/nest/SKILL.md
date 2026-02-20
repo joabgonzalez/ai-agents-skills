@@ -16,19 +16,23 @@ metadata:
 Scalable server apps with NestJS modules, dependency injection, and decorators.
 
 ## When to Use
+
 - Modular server apps
 - Dependency injection
 - Scalable APIs
 
 Don't use for:
+
 - Single-file scripts/CLIs (use Node.js)
 - Lightweight edge functions (use Hono/Express)
 - Frontend-only projects
 
 ## Critical Patterns
 
-### Module / Controller / Service Structure
+### ✅ REQUIRED: Module / Controller / Service Structure
+
 Each feature in own module with controllers and providers.
+
 ```typescript
 // CORRECT: one module encapsulates the feature
 @Module({
@@ -40,8 +44,10 @@ export class UsersModule {}
 // WRONG: registering all services in AppModule
 ```
 
-### Dependency Injection
+### ✅ REQUIRED: Dependency Injection
+
 Inject via constructor; never instantiate manually.
+
 ```typescript
 // CORRECT: let the DI container manage instances
 @Controller("users")
@@ -55,8 +61,10 @@ export class UsersController {
 // WRONG: const service = new UsersService()
 ```
 
-### Guards, Pipes, and Interceptors
+### ✅ REQUIRED: Guards, Pipes, and Interceptors
+
 Built-in lifecycle hooks for cross-cutting concerns.
+
 ```typescript
 // CORRECT: guard for auth, pipe for validation, interceptor for transform
 @UseGuards(AuthGuard)
@@ -66,8 +74,10 @@ Built-in lifecycle hooks for cross-cutting concerns.
 export class UsersController {}
 ```
 
-### DTOs with class-validator
+### ✅ REQUIRED: DTOs with class-validator
+
 DTOs with decorators for auto-validation.
+
 ```typescript
 export class CreateUserDto {
   @IsString() @MinLength(2) name: string;
@@ -80,8 +90,10 @@ create(@Body() dto: CreateUserDto) {
 }
 ```
 
-### Exception Filters
+### ✅ REQUIRED: Exception Filters
+
 Map domain errors to HTTP responses centrally.
+
 ```typescript
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
@@ -95,6 +107,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
 ```
 
 ## Decision Tree
+
 - REST API? -> Use `@Controller` with HTTP method decorators
 - GraphQL API? -> Use `@Resolver` with `@nestjs/graphql`
 - Shared business logic? -> Extract into an `@Injectable()` service
@@ -105,6 +118,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
 - Config secrets? -> Use `ConfigModule.forRoot()` with `.env`
 
 ## Example
+
 ```typescript
 @Controller("users")
 export class UsersController {
@@ -124,6 +138,7 @@ export class UsersController {
 ```
 
 ## Edge Cases
+
 - **Circular deps**: Use `forwardRef(() => SomeModule)` for mutual dependencies.
 - **Request-scoped providers**: Default singleton; `Scope.REQUEST` hurts performance.
 - **Module order**: Import `ConfigModule` before dependent modules.
@@ -131,6 +146,7 @@ export class UsersController {
 - **Test mocks**: Override providers in `Test.createTestingModule()`, not imports.
 
 ## Checklist
+
 - [ ] Each feature has its own module with controllers and providers
 - [ ] Services are injected via constructors, never manually instantiated
 - [ ] `ValidationPipe` with `whitelist: true` is applied globally or per-route
@@ -141,6 +157,7 @@ export class UsersController {
 - [ ] Unit tests mock providers via the testing module
 
 ## Resources
+
 - [NestJS Official Documentation](https://docs.nestjs.com/)
 - [NestJS Fundamentals - Modules](https://docs.nestjs.com/modules)
 - [class-validator GitHub](https://github.com/typestack/class-validator)

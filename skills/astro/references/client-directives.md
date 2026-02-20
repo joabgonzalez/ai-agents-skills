@@ -1,5 +1,12 @@
 # Client Directives
 
+## Core Patterns
+
+- Directive Selection: Choose from `client:load`, `client:visible`, `client:idle`, `client:media`, and `client:only` based on component priority and interactivity needs
+- Progressive Hydration: Use `client:visible` for below-fold content and `client:idle` for non-critical features to minimize initial JavaScript
+- Static Default: Components without a directive render as zero-JavaScript static HTML
+- Performance Strategy: Combine multiple directives to balance initial bundle size against time-to-interactive
+
 > Hydration strategies for adding interactivity with minimal JavaScript
 
 ## When to Read This

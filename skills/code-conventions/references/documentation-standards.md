@@ -2,6 +2,13 @@
 
 > Guidelines for JSDoc, inline comments, and README files.
 
+## Core Patterns
+
+- Core Principle: Comment the "Why", Not the "What"
+- Patterns
+- Setup
+- Development
+
 ## Core Principle: Comment the "Why", Not the "What"
 
 Code should be self-documenting through good naming. Comments explain *why* a decision was made, not *what* the code does.
@@ -61,6 +68,7 @@ export interface IUserRepository {
 ### When to Add Inline Comments
 
 Add inline comments for:
+
 - **Complex algorithms**: Explain the approach
 - **Business rules**: Why this specific threshold/logic
 - **Workarounds**: Link to issue/ticket

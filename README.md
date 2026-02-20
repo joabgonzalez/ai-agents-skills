@@ -227,6 +227,16 @@ metadata:
 ...
 ```
 
+## Troubleshooting
+
+**Stale cache after an update or clone issue:**
+
+```bash
+rm -rf ~/.cache/ai-agents-skills
+```
+
+This removes the local skill cache. The next `npx ai-agents-skills` run re-downloads it fresh.
+
 ## License
 
 Apache 2.0

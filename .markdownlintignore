@@ -1,0 +1,9 @@
+.github/
+.claude/
+.codex/
+.gemini/
+.cursor/
+.agents/
+dist/
+node_modules/
+**/node_modules/**
