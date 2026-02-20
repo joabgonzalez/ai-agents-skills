@@ -2,6 +2,13 @@
 
 > Mobile-first strategy for creating layouts that adapt gracefully across all screen sizes.
 
+## Core Patterns
+
+- Mobile-First Breakpoint Strategy
+- Standard Breakpoints (Tailwind-Aligned)
+- Responsive Patterns
+- Responsive Images
+
 ## Mobile-First Breakpoint Strategy
 
 Start with mobile constraints (smallest screen), then progressively enhance for larger screens using `min-width` media queries.
@@ -49,6 +56,7 @@ Start with mobile constraints (smallest screen), then progressively enhance for 
 ```
 
 **Why mobile-first?**
+
 1. **Performance:** Mobile users download only necessary CSS (desktop styles added progressively)
 2. **Constraints:** Designing for mobile forces prioritization (what's truly essential?)
 3. **Progressive enhancement:** Start with core experience, add enhancements
@@ -56,8 +64,6 @@ Start with mobile constraints (smallest screen), then progressively enhance for 
 ---
 
 ## Standard Breakpoints (Tailwind-Aligned)
-
-Organized from smallest to largest for mobile-first development.
 
 | Name | Min Width | Device Type | Typical Use | Prefix |
 |------|-----------|-------------|-------------|--------|
@@ -139,6 +145,7 @@ Component-level responsiveness based on container width, not viewport.
 ```
 
 **Use cases:**
+
 - **Sidebar widgets:** Same component in wide main area vs narrow sidebar
 - **Grid cards:** Cards in 1-column vs 3-column layouts need different internal layouts
 - **Reusable components:** Component doesn't know where it'll be placed
@@ -176,6 +183,7 @@ h1 { font-size: 1.5rem; }
 ```
 
 **clamp() formula:**
+
 ```
 clamp(MIN, PREFERRED, MAX)
 
@@ -233,6 +241,7 @@ Auto-responsive grids without manual breakpoints using `auto-fit` or `auto-fill`
 ```
 
 **auto-fit vs auto-fill:**
+
 - `auto-fit`: Collapses empty columns (stretches remaining items)
 - `auto-fill`: Maintains column count even if empty (items don't stretch)
 
@@ -249,6 +258,7 @@ Auto-responsive grids without manual breakpoints using `auto-fit` or `auto-fill`
 ```
 
 **Use cases:**
+
 - Product grids (1-4 columns based on width)
 - Dashboard cards
 - Icon/logo lists
@@ -286,6 +296,7 @@ Better mobile compatibility than fixed `vh` (accounts for browser UI).
 | `lvh` | Large viewport height | Largest possible (UI hidden) | Full-screen experiences |
 
 **Mobile browser UI behavior:**
+
 - **On scroll down:** Address bar hides → viewport grows
 - **On scroll up:** Address bar shows → viewport shrinks
 - `100vh` = **1200px** (largest), but only **1000px** visible with address bar
@@ -319,6 +330,7 @@ Better mobile compatibility than fixed `vh` (accounts for browser UI).
 ```
 
 **srcset syntax:**
+
 - `400w` = Image width is 400px
 - `sizes` = Display width at different breakpoints
 - Browser calculates: `sizes` * `devicePixelRatio` → selects nearest `srcset`
@@ -347,6 +359,7 @@ Different images for different screen sizes (cropping, orientation).
 ```
 
 **When to use:**
+
 - Different crops (portrait vs landscape)
 - Different focal points (zoom in on mobile)
 - Different images entirely (simplified for mobile)
@@ -383,6 +396,7 @@ Minimum size for tap accuracy.
 ```
 
 **Touch target guidelines:**
+
 - **iOS:** 44x44pt minimum
 - **Android (Material Design):** 48x48dp minimum
 - **Spacing:** 8px minimum between touch targets
@@ -406,6 +420,7 @@ Minimum size for tap accuracy.
 ```
 
 **meta tag required:**
+
 ```html
 <meta name="viewport" content="viewport-fit=cover">
 ```
@@ -440,6 +455,7 @@ Minimum size for tap accuracy.
 ```
 
 **scroll-snap benefits:**
+
 - Cards snap to alignment (not half-visible)
 - Feels native (like iOS carousel)
 - No JavaScript required
@@ -466,12 +482,14 @@ Firefox:
 ### 2. Real Device Testing
 
 **Essential devices to test:**
+
 - iPhone (latest + 2-3 years old)
 - Android phone (Samsung, Google Pixel)
 - iPad (or Android tablet)
 - Desktop browser (Chrome, Firefox, Safari)
 
-**Why?** DevTools can't simulate:
+**DevTools can't simulate:**
+
 - Touch precision
 - Actual font rendering (iOS vs Android)
 - Performance (animations, scroll)
@@ -511,6 +529,7 @@ Test both portrait and landscape.
 ### 5. Content Extremes
 
 Test with:
+
 - **Long text:** User names, product titles
 - **Missing images:** Broken src, slow network
 - **Empty states:** No data, no results

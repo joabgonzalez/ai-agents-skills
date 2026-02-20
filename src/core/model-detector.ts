@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export interface ModelInfo {
   id: string;
@@ -58,7 +58,9 @@ export class ModelDetector {
    * Get all models information
    */
   getAllModelsInfo(projectPath: string): ModelInfo[] {
-    return Object.keys(SUPPORTED_MODELS).map((modelId) => this.getModelInfo(projectPath, modelId)!);
+    return Object.keys(SUPPORTED_MODELS)
+      .map((modelId) => this.getModelInfo(projectPath, modelId))
+      .filter((info): info is ModelInfo => info !== null);
   }
 
   /**

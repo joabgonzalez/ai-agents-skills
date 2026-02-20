@@ -4,16 +4,12 @@ description: "Systematic code refactoring with risk mitigation. Trigger: When re
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - architecture-patterns
-    - typescript
-    - systematic-debugging
-    - unit-testing
+  type: behavioral
 ---
 
 # Code Refactoring Skill
 
-Systematic approach to refactoring legacy code, migrating technologies, and resolving technical debt with minimal risk and maximum impact.
+Refactoring legacy code, migrating technologies, and resolving technical debt with minimal risk and maximum impact.
 
 ## When to Use
 
@@ -24,6 +20,7 @@ Systematic approach to refactoring legacy code, migrating technologies, and reso
 - Preparing code for performance optimization
 
 **Don't use for:**
+
 - Adding new features (separate refactoring from feature work)
 - Code that works well and won't change
 - Production-critical code without adequate test coverage
@@ -33,7 +30,7 @@ Systematic approach to refactoring legacy code, migrating technologies, and reso
 
 ### ✅ REQUIRED: Safety Snapshot Before Starting
 
-Create a safety net BEFORE touching any code.
+Create safety net BEFORE touching any code.
 
 ```bash
 # ✅ CORRECT: Safety snapshot workflow
@@ -58,6 +55,7 @@ echo "Bundle size: $(du -h dist/)" >> baseline-metrics.txt
 ```
 
 **Why this matters:**
+
 - Instant rollback with `git checkout refactor-start-YYYYMMDD`
 - Baseline comparison proves improvement
 - Clean separation from feature work
@@ -65,7 +63,7 @@ echo "Bundle size: $(du -h dist/)" >> baseline-metrics.txt
 
 ### ✅ REQUIRED: Test Coverage Before Refactoring
 
-Never refactor production code without comprehensive test coverage.
+Never refactor production code without test coverage.
 
 ```typescript
 // ❌ WRONG: Refactoring without tests
@@ -93,6 +91,7 @@ describe('processPayment', () => {
 ```
 
 **Requirements:**
+
 - Minimum 80% unit test coverage
 - 60% integration test coverage for critical paths
 - Characterization tests documenting current behavior
@@ -133,6 +132,7 @@ function calculateFee(amount: number): number {
 ```
 
 **Target sizes:**
+
 - Functions: <50 lines
 - Methods: <20 lines
 - Classes: <200 lines
@@ -165,6 +165,7 @@ export const paymentService = config.featureFlags.useNewPayment
 ```
 
 **Pattern: Strangler Fig**
+
 ```typescript
 // Facade over legacy + new implementation
 class PaymentFacade {
@@ -294,6 +295,7 @@ function calculateTotal(order: Order): number {
 ```
 
 **Efficiency gains:**
+
 - Rename: 30 seconds (automated) vs 20 minutes (manual)
 - Extract function: 10 seconds vs 5 minutes
 - Move file: 5 seconds vs 15 minutes (updating imports)
@@ -320,6 +322,7 @@ npm install  # ← Can pull new versions, adding variables
 ```
 
 **Why this matters:**
+
 - Refactoring + dependency update = 2 variables (debugging nightmare)
 - Separate concerns: Refactor first, update dependencies later
 - Reproducible builds across team and CI/CD
@@ -349,6 +352,7 @@ processPayment('user-1', 100);    // ✅ Valid
 ```
 
 **Migration phases:**
+
 1. **Phase 0**: Add `// @ts-check` to JS files (zero conversion)
 2. **Phase 1**: Add JSDoc types to public APIs
 3. **Phase 2**: Rename `.js` → `.ts` (one file at a time)
@@ -384,16 +388,19 @@ Calculate effort vs impact before starting.
 ```
 
 **Quick Wins (Prioritize First):**
+
 - 1-2 weeks effort
 - 250-375% first-month ROI
 - Example: Extract repeated validation logic into shared utility
 
 **Medium-Term:**
+
 - 1-3 months effort
 - 100-200% 3-month ROI
 - Example: Technology migration (JS→TS)
 
 **Long-Term:**
+
 - 3-12 months effort
 - 50-100% 6-month ROI
 - Example: Framework migration (monolith→microservices)
@@ -432,7 +439,7 @@ Calculate ROI
   <50% in 6 months → Accept debt, revisit annually
 ```
 
-## Migration Patterns
+## Examples
 
 ### JavaScript → TypeScript
 
@@ -645,6 +652,7 @@ function UserProfile({ userId }) {
 ```
 
 **Benefits:**
+
 - Immer integration (mutate state directly in reducers)
 - Built-in thunk middleware (no extra setup)
 - RTK Query eliminates manual data fetching (auto-caching, auto-refetching)
@@ -731,6 +739,7 @@ test('throws error for negative prices', () => {
 5. **Parallel Test Development** - Write tests in parallel with refactoring (not before)
 
 **Tools for Legacy Code Testing:**
+
 ```bash
 # Golden master testing
 npm install --save-dev jest-image-snapshot  # Visual regression
@@ -743,7 +752,7 @@ npm test -- --coverage --coverageThreshold='{"global":{"branches":80}}'
 npx stryker run  # Kills mutants to check if tests catch bugs
 ```
 
-## Efficiency Patterns
+## Conventions
 
 ### Parallel Refactoring with Git Worktrees
 
@@ -770,6 +779,7 @@ git worktree add ../project-refactor-payment refactor/payment-module
 ```
 
 **Benefits:**
+
 - Run tests for both refactors simultaneously
 - Compare implementations side-by-side
 - No risk of uncommitted work conflicts
@@ -820,11 +830,13 @@ module.exports = function transformer(file, api) {
 ```
 
 **When to use codemods:**
+
 - 50+ files need identical transformation
 - Pattern is mechanical (no logic decisions)
 - High risk of manual error (typos, missed files)
 
 **Examples:**
+
 - Replace deprecated API with new API
 - Update import paths after restructure
 - Convert class components to hooks
@@ -869,6 +881,7 @@ grep -r "// TODO" src/ | wc -l
 ```
 
 **Track improvements over time:**
+
 - Complexity: Target <10 per function
 - Bundle size: Aim for 10-20% reduction
 - Test coverage: Increase from 60% → 80%
@@ -897,7 +910,7 @@ grep -r "// TODO" src/ | wc -l
 
 - **Team members need original code during refactor**: Use feature branch + feature flag. Original code remains accessible until migration complete.
 
-## Safety Patterns
+## Workflow
 
 ### Approval Gates for High-Risk Refactors
 
@@ -967,12 +980,14 @@ spec:
 ```
 
 **Rollout strategy:**
+
 1. 10% traffic for 24 hours (monitor error rates)
 2. 25% traffic for 24 hours
 3. 50% traffic for 24 hours
 4. 100% traffic (remove original)
 
 **Rollback triggers:**
+
 - Error rate increase >5%
 - Latency increase >20%
 - User complaints >3
@@ -999,6 +1014,7 @@ if (rollbackConditions.some((condition) => condition)) {
 ```
 
 **Safety metrics to monitor:**
+
 - Error rate (HTTP 5xx)
 - Response time (p50, p95, p99)
 - Request count (detect routing issues)
@@ -1010,28 +1026,32 @@ if (rollbackConditions.some((condition) => condition)) {
 For high-risk refactors, use structured pair programming.
 
 **Roles:**
+
 - **Driver**: Writes code, makes incremental changes
 - **Navigator**: Reviews patterns, suggests alternatives, watches for risks
 
 **Protocol:**
+
 1. **Planning (15 min)**: Navigator outlines refactoring plan
 2. **Execution (45 min)**: Driver implements, Navigator reviews
 3. **Test Validation (10 min)**: Both verify tests pass
 4. **Switch Roles (every hour)**: Fresh perspective
 
 **Benefits:**
+
 - Real-time code review (catch issues immediately)
 - Knowledge transfer (both learn refactoring patterns)
 - Reduced risk (two brains > one)
 - Faster completion (fewer rework cycles)
 
 **When to use:**
+
 - Mission-critical code (payment, auth, data integrity)
 - Unfamiliar codebase (legacy system with no docs)
 - Complex architectural changes (monolith→microservices)
 - Learning opportunity (junior + senior pairing)
 
-## Functional Validation Checklist
+## Checklist
 
 Use this checklist to **guarantee functionality preservation** after refactoring.
 
@@ -1040,26 +1060,31 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Capture current behavior for comparison:**
 
 - [ ] **Snapshot test outputs**: Run full test suite, save results
+
   ```bash
   npm test -- --coverage > baseline-tests.txt
   ```
 
 - [ ] **Record API responses**: For each endpoint, capture sample responses
+
   ```bash
   curl http://localhost:3000/api/users/1 > baseline-user-1.json
   ```
 
 - [ ] **Capture performance metrics**: Measure current performance
+
   ```bash
   npx autocannon http://localhost:3000/api/users > baseline-perf.txt
   ```
 
 - [ ] **Screenshot UI states**: For frontend, capture visual snapshots
+
   ```bash
   npx playwright test --update-snapshots
   ```
 
 - [ ] **Document edge cases**: List all known edge cases and expected behavior
+
   ```markdown
   # Edge Cases
   1. Empty array → returns []
@@ -1068,6 +1093,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
   ```
 
 - [ ] **Export database state**: Snapshot DB for rollback
+
   ```bash
   pg_dump mydb > baseline-db.sql
   ```
@@ -1077,38 +1103,45 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Validate after EACH atomic change:**
 
 - [ ] **Run affected tests**: Test only changed modules
+
   ```bash
   npm test -- --testPathPattern=user-service
   ```
 
 - [ ] **Compare outputs**: Ensure identical results to baseline
+
   ```bash
   diff baseline-user-1.json current-user-1.json
   # Output should be empty (no diff)
   ```
 
 - [ ] **Check for regressions**: Run mutation testing
+
   ```bash
   npx stryker run  # Kills mutants to verify test strength
   ```
 
 - [ ] **Visual regression testing**: Compare screenshots
+
   ```bash
   npx playwright test  # Fails if visual changes detected
   ```
 
 - [ ] **Performance regression check**: Ensure no slowdown
+
   ```bash
   npx autocannon http://localhost:3000/api/users > current-perf.txt
   # Compare: current should be ≤ baseline latency
   ```
 
 - [ ] **Type checking**: Zero new TypeScript errors
+
   ```bash
   npx tsc --noEmit  # Must exit with code 0
   ```
 
 - [ ] **Linting**: Zero new linting errors
+
   ```bash
   npx eslint src/  # Must exit with code 0
   ```
@@ -1118,33 +1151,39 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Final validation before merge:**
 
 - [ ] **Full test suite passes**: All tests green
+
   ```bash
   npm test -- --coverage --watchAll=false
   # Coverage must be ≥ baseline (no decrease)
   ```
 
 - [ ] **Integration tests pass**: Test cross-module interactions
+
   ```bash
   npm run test:integration
   ```
 
 - [ ] **E2E tests pass**: Validate user workflows
+
   ```bash
   npm run test:e2e
   ```
 
 - [ ] **API contract tests**: Verify external contracts unchanged
+
   ```bash
   npx @pact-foundation/pact verify
   ```
 
 - [ ] **Load testing**: Ensure performance under load
+
   ```bash
   npx artillery run load-test.yml
   # RPS should match or exceed baseline
   ```
 
 - [ ] **Smoke test in staging**: Deploy to staging, run smoke tests
+
   ```bash
   npm run deploy:staging && npm run test:smoke
   ```
@@ -1156,16 +1195,19 @@ Use this checklist to **guarantee functionality preservation** after refactoring
   - [ ] Data exports correctly
 
 - [ ] **Accessibility audit**: No regressions in a11y
+
   ```bash
   npx @axe-core/cli http://localhost:3000
   ```
 
 - [ ] **Security scan**: No new vulnerabilities
+
   ```bash
   npm audit --audit-level=moderate
   ```
 
 - [ ] **Database migrations**: Test rollback procedure
+
   ```bash
   npm run migrate:down && npm run migrate:up
   ```
@@ -1180,6 +1222,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 - [ ] **Monitoring dashboards configured**: Track error rates, latency
 - [ ] **Feature flags configured**: Enable gradual rollout (10% → 50% → 100%)
 - [ ] **Rollback script tested**: Verify instant rollback works
+
   ```bash
   ./rollback.sh --dry-run
   ```
@@ -1190,38 +1233,44 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Post-deployment validation:**
 
 - [ ] **Health check passes**: Verify app responds
+
   ```bash
   curl https://api.example.com/health
   # Response: {"status": "ok"}
   ```
 
 - [ ] **Error rate baseline**: Monitor for 1 hour
+
   ```
   Error rate < 1% (must be ≤ baseline)
   ```
 
 - [ ] **Latency baseline**: Monitor for 1 hour
+
   ```
   p95 latency < 500ms (must be ≤ baseline)
   ```
 
 - [ ] **User complaints**: Check support channels
+
   ```
   Zero complaints related to refactored features
   ```
 
 - [ ] **Business metrics**: Verify KPIs unchanged
+
   ```
   Conversion rate, revenue, active users ≥ baseline
   ```
 
-## Refactoring Compliance Protocol
+### Compliance Protocol
 
 **Mandatory checkpoints to guarantee safety.**
 
 ### Checkpoint 1: Approval to Start (GATE 1)
 
 **Required artifacts:**
+
 1. ✅ Refactoring proposal document (objectives, scope, estimated effort)
 2. ✅ Test coverage report (must be ≥80%)
 3. ✅ ROI calculation (effort vs impact)
@@ -1232,6 +1281,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Decision:** GO / NO-GO / DEFER
 
 **Example:**
+
 ```markdown
 # Refactoring Proposal: Migrate Redux ORM to Prisma
 
@@ -1252,6 +1302,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Trigger:** 50% completion OR 1 week elapsed
 
 **Required validation:**
+
 1. ✅ All commits have passing tests
 2. ✅ No increase in complexity metrics
 3. ✅ Performance unchanged or improved
@@ -1261,6 +1312,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Decision:** CONTINUE / ADJUST / ABORT
 
 **Example:**
+
 ```markdown
 # Mid-Refactoring Review: Redux ORM → Prisma (Day 7)
 
@@ -1287,6 +1339,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Decision:** MERGE / REVISE / REJECT
 
 **Example:**
+
 ```markdown
 # Pre-Merge Validation: Redux ORM → Prisma
 
@@ -1313,6 +1366,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 **Decision:** KEEP / ROLLBACK / MONITOR
 
 **Example:**
+
 ```markdown
 # Post-Deployment Validation: Redux ORM → Prisma (24h review)
 
@@ -1336,6 +1390,7 @@ Use this checklist to **guarantee functionality preservation** after refactoring
 4. **GATE 4 failure**: Initiate rollback immediately. Root cause analysis required.
 
 **Rollback procedure:**
+
 ```bash
 # Emergency rollback (instant)
 kubectl rollout undo deployment/app
@@ -1348,35 +1403,40 @@ curl https://api.example.com/health
 # Response: {"status": "ok", "version": "original"}
 ```
 
-## Checklist Summary
+### Quick Reference
 
 **Simplified checklist for quick reference:**
 
 ### Pre-Refactoring (GATE 1)
+
 - [ ] Test coverage ≥80%
 - [ ] Baseline captured (tests, perf, outputs)
 - [ ] Rollback plan documented
 - [ ] Team approval obtained
 
 ### During Refactoring (GATE 2)
+
 - [ ] Atomic commits (<300 lines)
 - [ ] Tests pass after each commit
 - [ ] Performance unchanged
 - [ ] Mid-point review complete (50%)
 
 ### Pre-Merge (GATE 3)
+
 - [ ] Full test suite passes
 - [ ] Code review approved (2+)
 - [ ] Functional validation complete
 - [ ] Documentation updated
 
 ### Post-Deployment (GATE 4)
+
 - [ ] Error rate ≤ baseline (24h)
 - [ ] Latency ≤ baseline (24h)
 - [ ] Zero user complaints
 - [ ] Rollback tested
 
 **Red Flags - Stop Immediately:**
+
 - [ ] Tests failing consistently
 - [ ] Performance degradation >10%
 - [ ] Timeline slippage >50%
@@ -1384,7 +1444,7 @@ curl https://api.example.com/health
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - Code organization and naming
+- [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - SOLID, DDD, Clean Architecture
 - [typescript](../typescript/SKILL.md) - Type-safe refactoring
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Root cause analysis

@@ -4,25 +4,16 @@ description: "Universal accessibility with WCAG 2.1/2.2 Level AA. Trigger: When 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: domain
   allowed-tools:
     - file-reader
 ---
 
 # Accessibility (a11y) Skill
 
-## Overview
-
-This skill centralizes accessibility guidelines and best practices for all technologies and frameworks used in the project, including HTML, CSS, React, MUI, Astro, React Native, and more. It covers semantic structure, ARIA usage, color contrast, keyboard navigation, and compliance with WCAG and WAI-ARIA standards.
-
-## Objective
-
-Ensure all user interfaces meet accessibility standards (WCAG 2.1/2.2 Level AA minimum) across all technologies. This skill provides universal accessibility guidance that technology-specific skills can reference.
-
----
+Ensures WCAG 2.1/2.2 Level AA compliance: semantic structure, ARIA, contrast, keyboard nav.
 
 ## When to Use
-
-Use this skill when:
 
 - Building UI components with interactive elements
 - Implementing forms, modals, or custom widgets
@@ -31,11 +22,11 @@ Use this skill when:
 - Reviewing accessibility compliance
 - Testing with screen readers
 
-Don't use this skill for:
+Don't use for:
 
-- Technology-specific implementation (delegate to react, html, etc.)
-- General coding patterns (use conventions skill)
-- Pure backend logic (no UI)
+- Tech-specific implementation (react, html skills)
+- General patterns (code-conventions skill)
+- Backend logic (no UI)
 
 ---
 
@@ -107,67 +98,124 @@ Don't use this skill for:
 
 ### Semantic HTML
 
-- Use semantic elements (`<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`)
-- Proper heading hierarchy (h1 → h2 → h3, no skipping levels)
-- Use `<button>` for actions, `<a>` for navigation
-- Form labels must be associated with inputs
+- Semantic elements (`<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`)
+- Heading hierarchy (h1 → h2 → h3, no skipping)
+- `<button>` for actions, `<a>` for navigation
+- Labels associated with inputs
 
 ### ARIA
 
-- Use ARIA only when semantic HTML is insufficient
-- Prefer native elements over ARIA roles
-- Common patterns: `aria-label`, `aria-labelledby`, `aria-describedby`
-- Required for dynamic content: `aria-live`, `aria-atomic`
+- Only when semantic HTML insufficient
+- Prefer native elements
+- Common: `aria-label`, `aria-labelledby`, `aria-describedby`
+- Dynamic content: `aria-live`, `aria-atomic`
 
 ### Keyboard Navigation
 
-- All interactive elements must be keyboard accessible
-- Logical tab order (use tabindex only when necessary)
+- All interactive elements keyboard accessible
+- Logical tab order (tabindex when needed)
 - Visible focus indicators
-- Escape key closes modals/dropdowns
+- Escape closes modals/dropdowns
 
 ### Color and Contrast
 
-- Text contrast ratio 4.5:1 minimum (7:1 for Level AAA)
-- Large text (18pt+) minimum 3:1
-- Don't rely solely on color to convey information
+- Text 4.5:1 min (7:1 AAA), large text 3:1 min
+- Don't rely on color alone
 - Test with color blindness simulators
-- **UI component contrast 3:1** (WCAG 2.1)
-- **Focus indicators contrast 3:1** (WCAG 2.2)
+- UI components 3:1 (WCAG 2.1)
+- Focus indicators 3:1 (WCAG 2.2)
 
 ### Touch Targets & Interaction
 
-- **Touch target size minimum 24x24px** (WCAG 2.2)
-- Recommend 44x44px for better usability (WCAG 2.1 AAA)
+- 24x24px min (WCAG 2.2), 44x44px recommended (AAA)
 - Adequate spacing between targets
-- **No dragging movements required** unless essential (WCAG 2.2)
+- No dragging required unless essential (WCAG 2.2)
 
 ### Screen Readers
 
-- Provide alternative text for images (`alt` attribute)
-- Use `aria-hidden="true"` for decorative elements
-- Announce dynamic content changes with `aria-live`
-- Test with screen readers (NVDA, JAWS, VoiceOver)
+- Alt text for images
+- `aria-hidden="true"` for decorative elements
+- `aria-live` for dynamic changes
+- Test with NVDA, JAWS, VoiceOver
 
 ## Decision Tree
 
-**Interactive element (button, link)?** → Ensure keyboard accessible (Tab, Enter/Space), visible focus indicator, proper role and semantic element.
+```
+Interactive element (button, link)?
+  → Ensure keyboard accessible (Tab, Enter/Space)
+  → Visible focus indicator, proper role and semantic element
 
-**Form field?** → Associate `<label>` with input (htmlFor/id), provide error messages with `aria-describedby`, announce errors with `aria-live`.
+Form field?
+  → Associate <label> with input (htmlFor/id)
+  → Provide error messages with aria-describedby
+  → Announce errors with aria-live
 
-**Dynamic content change?** → Use `aria-live="polite"` for non-urgent updates, `aria-live="assertive"` for critical alerts, `aria-atomic="true"` if entire region should be read.
+Dynamic content change?
+  → Non-urgent: aria-live="polite"
+  → Critical alerts: aria-live="assertive"
+  → Whole region: aria-atomic="true"
 
-**Custom widget (dropdown, modal, tabs)?** → Follow WAI-ARIA Authoring Practices patterns, implement keyboard navigation (Arrow keys, Escape, Enter), manage focus properly.
+Custom widget (dropdown, modal, tabs)?
+  → Follow WAI-ARIA Authoring Practices patterns
+  → Implement keyboard navigation (Arrow keys, Escape, Enter)
+  → Manage focus properly
 
-**Image or icon?** → Decorative: `alt=""` or `aria-hidden="true"`. Informative: descriptive `alt` text. Icon-only button: `aria-label`.
+Image or icon?
+  → Decorative: alt="" or aria-hidden="true"
+  → Informative: descriptive alt text
+  → Icon-only button: aria-label
 
-**Color conveys meaning?** → Add text label, icon, or pattern. Verify 4.5:1 contrast ratio for text, 3:1 for UI components.
+Color conveys meaning?
+  → Add text label, icon, or pattern
+  → Verify 4.5:1 contrast for text, 3:1 for UI components
 
-**Modal or overlay?** → Trap focus inside modal, restore focus on close, allow Escape to dismiss, use `aria-modal="true"` and `role="dialog"`.
+Modal or overlay?
+  → Trap focus inside modal, restore focus on close
+  → Allow Escape to dismiss
+  → Use aria-modal="true" and role="dialog"
 
-**Loading or status change?** → Use `aria-busy="true"` during loading, `role="status"` for status messages, ensure screen reader announces completion.
+Loading or status change?
+  → Use aria-busy="true" during loading
+  → role="status" for status messages
+  → Ensure screen reader announces completion
+```
 
 ---
+
+## Example
+
+Accessible modal dialog: focus trap, ARIA labels, and keyboard navigation applied together.
+
+```typescript
+function ConfirmDeleteModal({ isOpen, onClose, onConfirm }: ModalProps) {
+  const firstFocusRef = useRef<HTMLButtonElement>(null);
+
+  // Restore focus to trigger on close; trap focus inside modal
+  useEffect(() => {
+    if (isOpen) firstFocusRef.current?.focus();
+  }, [isOpen]);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") onClose();          // Escape dismisses modal
+  };
+
+  if (!isOpen) return null;
+  return (
+    // role="dialog" + aria-modal + aria-labelledby link heading to dialog
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title"
+         onKeyDown={handleKeyDown}>
+      <h2 id="modal-title">Delete this item?</h2>
+      <p id="modal-desc">This action cannot be undone.</p>
+      {/* aria-describedby connects description to the confirm button */}
+      <button ref={firstFocusRef} aria-describedby="modal-desc"
+              onClick={onConfirm}>Confirm Delete</button>
+      <button onClick={onClose}>Cancel</button>
+    </div>
+  );
+}
+```
+
+Patterns applied: semantic `role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`, focus management on open, Escape key to dismiss.
 
 ## Edge Cases
 
@@ -194,7 +242,7 @@ WCAG 2.2 updates:\*\*
 
 ---
 
-## References
+## Resources
 
 - https://www.w3.org/WAI/WCAG21/quickref/
 - https://www.w3.org/WAI/ARIA/apg/

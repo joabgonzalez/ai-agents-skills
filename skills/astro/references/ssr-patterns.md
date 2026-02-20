@@ -2,6 +2,13 @@
 
 > Dynamic server rendering, Astro.locals, server endpoints, and authentication
 
+## Core Patterns
+
+- When to Read This
+- Project Detection
+- Astro.locals (Server Context)
+- Server Endpoints
+
 ## When to Read This
 
 - Building dynamic pages with user-specific data
@@ -13,8 +20,6 @@
 ---
 
 ## Project Detection
-
-### ✅ Verify SSR Project
 
 ```javascript
 // astro.config.mjs
@@ -32,14 +37,13 @@ export default defineConfig({
 
 ## Astro.locals (Server Context)
 
-### ✅ Setting Context in Middleware
+### Setting Context in Middleware
 
 ```typescript
 // src/middleware.ts
 import type { MiddlewareHandler } from "astro";
 
 export const onRequest: MiddlewareHandler = async (context, next) => {
-  // Parse cookies, verify JWT, etc.
   const token = context.cookies.get("auth_token");
 
   if (token) {
@@ -51,7 +55,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
 };
 ```
 
-### ✅ Accessing in Pages
+### Accessing in Pages
 
 ```astro
 ---
@@ -77,7 +81,7 @@ const data = await fetchUserData(user.id);
 
 ## Server Endpoints
 
-### ✅ GET Request
+### GET Request
 
 ```typescript
 // src/pages/api/user.ts
@@ -100,7 +104,7 @@ export const GET: APIRoute = async ({ locals }) => {
 };
 ```
 
-### ✅ POST Request (Form Handling)
+### POST Request (Form Handling)
 
 ```typescript
 // src/pages/api/login.ts
@@ -125,7 +129,6 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     });
   }
 
-  // Set session cookie
   const token = generateToken(user);
   cookies.set("auth_token", token, {
     httpOnly: true,
@@ -141,7 +144,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 };
 ```
 
-### ✅ Dynamic Server Endpoints
+### Dynamic Server Endpoints
 
 ```typescript
 // src/pages/api/posts/[id].ts
@@ -194,7 +197,7 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
 
 ## Authentication Patterns
 
-### ✅ Login Page
+### Login Page
 
 ```astro
 ---
@@ -213,7 +216,7 @@ if (user) {
 </form>
 ```
 
-### ✅ Protected Page
+### Protected Page
 
 ```astro
 ---
@@ -237,7 +240,7 @@ const users = await db.user.findMany();
 </div>
 ```
 
-### ✅ Logout Endpoint
+### Logout Endpoint
 
 ```typescript
 // src/pages/api/logout.ts
@@ -255,8 +258,6 @@ export const POST: APIRoute = async ({ cookies }) => {
 
 ## Database Queries
 
-### ✅ Per-Request Data Fetching
-
 ```astro
 ---
 // Runs on EVERY request (SSR)
@@ -273,7 +274,7 @@ const posts = await db.post.findMany({
   {posts.map(post => (
     <li>
       <a href={`/blog/${post.slug}`}>{post.title}</a>
-      <span>{new Date().toISOString()}</span> <!-- Current time on each request -->
+      <span>{new Date().toISOString()}</span>
     </li>
   ))}
 </ul>
@@ -283,7 +284,7 @@ const posts = await db.post.findMany({
 
 ## Caching Strategies
 
-### ✅ Response Caching
+### Response Caching
 
 ```typescript
 // src/pages/api/posts.ts
@@ -300,7 +301,7 @@ export const GET: APIRoute = async () => {
 };
 ```
 
-### ✅ Stale-While-Revalidate
+### Stale-While-Revalidate
 
 ```typescript
 export const GET: APIRoute = async () => {
@@ -317,8 +318,6 @@ export const GET: APIRoute = async () => {
 ---
 
 ## Environment Variables
-
-### ✅ Server-Only Variables
 
 ```astro
 ---
@@ -340,7 +339,7 @@ const apiSecret = import.meta.env.API_SECRET;
 
 ## Error Handling
 
-### ✅ Custom Error Pages
+### Custom Error Pages
 
 ```astro
 ---
@@ -354,7 +353,7 @@ const url = Astro.url;
 </div>
 ```
 
-### ✅ Try-Catch in Endpoints
+### Try-Catch in Endpoints
 
 ```typescript
 export const POST: APIRoute = async ({ request }) => {
@@ -375,7 +374,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 ## Edge Cases
 
-### ⚠️ Request Object Only in SSR
+### Request Object Only in SSR
 
 ```astro
 ---
@@ -390,7 +389,7 @@ const body = await Astro.request.json();
 ---
 ```
 
-### ⚠️ Cookies Only in SSR
+### Cookies Only in SSR
 
 ```astro
 ---

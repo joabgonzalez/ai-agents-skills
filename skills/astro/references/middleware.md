@@ -1,5 +1,12 @@
 # Astro Middleware
 
+## Core Patterns
+
+- Basic Setup: Export `onRequest` using `defineMiddleware` from `src/middleware.ts` to intercept all SSR requests
+- Authentication: Check cookies, verify tokens, and set `context.locals.user` before passing to pages with `next()`
+- Chaining: Use `sequence()` to compose multiple middleware functions in order (logging → security → auth)
+- Response Modification: Modify response headers (security, caching) after calling `await next()`
+
 > Request/response interception for authentication, logging, redirects
 
 ## When to Read This
@@ -13,8 +20,6 @@
 ---
 
 ## Basic Setup
-
-### ✅ Create Middleware
 
 ```typescript
 // src/middleware.ts
@@ -34,11 +39,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 });
 ```
 
-### ✅ Middleware Context
+### Middleware Context
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Access request details
   const { request, url, cookies, locals, redirect, params } = context;
 
   console.log("URL:", url.pathname);
@@ -56,7 +60,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 ## Authentication
 
-### ✅ Protect Routes
+### Protect Routes
 
 ```typescript
 // src/middleware.ts
@@ -78,7 +82,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return context.redirect("/login");
   }
 
-  // Verify token
   try {
     const user = await verifyToken(token);
     context.locals.user = user;
@@ -90,7 +93,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 });
 ```
 
-### ✅ Access User in Pages
+### Access User in Pages
 
 ```astro
 ---
@@ -109,7 +112,7 @@ if (!user) {
 
 ## Logging & Analytics
 
-### ✅ Request Logging
+### Request Logging
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -126,7 +129,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 });
 ```
 
-### ✅ Error Tracking
+### Error Tracking
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -134,10 +137,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return await next();
   } catch (error) {
     console.error("Request failed:", error);
-    // Send to error tracking service
     await trackError(error, context);
 
-    // Return error page
     return new Response("Internal Server Error", { status: 500 });
   }
 });
@@ -147,16 +148,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 ## Redirects & Rewrites
 
-### ✅ Conditional Redirects
+### Conditional Redirects
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Redirect old URLs
   if (context.url.pathname === "/old-page") {
     return context.redirect("/new-page", 301);
   }
 
-  // Redirect based on locale
   const locale = context.cookies.get("locale")?.value || "en";
   if (context.url.pathname === "/") {
     return context.redirect(`/${locale}`);
@@ -166,15 +165,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
 });
 ```
 
-### ✅ Rewrites (Same URL, Different Content)
+### Rewrites (Same URL, Different Content)
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
-  // A/B testing: serve different page for same URL
   const variant = context.cookies.get("ab-test")?.value || "a";
 
   if (context.url.pathname === "/landing" && variant === "b") {
-    // Rewrite internally (URL stays same)
     const request = new Request(
       new URL("/landing-b", context.url),
       context.request,
@@ -190,13 +187,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 ## Headers & Cookies
 
-### ✅ Set Security Headers
+### Set Security Headers
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
 
-  // Security headers
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -209,14 +205,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
 });
 ```
 
-### ✅ Manage Cookies
+### Manage Cookies
 
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Read cookie
   const theme = context.cookies.get("theme")?.value || "light";
 
-  // Set cookie
   context.cookies.set("last-visit", new Date().toISOString(), {
     path: "/",
     maxAge: 60 * 60 * 24 * 365, // 1 year
@@ -225,7 +219,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
     sameSite: "lax",
   });
 
-  // Delete cookie
   if (context.url.pathname === "/logout") {
     context.cookies.delete("auth-token");
   }
@@ -237,8 +230,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
 ---
 
 ## Sequence Multiple Middleware
-
-### ✅ Middleware Chains
 
 ```typescript
 // src/middleware.ts
@@ -272,12 +263,12 @@ export const loggingMiddleware = defineMiddleware(async (context, next) => {
 
 ## Best Practices
 
-1. **Keep middleware fast:** Slow middleware delays every request
-2. **Use `context.locals`** to pass data to pages/endpoints
-3. **Chain middleware** with `sequence()` for separation of concerns
-4. **Handle errors gracefully:** Middleware errors can crash the server
-5. **Cache expensive operations:** Don't repeat auth checks or DB queries
-6. **Test middleware thoroughly:** Bugs affect all routes
+1. Keep middleware fast — slow middleware delays every request
+2. Use `context.locals` to pass data to pages/endpoints
+3. Chain middleware with `sequence()` for separation of concerns
+4. Handle errors gracefully — middleware errors can crash the server
+5. Cache expensive operations — don't repeat auth checks or DB queries
+6. Test middleware thoroughly — bugs affect all routes
 
 ---
 

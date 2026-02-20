@@ -25,15 +25,15 @@ This directory contains detailed guides for specific aspects of Astro developmen
 | [client-directives.md](client-directives.md)     | client:load/visible/idle/only patterns         | Adding interactivity with minimal JavaScript        |
 | [content-collections.md](content-collections.md) | Content layer, Markdown/MDX, type-safe content | Managing blog posts, documentation, or CMS content  |
 | [actions.md](actions.md)                         | Server actions, form handling, validation      | Implementing form submissions and server-side logic |
+| [composition.md](composition.md)                 | Named slots, fallback content, slot conditions | Building reusable layout components with slots      |
 
 ### 🚀 Performance & Advanced Features
 
-| Reference                                  | Purpose                                          | Read When                                                  |
-| ------------------------------------------ | ------------------------------------------------ | ---------------------------------------------------------- |
-| [view-transitions.md](view-transitions.md) | Page transitions, animations, lifecycle events   | Implementing smooth navigation between pages               |
-| [middleware.md](middleware.md)             | Authentication, logging, request interception    | Adding auth, logging, or modifying requests/responses      |
-| [env-variables.md](env-variables.md)       | Secrets management, .env files, type-safe config | Managing API keys, configuration across environments       |
-| [prefetch.md](prefetch.md)                 | Link prefetching, navigation optimization        | Optimizing perceived performance with intelligent prefetch |
+| Reference                                            | Purpose                                                          | Read When                                                         |
+| ---------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [client-navigation.md](client-navigation.md)         | Prefetching strategies, page transitions, combined navigation    | Optimizing perceived performance and implementing smooth nav      |
+| [middleware.md](middleware.md)                       | Authentication, logging, request interception                    | Adding auth, logging, or modifying requests/responses             |
+| [env-variables.md](env-variables.md)                 | Secrets management, .env files, type-safe config                 | Managing API keys, configuration across environments              |
 
 ---
 
@@ -132,15 +132,26 @@ This directory contains detailed guides for specific aspects of Astro developmen
 - File uploads
 - Progressive enhancement
 
-### [view-transitions.md](view-transitions.md)
+### [composition.md](composition.md)
 
-**Smooth page transitions with View Transitions API**
+**Slot-based component composition**
 
-- Enabling View Transitions
-- Transition directives (persist, animate)
-- Custom animations
-- Lifecycle events
-- Accessibility considerations
+- Default and named `<slot>` elements
+- Fallback content when slot is empty
+- Conditional slot rendering with `Astro.slots.has()`
+- Layout components with multiple slot regions
+
+### [client-navigation.md](client-navigation.md)
+
+**Prefetching and View Transitions for optimized navigation**
+
+- Prefetch strategies (hover, tap, viewport, load)
+- Global prefetch configuration and performance optimization
+- View Transitions setup with `<ViewTransitions />`
+- Transition directives (persist, animate, name)
+- Custom animations and lifecycle events
+- Combined prefetch + View Transitions patterns
+- Accessibility and Save Data mode considerations
 
 ### [middleware.md](middleware.md)
 
@@ -163,13 +174,18 @@ This directory contains detailed guides for specific aspects of Astro developmen
 - Validation with Zod
 - Security best practices
 
-### [prefetch.md](prefetch.md)
+---
 
-**Link prefetching for optimized navigation**
+## Cross-Reference Map
 
-- Prefetch strategies (hover, tap, viewport, load)
-- Global configuration
-- Performance optimization
-- Combining with View Transitions
-- Save Data mode support
-- Mobile optimization
+- [ssg-patterns.md](ssg-patterns.md) → Provides in-depth static generation patterns referenced in the SKILL.md decision tree's "Static output" branch
+- [ssr-patterns.md](ssr-patterns.md) → Provides in-depth server rendering patterns referenced in the SKILL.md decision tree's "Server output" branch
+- [hybrid-strategies.md](hybrid-strategies.md) → Bridges ssg-patterns.md and ssr-patterns.md; referenced when SKILL.md recommends hybrid rendering
+- [client-directives.md](client-directives.md) → Extends SKILL.md's "Islands Architecture" critical pattern with full directive options
+- [content-collections.md](content-collections.md) → Extends SKILL.md content guidance; pairs with ssg-patterns.md for content-driven static sites
+- [actions.md](actions.md) → Extends SKILL.md's form handling patterns; pairs with ssr-patterns.md for server-side logic
+- [composition.md](composition.md) → Extends SKILL.md's component composition patterns with slot-based techniques
+- [client-navigation.md](client-navigation.md) → Extends SKILL.md's navigation patterns; combines prefetching and View Transitions for optimized UX
+- [middleware.md](middleware.md) → Extends SKILL.md's server patterns; pairs with ssr-patterns.md for auth and request handling
+- [env-variables.md](env-variables.md) → Applies to all rendering strategies; covers secrets management referenced in SKILL.md
+- Related skills: [react](../../react/SKILL.md), [tailwindcss](../../tailwindcss/SKILL.md), [typescript](../../typescript/SKILL.md)

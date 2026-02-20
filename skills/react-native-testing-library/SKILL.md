@@ -4,10 +4,10 @@ description: "User-centric React Native component testing. Trigger: When testing
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
     - react-native
     - jest
-    - unit-testing
   dependencies:
     "@testing-library/react-native": ">=12.0.0 <14.0.0"
     "@testing-library/jest-native": ">=5.0.0"
@@ -15,7 +15,7 @@ metadata:
 
 # React Native Testing Library Skill
 
-User-centric component testing for React Native apps, focusing on behavior over implementation details.
+Component testing for React Native apps, focusing on behavior over implementation details.
 
 ## When to Use
 
@@ -26,6 +26,7 @@ User-centric component testing for React Native apps, focusing on behavior over 
 - Verifying component behavior from user perspective
 
 Don't use for:
+
 - End-to-end tests across app (use Detox or Maestro)
 - Testing native modules directly (use native test frameworks)
 - Performance benchmarking (use React Native performance tools)
@@ -165,15 +166,15 @@ Testing with context (Redux, theme)?
 
 ## Edge Cases
 
-- **Native module mocks**: Some native modules require specific mock implementations. Check library documentation for recommended mocks (e.g., react-native-reanimated requires babel plugin for testing).
+- **Native module mocks**: Some modules require specific mock implementations. Check library docs for recommended mocks (e.g., react-native-reanimated requires babel plugin).
 
-- **Async UI updates**: React Native's async rendering can cause race conditions. Always use findBy or waitFor for async updates, never setTimeout.
+- **Async UI updates**: React Native's async rendering can cause race conditions. Always use findBy or waitFor, never setTimeout.
 
-- **Platform-specific UI**: Mock Platform.OS to test both iOS and Android variants. Reset mock after each test to avoid pollution.
+- **Platform-specific UI**: Mock Platform.OS to test both iOS and Android variants. Reset mock after each test.
 
-- **Navigation testing**: Mocking navigation can be complex. Consider integration tests with createNavigationContainerRef instead of mocking for complex flows.
+- **Navigation testing**: Mocking navigation can be complex. Consider integration tests with createNavigationContainerRef for complex flows.
 
-- **Accessibility labels**: If accessibility label not set, queries fail. Always set accessibilityLabel or accessible={true} on interactive elements.
+- **Accessibility labels**: If label not set, queries fail. Always set accessibilityLabel or accessible={true} on interactive elements.
 
 ## Checklist
 

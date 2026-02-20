@@ -1,6 +1,13 @@
 # RTK Query Guide
 
-> Data fetching and caching with RTK Query, powerful server state management
+> Data fetching and caching with RTK Query, server state management
+
+## Core Patterns
+
+- When to Read This
+- createApi Setup
+- Queries (Read Operations)
+- Mutations (Write Operations)
 
 ## When to Read This
 
@@ -34,7 +41,6 @@ export const api = createApi({
   }),
 });
 
-// Export hooks
 export const { useGetPostsQuery, useAddPostMutation } = api;
 ```
 

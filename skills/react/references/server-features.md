@@ -1,12 +1,15 @@
 # Server Features (React 18+)
 
-> React Server Components, Suspense for data, and streaming patterns.
-
-## Overview
-
-React 18+ introduces server-side rendering improvements that change how components fetch data and render. These patterns apply to frameworks like Next.js, Remix, and any React framework with server component support.
+Server Components enable direct database/API access, Suspense enables streaming, and composition patterns optimize client-server boundaries.
 
 ---
+
+## Core Patterns
+
+- React Server Components (RSC)
+- Suspense for Data Loading
+- Loading and Error States
+- Server Actions
 
 ## React Server Components (RSC)
 
@@ -90,7 +93,6 @@ function ProductPage({ id }: { id: string }) {
 ### Streaming with Suspense
 
 ```typescript
-// Server component with streaming
 async function DashboardPage() {
   return (
     <div>

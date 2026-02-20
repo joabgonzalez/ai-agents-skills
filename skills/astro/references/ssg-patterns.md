@@ -2,6 +2,13 @@
 
 > Build-time rendering, getStaticPaths, and static data fetching
 
+## Core Patterns
+
+- When to Read This
+- Project Detection
+- getStaticPaths for Dynamic Routes
+- Pagination
+
 ## When to Read This
 
 - Building static websites (blogs, documentation, marketing)
@@ -12,8 +19,6 @@
 ---
 
 ## Project Detection
-
-### ✅ Verify SSG-Only Project
 
 ```javascript
 // astro.config.mjs
@@ -29,7 +34,7 @@ export default defineConfig({
 
 ## getStaticPaths for Dynamic Routes
 
-### ✅ Basic Dynamic Route
+### Basic Dynamic Route
 
 ```astro
 ---
@@ -56,7 +61,7 @@ const { post } = Astro.props;
 </article>
 ```
 
-### ✅ Multiple Parameters
+### Multiple Parameters
 
 ```astro
 ---
@@ -90,7 +95,7 @@ export async function getStaticPaths() {
 ---
 ```
 
-### ✅ Fetching from API
+### Fetching from API
 
 ```astro
 ---
@@ -106,7 +111,7 @@ export async function getStaticPaths() {
 ---
 ```
 
-### ✅ Fetching from Database
+### Fetching from Database
 
 ```astro
 ---
@@ -127,7 +132,7 @@ export async function getStaticPaths() {
 
 ## Pagination
 
-### ✅ Built-in Pagination
+### Built-in Pagination
 
 ```astro
 ---
@@ -135,7 +140,6 @@ export async function getStaticPaths() {
 export async function getStaticPaths({ paginate }) {
   const posts = await getPosts();
 
-  // 10 posts per page
   return paginate(posts, { pageSize: 10 });
 }
 
@@ -157,7 +161,7 @@ const { page } = Astro.props;
 </div>
 ```
 
-### ✅ Custom Pagination Logic
+### Custom Pagination Logic
 
 ```astro
 ---
@@ -182,7 +186,7 @@ export async function getStaticPaths() {
 
 ## Build-Time Data Fetching
 
-### ✅ Top-Level Fetch
+### Top-Level Fetch
 
 ```astro
 ---
@@ -200,7 +204,7 @@ const stats = await calculateStats(posts);
 </div>
 ```
 
-### ✅ Parallel Data Fetching
+### Parallel Data Fetching
 
 ```astro
 ---
@@ -212,7 +216,7 @@ const [posts, authors, categories] = await Promise.all([
 ---
 ```
 
-### ✅ With Error Handling
+### With Error Handling
 
 ```astro
 ---
@@ -242,7 +246,7 @@ try {
 
 ## Static API Routes
 
-### ✅ Generate JSON Endpoints
+### Generate JSON Endpoints
 
 ```typescript
 // src/pages/api/posts.json.ts
@@ -260,7 +264,7 @@ export const GET: APIRoute = async () => {
 };
 ```
 
-### ✅ Dynamic API Routes
+### Dynamic API Routes
 
 ```typescript
 // src/pages/api/posts/[id].json.ts
@@ -293,8 +297,6 @@ export const GET: APIRoute = async ({ params }) => {
 
 ## Environment Variables
 
-### ✅ Build-Time Variables
-
 ```astro
 ---
 // All env vars available at build time
@@ -309,8 +311,6 @@ const publicUrl = import.meta.env.PUBLIC_URL;
   // const key = import.meta.env.API_KEY; // ERROR: Not available client-side
 </script>
 ```
-
-### ✅ Type-Safe Env Vars
 
 ```typescript
 // src/env.d.ts
@@ -327,8 +327,6 @@ interface ImportMeta {
 ---
 
 ## Image Optimization
-
-### ✅ Using Astro Image
 
 ```astro
 ---
@@ -352,11 +350,11 @@ import heroImage from '../assets/hero.jpg';
 
 ## Incremental Regeneration (ISR)
 
-**Note:** True ISR is NOT available in pure SSG. For ISR-like behavior, you need:
+True ISR is NOT available in pure SSG. For ISR-like behavior:
 
-1. **Hybrid mode** with adapter
-2. **On-demand regeneration** with server endpoints
-3. **Partial prerendering** (Astro 4+)
+1. Hybrid mode with adapter
+2. On-demand regeneration with server endpoints
+3. Partial prerendering (Astro 4+)
 
 See [hybrid-strategies.md](hybrid-strategies.md) for ISR patterns.
 
@@ -364,11 +362,10 @@ See [hybrid-strategies.md](hybrid-strategies.md) for ISR patterns.
 
 ## Best Practices
 
-### ✅ Cache External Data
+### Cache External Data
 
 ```astro
 ---
-// Use build-time caching for external APIs
 import { cache } from '../lib/cache';
 
 const posts = await cache.get('posts', async () => {
@@ -378,7 +375,7 @@ const posts = await cache.get('posts', async () => {
 ---
 ```
 
-### ✅ Generate Sitemaps
+### Generate Sitemaps
 
 ```typescript
 // src/pages/sitemap.xml.ts
@@ -406,7 +403,7 @@ export const GET: APIRoute = async () => {
 };
 ```
 
-### ✅ Generate RSS Feeds
+### Generate RSS Feeds
 
 ```typescript
 // src/pages/rss.xml.ts
@@ -433,7 +430,7 @@ export const GET: APIRoute = async (context) => {
 
 ## Common Pitfalls
 
-### ❌ Trying to Use SSR Features
+### Trying to Use SSR Features
 
 ```astro
 ---
@@ -448,7 +445,7 @@ if (Astro.request.method === 'POST') { /* ... */ }
 ---
 ```
 
-### ❌ Missing getStaticPaths
+### Missing getStaticPaths
 
 ```astro
 ---

@@ -4,10 +4,19 @@ description: "{Brief description}. Trigger: {When AI should invoke - be specific
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: {behavioral|universal|language|framework|library|tooling|domain}
   skills:
-    # Only include dependencies that this skill DIRECTLY needs
-    # Do NOT include conventions - it comes transitively via typescript/javascript/react/nodejs
-    # ONLY add conventions if your skill is truly standalone (no technical dependencies)
+    # Determine dependencies based on TYPE - see references/dependencies-matrix.md
+    # behavioral → can ONLY depend on other behavioral (prefer NONE)
+    # universal → can ONLY depend on behavioral
+    # language → prefer NONE (self-sufficient)
+    # framework → can depend on framework, language, domain, behavioral
+    # library → can depend on library, framework, language, domain, behavioral
+    # tooling → can depend on what it wraps
+    # domain → prefer NONE (or depend on related domain, behavioral)
+    #
+    # CRITICAL: Dependencies are TRANSITIVE - do NOT duplicate!
+    # If skill A depends on B, and B depends on C, then A gets C automatically
   dependencies:
     {package-name}: "{version-range}"
 ---
@@ -100,7 +109,7 @@ Otherwise    → {Default action}
 
 ## Conventions
 
-**IMPORTANT:** Do NOT duplicate general conventions. Assume users already have conventions via transitive dependencies (typescript → javascript → conventions).
+**IMPORTANT:** Do NOT duplicate general conventions. Assume users already have code-conventions via transitive dependencies (typescript → javascript → code-conventions).
 
 Add ONLY skill-specific rules that are unique to this technology:
 
@@ -132,6 +141,7 @@ Add ONLY skill-specific rules that are unique to this technology:
 ## Checklist
 
 ### Structure
+
 - [ ] Directory: `skills/{skill-name}/`
 - [ ] Frontmatter: `name`, `description` (with Trigger), `metadata.version`
 - [ ] `metadata.skills` follows [dependencies-matrix.md](references/dependencies-matrix.md)
@@ -139,14 +149,16 @@ Add ONLY skill-specific rules that are unique to this technology:
 - [ ] Complex skills: `references/` created (40+ patterns)
 
 ### Content
+
 - [ ] When to Use (with Don't use for)
 - [ ] Critical Patterns with ✅/❌ markers and inline examples
 - [ ] Decision Tree (condition→action)
 - [ ] Example section
 - [ ] Edge Cases
-- [ ] Delegates to conventions/a11y (not duplicated)
+- [ ] Delegates to code-conventions/a11y (not duplicated)
 
 ### Quality
+
 - [ ] Token-efficient (no filler, every word adds value)
 - [ ] SKILL.md under 300 lines (complex skills)
 - [ ] All referenced skills exist

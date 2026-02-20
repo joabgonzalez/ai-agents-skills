@@ -2,6 +2,13 @@
 
 > Systematic design constraints for visual consistency through typography, spacing, color, and iconography.
 
+## Core Patterns
+
+- Typography Scale
+- Spacing System (8-Point Grid)
+- Color System
+- Iconography
+
 ## Typography Scale
 
 ### Modular Ratio-Based Sizing
@@ -23,8 +30,6 @@ Use a modular scale for consistent, harmonious type sizing.
 
 ### Line-Height Rules
 
-Different content types require different line-heights for optimal readability.
-
 | Content Type | Line Height | Reasoning |
 |--------------|-------------|-----------|
 | Headings | 1.1 - 1.3 | Tighter spacing for visual impact |
@@ -45,8 +50,6 @@ code, pre { line-height: 1.5; font-family: monospace; }
 
 ### Font Pairing Examples
 
-Combine fonts with contrasting characteristics for hierarchy and interest.
-
 | Heading Font | Body Font | Style |
 |--------------|-----------|-------|
 | Inter | Inter | Modern, neutral (single-family) |
@@ -55,6 +58,7 @@ Combine fonts with contrasting characteristics for hierarchy and interest.
 | Merriweather | Open Sans | Classic, readable |
 
 **Pairing rules:**
+
 - Contrast serif with sans-serif, OR
 - Use single font family with weight/size variation
 - Limit to 2 font families maximum
@@ -82,6 +86,7 @@ h1 { font-size: 1.5rem; }
 ```
 
 **clamp() formula:**
+
 ```
 clamp(MIN, PREFERRED, MAX)
 PREFERRED = BASE + MULTIPLIER * vw
@@ -111,6 +116,7 @@ Prevent layout shift during font loading.
 ```
 
 **font-display options:**
+
 - `swap`: Show fallback immediately (best for web apps)
 - `optional`: Use custom font only if cached (best for performance)
 - `fallback`: Brief block period, then swap (compromise)
@@ -120,8 +126,6 @@ Prevent layout shift during font loading.
 ## Spacing System (8-Point Grid)
 
 ### Base Scale
-
-Consistent spacing creates visual rhythm and hierarchy.
 
 ```css
 /* ✅ Base 8-point scale */
@@ -138,6 +142,7 @@ Consistent spacing creates visual rhythm and hierarchy.
 ```
 
 **Why 8-point grid?**
+
 - Divisible by 2 (scales well)
 - Matches common screen densities (1x, 2x, 3x)
 - Industry standard (iOS, Android, web)
@@ -220,8 +225,6 @@ Name colors by purpose, not appearance.
 
 ### Contrast Ratios (WCAG Compliance)
 
-Ensure sufficient contrast for accessibility.
-
 | Use Case | Ratio | Level | Example |
 |----------|-------|-------|---------|
 | Body text (<18px) | 4.5:1 | AA | #222 on #fff |
@@ -230,6 +233,7 @@ Ensure sufficient contrast for accessibility.
 | Enhanced accessibility | 7:1 | AAA | #000 on #fff |
 
 **Testing tools:**
+
 - Chrome DevTools: Inspect element → Color picker shows ratio
 - WebAIM Contrast Checker: https://webaim.org/resources/contrastchecker/
 - Figma: A11y plugins (Contrast, Stark)
@@ -261,8 +265,6 @@ const ratio = getContrastRatio(textColor, bgColor); // 16.1:1 (passes AAA)
 
 ### Dark Mode with CSS Custom Properties
 
-Pair light and dark values in a single system.
-
 ```css
 /* ✅ CORRECT: Paired light/dark */
 :root {
@@ -289,6 +291,7 @@ body { color: #222; background: #fff; }
 ```
 
 **Dark mode best practices:**
+
 - Plan from the start (retrofitting is painful)
 - Use elevated surfaces (#1e1e1e) instead of pure black
 - Reduce saturation in dark mode (vibrant colors strain eyes)
@@ -300,8 +303,6 @@ body { color: #222; background: #fff; }
 
 ### Sizing System
 
-Consistent icon sizes for visual harmony.
-
 ```css
 /* ✅ Icon sizing scale */
 --icon-xs: 12px;
@@ -312,6 +313,7 @@ Consistent icon sizes for visual harmony.
 ```
 
 **Usage guidelines:**
+
 - `xs` (12px): Inline with small text, badges
 - `sm` (16px): Inline with body text, table cells
 - `md` (20px): Buttons, form inputs
@@ -338,7 +340,7 @@ Visual center ≠ mathematical center. Adjust for perceived balance.
 ### Reusable Component Pattern
 
 ```tsx
-// ✅ Type-safe icon component
+// Type-safe icon component
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 interface IconProps {
@@ -445,6 +447,7 @@ Related elements should be visually grouped.
 White space (negative space) is not "empty" — it's a design tool.
 
 **Functions:**
+
 1. **Separation:** Distinguishes groups
 2. **Emphasis:** Draws attention to isolated elements
 3. **Breathing room:** Prevents visual clutter

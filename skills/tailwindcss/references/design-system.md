@@ -2,6 +2,13 @@
 
 > Building consistent, maintainable design systems using token hierarchies, semantic naming, and type-safe variants.
 
+## Core Patterns
+
+- Token Hierarchy
+- Semantic Naming Convention
+- CVA (Class Variance Authority)
+- Dark Mode Patterns
+
 ## Token Hierarchy
 
 Organize design tokens in three layers for clarity and maintainability.
@@ -30,6 +37,7 @@ Raw values in OKLCH color space for perceptual uniformity.
 ```
 
 **Why OKLCH?**
+
 - **Perceptual uniformity:** Equal lightness steps appear equal to human eye
 - **Better gradients:** No muddy midtones (unlike HSL)
 - **Chroma control:** Separate control over saturation vs brightness
@@ -69,6 +77,7 @@ Purpose-driven names that reference brand tokens.
 ```
 
 **Semantic naming benefits:**
+
 - Rebrand without find-replace (change token value, not usage)
 - Self-documenting code (`bg-primary` > `bg-blue-500`)
 - Easier dark mode (swap semantic token values)
@@ -366,6 +375,7 @@ Create alpha variants using `color-mix()`.
 ```
 
 **Benefits over Tailwind opacity:**
+
 - Semantic naming (alpha-10 vs /10)
 - Works with CSS variables
 - Better dark mode support (mixes with theme background)
@@ -415,6 +425,7 @@ Place `@keyframes` inside `@theme` blocks for tree-shakeable animations.
 ```
 
 **Advantages:**
+
 - Tree-shaking: Unused `@keyframes` removed from build
 - Scoped: No global namespace pollution
 - Semantic: `animate-fade-in` > `animate-[fadeIn]`
@@ -569,5 +580,5 @@ const flexContainerVariants = cva("flex items-center gap-2"); // Overkill
 
 - See [tailwind-v4.md](tailwind-v4.md) for v4-specific syntax and migration guide
 - See [interface-design/visual-design.md](../../interface-design/references/visual-design.md) for typography/spacing/color foundations
-- See [composition-patterns](../../composition-patterns/SKILL.md) for polymorphic component patterns
+- See [composition-pattern](../../composition-pattern/SKILL.md) for polymorphic component patterns
 - See main [SKILL.md](../SKILL.md) for Tailwind utilities and configuration

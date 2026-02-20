@@ -1,11 +1,30 @@
-import fs from 'fs';
-import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
+import fs from 'node:fs';
+import { dump as yamlDump, load as yamlLoad } from 'js-yaml';
+
+// Recursive JSON-safe type for parsed YAML data
+type JsonPrimitive = string | number | boolean | null;
+export interface JsonObject {
+  [key: string]: JsonValue;
+}
+type JsonArray = JsonValue[];
+export type JsonValue = JsonPrimitive | JsonObject | JsonArray;
+
+/**
+ * Minimal interface required by validateFrontmatter.
+ * SkillMetadata is structurally compatible with this type.
+ */
+export interface ValidatableFrontmatter {
+  name?: string;
+  description?: string;
+  metadata?: { version?: string };
+  [key: string]: unknown;
+}
 
 /**
  * Extract YAML frontmatter from markdown file
  * Supports both --- and ... delimiters
  */
-export function extractFrontmatter(filePath: string): Record<string, any> | null {
+export function extractFrontmatter(filePath: string): JsonObject | null {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
 
@@ -17,7 +36,7 @@ export function extractFrontmatter(filePath: string): Record<string, any> | null
     }
 
     const frontmatterYaml = frontmatterMatch[1];
-    const parsed = yamlLoad(frontmatterYaml) as Record<string, any>;
+    const parsed = yamlLoad(frontmatterYaml) as JsonObject;
 
     return parsed || null;
   } catch (error) {
@@ -30,10 +49,10 @@ export function extractFrontmatter(filePath: string): Record<string, any> | null
 /**
  * Load YAML file with error handling
  */
-export function loadYamlFile(filePath: string): Record<string, any> {
+export function loadYamlFile(filePath: string): JsonObject {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
-    const parsed = yamlLoad(content) as Record<string, any>;
+    const parsed = yamlLoad(content) as JsonObject;
 
     if (!parsed || typeof parsed !== 'object') {
       throw new Error('Invalid YAML structure');
@@ -50,7 +69,7 @@ export function loadYamlFile(filePath: string): Record<string, any> {
 /**
  * Save object as YAML file
  */
-export function saveYamlFile(filePath: string, data: Record<string, any>): void {
+export function saveYamlFile(filePath: string, data: JsonObject): void {
   try {
     const yamlContent = yamlDump(data, {
       indent: 2,
@@ -70,7 +89,7 @@ export function saveYamlFile(filePath: string, data: Record<string, any>): void 
 /**
  * Validate frontmatter structure against required fields
  */
-export function validateFrontmatter(frontmatter: Record<string, any>): {
+export function validateFrontmatter(frontmatter: ValidatableFrontmatter): {
   valid: boolean;
   errors: string[];
 } {

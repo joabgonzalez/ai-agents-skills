@@ -4,27 +4,16 @@ description: "Module bundler with loaders, plugins, and code splitting. Trigger:
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - conventions
+  type: tooling
   dependencies:
     webpack: ">=5.0.0 <6.0.0"
 ---
 
 # Webpack Skill
 
-## Overview
-
-Module bundler configuration for compiling and optimizing JavaScript applications.
-
-## Objective
-
-Configure webpack for efficient bundling, code splitting, and optimization of web applications.
-
----
+Module bundler: loaders, plugins, code splitting, optimization, cache busting.
 
 ## When to Use
-
-Use this skill when:
 
 - Configuring Webpack bundler for complex projects
 - Setting up loaders for different file types
@@ -32,9 +21,9 @@ Use this skill when:
 - Optimizing bundle size and performance
 - Working with legacy projects using Webpack
 
-Don't use this skill for:
+Don't use for:
 
-- Modern projects (prefer vite skill for better DX)
+- Modern projects (prefer vite)
 - Simple static sites
 
 ---
@@ -87,10 +76,6 @@ module.exports = (env, argv) => {
 ---
 
 ## Conventions
-
-Refer to conventions for:
-
-- Project structure
 
 ### Webpack Specific
 
@@ -154,19 +139,19 @@ module.exports = {
 
 ## Edge Cases
 
-**Tree shaking:** Ensure modules use ES6 imports/exports and set `sideEffects: false` in package.json.
+**Tree shaking:** ES6 imports/exports + `sideEffects: false` in package.json.
 
-**Circular dependencies:** Webpack warns about these. Refactor code to break circular imports.
+**Circular deps:** Refactor to break circular imports.
 
-**Memory issues:** For large projects, increase Node memory: `NODE_OPTIONS=--max-old-space-size=4096`.
+**Memory:** Increase Node memory: `NODE_OPTIONS=--max-old-space-size=4096`.
 
-**Module federation:** For micro-frontends, use `ModuleFederationPlugin`.
+**Module federation:** Use `ModuleFederationPlugin` for micro-frontends.
 
-**Source maps in production:** Use `source-map` for full debugging or `hidden-source-map` to hide from browser.
+**Source maps:** `source-map` (full) or `hidden-source-map` (hide from browser).
 
 ---
 
-## References
+## Resources
 
 - https://webpack.js.org/concepts/
 - https://webpack.js.org/configuration/

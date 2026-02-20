@@ -4,18 +4,16 @@ description: "Modern React with hooks and functional components. Trigger: When c
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
     - a11y
-    - typescript
-    - javascript
-    - architecture-patterns
   dependencies:
     react: ">=17.0.0 <19.0.0"
 ---
 
 # React Skill
 
-Modern React patterns using hooks, functional components, and best practices for building maintainable UIs with proper state management and performance optimization.
+Hooks, functional components, state management, and performance optimization for React apps.
 
 ## When to Use
 
@@ -35,7 +33,7 @@ Don't use for:
 
 ## Critical Patterns
 
-### Functional Components with Hooks
+### ✅ REQUIRED: Functional Components with Hooks
 
 ```typescript
 // CORRECT: Functional component with hooks
@@ -51,7 +49,7 @@ class Counter extends React.Component {
 }
 ```
 
-### Proper useEffect Dependencies
+### ✅ REQUIRED: Proper useEffect Dependencies
 
 ```typescript
 // CORRECT: All dependencies included
@@ -65,7 +63,7 @@ useEffect(() => {
 }, []); // userId missing
 ```
 
-### Stable Keys for Lists
+### ✅ REQUIRED: Stable Keys for Lists
 
 ```typescript
 // CORRECT: Unique IDs
@@ -75,7 +73,7 @@ useEffect(() => {
 {items.map((item, index) => <li key={index}>{item.name}</li>)}
 ```
 
-### Never Conditionally Call Hooks
+### ❌ NEVER: Conditionally Call Hooks
 
 ```typescript
 // WRONG: Breaks React rules
@@ -88,16 +86,12 @@ const [value, setValue] = useState(0);
 const shouldUse = condition ? value : defaultValue;
 ```
 
-### Conventions
-
-Defer to `conventions` skill for code organization/naming and `a11y` skill for semantic HTML, keyboard navigation, and ARIA attributes.
-
 ## Decision Tree
 
 - **Simple state (<3 values)?** -> `useState`. See [hooks-advanced.md](references/hooks-advanced.md) (useState Patterns section).
 - **Complex state (4+ related values)?** -> `useReducer`. See [hooks-advanced.md](references/hooks-advanced.md) (useReducer Patterns section).
-- **Side effect?** -> `useEffect` with proper deps. See [useEffect-patterns.md](references/useEffect-patterns.md).
-- **Data fetching?** -> `useEffect` + AbortController. See [useEffect-patterns.md](references/useEffect-patterns.md) (Async Patterns section).
+- **Side effect?** -> `useEffect` with proper deps. See [use-effect-patterns.md](references/use-effect-patterns.md).
+- **Data fetching?** -> `useEffect` + AbortController. See [use-effect-patterns.md](references/use-effect-patterns.md) (Async Patterns section).
 - **Performance issue?** -> Profile first with React DevTools. See [performance.md](references/performance.md).
 - **Expensive computation?** -> `useMemo`. See [performance.md](references/performance.md) (useMemo section).
 - **Callbacks to memoized children?** -> `useCallback`. See [performance.md](references/performance.md) (useCallback section).
@@ -158,7 +152,7 @@ useEffect(() => {
 
 **Children prop:** Use `React.ReactNode` type. For render props: `{(data) => <Component data={data} />}`.
 
-**Architecture patterns:** Only apply Clean Architecture / SOLID when AGENTS.md specifies it, the codebase already uses domain/application/infrastructure folders, or the user requests it. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) and [frontend-integration.md](../architecture-patterns/references/frontend-integration.md).
+**Architecture patterns:** Apply Clean Architecture/SOLID only when AGENTS.md specifies it, codebase uses domain/application/infrastructure folders, or user requests. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md).
 
 ## Checklist
 
@@ -173,6 +167,6 @@ useEffect(() => {
 
 ## Resources
 
-- [references/](references/README.md) -- hooks-advanced, useEffect-patterns, performance, context-patterns, forms-state
+- [references/](references/README.md) -- hooks-advanced, use-effect-patterns, performance, context-patterns, forms-state
 - https://react.dev/
 - https://react.dev/reference/react

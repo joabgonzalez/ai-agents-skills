@@ -2,6 +2,13 @@
 
 > Technology-specific debugging techniques for React, Node.js, TypeScript, and APIs.
 
+## Core Patterns
+
+- React Debugging
+- Node.js Debugging
+- TypeScript Debugging
+- API Debugging
+
 ## React Debugging
 
 ### State Not Updating

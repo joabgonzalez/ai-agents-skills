@@ -2,6 +2,13 @@
 
 > Form handling, validation, TextField, Select, Autocomplete patterns
 
+## Core Patterns
+
+- When to Read This
+- TextField Validation
+- Select
+- Autocomplete
+
 ## When to Read This
 
 - Building forms with MUI components

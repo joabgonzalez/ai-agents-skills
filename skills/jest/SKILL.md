@@ -4,16 +4,16 @@ description: "Unit, integration, and snapshot testing with Jest. Trigger: When w
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
-    - typescript
-    - javascript
+    - unit-testing
   dependencies:
     jest: ">=29.0.0 <30.0.0"
 ---
 
 # Jest Skill
 
-Jest is the standard test runner for JS/TS projects with built-in mocking, assertions, and coverage.
+Standard test runner for JS/TS projects with built-in mocking, assertions, and coverage.
 
 ## When to Use
 
@@ -22,12 +22,13 @@ Jest is the standard test runner for JS/TS projects with built-in mocking, asser
 - Mocking dependencies and external modules
 
 Don't use for:
+
 - E2E browser testing (use Playwright or Cypress)
 - React component queries (use react-testing-library skill)
 
 ## Critical Patterns
 
-### describe/it Structure
+### ✅ REQUIRED: describe/it Structure
 
 Group related tests with `describe`; name individual cases with `it`.
 
@@ -79,6 +80,28 @@ it('should reject on failure', async () => {
 it('silent', () => { expect(service.fetchData()).rejects.toThrow(); });
 ```
 
+### Assertion Matchers
+
+Jest matchers cover both sides: what MUST be true (positive) and what MUST NOT be true (negative). This is the API layer — see **unit-testing** skill for the philosophy of when to write each.
+
+```typescript
+// ── Positive matchers (value, shape, behavior) ──
+expect(user.id).toBeDefined();
+expect(user.role).toBe('member');
+expect(users).toContain(newUser);
+expect(mockRepo.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'Ada' }));
+
+// ── Negative matchers (.not modifier) ──
+expect(result.errors).not.toContain('email');
+expect(spy).not.toHaveBeenCalled();
+
+// ── Throw / reject matchers ──
+expect(() => parse(null)).toThrow('Input required');
+expect(() => parse(null)).toThrow(TypeError);
+await expect(service.fetch('bad-id')).rejects.toThrow('Not found');
+await expect(service.fetch('bad-id')).rejects.toBeInstanceOf(NotFoundError);
+```
+
 ## Decision Tree
 
 - New test file? -> `<module>.test.ts` next to source
@@ -113,11 +136,11 @@ describe('OrderService.placeOrder', () => {
 
 ## Edge Cases
 
-- **ES module mocking** -- Use `jest.unstable_mockModule` for ESM; `jest.mock` is CommonJS only
-- **Flaky async** -- Always `await` assertions; use `jest.useFakeTimers()` for time-dependent logic
-- **Snapshot drift** -- Review diffs carefully; update with `--updateSnapshot` intentionally
-- **Timer leaks** -- Call `jest.useRealTimers()` in `afterEach` to prevent bleed between tests
-- **Global state** -- Use `jest.resetModules()` if a module caches state at import time
+- **ES module mocking**: `jest.unstable_mockModule` for ESM; `jest.mock` is CommonJS only
+- **Flaky async**: Always `await` assertions; use `jest.useFakeTimers()` for time-dependent logic
+- **Snapshot drift**: Review diffs carefully; update with `--updateSnapshot` intentionally
+- **Timer leaks**: Call `jest.useRealTimers()` in `afterEach` to prevent bleed
+- **Global state**: Use `jest.resetModules()` if module caches state at import
 
 ## Checklist
 

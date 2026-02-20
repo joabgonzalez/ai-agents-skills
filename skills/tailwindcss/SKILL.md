@@ -4,31 +4,31 @@ description: "Utility-first CSS with responsive design. Trigger: When styling wi
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
     - a11y
-    - css
   dependencies:
     tailwindcss: ">=3.0.0 <5.0.0"
 ---
 
 # Tailwind CSS Skill
 
-Utility-first CSS framework for building responsive, maintainable UIs with composable utility classes and a robust configuration system.
+Utility-first CSS for responsive UIs with composable classes and configuration.
 
 ## When to Use
 
 Use when:
 
-- Styling components with utility-first CSS
-- Creating responsive designs with Tailwind breakpoints
-- Configuring theme (colors, spacing, typography)
-- Building custom utilities or plugins
+- Styling with utility-first CSS
+- Responsive designs with breakpoints
+- Theme config (colors, spacing, typography)
+- Custom utilities/plugins
 
-Don't use for MUI styling (use mui skill), plain CSS (use css skill), or complex custom animations (use css skill).
+Don't use for: MUI (use mui skill), plain CSS (use css skill), complex animations (use css skill).
 
 ## Critical Patterns
 
-### Use Utility Classes
+### ✅ REQUIRED: Use Utility Classes
 
 ```html
 <!-- CORRECT -->
@@ -41,7 +41,7 @@ Don't use for MUI styling (use mui skill), plain CSS (use css skill), or complex
 <style>.custom-button { background: blue; padding: 8px 16px; }</style>
 ```
 
-### Configure Theme (Tailwind 3)
+### ✅ REQUIRED: Configure Theme (Tailwind 3)
 
 ```javascript
 // CORRECT: extend theme
@@ -57,7 +57,7 @@ module.exports = {
 // <div class="bg-[#1976d2]"> — use theme colors instead
 ```
 
-### Define Themes with @theme (Tailwind 4+)
+### ✅ REQUIRED: Define Themes with @theme (Tailwind 4+)
 
 ```css
 /* CORRECT */
@@ -72,7 +72,7 @@ module.exports = {
 /* WRONG in Tailwind 4+: using tailwind.config.js for theme tokens */
 ```
 
-### Avoid @apply Overuse
+### ❌ NEVER: @apply Overuse
 
 ```css
 /* WRONG: defeats utility-first purpose */
@@ -83,7 +83,7 @@ module.exports = {
 /* CORRECT: use utilities directly in HTML */
 ```
 
-### @apply for Shared Component Patterns Only
+### ✅ REQUIRED: @apply for Shared Component Patterns Only
 
 ```css
 /* CORRECT: reusable patterns shared across multiple components */
@@ -94,31 +94,29 @@ module.exports = {
 /* WRONG: single-use classes — use utilities directly */
 ```
 
-Conventions: follow **conventions** skill for organization; **a11y** for contrast/focus; **css** for custom CSS fallbacks.
-
-## Design System Patterns
+## Conventions
 
 ### Token Hierarchy
 
-Organize design tokens in three layers for maintainability.
+Three layers:
 
-**1. Brand Tokens:** Raw values in OKLCH color space (`--color-brand-blue: oklch(45% 0.2 260)`)
+**1. Brand:** Raw OKLCH (`--color-brand-blue: oklch(45% 0.2 260)`)
 
-**2. Semantic Tokens:** Purpose-driven names (`--color-primary`, `--color-destructive`, `--color-muted-foreground`)
+**2. Semantic:** Purpose names (`--color-primary`, `--color-destructive`)
 
-**3. Component Tokens:** Specific implementations (`.btn-primary { @apply bg-primary text-primary-foreground; }`)
+**3. Component:** Implementations (`.btn-primary { @apply bg-primary; }`)
 
-See [design-system.md](references/design-system.md) for complete token architecture, semantic naming conventions, CVA (Class Variance Authority) patterns, and dark mode setup.
+See [design-system.md](references/design-system.md) for token architecture, CVA patterns, dark mode.
 
-### Tailwind v4 Features
+### Tailwind v4
 
-CSS-first configuration with `@theme` blocks and OKLCH color space.
+CSS-first config with `@theme` blocks and OKLCH.
 
-**Key changes:** `@import 'tailwindcss'` replaces `@tailwind` directives, `@theme` blocks replace `tailwind.config.js` theme, `@custom-variant dark` replaces `darkMode: "class"`
+**Changes:** `@import 'tailwindcss'` replaces `@tailwind`; `@theme` replaces config; `@custom-variant dark` replaces `darkMode: "class"`
 
-**New utilities:** `size-*` shorthand (replaces `w-* h-*` for squares), improved spacing, tree-shakeable animations
+**New:** `size-*` shorthand, improved spacing, tree-shakeable animations
 
-See [tailwind-v4.md](references/tailwind-v4.md) for migration guide, breaking changes, OKLCH syntax, and v4-specific patterns.
+See [tailwind-v4.md](references/tailwind-v4.md) for migration, breaking changes, OKLCH syntax.
 
 ## Decision Tree
 
@@ -182,11 +180,11 @@ module.exports = {
 
 ## Edge Cases
 
-- **Arbitrary values:** `w-[137px]`, `top-[117px]` — avoid overuse; extend theme instead
-- **Specificity conflicts:** Utilities share specificity; HTML order matters; use `!` prefix sparingly
-- **Purge/content config:** All template paths must be in `content` array or classes are removed in production
-- **Third-party components:** May use inline styles that override Tailwind; use `!important` or wrapper divs
-- **@layer directive:** Use `@layer components` for component styles, `@layer utilities` for custom utilities
+- **Arbitrary values:** `w-[137px]` — avoid; extend theme
+- **Specificity:** Utilities same specificity; HTML order matters; use `!` sparingly
+- **Purge config:** All paths in `content` or classes removed in prod
+- **Third-party:** Inline styles override; use `!important` or wrappers
+- **@layer:** `@layer components` for components, `@layer utilities` for custom
 
 ## Checklist
 

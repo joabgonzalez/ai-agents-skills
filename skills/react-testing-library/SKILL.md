@@ -4,9 +4,11 @@ description: "User-centric React component testing. Trigger: When testing React 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
     - react
     - jest
+    - unit-testing
   dependencies:
     "@testing-library/react": ">=14.0.0 <15.0.0"
 ---
@@ -22,6 +24,7 @@ Tests components the way users interact with them -- querying by accessible role
 - Writing tests that survive internal refactors
 
 Don't use for:
+
 - Pure function or service logic (use jest skill)
 - E2E multi-page flows (use Playwright or Cypress)
 
@@ -78,6 +81,25 @@ expect(screen.getByText(/1 item in cart/i)).toBeInTheDocument();
 expect(wrapper.state('cartCount')).toBe(1);
 ```
 
+### Asserting Absence
+
+Use `queryBy*` (never `getBy*`) for negative DOM assertions — `getBy*` throws if absent, making `.not` assertions unreliable.
+
+```typescript
+// ✅ CORRECT: queryBy* returns null when absent
+expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+expect(screen.queryByText(/error/i)).toBeNull();
+
+// After dismissing a modal:
+await user.click(screen.getByRole('button', { name: /close/i }));
+expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+// ❌ WRONG: getBy* throws before .not can evaluate
+expect(screen.getByRole('alert')).not.toBeInTheDocument(); // always throws
+```
+
+See **unit-testing** skill for the broader strategy of testing both presence and absence.
+
 ## Decision Tree
 
 - Element present now? -> `getByRole` / `getByText`
@@ -111,11 +133,11 @@ describe('ContactForm', () => {
 
 ## Edge Cases
 
-- **Portals/modals** -- Use `screen` queries since portals render outside the parent DOM node
-- **Async state** -- Wrap assertions in `waitFor` when state updates after await or setTimeout
-- **Act warnings** -- Ensure async operations complete; `findBy*` handles this automatically
-- **Providers** -- Create a `renderWithProviders` wrapper for context (theme, router, store)
-- **Cleanup** -- RTL calls `cleanup` automatically with Jest; do not call manually
+- **Portals/modals**: Use `screen` queries since portals render outside parent DOM
+- **Async state**: Wrap assertions in `waitFor` when state updates after await or setTimeout
+- **Act warnings**: Ensure async operations complete; `findBy*` handles automatically
+- **Providers**: Create `renderWithProviders` wrapper for context (theme, router, store)
+- **Cleanup**: RTL calls `cleanup` automatically with Jest; do not call manually
 
 ## Checklist
 

@@ -1,14 +1,15 @@
 # Backend Integration Guide
 
-> Implementation guide for architecture patterns in backend projects (Node.js, NestJS, Express).
-
-## Overview
-
-Concrete backend implementation examples for all architecture patterns. Node.js ecosystem focused but principles apply universally.
-
-> **Note**: Framework-specific architecture (NestJS, Express, Fastify) belongs in technology skills when created.
+Concrete backend implementation examples for all architecture patterns. Node.js ecosystem focused; principles apply universally.
 
 ---
+
+## Core Patterns
+
+- Complete Example: Order Service
+- NestJS Implementation
+- Testing
+- Environment-Based Adapter Selection
 
 ## Complete Example: Order Service
 
@@ -193,24 +194,20 @@ export class OrderController {
 ### Composition Root
 
 ```typescript
-// main.ts — Wires everything together (Dependency Injection)
+// main.ts — Wires all dependencies
 async function bootstrap() {
-  // Infrastructure clients
   const prisma = new PrismaClient();
   const stripe = new Stripe(process.env.STRIPE_KEY!);
 
-  // Adapters (implement ports)
   const orderRepo = new PostgresOrderRepository(prisma);
   const paymentGateway = new StripePaymentGateway(stripe);
   const emailService = new SendGridEmailService(new SendGridClient(process.env.SENDGRID_KEY!));
   const logger = new WinstonLogger();
 
-  // Use Cases
   const placeOrderUseCase = new PlaceOrderUseCase(orderRepo, paymentGateway, emailService, logger);
   const cancelOrderUseCase = new CancelOrderUseCase(orderRepo, paymentGateway, logger);
   const getOrderUseCase = new GetOrderUseCase(orderRepo, logger);
 
-  // Controller → Routes
   const orderController = new OrderController(placeOrderUseCase, cancelOrderUseCase, getOrderUseCase);
 
   const app = express();

@@ -4,8 +4,8 @@ description: "Context prompts for AI assistants with schema validation. Trigger:
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
-    - critical-partner
     - english-writing
 ---
 
@@ -332,10 +332,10 @@ Corrections: past tense, article usage, word order
 
 ---
 
-## References
+## Resources
 
 - [agent-creation](../agent-creation/SKILL.md) - Creating agent definitions
 - [skill-creation](../skill-creation/SKILL.md) - Creating skill definitions
 - [critical-partner](../critical-partner/SKILL.md) - Review and validation
-- [conventions](../conventions/SKILL.md) - General coding conventions
+- [code-conventions](../code-conventions/SKILL.md) - General coding conventions
 - [humanizer](../humanizer/SKILL.md) - Human-centric communication patterns

@@ -1,12 +1,15 @@
 # Token Efficiency Guide
 
-> Complete strategies for creating token-efficient skills without sacrificing clarity or precision
-
-## Overview
-
-Token efficiency means maximizing information density while maintaining clarity. Every word must add unique value. This guide covers frontmatter optimization, content compression, and writing techniques for minimal tokens with maximum precision.
+Strategies for creating token-efficient skills without sacrificing clarity. Maximize information density - every word must add unique value.
 
 ---
+
+## Core Patterns
+
+- Why Token Efficiency Matters
+- Frontmatter Optimization
+- Content Compression
+- Critical Patterns
 
 ## Why Token Efficiency Matters
 
@@ -52,13 +55,13 @@ description: Prettier code formatting. Trigger: When configuring Prettier.
 
 ```yaml
 # ❌ WORDY (142 characters, ~35 tokens)
-description: This comprehensive skill provides detailed guidance and best practices for creating and maintaining skills in the project using proper conventions and standards. Trigger: When creating skills.
+description: This skill provides guidance and best practices for creating and maintaining skills in the project using conventions and standards. Trigger: When creating skills.
 
 # ✅ CONCISE (89 characters, ~22 tokens, 37% reduction)
 description: Guide for creating standards-compliant skills with templates and validation. Trigger: When creating a new skill.
 ```
 
-**Technique:** Remove filler words ("comprehensive", "detailed", "various", "proper")
+**Technique:** Remove filler words
 
 ### Input/Output Specificity
 
@@ -124,11 +127,11 @@ Use useState hook for component state management in React.
 
 This section provides comprehensive information about critical patterns.
 
-## Critical Patterns
+### Critical Patterns
 
 # ✅ DIRECT (save 1 line + tokens)
 
-## Critical Patterns
+### Critical Patterns
 ```
 
 **Rule:** Section headings are self-explanatory; skip introductions.
@@ -136,6 +139,30 @@ This section provides comprehensive information about critical patterns.
 ---
 
 ## Code Example Optimization
+
+### Plain Text Code Blocks: Use ``` Not ```text
+
+Omit the `text` language hint — it adds tokens with no rendering benefit.
+
+```
+# ❌ WRONG: unnecessary hint
+```text
+condition? → action
+Otherwise → fallback
+```
+
+# ✅ CORRECT: no hint for plain text
+
+```
+condition? → action
+Otherwise → fallback
+```
+
+```
+
+**Rule:** Only use language hints (`typescript`, `bash`, `json`, etc.) when syntax highlighting adds value.
+
+---
 
 ### Keep Examples Focused
 
@@ -490,7 +517,7 @@ Rough estimates:
 ```yaml
 ---
 name: skill-creation
-description: This comprehensive skill provides detailed guidance for creating and maintaining standards-compliant skills from simple to complex, with extensive templates, references architecture, inline examples, proper frontmatter, delegation patterns, and JSON schema validation. It supports any topic or technology with a comprehensive 9-step workflow process. Includes optional priority labels for complex skills with 30 or more patterns. Ensures unique responsibilities and token-efficient documentation throughout. Trigger: When creating a new skill, adding agent instructions, or documenting patterns for AI systems to follow.
+description: Guidance for creating and maintaining standards-compliant skills from simple to complex, with templates, references architecture, inline examples, frontmatter, delegation patterns, and JSON schema validation. Supports any topic or technology with a 9-step workflow process. Includes optional priority labels for complex skills with 30 or more patterns. Ensures unique responsibilities and token-efficient documentation. Trigger: When creating a new skill, adding agent instructions, or documenting patterns for AI systems to follow.
 skills:
   - critical-partner
   - skill-sync
@@ -500,7 +527,7 @@ allowed-tools:
   - write-file
 ---
 
-{775 lines of content with verbose explanations}
+{775 lines of content}
 ```
 
 ### After (300 lines + 9 references, 61% reduction in SKILL.md)

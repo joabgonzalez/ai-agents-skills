@@ -122,3 +122,13 @@ This directory contains detailed guides for Redux Toolkit state management patte
 - **Derived state**: createSelector for memoization
 - **Relational data**: createEntityAdapter for normalization
 - **Type safety**: Pre-typed hooks from store configuration
+
+## Cross-Reference Map
+
+- [slices-patterns.md](slices-patterns.md) → Core state logic; foundational for all other patterns
+- [rtk-query.md](rtk-query.md) → Server state; replaces manual async thunks from async-patterns.md
+- [async-patterns.md](async-patterns.md) → Complex async flows not covered by RTK Query
+- [selectors.md](selectors.md) → Computed state; pairs with normalization.md for entity selectors
+- [normalization.md](normalization.md) → Entity storage; pairs with selectors.md for entity access
+- [typescript-integration.md](typescript-integration.md) → Type safety; applies to all other reference files
+- Related skills: [react](../../react/SKILL.md), [typescript](../../typescript/SKILL.md)

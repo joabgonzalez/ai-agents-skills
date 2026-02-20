@@ -1,5 +1,12 @@
 # Astro Environment Variables
 
+## Core Patterns
+
+- Public vs Private: Use `PUBLIC_` prefix for client-safe variables; omit it for server-only secrets
+- Environment Files: Layer `.env`, `.env.local`, `.env.development`, and `.env.production` for environment-specific configuration
+- TypeScript Support: Declare variables in `ImportMetaEnv` interface for autocomplete and type checking
+- Validation: Validate all required variables on startup using Zod or custom helpers to fail early
+
 > Managing secrets, API keys, and configuration across environments
 
 ## When to Read This
@@ -14,8 +21,6 @@
 
 ## Basic Setup
 
-### ✅ Create .env File
-
 ```bash
 # .env (root directory)
 # Private (server-only)
@@ -26,8 +31,6 @@ API_SECRET_KEY=super-secret-key
 PUBLIC_API_URL=https://api.example.com
 PUBLIC_SITE_NAME=My Astro Site
 ```
-
-### ✅ Access in Astro Files
 
 ```astro
 ---
@@ -52,8 +55,6 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
 
 ## Environment-Specific Files
 
-### ✅ Multiple Environment Files
-
 ```bash
 .env                 # Loaded in all environments
 .env.local           # Local overrides (gitignored)
@@ -66,8 +67,6 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
 1. `.env.production` or `.env.development` (environment-specific)
 2. `.env.local` (local overrides)
 3. `.env` (defaults)
-
-### ✅ Example Setup
 
 ```bash
 # .env (committed, defaults)
@@ -86,8 +85,6 @@ PUBLIC_API_URL=https://api.example.com
 
 ## TypeScript Support
 
-### ✅ Type-Safe Environment Variables
-
 ```typescript
 // src/env.d.ts
 /// <reference types="astro/client" />
@@ -104,13 +101,11 @@ interface ImportMeta {
 }
 ```
 
-**Benefit:** TypeScript autocomplete and type checking for env variables.
+TypeScript autocomplete and type checking for env variables.
 
 ---
 
 ## Validation
-
-### ✅ Validate Required Variables
 
 ```typescript
 // src/lib/env.ts
@@ -131,7 +126,7 @@ export const config = {
 };
 ```
 
-### ✅ Use Zod for Validation
+### Zod Validation
 
 ```typescript
 // src/lib/env.ts
@@ -149,7 +144,7 @@ export const env = envSchema.parse(import.meta.env);
 
 ---
 
-## Security Best Practices
+## Security
 
 ### ⚠️ CRITICAL: Never Expose Secrets
 
@@ -176,8 +171,6 @@ const data = await fetchWithAuth(apiKey);
 <div>{data.publicInfo}</div>
 ```
 
-### ✅ Use PUBLIC\_ Prefix Intentionally
-
 ```bash
 # ✅ CORRECT: Safe for browser
 PUBLIC_GOOGLE_ANALYTICS_ID=UA-123456
@@ -191,7 +184,7 @@ STRIPE_SECRET_KEY=sk_live_123  # Keep server-side only!
 
 ## Common Patterns
 
-### ✅ API Endpoints with Secrets
+### API Endpoints with Secrets
 
 ```typescript
 // src/pages/api/data.ts
@@ -211,7 +204,7 @@ export async function GET() {
 }
 ```
 
-### ✅ Database Connections
+### Database Connections
 
 ```typescript
 // src/lib/db.ts
@@ -223,7 +216,7 @@ export const pool = new Pool({
 });
 ```
 
-### ✅ Feature Flags
+### Feature Flags
 
 ```astro
 ---
@@ -239,14 +232,14 @@ const enableBetaFeatures = import.meta.env.PUBLIC_ENABLE_BETA === 'true';
 
 ## Deployment
 
-### ✅ Vercel
+### Vercel
 
 ```bash
 # Vercel automatically loads .env.production
 # Or set via Vercel dashboard: Settings → Environment Variables
 ```
 
-### ✅ Netlify
+### Netlify
 
 ```bash
 # Netlify UI: Site settings → Environment variables
@@ -255,7 +248,7 @@ const enableBetaFeatures = import.meta.env.PUBLIC_ENABLE_BETA === 'true';
   PUBLIC_API_URL = "https://api.example.com"
 ```
 
-### ✅ Cloudflare Pages
+### Cloudflare Pages
 
 ```bash
 # Cloudflare dashboard: Settings → Environment variables
@@ -268,22 +261,22 @@ PUBLIC_API_URL = "https://api.example.com"
 
 ## Best Practices
 
-1. **Never commit `.env.local`** - Add to `.gitignore`
-2. **Use `PUBLIC_` prefix** only for client-safe values
-3. **Validate env variables** on startup (Zod, custom validation)
-4. **Document required variables** in README.md
-5. **Use environment-specific files** (`.env.production`, `.env.development`)
-6. **Rotate secrets regularly** and never hardcode them
+1. Never commit `.env.local` — add to `.gitignore`
+2. Use `PUBLIC_` prefix only for client-safe values
+3. Validate env variables on startup (Zod or custom)
+4. Document required variables in README.md
+5. Use environment-specific files (`.env.production`, `.env.development`)
+6. Rotate secrets regularly, never hardcode them
 
 ---
 
 ## Edge Cases
 
-**Undefined variables:** `import.meta.env.MISSING_VAR` returns `undefined`, not an error. Validate early!
+**Undefined variables:** `import.meta.env.MISSING_VAR` returns `undefined`, not an error. Validate early.
 
 **Build-time vs Runtime:** Variables are replaced at build time for static pages. SSR pages access them at runtime.
 
-**Empty strings:** `.env` empty values (`VAR=`) result in empty string `""`, not `undefined`.
+**Empty strings:** `.env` empty values (`VAR=`) result in `""`, not `undefined`.
 
 **Multiline values:** Not supported in `.env`. Use base64 or JSON strings for complex values.
 

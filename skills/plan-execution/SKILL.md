@@ -1,9 +1,10 @@
 ---
 name: plan-execution
-description: "Batch execution with checkpoints. Trigger: When executing plans with multiple tasks."
+description: "Batch execution with checkpoints. Trigger: When executing plans with batched tasks."
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
     - writing-plans
     - verification-protocol
@@ -21,6 +22,7 @@ Execute plans in batches of 3 tasks with verification checkpoints. Ensures progr
 - Coordinating with architect/lead reviews
 
 Don't use for:
+
 - Creating plans (use writing-plans skill)
 - Debugging (use systematic-debugging skill)
 
@@ -46,13 +48,16 @@ export interface User {
   createdAt: Date;
 }
 ```
+
 **Status**: ✅ Complete
 
 ---
 
 ### Task 2: Add password hashing utility (3 min)
+
 **File**: `src/utils/crypto.ts`
 **Implementation**:
+
 ```typescript
 import bcrypt from 'bcrypt';
 
@@ -60,18 +65,22 @@ export async function hashPassword(plain: string): Promise<string> {
   return bcrypt.hash(plain, 10);
 }
 ```
+
 **Status**: ✅ Complete
 
 ---
 
 ### Task 3: Implement findByEmail method (2 min)
+
 **File**: `src/repositories/UserRepository.ts:45-60`
 **Implementation**:
+
 ```typescript
 async findByEmail(email: string): Promise<User | null> {
   return this.db.query('SELECT * FROM users WHERE email = $1', [email]);
 }
 ```
+
 **Status**: ✅ Complete
 
 ---
@@ -79,6 +88,7 @@ async findByEmail(email: string): Promise<User | null> {
 **CHECKPOINT**: Batch 1 Complete
 
 **Verification**:
+
 - Ran: `npm test -- UserEntity.test.ts crypto.test.ts UserRepository.test.ts`
 - Result: 8/8 tests passed ✅
 - Build: `npm run build` → Success ✅
@@ -89,7 +99,9 @@ async findByEmail(email: string): Promise<User | null> {
 ---
 
 ## Batch 2: API Layer
+
 [next 3 tasks...]
+
 ```
 
 **Why batch size 3?**
@@ -130,6 +142,7 @@ Verify quality before proceeding.
 ```
 
 **Checkpoint serves as:**
+
 - Quality gate (don't proceed if tests fail)
 - Progress marker (33% → 66% → 100%)
 - Review opportunity (pause for feedback)
@@ -162,6 +175,7 @@ Track overall progress across batches.
 ```
 
 **Benefits**:
+
 - Visibility into completion percentage
 - Early detection of delays
 - Data for future estimations
@@ -207,6 +221,7 @@ Escalate for review when needed.
 ```
 
 **When to escalate:**
+
 - Complex architectural decisions
 - Security-critical changes
 - API contract modifications (breaking changes)
@@ -254,6 +269,7 @@ Task taking longer than planned?
 **Task dependencies within batch**: If Task 2 depends on Task 1, that's fine. If Task 5 depends on Task 2 (cross-batch), ensure checkpoint captures that dependency.
 
 **Partial batch completion**: If only 2 of 3 tasks done (blocker on Task 3), checkpoint what's done, escalate blocker.
+
 ```markdown
 **CHECKPOINT**: Batch 2 PARTIAL (2/3 complete)
 
@@ -270,6 +286,7 @@ Task taking longer than planned?
 ```
 
 **Critical failure**: If checkpoint fails badly (many tests broken, build fails), stop and roll back.
+
 ```markdown
 **CHECKPOINT**: Batch 3 FAILED ❌
 
@@ -300,7 +317,7 @@ Task taking longer than planned?
 
 ---
 
-## Example: Complete Execution
+## Example
 
 ```markdown
 # Plan Execution: User Authentication Feature

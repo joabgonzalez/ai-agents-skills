@@ -12,7 +12,7 @@ metadata:
     - react
     - html
     - a11y
-    - conventions
+    - code-conventions
     - technical-communication
     - critical-partner
     - interface-design
@@ -49,7 +49,7 @@ Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each
 
 **Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `code-conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
 
@@ -65,7 +65,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
 3. **Check frontmatter** → Dependencies: `javascript`
 4. **Read dependency:**
-   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Skills Reference
@@ -84,7 +84,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Accessibility                 | a11y                    |
 | Commit messages, PRs, docs    | technical-communication |
 | Code review                   | critical-partner        |
-| Coding standards              | conventions             |
+| Coding standards              | code-conventions             |
 | UI/UX design, flows, visual   | interface-design        |
 | Frontend development workflow | frontend-dev            |
 

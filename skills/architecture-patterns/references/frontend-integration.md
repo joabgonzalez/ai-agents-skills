@@ -1,19 +1,15 @@
 # Frontend Integration Guide
 
-> When and how to apply architecture patterns in frontend projects (React, Redux Toolkit, Astro).
-
-## READ THIS FIRST
-
-**Most frontend projects DO NOT need architecture patterns.** Apply only when:
-
-1. **AGENTS.md explicitly specifies** architecture requirements
-2. **Codebase already uses patterns** (`domain/`, `application/`, `infrastructure/` folders exist)
-3. **User explicitly requests** architectural patterns
-4. **Heavy business logic** detected separate from UI (not just CRUD)
-
-**If none apply** → Use technology-specific patterns: [react](../../react/SKILL.md), [redux-toolkit](../../redux-toolkit/SKILL.md), [astro](../../astro/SKILL.md)
+When and how to apply architecture patterns in frontend projects (React, Redux Toolkit, Astro). Most frontend projects DO NOT need architecture patterns—apply only when AGENTS.md specifies, codebase already uses patterns, user explicitly requests, or heavy business logic exists separate from UI.
 
 ---
+
+## Core Patterns
+
+- Applicable Patterns
+- Pattern 1: Single Responsibility (SRP)
+- Pattern 2: Dependency Inversion (DIP)
+- Pattern 3: Clean Architecture (Layer Separation)
 
 ## Applicable Patterns
 
@@ -326,7 +322,7 @@ const result = await userService.getUsers();
 
 ### Migration Strategy
 
-**Don't rewrite**. Apply incrementally to existing projects:
+Don't rewrite. Apply incrementally to existing projects:
 
 1. **New features** → Apply patterns to new code
 2. **Hot spots** → Refactor frequently-changed modules
@@ -367,4 +363,4 @@ const result = await userService.getUsers();
 
 ---
 
-**Remember**: Architecture patterns are tools, not rules. Start simple, add complexity only when needed.
+Architecture patterns are tools, not rules. Start simple, add complexity only when needed.

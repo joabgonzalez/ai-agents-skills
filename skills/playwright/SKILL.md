@@ -4,21 +4,28 @@ description: "Cross-browser E2E testing with Playwright. Trigger: When writing o
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: tooling
   skills:
-    - typescript
-    - javascript
+    - e2e-testing
   dependencies:
     playwright: ">=1.40.0 <2.0.0"
 ---
 # Playwright Skill
-Cross-browser end-to-end testing framework with auto-waiting, test fixtures, and built-in assertions.
+
+Cross-browser E2E testing with auto-waiting, fixtures, and assertions.
+
 ## When to Use
-- End-to-end browser testing and cross-browser automation
-- CI/CD integration and visual regression testing
-- Don't use for: unit tests (use vitest/jest), API-only tests (use supertest), static analysis
+
+- E2E browser testing, cross-browser automation
+- CI/CD integration, visual regression
+- Don't use for: unit tests (vitest/jest), API-only (supertest), static analysis
+
 ## Critical Patterns
+
 ### Locators Over Raw Selectors
-Prefer semantic locators that mirror how users find elements -- they resist refactors.
+
+Semantic locators mirror user actions; resist refactors.
+
 ```typescript
 // CORRECT: role-based locators, resilient to markup changes
 await page.getByRole('button', { name: 'Submit' }).click();
@@ -26,8 +33,11 @@ await page.getByLabel('Email').fill('user@example.com');
 // WRONG: brittle CSS selectors that break on class renames
 await page.click('.btn-primary');
 ```
+
 ### Auto-Waiting Instead of Manual Waits
-Playwright locators auto-wait for elements to be actionable -- never add sleeps.
+
+Locators auto-wait for actionable elements; never add sleeps.
+
 ```typescript
 // CORRECT: auto-waits then asserts
 await page.getByRole('link', { name: 'Dashboard' }).click();
@@ -35,8 +45,11 @@ await expect(page.getByText('Welcome back')).toBeVisible();
 // WRONG: arbitrary sleep that slows tests and still flakes
 await page.waitForTimeout(3000);
 ```
+
 ### Test Fixtures for Setup
-Use Playwright's fixture system to share setup logic and isolate test state.
+
+Fixtures share setup logic and isolate test state.
+
 ```typescript
 const test = base.extend<{ loggedInPage: Page }>({
   loggedInPage: async ({ page }, use) => {
@@ -48,18 +61,31 @@ const test = base.extend<{ loggedInPage: Page }>({
   },
 });
 ```
+
 ### Web-First Assertions
-Use `expect(locator)` assertions that auto-retry until the condition is met.
+
+Use `expect(locator)` assertions that auto-retry until the condition is met. Cover both presence (positive) and absence (negative) — incomplete tests miss half the contract.
+
 ```typescript
-// CORRECT: auto-retrying assertion
+// ✅ POSITIVE: element must exist and have expected state
 await expect(page.getByRole('alert')).toHaveText('Saved');
-// WRONG: snapshot check with no retry -- races against async UI
+await expect(page.getByRole('button', { name: 'Submit' })).toBeEnabled();
+await expect(page).toHaveURL('/dashboard');
+
+// ✅ NEGATIVE: element must be absent or in disabled state
+await expect(page.getByText('Error')).not.toBeVisible();
+await expect(page.getByRole('button', { name: 'Place order' })).toBeDisabled();
+await expect(page.getByRole('dialog')).toBeHidden(); // modal dismissed
+
+// ❌ WRONG: snapshot check with no retry -- races against async UI
 const text = await page.locator('.alert').textContent();
 expect(text).toBe('Saved');
 ```
 
 ### Network Mocking for Stable Tests
-Mock external API calls to prevent flaky tests and control responses.
+
+Mock API calls to prevent flakes and control responses.
+
 ```typescript
 // CORRECT: Mock network requests for stable tests
 test('displays user data from API', async ({ page }) => {
@@ -83,7 +109,9 @@ test('displays user data', async ({ page }) => {
 ```
 
 ### Parallel Execution with Test Isolation
-Run tests in parallel safely by ensuring each test is independent.
+
+Parallel tests safe when independent.
+
 ```typescript
 // CORRECT: Isolated test with unique data
 test('creates new user', async ({ page }) => {
@@ -104,13 +132,16 @@ test('creates user', async ({ page }) => {
 ```
 
 ## Decision Tree
+
 - UI flow or API only? -> UI: `page` fixture; API: `request` fixture
 - Need authentication? -> Create a fixture with stored `storageState`
 - Visual testing? -> `page.screenshot()` with `toMatchSnapshot()`
 - Cross-browser? -> Configure `projects` in `playwright.config.ts`
 - Flaky network? -> Mock with `page.route()` to intercept requests
 - CI integration? -> `npx playwright test --reporter=html` with artifact upload
+
 ## Example
+
 ```typescript
 import { test, expect } from '@playwright/test';
 test.describe('Login flow', () => {
@@ -131,35 +162,40 @@ test.describe('Login flow', () => {
   });
 });
 ```
+
 ## Edge Cases
 
-- **Flaky network tests**: Mock external APIs with `page.route()` in CI to avoid timing issues. Consider `page.route('**/*', route => route.continue())` to record real traffic first, then convert to mocks.
+- **Flaky network**: Mock APIs with `page.route()` in CI. Record with `page.route('**/*', route => route.continue())`, convert to mocks.
 
-- **Browser compatibility**: Run across Chromium, Firefox, WebKit via `projects` in config. Some CSS/JS features differ - test on all browsers for production apps.
+- **Browser compat**: Test Chromium/Firefox/WebKit via `projects`. CSS/JS differ; test all for prod.
 
-- **Headless vs headed**: CI runs headless (`--headless`); use `--headed` locally for debugging. Some visual bugs only appear in headed mode (scrolling, animations).
+- **Headless vs headed**: CI headless; `--headed` local. Visual bugs (scroll, animations) show in headed.
 
-- **Iframe content**: Scope locators with `page.frameLocator('#frame-id').getByRole()`. Iframes have separate document contexts - cannot use page locators directly.
+- **Iframes**: `page.frameLocator('#id').getByRole()`. Separate contexts; can't use page locators.
 
-- **File uploads**: Use `setInputFiles()` on file inputs - no native dialog interaction needed. For drag-and-drop uploads, use `page.setInputFiles()` with `eventInit` parameter.
+- **File uploads**: `setInputFiles()` on inputs. Drag-drop: `page.setInputFiles()` with `eventInit`.
 
-- **Authentication persistence**: Use `storageState` to save login state and reuse across tests. Avoids repeated login flows: `await context.storageState({ path: 'auth.json' })`, then `test.use({ storageState: 'auth.json' })`.
+- **Auth persistence**: `storageState` saves login. `await context.storageState({ path: 'auth.json' })`, then `test.use({ storageState: 'auth.json' })`.
 
-- **Dynamic content loading**: Use `waitForLoadState('networkidle')` for SPAs with lazy loading. For infinite scroll, trigger scroll events then wait for new elements: `await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))`.
+- **Dynamic content**: `waitForLoadState('networkidle')` for SPAs. Infinite scroll: `page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))`.
 
-- **Shadow DOM**: Use `locator.locator()` to pierce shadow DOM: `await page.locator('my-component').locator('#shadow-button').click()`. Playwright automatically handles shadow roots.
+- **Shadow DOM**: `locator.locator()` pierces shadow: `page.locator('my-component').locator('#shadow-button').click()`.
 
-- **Popup windows and new tabs**: Use `page.waitForEvent('popup')` to handle new windows: `const [popup] = await Promise.all([page.waitForEvent('popup'), page.click('a[target="_blank"]')])`.
+- **Popups/tabs**: `page.waitForEvent('popup')`: `const [popup] = await Promise.all([page.waitForEvent('popup'), page.click('a[target="_blank"]')])`.
 
-- **Slow CI execution**: Run tests in parallel with `--workers=4`. Use `fullyParallel: true` in config. Shard tests across machines: `--shard=1/4`, `--shard=2/4`, etc.
+- **Slow CI**: Parallel `--workers=4`, `fullyParallel: true`. Shard: `--shard=1/4`, `--shard=2/4`.
+
 ## Checklist
+
 - [ ] All locators use `getByRole`, `getByLabel`, `getByTestId`, or `getByText`
 - [ ] No `waitForTimeout` or manual sleeps in test code
 - [ ] Tests are independent and can run in any order
 - [ ] Assertions use `expect(locator)` web-first form
 - [ ] CI uploads trace files on failure (`--trace on-first-retry`)
 - [ ] Auth state reused via `storageState` to avoid repeated logins
+
 ## Resources
+
 - [Playwright Docs -- Best Practices](https://playwright.dev/docs/best-practices)
 - [Playwright Locators Guide](https://playwright.dev/docs/locators)
 - [Playwright CI Configuration](https://playwright.dev/docs/ci)

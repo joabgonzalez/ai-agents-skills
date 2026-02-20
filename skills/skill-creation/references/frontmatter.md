@@ -2,6 +2,13 @@
 
 > Complete guide to skill frontmatter requirements, YAML syntax, and validation
 
+## Core Patterns
+
+- Required Fields
+- Optional Fields
+- Complete Frontmatter Examples
+- Formatting Rules
+
 ## Required Fields
 
 ### name (required)
@@ -30,6 +37,7 @@ description: "This skill provides comprehensive guidance for TypeScript. Trigger
 ```
 
 Rules:
+
 - Include "Trigger:" clause (mandatory)
 - Under 150 characters
 - Eliminate filler words
@@ -68,12 +76,12 @@ license: "MIT"            # ✅ Alternative
 # ✅ CORRECT: YAML list syntax
 metadata:
   skills:
-    - conventions
+    - code-conventions
     - a11y
 
 # ❌ WRONG: Array syntax
 metadata:
-  skills: ["conventions", "a11y"]
+  skills: ["code-conventions", "a11y"]
 
 # ✅ OMIT if no dependencies
 ```
@@ -101,7 +109,7 @@ metadata:
 
 ### metadata.allowed-tools (optional)
 
-**Purpose:** Specific tools the AI agent needs. Only include when the skill requires particular tools (e.g., file operations). **Do not add generic tools** like `documentation-reader` or `web-search`.
+**Purpose:** Specific tools the AI agent needs. Only include when the skill requires particular tools (e.g., file operations). Do not add generic tools like `documentation-reader` or `web-search`.
 
 ```yaml
 # ✅ CORRECT: Skill-specific tools
@@ -146,7 +154,7 @@ metadata:
   version: "1.0"
   skills:
     - react
-    - conventions
+    - code-conventions
   dependencies:
     formik: ">=2.0.0 <3.0.0"
 ---
@@ -185,12 +193,12 @@ metadata:
 # ✅ CORRECT
 metadata:
   skills:
-    - conventions
+    - code-conventions
     - a11y
 
 # ❌ WRONG
 metadata:
-  skills: ["conventions", "a11y"]
+  skills: ["code-conventions", "a11y"]
 ```
 
 **Empty fields:** OMIT completely (saves tokens)
@@ -206,7 +214,7 @@ metadata:
 metadata:
   version: "1.0"
   skills:
-    - conventions
+    - code-conventions
 ```
 
 ---
@@ -233,12 +241,14 @@ Schema: [frontmatter-schema.json](../assets/frontmatter-schema.json) (reference 
 ## Common Mistakes
 
 **Missing Trigger:**
+
 ```yaml
 description: "TypeScript patterns."                           # ❌
 description: "TypeScript patterns. Trigger: When using TS."   # ✅
 ```
 
 **Empty arrays/objects:**
+
 ```yaml
 metadata:
   skills: []              # ❌ Omit entirely
@@ -246,14 +256,16 @@ metadata:
 ```
 
 **Wrong array syntax:**
+
 ```yaml
 metadata:
-  skills: ["conventions"] # ❌
+  skills: ["code-conventions"] # ❌
   skills:
-    - conventions          # ✅
+    - code-conventions          # ✅
 ```
 
 **Name mismatch:**
+
 ```yaml
 # Directory: skills/react-native/
 name: react_native    # ❌ Underscore

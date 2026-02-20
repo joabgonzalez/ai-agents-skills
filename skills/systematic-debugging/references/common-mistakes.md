@@ -2,6 +2,13 @@
 
 > Frequently encountered errors and their root causes.
 
+## Core Patterns
+
+- JavaScript/TypeScript
+- React
+- Node.js/Express
+- TypeScript-Specific
+
 ## JavaScript/TypeScript
 
 | Error | Common Root Cause | Fix |

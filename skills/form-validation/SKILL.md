@@ -4,13 +4,12 @@ description: "Form and schema validation across libraries. Trigger: When validat
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
+  type: domain
 ---
 
 # Form Validation
 
-Unified guidance for form and schema validation across Zod, Yup, React Hook Form, and Formik. Context-aware: uses your project's existing libraries.
+Form/schema validation across Zod, Yup, React Hook Form, Formik. Context-aware.
 
 ## When to Use
 
@@ -22,8 +21,8 @@ Unified guidance for form and schema validation across Zod, Yup, React Hook Form
 
 Don't use when:
 
-- Compile-time-only typing (use typescript skill)
-- Simple validation (<3 fields, no library needed)
+- Compile-time typing (typescript skill)
+- Simple validation (<3 fields)
 
 ---
 
@@ -44,9 +43,9 @@ Don't use when:
 // If project has React Hook Form → use RHF patterns
 // If project has Formik → use Formik patterns
 
-// ❌ WRONG: Force new library
-// "Let's add Zod" when project uses Yup
-// "Use React Hook Form" when project uses Formik
+// ❌ WRONG: Force new lib
+// "Add Zod" when project uses Yup
+// "Use RHF" when project uses Formik
 ```
 
 ### ✅ REQUIRED: Infer Types from Schemas
@@ -61,7 +60,7 @@ type User = z.infer<typeof schema>;
 const schema = yup.object({ name: yup.string().required() });
 type User = yup.InferType<typeof schema>;
 
-// ❌ WRONG: Separate interface (can drift)
+// ❌ WRONG: Separate interface (drifts)
 interface User { name: string }
 const schema = z.object({ name: z.string() });
 ```
@@ -186,13 +185,13 @@ function MyForm() {
 
 ## Edge Cases
 
-**Multiple validation libraries:** If project uses both Zod and Yup, use the one most appropriate for context (e.g., Zod for API parsing, Yup for legacy Formik forms).
+**Multiple libs:** Use appropriate for context (Zod for API, Yup for legacy Formik).
 
-**No library installed:** For new projects, recommend React Hook Form + Zod (React) or Zod alone (Node.js) as modern default.
+**No library:** Recommend RHF + Zod (React) or Zod (Node.js).
 
-**Migration:** When migrating between libraries, update one form/endpoint at a time. Don't mix libraries within same form.
+**Migration:** One form/endpoint at a time. Don't mix within same form.
 
-**TypeScript strict mode:** All libraries work best with strict mode enabled. Ensure `strict: true` in tsconfig.json.
+**TS strict:** All libs need `strict: true` in tsconfig.
 
 ---
 

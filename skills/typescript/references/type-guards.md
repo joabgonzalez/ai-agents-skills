@@ -2,6 +2,13 @@
 
 > Type narrowing, user-defined guards, and runtime validation
 
+## Core Patterns
+
+- When to Read This
+- Built-in Type Guards
+- User-Defined Type Guards
+- Discriminated Unions
+
 ## When to Read This
 
 - Runtime type checking

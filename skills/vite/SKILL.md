@@ -4,27 +4,16 @@ description: "Fast build tool with HMR for modern web development. Trigger: When
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - conventions
+  type: tooling
   dependencies:
     vite: ">=5.0.0 <6.0.0"
 ---
 
 # Vite Skill
 
-## Overview
-
-Fast build tool and development server with native ES modules and hot module replacement.
-
-## Objective
-
-Configure and optimize Vite for modern web development with fast builds and excellent developer experience.
-
----
+Fast build with native ES modules, HMR. Config, plugins, env vars, optimization.
 
 ## When to Use
-
-Use this skill when:
 
 - Setting up Vite build tool for modern web apps
 - Configuring dev server with HMR
@@ -32,10 +21,10 @@ Use this skill when:
 - Using Vite plugins (React, Vue, etc.)
 - Configuring environment variables
 
-Don't use this skill for:
+Don't use for:
 
-- Webpack-specific configuration (use webpack skill)
-- Legacy build setups
+- Webpack config (webpack skill)
+- Legacy builds
 
 ---
 
@@ -52,7 +41,7 @@ export default defineConfig({
   plugins: [react()],
 });
 
-// ❌ WRONG: Plain object (no type safety)
+// ❌ WRONG: Plain object (no types)
 export default {
   plugins: [react()],
 };
@@ -69,7 +58,7 @@ VITE_API_URL=https://api.example.com
 const apiUrl = import.meta.env.VITE_API_URL;
 
 // ❌ WRONG: No prefix (won't be exposed)
-API_URL=https://api.example.com // Not accessible
+API_URL=https://api.example.com // Not exposed
 ```
 
 ### ✅ REQUIRED: Use Plugins for Framework Support
@@ -86,10 +75,6 @@ export default defineConfig({
 ---
 
 ## Conventions
-
-Refer to conventions for:
-
-- Project structure
 
 ### Vite Specific
 
@@ -143,19 +128,19 @@ export default defineConfig({
 
 ## Edge Cases
 
-**CommonJS dependencies:** Some packages may not work with ES modules. Use `optimizeDeps.include` to pre-bundle them.
+**CommonJS deps:** Use `optimizeDeps.include` to pre-bundle.
 
-**Global variables:** Use `define` option to replace global constants at build time.
+**Global vars:** `define` option replaces constants at build.
 
-**Static assets:** Assets in `public/` are copied as-is. Assets imported in code are processed and hashed.
+**Static assets:** `public/` copied as-is, imports processed/hashed.
 
-**Build base path:** Set `base` option for deploying to subdirectory (e.g., GitHub Pages).
+**Base path:** Set `base` for subdirectory deploy.
 
-**CSS code splitting:** Vite automatically splits CSS. Use `build.cssCodeSplit: false` to combine into one file.
+**CSS splitting:** Auto-splits CSS. `build.cssCodeSplit: false` combines.
 
 ---
 
-## References
+## Resources
 
 - https://vitejs.dev/guide/
 - https://vitejs.dev/config/

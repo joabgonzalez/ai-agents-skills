@@ -5,13 +5,10 @@ description: "Schema validation for JavaScript objects"
 
 # Yup Validation
 
-> Schema-based validation with intuitive API and Formik integration
-
-## Overview
-
-Yup provides schema-based validation for JavaScript and TypeScript with async support and built-in Formik integration. Best for legacy projects or when Formik is already in use.
+Schema-based validation for JavaScript and TypeScript with async support and built-in Formik integration. Best for legacy projects or when Formik is in use.
 
 **Dependencies:**
+
 ```json
 {
   "yup": ">=1.0.0 <2.0.0"
@@ -426,7 +423,7 @@ yup.string().nullable().notRequired(); // string | null | undefined
 const strict = schema.strict(); // Throws on unknown keys
 ```
 
-**Synchronous validation:** Use `.validateSync()` for synchronous validation (no async tests allowed).
+**Synchronous validation:** Use `.validateSync()` — async tests not allowed.
 
 ```typescript
 try {

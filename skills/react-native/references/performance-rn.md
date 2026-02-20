@@ -2,6 +2,13 @@
 
 > FlatList optimization, navigation performance, memory management
 
+## Core Patterns
+
+- When to Read This
+- FlatList Optimization
+- Image Optimization
+- Navigation Performance
+
 ## When to Read This
 
 - Optimizing FlatList rendering
@@ -27,7 +34,7 @@
   })}
 />
 
-// ❌ WRONG: Dynamic heights without getItemLayout (slow scrolling)
+// ❌ WRONG: Dynamic heights without getItemLayout
 <FlatList data={items} renderItem={renderItem} />
 ```
 
@@ -41,7 +48,7 @@
   renderItem={renderItem}
 />
 
-// ❌ WRONG: Index as key (causes re-renders on data changes)
+// ❌ WRONG: Index as key (causes re-renders)
 <FlatList
   data={items}
   keyExtractor={(item, index) => index.toString()}
@@ -71,9 +78,9 @@ const MemoizedItem = React.memo(({ item }) => (
 <FlatList
   data={items}
   renderItem={renderItem}
-  initialNumToRender={10} // Render 10 items initially
-  maxToRenderPerBatch={5} // Batch size for rendering
-  windowSize={5} // Number of pages to keep in memory
+  initialNumToRender={10} // Initial render count
+  maxToRenderPerBatch={5} // Batch render size
+  windowSize={5} // Pages kept in memory
   removeClippedSubviews={true} // Unmount off-screen views (Android)
 />
 ```

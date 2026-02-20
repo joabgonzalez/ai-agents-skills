@@ -4,13 +4,12 @@ description: "Unit testing patterns for frontend and backend. Trigger: When writ
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - jest
+  type: domain
 ---
 
 # Unit Testing Skill
 
-Strategic patterns for isolated, maintainable unit tests. This skill orchestrates **jest** and **react-testing-library** -- delegate to them for runner APIs and component queries.
+Patterns for isolated, maintainable unit tests. Orchestrates **jest** and **react-testing-library** -- delegate to them for runner APIs and component queries.
 
 ## When to Use
 
@@ -19,6 +18,7 @@ Strategic patterns for isolated, maintainable unit tests. This skill orchestrate
 - Refactoring an existing test suite
 
 Don't use for:
+
 - Jest syntax and mock APIs -- delegate to **jest** skill
 - React component queries -- delegate to **react-testing-library** skill
 - Integration or E2E test strategy (different scope)
@@ -84,6 +84,24 @@ expect(result.balance).toBe(20);
 jest.spyOn(service, 'withdraw').mockResolvedValue({ balance: 20 });
 ```
 
+### Positive and Negative Assertions
+
+Every behavior has two sides: what SHOULD happen (positive) and what SHOULD NOT (negative). A test suite that only checks positive paths misses entire failure categories. Test both explicitly.
+
+```typescript
+// ✅ POSITIVE: expected outcome occurs
+expect(user.role).toBe('member');
+expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'Ada' }));
+
+// ✅ NEGATIVE: invalid input is rejected, wrong state is absent
+expect(() => service.create({ name: '' })).toThrow('Name required');
+await expect(service.withdraw('1', 9999)).rejects.toThrow('Insufficient funds');
+expect(result.errors).not.toContain('email'); // valid field must not appear in errors
+expect(repo.save).not.toHaveBeenCalled();     // no side-effect on failure
+```
+
+Negative assertions use Jest matchers — see **jest** skill for `.not`, `.toThrow()`, `.rejects`.
+
 ## Decision Tree
 
 - React component? -> Delegate to **react-testing-library** skill
@@ -122,11 +140,11 @@ describe('AccountService.withdraw', () => {
 
 ## Edge Cases
 
-- **Flaky async** -- Always `await` async operations; use fake timers for time-dependent logic
-- **Coverage gaps** -- Write explicit tests for `else`, `catch`, and default branches
-- **Test coupling** -- If renaming a private method breaks tests, test public API only
-- **Shared utilities** -- Extract factories (`createUser()`) into `test/helpers/`
-- **Non-deterministic data** -- Seed random values or freeze `Date.now()`
+- **Flaky async**: Always `await` async operations; use fake timers for time-dependent logic
+- **Coverage gaps**: Write explicit tests for `else`, `catch`, and default branches
+- **Test coupling**: If renaming private method breaks tests, test public API only
+- **Shared utilities**: Extract factories (`createUser()`) into `test/helpers/`
+- **Non-deterministic data**: Seed random values or freeze `Date.now()`
 
 ## Checklist
 

@@ -2,6 +2,13 @@
 
 > createTheme, ThemeProvider, palette, typography, and dark mode
 
+## Core Patterns
+
+- When to Read This
+- Theme Setup
+- Palette
+- Typography
+
 ## When to Read This
 
 - Setting up MUI theme for new project

@@ -4,10 +4,9 @@ description: "Fullstack React with SSR/SSG and API routes. Trigger: When buildin
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
     - react
-    - typescript
-    - architecture-patterns
   dependencies:
     next: ">=13.0.0 <15.0.0"
     react: ">=18.0.0 <19.0.0"
@@ -15,22 +14,26 @@ metadata:
 
 # Next.js Skill
 
-Build fullstack React applications with the App Router, server components, and server actions in Next.js 13-14.
+Fullstack React apps with App Router, server components, and server actions for Next.js 13-14.
 
 ## When to Use
-- Building React apps with SSR/SSG
-- Implementing API routes or middleware
-- Deploying fullstack React projects
+
+- React apps with SSR/SSG
+- API routes or middleware
+- Fullstack React deployment
 
 Don't use for:
-- Pure static sites with no React (use Astro or Hugo)
-- Backend-only APIs with no UI (use Express or Hono)
-- Non-React frontends (use SvelteKit or Nuxt)
+
+- Static sites without React (use Astro)
+- Backend-only APIs (use Express/Hono)
+- Non-React frontends (use SvelteKit/Nuxt)
 
 ## Critical Patterns
 
-### Server Components vs Client Components
-Components are server components by default. Add `"use client"` only for browser APIs, state, or event handlers.
+### ✅ REQUIRED: Server Components vs Client Components
+
+Server components by default. Add `"use client"` only for browser APIs, state, or events.
+
 ```typescript
 // CORRECT: server component fetches data directly (no directive needed)
 export default async function UsersPage() {
@@ -40,8 +43,10 @@ export default async function UsersPage() {
 // WRONG: adding "use client" just to render data, then using useEffect + fetch
 ```
 
-### File-Based Routing with layout.tsx
-Use `layout.tsx` for shared UI that persists across child routes without re-rendering.
+### ✅ REQUIRED: File-Based Routing with layout.tsx
+
+`layout.tsx` for shared UI persisting across child routes without re-render.
+
 ```typescript
 // app/dashboard/layout.tsx wraps all /dashboard/* pages
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -54,8 +59,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 }
 ```
 
-### Server Actions
-Use `"use server"` functions for mutations without writing API routes.
+### ✅ REQUIRED: Server Actions
+
+`"use server"` for mutations without API routes.
+
 ```typescript
 "use server";
 import { revalidatePath } from "next/cache";
@@ -66,8 +73,10 @@ export async function createUser(formData: FormData) {
 }
 ```
 
-### Data Fetching in Server Components
-Fetch data directly in async server components. Next.js deduplicates and caches `fetch` calls.
+### ✅ REQUIRED: Data Fetching in Server Components
+
+Fetch directly in async server components. Next.js deduplicates and caches `fetch`.
+
 ```typescript
 async function getProducts() {
   const res = await fetch("https://api.example.com/products", {
@@ -81,8 +90,10 @@ export default async function ProductsPage() {
 }
 ```
 
-### Metadata API
-Export `metadata` or `generateMetadata` for SEO instead of manual `<head>` tags.
+### ✅ REQUIRED: Metadata API
+
+Export `metadata` or `generateMetadata` for SEO (no manual `<head>`).
+
 ```typescript
 // Static metadata
 export const metadata = { title: "Dashboard", description: "User dashboard" };
@@ -94,6 +105,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 ```
 
 ## Decision Tree
+
 - Needs browser APIs or state? -> Add `"use client"` directive
 - Fetching data for display? -> Use async server component, not useEffect
 - Form submission or mutation? -> Use a server action with `"use server"`
@@ -104,6 +116,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 - On-demand cache clear? -> Call `revalidatePath()` or `revalidateTag()`
 
 ## Example
+
 ```typescript
 // app/posts/page.tsx - server component with client island
 import LikeButton from "./like-button";
@@ -127,13 +140,15 @@ export default async function PostsPage() {
 ```
 
 ## Edge Cases
-- **Client component boundaries**: `"use client"` makes the component and all its imports client-side; push it as far down the tree as possible.
-- **Serialization across boundary**: Props passed from server to client must be serializable (no functions, Dates, or class instances).
-- **Waterfall fetches**: Sequential `await` calls in server components create waterfalls; use `Promise.all()` for parallel fetches.
-- **Middleware limitations**: Middleware runs on Edge Runtime; it cannot use Node.js APIs like `fs` or database drivers.
-- **Revalidation conflicts**: Mixing `revalidate` values on the same route uses the lowest value; be deliberate about cache timing.
+
+- **Client boundaries**: `"use client"` makes component + imports client-side; push down tree.
+- **Serialization**: Server→client props must be serializable (no functions/Dates/classes).
+- **Waterfall fetches**: Sequential `await` creates waterfalls; use `Promise.all()`.
+- **Middleware limits**: Edge Runtime only; no Node.js APIs (`fs`, DB drivers).
+- **Revalidation conflicts**: Mixed `revalidate` values use lowest; set deliberately.
 
 ## Checklist
+
 - [ ] Components are server components by default; `"use client"` only added when required
 - [ ] Data fetching uses async server components, not client-side useEffect
 - [ ] Layouts are used for persistent shared UI across route segments
@@ -144,6 +159,7 @@ export default async function PostsPage() {
 - [ ] Client component boundaries are pushed as low in the tree as possible
 
 ## Resources
+
 - [Next.js App Router Documentation](https://nextjs.org/docs/app)
 - [Server Components - React RFC](https://github.com/reactjs/rfcs/blob/main/text/0188-server-components.md)
 - [Next.js Data Fetching Patterns](https://nextjs.org/docs/app/building-your-application/data-fetching)

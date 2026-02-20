@@ -19,6 +19,7 @@ This directory contains detailed guides for Material-UI component usage and cust
 | [customization.md](customization.md) | sx prop, styled API, component variants, overrides           | Customizing component styles and creating reusable patterns |
 | [data-display.md](data-display.md)   | Table, DataGrid, List, Card patterns                         | Displaying collections, tables, and structured data         |
 | [forms.md](forms.md)                 | Form handling, validation, TextField patterns, Autocomplete  | Building forms with MUI components and validation           |
+| [mui-x-charts.md](mui-x-charts.md)  | LineChart, BarChart, PieChart, ScatterChart, accessibility   | Data visualization with MUI X Charts (when charts required) |
 
 ---
 
@@ -103,6 +104,15 @@ This directory contains detailed guides for Material-UI component usage and cust
 - Integration with Formik/React Hook Form
 - Error handling and feedback
 
+### [mui-x-charts.md](mui-x-charts.md)
+
+**Data visualization with MUI X Charts** (use only when task requires charts)
+
+- Context verification before using charts
+- Accessible charts with axis labels and legends
+- Responsive container sizing
+- Chart type selection (Line, Bar, Pie, Scatter)
+
 ---
 
 ## Common Patterns Summary
@@ -113,3 +123,15 @@ This directory contains detailed guides for Material-UI component usage and cust
 - **Reusable styled component**: Use styled() API
 - **Forms**: Combine TextField, validation, and layout components
 - **Data tables**: Use Table or DataGrid (MUI X) with proper accessibility
+
+---
+
+## Cross-Reference Map
+
+- [components.md](components.md) → Extends SKILL.md's component usage patterns; pairs with theming.md for themed usage
+- [theming.md](theming.md) → Extends SKILL.md's theme configuration patterns; foundational for all other references
+- [customization.md](customization.md) → Extends SKILL.md's styling patterns; builds on theming.md's foundation
+- [data-display.md](data-display.md) → Extends SKILL.md's data display patterns; pairs with forms.md for data-entry/display workflows
+- [forms.md](forms.md) → Extends SKILL.md's form patterns; pairs with [form-validation](../../form-validation/SKILL.md) for schema validation
+- [mui-x-charts.md](mui-x-charts.md) → Extends SKILL.md with data visualization; used alongside data-display.md for data-heavy UIs
+- Related skills: [react](../../react/SKILL.md), [form-validation](../../form-validation/SKILL.md), [interface-design](../../interface-design/SKILL.md), [typescript](../../typescript/SKILL.md)

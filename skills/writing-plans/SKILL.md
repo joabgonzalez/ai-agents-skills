@@ -4,8 +4,7 @@ description: "Executable plans with granular tasks and file precision. Trigger: 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - brainstorming
+  type: behavioral
 ---
 
 # Writing Plans
@@ -232,9 +231,9 @@ Plan has >20 tasks?
 
 ## Edge Cases
 
-**Very small changes (<2 min)**: Group multiple small changes into single task. Example: "Update 3 import statements across files (2 min)".
+**Very small changes (<2 min)**: Group multiple small changes into single task. Example: "Update 3 import statements (2 min)".
 
-**Very large features (50+ tasks)**: Break into phases with clear milestones. Each phase is a separate plan.
+**Very large features (50+ tasks)**: Break into phases with clear milestones. Each phase is separate plan.
 
 **Refactoring (hard to estimate)**: Add time buffer. Mark as "3-5 min (refactoring)" to signal uncertainty.
 
@@ -258,7 +257,7 @@ Plan has >20 tasks?
 
 ---
 
-## Example: Complete Plan
+## Example
 
 ````markdown
 # Feature: User Registration API
@@ -321,7 +320,7 @@ export interface IUserRepository {
 - Verification: npm test -- entities/ utils/
 - Expected: 5/5 passed ✅
 
-## Batch 2: API Layer (9 min)
+### Batch 2: API Layer (9 min)
 
 ### Task 4: Define registration DTO (2 min)
 
@@ -385,7 +384,7 @@ test("POST /auth/register creates user", async () => {
 - Verification: npm test -- auth.test.ts
 - Expected: 8/8 passed ✅
 
-## Batch 3: Error Handling (9 min)
+### Batch 3: Error Handling (9 min)
 
 ### Task 7: Add duplicate email test (2 min)
 
@@ -407,7 +406,7 @@ test("POST /auth/register creates user", async () => {
 
 - [brainstorming](../brainstorming/SKILL.md) - High-level planning and alternatives
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging workflow
-- [conventions](../conventions/SKILL.md) - Code organization standards
+- [code-conventions](../code-conventions/SKILL.md) - Code organization standards
 - [verification-protocol](../verification-protocol/SKILL.md) - Evidence-based verification
 - [plan-execution](../plan-execution/SKILL.md) - Executing plans with checkpoints
 ```

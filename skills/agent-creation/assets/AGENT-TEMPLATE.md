@@ -8,7 +8,7 @@ metadata:
     - { skill-1 }
     - { skill-2 }
     # Only include skills that are DIRECTLY needed by this agent
-    # Do NOT include conventions - it comes transitively via typescript/javascript/react/nodejs
+    # Do NOT include code-conventions - it comes transitively via typescript/javascript/react/nodejs
 input: "{description of expected input | data_type}"
 output: "{description of expected output | data_type}"
 ---
@@ -26,12 +26,15 @@ output: "{description of expected output | data_type}"
 This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
 
 ### Step 1: Find the Trigger
+
 Check the "Skills Reference" table below. Match your task to the "Trigger" column.
 
 ### Step 2: Read the Skill
+
 **Path format:** `.{model}/skills/{skill-name}/SKILL.md`
 
 Replace `{model}` with your coding agent:
+
 - **Cursor:** `.cursor/skills/typescript/SKILL.md`
 - **Claude:** `.claude/skills/typescript/SKILL.md`
 - **Copilot:** `.github/skills/typescript/SKILL.md`
@@ -39,13 +42,15 @@ Replace `{model}` with your coding agent:
 - **Codex:** `.codex/skills/typescript/SKILL.md`
 
 ### Step 3: Read Dependencies
+
 Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each direct dependency before proceeding.
 
 **Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `conventions`. The dependency chain ensures you have all required context.
+Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `code-conventions`. The dependency chain ensures you have all required context.
 
 ### Step 4: Apply Patterns
+
 - Follow "Critical Patterns" marked with ✅ REQUIRED
 - Use "Decision Tree" for implementation choices
 - Reference inline code examples
@@ -58,7 +63,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
 3. **Check frontmatter** → Dependencies: `javascript`
 4. **Read dependency:**
-   - `.{model}/skills/javascript/SKILL.md` (which depends on `conventions`)
+   - `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Skills Reference
@@ -74,7 +79,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
 | Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
 | Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
-| Coding standards            | conventions             | {model}/skills/conventions/SKILL.md           |
+| Coding standards            | conventions             | {model}/skills/code-conventions/SKILL.md           |
 
 **Example triggers for your specific agent:**
 
@@ -106,16 +111,19 @@ your-project/
 ```
 
 **How to access skills:**
+
 - **Preferred:** Read from `.{model}/skills/<skill-name>/SKILL.md` (your model's directory)
 - **If symlinks fail:** Skills are stored in the ai-agents-skills framework installation (referenced via symlinks)
 - **Real files location:** All source skills are in the framework's `skills/` directory
 
 **Why 3 layers?**
+
 1. **Layer 1 (framework skills/):** Source of truth maintained by framework
 2. **Layer 2 (.agents/skills/):** Canonical shared location in your project
 3. **Layer 3 (.{model}/skills/):** Model-specific access for your AI assistant
 
 **Benefits:**
+
 - **Zero duplication:** Skills installed once, available to all 5 AI models
 - **Always up-to-date:** Changes propagate instantly via symlinks
 - **Token-efficient:** Your AI reads only the skills it needs
@@ -135,6 +143,7 @@ your-project/
 {Description of technologies, frameworks, versions, and tools used in the project}
 
 **Example:**
+
 - **Languages:** TypeScript 5.0+, JavaScript (ES2020+)
 - **Frameworks:** React 18+, Next.js 14+
 - **Build:** Vite/Webpack
@@ -170,6 +179,7 @@ your-project/
 **{Policy category 3}:** {Description}
 
 **Example policies:**
+
 - **Typing:** strict mode, no `any`, explicit return types
 - **Code quality:** Context-aware linting and formatting (see code-quality skill)
 - **Accessibility:** Semantic HTML, keyboard-accessible elements, proper ARIA labels

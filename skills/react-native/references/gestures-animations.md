@@ -2,6 +2,13 @@
 
 > Gesture Handler, Animated API, Reanimated patterns
 
+## Core Patterns
+
+- When to Read This
+- Gesture Handler
+- Animated API
+- Reanimated (v3)
+
 ## When to Read This
 
 - Implementing gestures (tap, pan, swipe)
@@ -19,12 +26,8 @@
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 const tap = Gesture.Tap()
-  .onStart(() => {
-    console.log('Tap started');
-  })
-  .onEnd(() => {
-    console.log('Tap ended');
-  });
+  .onStart(() => console.log('Tap started'))
+  .onEnd(() => console.log('Tap ended'));
 
 <GestureDetector gesture={tap}>
   <View style={styles.box} />

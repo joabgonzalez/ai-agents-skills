@@ -2,6 +2,13 @@
 
 > Platform.select, iOS/Android differences, platform APIs
 
+## Core Patterns
+
+- When to Read This
+- Platform Detection
+- Platform-Specific Files
+- Common Differences
+
 ## When to Read This
 
 - Writing platform-specific code
@@ -39,9 +46,9 @@ const styles = StyleSheet.create({
 
 ```typescript
 if (Platform.OS === "ios") {
-  // iOS-specific code
+  // iOS code
 } else if (Platform.OS === "android") {
-  // Android-specific code
+  // Android code
 }
 ```
 
@@ -49,7 +56,7 @@ if (Platform.OS === "ios") {
 
 ```typescript
 if (Platform.Version >= 23) {
-  // Android API 23 (Marshmallow) or higher
+  // Android API 23+ (Marshmallow)
 }
 ```
 
@@ -66,7 +73,7 @@ Button.tsx  // Fallback
 ```
 
 ```typescript
-// Import works automatically based on platform
+// Import resolves automatically per platform
 import Button from "./Button";
 ```
 
@@ -91,14 +98,14 @@ import { StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 <SafeAreaView style={{ flex: 1 }}>
-  {/* iOS: respects notch, Android: respects status bar */}
+  {/* respects notch (iOS) and status bar (Android) */}
 </SafeAreaView>
 ```
 
 ### ✅ Shadow Styles
 
 ```typescript
-// ❌ WRONG: Using iOS shadow on Android
+// ❌ WRONG: iOS shadow on Android
 <View style={{ shadowColor: '#000', shadowOpacity: 0.3 }} />
 
 // ✅ CORRECT: Platform-specific shadow
@@ -151,7 +158,7 @@ if (Platform.OS === "ios") {
     },
   );
 } else {
-  // Use Android native menu or custom component
+  // Use Android menu or custom component
 }
 ```
 

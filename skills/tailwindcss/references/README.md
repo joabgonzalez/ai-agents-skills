@@ -26,7 +26,7 @@
 
 1. **READ:** [design-system.md](design-system.md) — CVA setup, variant patterns, compound variants
 2. **EXAMPLE:** Button with size/intent variants
-3. **ALSO SEE:** [composition-patterns](../../composition-patterns/SKILL.md) for polymorphic components
+3. **ALSO SEE:** [composition-pattern](../../composition-pattern/SKILL.md) for polymorphic components
 
 ### Implementing Dark Mode
 
@@ -43,6 +43,7 @@
 Comprehensive guide to building design systems with Tailwind using token hierarchies and semantic naming.
 
 **Content:**
+
 - **Token Hierarchy:** Three-layer organization (brand → semantic → component tokens)
 - **OKLCH Color Space:** Perceptual uniformity, better than HSL/RGB
 - **Semantic Naming Convention:** bg-primary, bg-destructive, text-muted-foreground (not color numbers)
@@ -61,6 +62,7 @@ Comprehensive guide to building design systems with Tailwind using token hierarc
 Migration guide and v4-specific features for Tailwind CSS v4+.
 
 **Content:**
+
 - **CSS-First Configuration:** @import 'tailwindcss' replaces tailwind.config.js
 - **@theme Blocks:** Define all customization in CSS (not JavaScript)
 - **New Utilities:** size-* shorthand (replaces w-* + h-*), improved spacing
@@ -78,24 +80,29 @@ Migration guide and v4-specific features for Tailwind CSS v4+.
 ## Cross-Reference Map
 
 **Token Hierarchy:**
+
 - design-system.md → Three-layer token structure
 - interface-design/visual-design.md → Typography scale, spacing system, color semantics
 - tailwind-v4.md → Implementation with @theme blocks
 
 **Semantic Naming:**
+
 - design-system.md → bg-primary, text-muted-foreground
 - interface-design/visual-design.md → Color semantic naming principles
 
 **Dark Mode:**
+
 - design-system.md → @custom-variant pattern, token pairing
 - interface-design/visual-design.md → CSS custom properties for dark mode
 - tailwind-v4.md → v4 dark mode syntax
 
 **Component Variants:**
+
 - design-system.md → CVA setup and patterns
-- composition-patterns → Polymorphic components, variant props
+- composition-pattern → Polymorphic components, variant props
 
 **Animation:**
+
 - design-system.md → @keyframes in @theme
 - interaction-design → Motion timing guidelines
 - tailwind-v4.md → Tree-shakeable animations

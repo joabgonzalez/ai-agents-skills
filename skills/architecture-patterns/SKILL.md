@@ -1,164 +1,107 @@
 ---
 name: architecture-patterns
-description: "SOLID, DDD, Clean Architecture, DRY, and Sidecar patterns. Trigger: When designing maintainable systems, complex state management, or project specifies architectural requirements."
+description: "Architectural decision guide by complexity. Trigger: When choosing architecture, planning strategic refactoring, or evaluating pattern trade-offs."
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
-  dependencies:
-    typescript: ">=4.5.0"
-  allowed-tools:
-    - read-file
+  type: universal
 ---
 
 # Architecture Patterns
 
-SOLID, DDD, Clean/Hexagonal Architecture, DRY, Sidecar, and behavioral patterns (Mediator, Result) for maintainable, testable backend services. Apply to frontend only when AGENTS.md or codebase structure requires it.
+Decision guide for choosing architectural approaches by project complexity, team size, and context. Orchestrates architectural thinking without coupling to specific patterns.
 
 ## When to Use
 
-- Codebase already has `domain/`, `application/`, `infrastructure/` folders
-- AGENTS.md specifies architecture patterns
-- Backend project >500 LOC with business logic
-- Microservices or multi-layered services
+- Deciding WHEN to apply architecture vs keeping it simple
+- Choosing architectural approach by project complexity
+- Planning strategic refactoring (module boundaries, layers)
+- Understanding frontend vs backend architectural differences
+- Evaluating architecture trade-offs
 
 Don't use for:
-- Scripts/utilities (<200 LOC), prototypes, basic CRUD without business logic
-- Frontend projects unless AGENTS.md or codebase demands it
+
+- Learning specific patterns → use pattern-specific skills (solid, domain-driven-design, clean-architecture)
+- Tactical refactoring (rename, extract, inline) → use code-refactoring skill
+- Code review → use critical-partner skill
 
 ---
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Single Responsibility Principle (SRP)
+### ✅ REQUIRED: Complexity-Driven Architecture
 
-Each class/module has ONE reason to change. Separate data access, validation, and orchestration.
-
-```typescript
-// ✅ Repo for data, validator for rules, service for orchestration
-export class UserRepository {
-  async findById(id: string): Promise<User | null> { return await db.users.findUnique({ where: { id } }); }
-  async save(user: User): Promise<void> { await db.users.create({ data: user }); }
-}
-export class UserValidator {
-  validate(user: User): ValidationResult {
-    if (!user.email.includes("@")) return { valid: false, errors: ["Invalid email"] };
-    return { valid: true, errors: [] };
-  }
-}
-export class UserService {
-  constructor(private repo: UserRepository, private validator: UserValidator) {}
-  async createUser(user: User): Promise<Result<User>> {
-    const validation = this.validator.validate(user);
-    if (!validation.valid) return Result.fail(validation.errors);
-    await this.repo.save(user);
-    return Result.ok(user);
-  }
-}
-// ❌ Validation + DB + email all in one class — violates SRP
-```
-
-See [solid-principles.md](references/solid-principles.md) for all 5 SOLID principles.
-
-### ✅ REQUIRED: Dependency Inversion (DIP)
-
-Depend on abstractions. Enables swapping implementations and mocking in tests.
-
-```typescript
-export interface IEmailService {
-  send(to: string, subject: string, body: string): Promise<void>;
-}
-export class UserService {
-  constructor(private emailService: IEmailService) {} // ← interface, not concrete class
-  async registerUser(user: User) { await this.emailService.send(user.email, "Welcome", "..."); }
-}
-export class SendGridEmailService implements IEmailService { /* adapter */ }
-// ❌ private emailService = new SendGridEmailService() — tightly coupled
-```
-
-### ✅ REQUIRED: Layer Separation (Clean Architecture)
-
-Dependency direction: outer to inner. Domain has zero external dependencies.
+Match architecture complexity to project size and team.
 
 ```
-Infrastructure (Adapters) ← Frameworks, DB, HTTP
-  Application (Use Cases) ← Business workflows
-    Domain (Entities)     ← Business rules
+Small (1-3 devs, <10k LOC):
+  → Keep simple — folder structure + code-conventions is enough
+  → Apply: Basic separation (routes, components, utils)
+  → Avoid: Layered architecture, DDD, Clean Architecture (overkill)
+
+Medium (4-10 devs, 10k-100k LOC):
+  → Modular architecture — clear module boundaries
+  → Apply: Single responsibility per module, layer separation
+  → Consider: Clean Architecture for testability
+
+Large/Enterprise (10+ devs, >100k LOC, multiple teams):
+  → Full architectural approach required
+  → Apply: Strict boundaries, domain-driven modules, hexagonal for testability
+  → Consider: DDD for complex business domains
 ```
 
-```typescript
-// Domain — pure business rules
-export class User {
-  constructor(public readonly id: string, private status: UserStatus) {}
-  activate(): void {
-    if (this.status === "banned") throw new Error("Cannot activate banned user");
-    this.status = "active";
-  }
-}
-// Application — orchestrates domain via ports
-export class RegisterUserUseCase {
-  constructor(private userRepo: IUserRepository) {}
-  async execute(email: string): Promise<Result<User>> {
-    const user = new User(generateId(), "pending");
-    await this.userRepo.save(user);
-    return Result.ok(user);
-  }
-}
-// Infrastructure — implements ports
-export class PostgresUserRepository implements IUserRepository {
-  async save(user: User): Promise<void> { await this.db.query("INSERT INTO users..."); }
-}
+**Guideline**: Start simple. Apply architecture when pain points emerge.
+
+### ✅ REQUIRED: Recognize Architecture Pain Points
+
+Apply architecture when you see these signals:
+
+```
+❌ Files >500 lines with mixed responsibilities
+❌ Changing one feature breaks unrelated features
+❌ Tests require 5+ mocks to test one unit
+❌ New devs take >2 weeks to make first contribution
+❌ Same bug fixed multiple times in different places
 ```
 
-See [clean-architecture.md](references/clean-architecture.md) and [hexagonal-architecture.md](references/hexagonal-architecture.md).
+### ✅ REQUIRED: Frontend vs Backend Architecture
 
-### ✅ REQUIRED: Port/Adapter Pattern (Hexagonal)
+Different architectural concerns by platform:
 
-Define ports (interfaces) for external dependencies; swap adapters freely.
+```
+Frontend architecture:
+  → Component hierarchy and composition
+  → State management boundaries (local vs global)
+  → Data fetching and caching strategies
+  → Route-based code splitting
 
-```typescript
-export interface IPaymentGateway {
-  charge(amount: number, token: string): Promise<PaymentResult>;
-}
-export class OrderService {
-  constructor(private payment: IPaymentGateway) {}
-  async placeOrder(order: Order): Promise<Result<Order>> {
-    const result = await this.payment.charge(order.total, order.token);
-    if (!result.success) return Result.fail("Payment failed");
-    return Result.ok(order);
-  }
-}
-export class StripeAdapter implements IPaymentGateway { /* ... */ }
-export class PayPalAdapter implements IPaymentGateway { /* ... */ }
-// ❌ Calling stripe.charges.create() directly in service — coupled to vendor
+Backend architecture:
+  → Request/response flow layers
+  → Business logic isolation from infrastructure
+  → Database access patterns
+  → API contract design
 ```
 
-### ✅ REQUIRED: Result Pattern
+**Common mistake**: Applying backend patterns (repositories, use cases) to simple frontends. Most SPAs need state management + component composition, not full Clean Architecture.
 
-Return `Result<T>` instead of throwing for expected errors.
+### ✅ REQUIRED: Strategic vs Tactical Refactoring
 
-```typescript
-export class Result<T> {
-  private constructor(public readonly isSuccess: boolean, public readonly value?: T, public readonly error?: string) {}
-  static ok<T>(value: T): Result<T> { return new Result(true, value); }
-  static fail<T>(error: string): Result<T> { return new Result(false, undefined, error); }
-}
-const result = await userService.getUser("123");
-if (result.isSuccess) console.log(result.value);
-else console.error(result.error);
 ```
+Tactical (use code-refactoring skill):
+  → Rename variables/functions
+  → Extract small function
+  → Inline variable
 
-See [result-pattern.md](references/result-pattern.md) for Either/Option patterns.
+Strategic (THIS skill):
+  → Define module boundaries
+  → Separate layers (presentation, domain, data)
+  → Extract entire modules
+  → Redesign dependencies
 
-### ❌ NEVER: Mix Domain with Infrastructure
-
-```typescript
-// ❌ Entity calls DB
-export class User { async save() { await db.users.update({ where: { id: this.id }, data: this }); } }
-// ✅ Entity stays pure; repository handles persistence
-export class User { promote(): void { this.role = "admin"; } }
-export class UserRepository { async save(u: User) { await db.users.update({ where: { id: u.id }, data: u }); } }
+When to refactor strategically:
+  → Files >500 lines
+  → Changing one feature breaks unrelated features
+  → Tests require mocking 5+ dependencies
 ```
 
 ---
@@ -166,67 +109,101 @@ export class UserRepository { async save(u: User) { await db.users.update({ wher
 ## Decision Tree
 
 ```
-Backend project? → Apply SOLID + Clean/Hexagonal by default
-Frontend project? → Check AGENTS.md:
-  Mentions architecture/SOLID/DDD? → Apply
-  >50 components + heavy logic?    → Consider
-  Otherwise                        → Technology-specific patterns only
+Choosing architecture approach?
+  → Small project (<10k LOC, 1-3 devs)?
+    → Keep simple - folder structure + code-conventions
+  → Medium project (10k-100k LOC, 4-10 devs)?
+    → Apply modular architecture - clear module boundaries
+  → Large project (>100k LOC, 10+ devs)?
+    → Apply full architecture - strict boundaries, domain-driven
 
-Which pattern?
-  Class/component design      → solid-principles.md
-  Layer organization          → clean-architecture.md
-  Port/adapter testing        → hexagonal-architecture.md
-  Domain modeling             → domain-driven-design.md
-  Decoupled communication     → mediator-pattern.md
-  Error handling              → result-pattern.md
-  Eliminating duplication     → dry-principle.md
-  Microservice cross-cutting  → sidecar-pattern.md
+Frontend or backend?
+  → Frontend → Focus: component composition, state management, data fetching
+  → Backend → Focus: layer separation, business logic isolation, API contracts
+
+Planning refactoring?
+  → Tactical (rename, extract, inline)?  → Use code-refactoring skill
+  → Strategic (modules, layers)?         → Use THIS skill
+
+Need specific pattern knowledge?
+  → SOLID principles         → solid skill
+  → Clean Architecture       → clean-architecture skill
+  → Domain-Driven Design     → domain-driven-design skill
+  → Ports and Adapters       → hexagonal-architecture skill
+  → Error handling pattern   → result-pattern skill
+  → Eliminate duplication    → dry-principle skill
+  → Decoupled communication  → mediator-pattern skill
+  → Microservice sidecar     → sidecar-pattern skill
 ```
-
----
-
-## Conventions
-
-Follow [conventions](../conventions/SKILL.md) for naming/file org/imports and [typescript](../typescript/SKILL.md) for interfaces/type safety.
-
-Skill-specific: `I` prefix for port interfaces, one class per file, organize by layer (`domain/`, `application/`, `infrastructure/`), constructor injection, ports in domain/application, adapters in infrastructure.
 
 ---
 
 ## Example
 
-- **Backend**: [backend-integration.md](references/backend-integration.md) -- Order Service with NestJS/Express/Fastify, DI, testing
-- **Frontend**: [frontend-integration.md](references/frontend-integration.md) -- React components with architecture patterns
+Repository + Service Layer pattern applied to a user feature in a medium-sized backend.
 
----
+```
+Request: POST /api/v1/users
+         ↓
+UserController          (Presentation)
+  → validates input with zod
+  → calls UserService.createUser(dto)
+         ↓
+UserService             (Business Logic)
+  → checks email uniqueness
+  → hashes password
+  → calls UserRepository.save(user)
+         ↓
+UserRepository          (Data Access)
+  → IUserRepository interface defined in application layer
+  → PostgresUserRepository implements it in infrastructure
+  → returns saved User entity
+         ↓
+UserController
+  → maps result to 201 Created + UserResponseDTO
+```
+
+Why this fits a medium project (4-10 devs, 10k–100k LOC):
+
+- Clear layer boundaries make code navigable for new team members
+- Repository interface lets tests inject in-memory fakes (no DB required)
+- Service layer owns business rules (uniqueness, hashing) — not the controller
 
 ## Edge Cases
 
-**Frontend resistance:** Start with Result pattern (low friction), demonstrate testability, add layers gradually.
+**Over-engineering**: Applying Clean Architecture to a 1000-line app. Start simple, add architecture when pain emerges.
 
-**Mixing styles:** Pick one primary pattern (usually Clean Architecture), use others as complements.
+**Under-engineering**: No architecture in 100k LOC app with 10 devs. Technical debt compounds, velocity slows dramatically.
 
-**Legacy migration:** Apply patterns to new features only, anti-corruption layer for legacy, refactor one module at a time.
+**Premature abstraction**: Creating 5 layers before knowing requirements. Apply YAGNI — add layers when needed, not speculatively.
 
-**Over-abstraction:** Skip architecture for simple CRUD. Ask: "Is this abstraction paying for itself?"
+**Frontend Clean Architecture**: Usually overkill for React apps. State management (Redux/Zustand) + smart component composition is sufficient for most cases.
 
 ---
 
 ## Checklist
 
-- [ ] Verified codebase/AGENTS.md signals before applying patterns
-- [ ] Each class/module has a single responsibility
-- [ ] High-level modules depend on abstractions, not concretions
-- [ ] Code organized by layer with correct dependency direction
-- [ ] External dependencies accessed through ports/adapters
-- [ ] Expected errors use Result pattern, not thrown exceptions
-- [ ] Domain entities contain zero infrastructure concerns
+- [ ] Project complexity assessed (small/medium/large)
+- [ ] Architecture approach chosen for complexity level
+- [ ] Frontend vs backend context considered
+- [ ] Strategic vs tactical refactoring distinguished
+- [ ] Specific pattern skills consulted if needed
 
 ---
 
 ## Resources
 
-- [solid-principles.md](references/solid-principles.md), [clean-architecture.md](references/clean-architecture.md), [hexagonal-architecture.md](references/hexagonal-architecture.md), [domain-driven-design.md](references/domain-driven-design.md)
-- [mediator-pattern.md](references/mediator-pattern.md), [result-pattern.md](references/result-pattern.md), [dry-principle.md](references/dry-principle.md)
-- [backend-integration.md](references/backend-integration.md), [frontend-integration.md](references/frontend-integration.md), [sidecar-pattern.md](references/sidecar-pattern.md)
-- Related: [conventions](../conventions/SKILL.md), [typescript](../typescript/SKILL.md), [react](../react/SKILL.md), [redux-toolkit](../redux-toolkit/SKILL.md)
+- [code-refactoring](../code-refactoring/SKILL.md) — Tactical refactoring patterns
+- [frontend-dev](../frontend-dev/SKILL.md) — Frontend workflow and patterns
+- [backend-dev](../backend-dev/SKILL.md) — Backend workflow and patterns
+
+**Pattern-specific skills:**
+
+- [solid](../solid/SKILL.md), [clean-architecture](../clean-architecture/SKILL.md), [domain-driven-design](../domain-driven-design/SKILL.md)
+- [hexagonal-architecture](../hexagonal-architecture/SKILL.md), [result-pattern](../result-pattern/SKILL.md)
+- [dry-principle](../dry-principle/SKILL.md), [mediator-pattern](../mediator-pattern/SKILL.md), [sidecar-pattern](../sidecar-pattern/SKILL.md)
+
+**Integration examples:**
+
+- [backend-integration.md](references/backend-integration.md) — Architecture in Node.js/NestJS/Express
+- [frontend-integration.md](references/frontend-integration.md) — Architecture in React + Redux

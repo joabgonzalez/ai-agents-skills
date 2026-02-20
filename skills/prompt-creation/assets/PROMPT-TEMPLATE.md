@@ -85,17 +85,3 @@ Include this prompt when:
 {Question}? → {Recommendation B}
 Otherwise   → {Default recommendation}
 ```
-
----
-
-## Related Skills
-
-- [{skill-name}](../../skills/{skill-name}/SKILL.md): {How it relates}
-- [{skill-name}](../../skills/{skill-name}/SKILL.md): {How it relates}
-
----
-
-## References
-
-- {Reference 1}: {URL or local path}
-- {Reference 2}: {URL or local path}

@@ -4,14 +4,14 @@ description: "Two-stage code review: spec compliance then code quality. Trigger:
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
     - critical-partner
-    - typescript
 ---
 
 # Code Review
 
-Systematic two-stage code review: verify spec compliance FIRST, then assess code quality. Never reversed.
+Two-stage code review: verify spec compliance FIRST, then assess code quality. Never reversed.
 
 ## When to Use
 
@@ -21,6 +21,7 @@ Systematic two-stage code review: verify spec compliance FIRST, then assess code
 - Ensuring spec compliance before quality assessment
 
 Don't use for:
+
 - General critical feedback on prompts/decisions (use critical-partner)
 - Debugging errors (use systematic-debugging)
 
@@ -31,11 +32,13 @@ Don't use for:
 ### ✅ REQUIRED: Two-Stage Review (NEVER Reversed)
 
 **Stage 1: Spec Compliance** (MUST come first)
+
 - Does code meet requirements?
 - Are all acceptance criteria satisfied?
 - Does behavior match specification?
 
 **Stage 2: Code Quality** (ONLY after Stage 1 passes)
+
 - Is code maintainable?
 - Are best practices followed?
 - Performance considerations?
@@ -61,6 +64,7 @@ Don't use for:
 ```
 
 **Why this order?**
+
 - Spec = correctness (does it work?)
 - Quality = maintainability (is it good?)
 - No point reviewing quality if behavior is wrong
@@ -96,6 +100,7 @@ Review each file separately with clear structure.
 ```
 
 **Benefits:**
+
 - Clear scope per file
 - Easy to navigate review
 - Prevents context switching
@@ -120,6 +125,7 @@ try {
 ```
 
 **Fix**: Log error and provide user-friendly message
+
 ```typescript
 try {
   await updateUser(id, data);
@@ -132,6 +138,7 @@ try {
   };
 }
 ```
+
 ```
 
 **Evidence includes:**
@@ -210,7 +217,7 @@ Reviewing architectural decisions?
 
 **Partial implementation**: Review completed parts only. Note: "Reviewed implemented features. Features X, Y not yet implemented."
 
-**Breaking changes**: Check if breaking changes are intentional and documented. Flag unintentional breaks.
+**Breaking changes**: Check if intentional and documented. Flag unintentional breaks.
 
 **Performance regressions**: If spec includes performance requirements, verify with benchmarks.
 
@@ -232,7 +239,7 @@ Reviewing architectural decisions?
 
 ---
 
-## Example: Complete Review
+## Example
 
 ```markdown
 # Code Review: User Registration Feature
@@ -268,6 +275,7 @@ const hashed = await bcrypt.hash(password, 10);
 ```
 
 **Line 45**: Extract magic number to constant
+
 ```typescript
 // Current
 if (password.length < 8) throw new Error('Password too short');
@@ -278,6 +286,7 @@ if (password.length < MIN_PASSWORD_LENGTH) throw new ValidationError('Password t
 ```
 
 **Line 67-70**: Add JSDoc for public method
+
 ```typescript
 /**
  * Registers a new user with email and password
@@ -319,16 +328,19 @@ export async function registerUser(email: string, password: string): Promise<Use
 **Spec Compliance**: ✅ PASS (all requirements met)
 
 **Code Quality**: ⚠️ PASS with minor improvements
+
 - 3 suggestions (non-blocking)
 - All suggestions are enhancements, not fixes
 - Code is production-ready as-is
 
 **Security**: ✅ No issues
+
 - Passwords properly hashed
 - Input validation present
 - Error messages don't leak sensitive info
 
 **Recommendation**: ✅ APPROVE with suggestions
+
 ```
 
 ---
@@ -336,7 +348,7 @@ export async function registerUser(email: string, password: string): Promise<Use
 ## Resources
 
 - [critical-partner](../critical-partner/SKILL.md) - General critical feedback
-- [conventions](../conventions/SKILL.md) - Code standards and organization
+- [code-conventions](../code-conventions/SKILL.md) - Code standards and organization
 - [typescript](../typescript/SKILL.md) - Type safety review
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
 - [verification-protocol](../verification-protocol/SKILL.md) - Evidence-based verification

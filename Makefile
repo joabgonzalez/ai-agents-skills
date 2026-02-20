@@ -1,107 +1,51 @@
-.PHONY: help build dev local sync list add remove validate clean test lint format install
+.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format release
 
-# Default target
-all: build local
+# Default: install skills from local ./skills/ (interactive)
+all: add
 
-help:
-	@echo "AI Agents Skills - Development Commands"
-	@echo ""
-	@echo "Available targets:"
-	@echo "  make build        Build TypeScript project"
-	@echo "  make dev          Run CLI in development mode (pass args with ARGS=...)"
-	@echo "  make local        Install skills locally to all models"
-	@echo "  make sync         Sync models (interactive)"
-	@echo "  make list         List all available skills"
-	@echo "  make add          Add skills (pass SKILL=name)"
-	@echo "  make remove       Remove skills (pass SKILL=name)"
-	@echo "  make validate     Validate all skills"
-	@echo "  make test         Run tests"
-	@echo "  make lint         Run linter"
-	@echo "  make format       Format code"
-	@echo "  make clean        Clean build artifacts"
-	@echo "  make install      Install dependencies"
-	@echo ""
-	@echo "Examples:"
-	@echo "  make local"
-	@echo "  make add SKILL=typescript"
-	@echo "  make dev ARGS='list --verbose'"
+# Build TypeScript
+build:
+	npm run build
 
 # Install dependencies
 install:
 	npm install
 
-# Build the project
-build:
-	npm run build
+# Interactive commands — run via dev (no build step required)
+add:
+	npm run dev -- add --local
 
-# Development mode - run CLI with ts-node
-dev:
-	npm run dev -- $(ARGS)
+remove:
+	npm run dev -- remove
 
-# Local installation - install all skills to detected models
-local:
-	npm run dev -- local
-
-# Sync models interactively
 sync:
 	npm run dev -- sync
 
-# List all available skills
 list:
 	npm run dev -- list
 
-# Add specific skill
-add:
-ifdef SKILL
-	npm run dev -- add --skill $(SKILL)
-else
-	@echo "Error: Please specify SKILL=name"
-	@echo "Example: make add SKILL=typescript"
-endif
-
-# Remove specific skill
-remove:
-ifdef SKILL
-	npm run dev -- remove --skills $(SKILL)
-else
-	@echo "Error: Please specify SKILL=name"
-	@echo "Example: make remove SKILL=typescript"
-endif
-
-# Validate skills
-validate:
-	npm run dev -- validate --all
-
-# Run tests
+# Skill validation tests
 test:
 	npm test
 
-# Run linter
+# Code quality
 lint:
+	@echo "Linting code..."
 	npm run lint
+	@echo "Linting markdown files..."
+	npm run lint:md
+	@echo "Linting complete."
 
-# Format code
+lint-fix:
+	@echo "Fixing lint issues in code..."
+	npm run lint:fix
+	@echo "Fixing lint issues in markdown files..."
+	npm run lint:md:fix
+	@echo "Lint fixing complete."
+
 format:
 	npm run format
 
-# Clean build artifacts
-clean:
-	rm -rf dist/
-	rm -rf node_modules/
-	rm -rf .claude/skills/
-	rm -rf .cursor/skills/
-	rm -rf .github/skills/
-	rm -rf .gemini/skills/
-	rm -rf .codex/skills/
-	@echo "✓ Cleaned build artifacts and installed skills"
-
-# Development workflow targets
-.PHONY: check release
-
-# Check everything before commit
-check: lint test build
-	@echo "✓ All checks passed!"
-
-# Release new version (patch)
+# Release
 release:
 	npm run release:patch

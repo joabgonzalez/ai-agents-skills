@@ -4,9 +4,7 @@ description: "Linting and formatting across tools. Trigger: When configuring lin
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
-    - javascript
+  type: domain
 ---
 
 # Code Quality
@@ -32,7 +30,7 @@ Don't use when:
 
 ### ✅ REQUIRED [CRITICAL]: Check Context First
 
-**ALWAYS check what tools the project uses before recommending:**
+**Always check what tools the project uses before recommending:**
 
 ```typescript
 // Step 1: Check AGENTS.md for installed skills
@@ -167,13 +165,13 @@ ESLint conflicts with Prettier?
 
 ## Edge Cases
 
-**Multiple tools in same project:** Some projects use ESLint for linting + Prettier for formatting. Use `eslint-config-prettier` to prevent conflicts.
+**Multiple tools**: Some projects use ESLint for linting + Prettier for formatting. Use `eslint-config-prettier` to prevent conflicts.
 
-**Monorepo:** Use root config with per-package overrides. Both ESLint and Biome support this.
+**Monorepo**: Use root config with per-package overrides. Both ESLint and Biome support this.
 
-**Legacy to modern migration:** Migrate one tool at a time. Biome has `biome migrate` command for ESLint/Prettier migration.
+**Legacy to modern migration**: Migrate one tool at a time. Biome has `biome migrate` for ESLint/Prettier migration.
 
-**Pre-commit hooks:** Use husky + lint-staged (ESLint/Prettier) or Biome's built-in staged files support.
+**Pre-commit hooks**: Use husky + lint-staged (ESLint/Prettier) or Biome's built-in staged files support.
 
 ---
 

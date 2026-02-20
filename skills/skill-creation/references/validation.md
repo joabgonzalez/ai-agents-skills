@@ -1,25 +1,28 @@
 # Validation and Compliance
 
-> Complete checklist and validation procedures for ensuring skill quality and standards compliance
-
-## Overview
-
-Validation ensures skills meet all structural, content, and formatting requirements. This guide provides comprehensive checklists, automated validation tools, and manual review procedures.
+Checklists and validation procedures for ensuring skill quality and standards compliance.
 
 ---
+
+## Core Patterns
+
+- Pre-Creation Validation
+- Structure Validation
+- Frontmatter Validation
+- Content Validation
 
 ## Pre-Creation Validation
 
 ### Context Gathering
 
-Before creating skill, answer:
+Before creating a skill, answer:
 
 - [ ] **Purpose:** What problem does this skill solve?
 - [ ] **Scope:** What's included/excluded?
 - [ ] **Complexity:** Simple (<15), Medium (15-40), or Complex (40+) patterns?
 - [ ] **Sub-topics:** Natural divisions (hooks, components, etc.)?
 - [ ] **Dependencies:** External libraries needed?
-- [ ] **Overlap:** Does conventions/a11y already cover this?
+- [ ] **Overlap:** Does code-conventions/a11y already cover this?
 
 ---
 
@@ -87,7 +90,7 @@ yq eval -o=json temp.yml | \
 - [ ] `## When to Use` (with "Don't use when")
 - [ ] `## Critical Patterns` (with ✅/❌ markers)
 - [ ] `## Decision Tree` (condition→action format)
-- [ ] `## Conventions` (with delegation to conventions/a11y)
+- [ ] `## Conventions` (with delegation to code-conventions/a11y)
 - [ ] `## Example` (practical demonstration)
 - [ ] `## Edge Cases` (boundary conditions)
 - [ ] `## Resources` (if assets/ or references/ exist)
@@ -202,8 +205,6 @@ JavaScript? → Use JSDoc
 
 ```
 
-```
-
 ---
 
 ## Reference Files Validation (Complex Skills)
@@ -240,9 +241,9 @@ Each reference file should have:
 
 ### Conventions Skill
 
-- [ ] Generic coding standards delegated to `conventions`
+- [ ] Generic coding standards delegated to `code-conventions`
 - [ ] Conventions referenced in `skills` field
-- [ ] Conventions section says "Refer to conventions for:"
+- [ ] Conventions section says "Refer to code-conventions for:"
 - [ ] Only skill-specific rules added after delegation
 
 ### A11y Skill
@@ -259,7 +260,7 @@ Each reference file should have:
 
 ## Conventions
 
-Refer to conventions for:
+Refer to code-conventions for:
 
 - Naming patterns
 - Code organization
@@ -273,9 +274,9 @@ Refer to a11y for:
 
 - TypeScript strict mode required
 
-# ❌ INVALID: Duplicating conventions
+# ❌ INVALID: Duplicating code-conventions
 
-## Conventions
+### Conventions
 
 - Use camelCase for variables
 - Use PascalCase for classes
@@ -347,7 +348,7 @@ Refer to a11y for:
 
 ```bash
 #!/bin/bash
-# validate-skill.sh - Validate skill structure and content
+# validate-skill.sh - Validates skill structure and content
 
 SKILL_DIR="$1"
 ERRORS=0
@@ -453,13 +454,13 @@ done
 - [ ] When to Use (with negatives)
 - [ ] Critical Patterns (with inline examples <15 lines)
 - [ ] Decision Tree (condition→action format)
-- [ ] Conventions (delegate to conventions/a11y first)
+- [ ] Conventions (delegate to code-conventions/a11y first)
 - [ ] Edge Cases (with workarounds)
 - [ ] Resources (link assets/ and references/)
 
 ### Quality ✓
 
-- [ ] Delegates to conventions/a11y (not duplicated)
+- [ ] Delegates to code-conventions/a11y (not duplicated)
 - [ ] Token-efficient (no redundancy, filler removed)
 - [ ] Inline examples under 15 lines
 - [ ] Decision tree helps AI decide
@@ -496,7 +497,7 @@ dependencies: {}
 
 # ✅ PASSES (omit completely)
 skills:
-  - conventions
+  - code-conventions
 ```
 
 ### 3. No Inline Examples

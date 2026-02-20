@@ -1,12 +1,9 @@
 # Biome
 
-> All-in-one linter and formatter (Rust-based, 10-100x faster)
-
-## Overview
-
-Biome is a Rust-based toolchain that replaces ESLint + Prettier in a single tool. It provides linting, formatting, and import sorting with zero configuration needed. Best for new projects or teams wanting simpler tooling with better performance.
+Rust-based toolchain replacing ESLint + Prettier with linting, formatting, and import sorting. Best for new projects or teams wanting simpler tooling with better performance.
 
 **Dependencies:**
+
 ```json
 {
   "@biomejs/biome": ">=2.0.0"
@@ -96,7 +93,7 @@ npx @biomejs/biome init
 
 ---
 
-## Key Advantages Over ESLint + Prettier
+## Advantages Over ESLint + Prettier
 
 1. **Single tool:** No conflicts between linter and formatter
 2. **10-100x faster:** Rust-based, parallel processing
@@ -335,13 +332,13 @@ npx @biomejs/biome migrate prettier --write
 
 ## Edge Cases
 
-**Plugins not available in Biome:** Some ESLint plugins don't have Biome equivalents yet. Check [Biome compatibility](https://biomejs.dev/linter/rules-sources/) before migrating.
+**Plugins not available in Biome:** Some ESLint plugins lack Biome equivalents. Check [Biome compatibility](https://biomejs.dev/linter/rules-sources/) before migrating.
 
 **Monorepo:** Biome supports shared config with `extends` in biome.json.
 
 **Schema version:** Always use the matching schema version in `$schema` URL.
 
-**Experimental rules:** `nursery` category rules may change between versions. Use with caution in CI.
+**Experimental rules:** `nursery` rules may change between versions. Use with caution in CI.
 
 ---
 

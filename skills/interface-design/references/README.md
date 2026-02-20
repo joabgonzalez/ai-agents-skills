@@ -55,6 +55,7 @@
 Complete design thinking process from problem definition to implementation.
 
 **Content:**
+
 - 5-step design process with templates (Understand → Map → Structure → Validate → Implement)
 - UI pattern comparisons (navigation, data display, input, feedback)
 - ASCII wireframe examples
@@ -70,6 +71,7 @@ Complete design thinking process from problem definition to implementation.
 Systematic design constraints for visual consistency.
 
 **Content:**
+
 - **Typography:** Modular ratio-based scale (0.75rem → 3rem), line-height rules, font pairing, fluid typography with `clamp()`, font loading strategies
 - **Spacing:** 8-point grid (4px → 64px), component spacing guidelines, visual rhythm patterns
 - **Color:** Semantic naming, WCAG contrast ratios (4.5:1, 3:1, 7:1), luminance calculations, dark mode with CSS custom properties
@@ -85,6 +87,7 @@ Systematic design constraints for visual consistency.
 Motion, micro-interactions, and temporal UI design.
 
 **Content:**
+
 - **Motion Timing:** Guidelines for different durations (100ms → 500ms+), easing functions
 - **Loading States:** Skeleton screens, progress indicators (determinate/indeterminate)
 - **State Transitions:** Spring physics, form state changes
@@ -103,6 +106,7 @@ Motion, micro-interactions, and temporal UI design.
 Mobile-first responsive design patterns.
 
 **Content:**
+
 - **Mobile-First Strategy:** Progressive enhancement, `min-width` media queries
 - **Breakpoints:** Standard sizes (sm: 640px → 2xl: 1536px), content-first approach
 - **Container Queries:** Component-level responsiveness (not viewport-based)
@@ -121,25 +125,30 @@ Mobile-first responsive design patterns.
 ## Cross-Reference Map
 
 **Typography:**
+
 - visual-design.md → Typography scale, line-height, font pairing
 - responsive-design.md → Fluid typography with `clamp()`
 - tailwindcss → Implementation with utility classes
 
 **Spacing:**
+
 - visual-design.md → 8-point grid, component spacing
 - responsive-design.md → Mobile spacing, touch targets
 
 **Motion:**
+
 - interaction-design.md → Timing, spring physics, micro-interactions
 - visual-design.md → Color transitions
 - responsive-design.md → Mobile gestures
 
 **Color:**
+
 - visual-design.md → Semantic naming, contrast ratios, dark mode
 - interaction-design.md → State transition colors
 - a11y → Accessible color combinations
 
 **Layout:**
+
 - visual-design.md → Grid foundations, alignment
 - responsive-design.md → Mobile-first, breakpoints, flexible grids
 - design-thinking.md → Wireframing, component hierarchy

@@ -1,20 +1,6 @@
-import path from 'path';
-import fs from 'fs';
-import { SkillParser } from './skill-parser';
+import path from 'node:path';
+import { copyDir, createSymlink, ensureDir, exists, isSymlink, removeFile } from '../utils/fs';
 import { logger } from '../utils/logger';
-import {
-  exists,
-  ensureDir,
-  copyDir,
-  copyFile,
-  createSymlink,
-  removeFile,
-  removeDir,
-  isSymlink,
-  isDirectory,
-} from '../utils/fs';
-import { TEMPLATES_DIR } from '../shared/constants';
-
 /**
  * Model information
  */
@@ -45,10 +31,16 @@ interface InstallTransaction {
  */
 export class Installer {
   private baseDir: string;
+  private agentsBaseDir: string;
   private transactions: InstallTransaction[];
 
-  constructor(baseDir: string) {
+  /**
+   * @param baseDir     Root dir for skill source files (local: CWD, remote: cache path)
+   * @param agentsBaseDir  Root dir for .agents/skills/ (always project root; defaults to baseDir for local mode)
+   */
+  constructor(baseDir: string, agentsBaseDir?: string) {
     this.baseDir = baseDir;
+    this.agentsBaseDir = agentsBaseDir ?? baseDir;
     this.transactions = [];
   }
 
@@ -67,7 +59,7 @@ export class Installer {
     dryRun: boolean = false
   ): Promise<boolean> {
     const sourcePath = path.join(this.baseDir, 'skills', skillName);
-    const agentsSkillsPath = path.join(this.baseDir, '.agents', 'skills', skillName);
+    const agentsSkillsPath = path.join(this.agentsBaseDir, '.agents', 'skills', skillName);
     const targetPath = path.join(modelDir, 'skills', skillName);
 
     if (!exists(sourcePath)) {
@@ -75,7 +67,7 @@ export class Installer {
     }
 
     // Ensure .agents/skills/ directory exists
-    ensureDir(path.join(this.baseDir, '.agents', 'skills'));
+    ensureDir(path.join(this.agentsBaseDir, '.agents', 'skills'));
 
     if (dryRun) {
       logger.info(`[DRY RUN] Would install ${skillName}`);
@@ -127,8 +119,20 @@ export class Installer {
         transaction.completed = true;
         return true; // Installed
       } else {
-        // External mode: copy to .agents/skills/ then symlink from model directory
-        // (Phase 2 implementation)
+        // Remote mode: copy source → .agents/skills/<name>, then symlink model → .agents/skills/<name>
+
+        // Step 1: Copy to .agents/skills/ if not already there
+        if (!exists(agentsSkillsPath)) {
+          await copyDir(sourcePath, agentsSkillsPath);
+          logger.debug(`Copied to .agents/skills/${skillName}`);
+        }
+
+        // Step 2: Skip if already symlinked in model directory
+        if (exists(targetPath) && isSymlink(targetPath)) {
+          logger.debug(`Skipping ${skillName} (already linked in model directory)`);
+          return false;
+        }
+
         // Record transaction for rollback
         this.transactions.push({
           skillName,
@@ -137,19 +141,20 @@ export class Installer {
           completed: false,
         });
 
-        // Remove existing if present
+        // Step 3: Remove existing non-symlink if present
         if (exists(targetPath)) {
           logger.warn(`Target already exists, removing: ${targetPath}`);
           await removeFile(targetPath);
         }
 
-        await copyDir(sourcePath, targetPath);
-        logger.success(`Copied: ${skillName}`);
+        // Step 4: Create symlink model/skills/<name> → .agents/skills/<name>
+        const relativeTarget = path.relative(path.dirname(targetPath), agentsSkillsPath);
+        await createSymlink(relativeTarget, targetPath);
+        logger.success(`Linked: ${skillName}`);
 
-        // Mark transaction as completed
         const transaction = this.transactions[this.transactions.length - 1];
         transaction.completed = true;
-        return true; // Installed
+        return true;
       }
     } catch (error) {
       logger.error(
@@ -300,87 +305,10 @@ export class Installer {
     ensureDir(modelDir);
     ensureDir(path.join(modelDir, 'skills'));
 
-    // Copy model-specific instruction template
-    await this.copyModelInstructions(model.name, modelDir, basePath);
+    // Note: Instruction templates are no longer used
+    // await this.copyModelInstructions(model.name, modelDir, basePath);
 
     logger.success(`Setup model directory: ${model.directory}`);
-  }
-
-  /**
-   * Copy model-specific instruction templates
-   * Replaces {{SKILLS_LIST}} and {{TIMESTAMP}} placeholders
-   */
-  private async copyModelInstructions(
-    modelName: string,
-    modelDir: string,
-    baseDir: string
-  ): Promise<void> {
-    // Map model names to their instruction file destinations
-    const instructionMapping: Record<string, { source: string; dest: string }> = {
-      'github-copilot': {
-        source: 'copilot-instructions.md',
-        dest: path.join(modelDir, 'copilot-instructions.md'),
-      },
-      copilot: {
-        source: 'copilot-instructions.md',
-        dest: path.join(modelDir, 'copilot-instructions.md'),
-      },
-      claude: {
-        source: 'claude-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-      codex: {
-        source: 'codex-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-      gemini: {
-        source: 'gemini-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-      cursor: {
-        source: 'cursor-instructions.md',
-        dest: path.join(modelDir, 'instructions.md'),
-      },
-    };
-
-    const mapping = instructionMapping[modelName.toLowerCase()];
-    if (!mapping) {
-      logger.warn(`No instruction template defined for model: ${modelName}`);
-      return;
-    }
-
-    const templatePath = path.join(baseDir, TEMPLATES_DIR, mapping.source);
-
-    if (!exists(templatePath)) {
-      logger.warn(`Template not found: ${templatePath}`);
-      return;
-    }
-
-    try {
-      // Read template
-      let content = fs.readFileSync(templatePath, 'utf-8');
-
-      // Count skills
-      const skillsDir = path.join(baseDir, 'skills');
-      const skills = fs.readdirSync(skillsDir).filter((file) => {
-        const fullPath = path.join(skillsDir, file);
-        return fs.statSync(fullPath).isDirectory();
-      });
-
-      // Replace placeholders
-      content = content.replace(/\{\{SKILL_COUNT\}\}/g, skills.length.toString());
-
-      // Write processed content
-      fs.writeFileSync(mapping.dest, content, 'utf-8');
-
-      logger.debug(
-        `Generated instructions: ${mapping.source} → ${mapping.dest} (${skills.length} skills)`
-      );
-    } catch (error) {
-      logger.error(
-        `Failed to generate instructions: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
   }
 
   /**

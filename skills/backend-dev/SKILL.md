@@ -4,54 +4,24 @@ description: "Backend development workflow with API design and data modeling. Tr
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  type: "behavioral-technical"
-  skills:
-    - typescript
-    - nodejs
-    - architecture-patterns
+  type: universal
 ---
 
 # Backend Development Skill
 
-## Overview
-
-This skill provides universal patterns for back-end development workflow, focusing on API design, data modeling, error handling, and deployment. It is technology-agnostic and emphasizes maintainability, scalability, and robustness.
+Universal backend workflow guiding API design, data modeling, error handling, and deployment. Technology-agnostic, orchestrates technical skills (nodejs, express, nest) without duplicating patterns.
 
 ## When to Use
 
 - Designing, building, or refactoring APIs
 - Modeling data and business logic
 - Preparing for deployment or CI/CD
-- Reviewing or improving code quality and structure
+- Reviewing code quality
 
-## Skill Type
+Don't use for:
 
-**backend-dev is a behavioral-technical skill** that guides HOW backend developers think and make architectural decisions, orchestrating technical skills without duplicating their patterns.
-
-### Key Characteristics
-
-- **Role-based thinking**: Embodies Backend Developer mindset and decision-making
-- **Orchestrates technical skills**: Delegates to nodejs, typescript, express, nest, hono
-- **NO code examples**: All code patterns live in technical skills
-- **Architectural guidance**: Provides decision trees for API design, data modeling, error handling
-
-### Related Behavioral Skills
-
-- [brainstorming](../brainstorming/SKILL.md) - Planning and ideation workflow
-- [systematic-debugging](../systematic-debugging/SKILL.md) - Debugging methodology
-- [writing-plans](../writing-plans/SKILL.md) - Executable plan creation
-- [code-review](../code-review/SKILL.md) - Two-stage code review process
-
-### Orchestrated Technical Skills
-
-- [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
-- [typescript](../typescript/SKILL.md) - Type-safe backend development
-- [express](../express/SKILL.md) - Express.js framework patterns
-- [nest](../nest/SKILL.md) - NestJS framework patterns
-- [hono](../hono/SKILL.md) - Hono framework patterns
-- [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
-- [form-validation](../form-validation/SKILL.md) - Input validation with zod/yup
-- [unit-testing](../unit-testing/SKILL.md) - Unit testing patterns
+- Technology-specific code (use nodejs, express, nest skills)
+- Frontend development (use frontend-dev skill)
 
 ---
 
@@ -62,6 +32,7 @@ This skill provides universal patterns for back-end development workflow, focusi
 Define clear, versioned contracts to prevent breaking changes.
 
 **Decision Tree**:
+
 ```
 Creating new endpoint?
   → Is this a new feature? → /api/v1/feature
@@ -77,11 +48,13 @@ Versioning strategy?
 **Implementation**: Delegate to framework skills ([express](../express/SKILL.md), [nest](../nest/SKILL.md), [hono](../hono/SKILL.md))
 
 **Deprecation Timeline**:
+
 1. Announce deprecation (release notes, docs, headers)
 2. Maintain both versions (3-6 months)
 3. Remove deprecated version (after migration period)
 
 **Example Versioning Strategy**:
+
 ```
 v1 (current production)
   → Add v2 with breaking changes
@@ -95,6 +68,7 @@ v1 (current production)
 Validate at boundaries and separate domain logic from persistence.
 
 **Decision Tree**:
+
 ```
 Validating input?
   → At API boundary (controller/route)? → YES (always validate)
@@ -110,11 +84,13 @@ Validation library?
 **Implementation**: Delegate to [form-validation](../form-validation/SKILL.md) for validation patterns
 
 **Validation Layers**:
+
 1. **API Boundary** (controller): Validate shape, types, format (zod/yup)
 2. **Domain Logic** (service): Business rules (e.g., "cannot delete user with active orders")
 3. **Database** (schema): Constraints as safety net (NOT NULL, UNIQUE, CHECK)
 
 **Example Data Flow**:
+
 ```
 Client request
   ↓
@@ -132,6 +108,7 @@ Database enforces constraints (last resort)
 Consistent error responses and logging across all endpoints.
 
 **Decision Tree**:
+
 ```
 Handling errors?
   → Operational error (expected, like 404)? → AppError class, send to client
@@ -146,6 +123,7 @@ Error response format?
 **Implementation**: Delegate to framework skills ([express](../express/SKILL.md), [nest](../nest/SKILL.md))
 
 **Error Categories**:
+
 - **Validation errors** (400): Input doesn't match schema
 - **Authentication errors** (401): Missing or invalid credentials
 - **Authorization errors** (403): Valid credentials, insufficient permissions
@@ -154,6 +132,7 @@ Error response format?
 - **Server errors** (500): Unhandled exceptions
 
 **Error Context to Log**:
+
 - Request ID (for tracing)
 - User ID (if authenticated)
 - Endpoint + method (GET /api/v1/users)
@@ -166,6 +145,7 @@ Error response format?
 Never hardcode config values. Use environment variables.
 
 **Decision Tree**:
+
 ```
 Need configuration?
   → Database URL? → DATABASE_URL
@@ -181,6 +161,7 @@ Validating env vars?
 **Implementation**: Delegate to [nodejs](../nodejs/SKILL.md) for process.env patterns
 
 **Configuration Pattern**:
+
 ```
 env.ts
   → Validates all required env vars at startup
@@ -194,6 +175,7 @@ env.ts
 ```
 
 **Fail Fast on Missing Env Vars**:
+
 ```
 App startup
   → Load .env file
@@ -202,11 +184,7 @@ App startup
   → If validation passes → Continue startup
 ```
 
----
-
-## Architectural Decision-Making
-
-### API Contract Design
+### ✅ REQUIRED: API Contract Design
 
 **When designing API contracts**:
 
@@ -216,6 +194,7 @@ App startup
 4. **Version from start**: Start with /api/v1 (easier to add v2 later)
 
 **RESTful Patterns**:
+
 ```
 GET /api/v1/users → List users (pagination, filters)
 GET /api/v1/users/:id → Get single user
@@ -228,13 +207,15 @@ GET /api/v1/users/:id/orders → User's orders (nested resource)
 ```
 
 **Red Flags**:
+
 - Non-RESTful URLs: /api/getUserById?id=123 (use GET /api/v1/users/123)
 - Verbs in URLs: /api/deleteUser (use DELETE /api/v1/users/:id)
 - No versioning: /api/users (add /v1 from start)
 
-### Data Persistence Strategy
+### ✅ REQUIRED: Data Persistence Strategy
 
 **Decision Tree**:
+
 ```
 Choosing database?
   → Structured data + relations? → PostgreSQL (RECOMMENDED)
@@ -251,6 +232,7 @@ ORM vs Query Builder?
 **Implementation**: Delegate to [nodejs](../nodejs/SKILL.md) for database patterns
 
 **Repository Pattern**:
+
 ```
 Controller (HTTP layer)
   ↓
@@ -262,18 +244,21 @@ Database (PostgreSQL, MongoDB, etc.)
 ```
 
 **Benefits of Repository Pattern**:
+
 - Easy to test (mock repository)
 - Database-agnostic (swap Postgres → MongoDB)
 - Centralized query logic
 
-### Performance Optimization
+### ✅ REQUIRED: Performance Optimization
 
 **When to optimize**:
+
 1. Measure FIRST (APM tools, profiling, load testing)
 2. Identify bottlenecks (slow queries, N+1 problems, large payloads)
 3. Apply targeted fixes (NOT premature optimization)
 
 **Common Optimizations**:
+
 - **Database queries**: Add indexes, use EXPLAIN ANALYZE, fix N+1 queries
 - **Caching**: Redis for frequently accessed data (user sessions, product catalog)
 - **Pagination**: Limit list endpoints to 50-100 items per page
@@ -281,6 +266,7 @@ Database (PostgreSQL, MongoDB, etc.)
 - **Rate limiting**: Prevent abuse, protect from DDoS
 
 **Red Flags (Premature Optimization)**:
+
 - Caching everything "just in case"
 - Denormalizing database before profiling queries
 - Optimizing endpoints with <100 requests/day
@@ -289,12 +275,58 @@ Database (PostgreSQL, MongoDB, etc.)
 
 ## Decision Tree
 
-- New endpoint? → Define contract/schema and document
-- Data model change? → Migrate safely and validate
-- Deployment? → Automate with CI/CD
-- Bug found? → Add/expand test coverage
+```
+New endpoint?
+  → Define contract/schema first, then document
+
+Data model change?
+  → Migrate safely, validate with staging data
+
+Deployment?
+  → Automate with CI/CD pipeline
+
+Bug found?
+  → Add/expand test coverage before fixing
+```
 
 ---
+
+## Example
+
+Building a `POST /api/v1/orders` endpoint end-to-end: validation → service → repository → response.
+
+```typescript
+// 1. Controller: validate input, delegate to service
+app.post("/api/v1/orders", async (req, res) => {
+  const parsed = createOrderSchema.safeParse(req.body);  // zod boundary check
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  const result = await orderService.createOrder(parsed.data, req.user.id);
+  if (!result.isSuccess) return res.status(409).json({ error: result.error });
+  res.status(201).json(result.value);
+});
+
+// 2. Service: business rules
+class OrderService {
+  async createOrder(dto: CreateOrderDTO, userId: string): Promise<Result<Order>> {
+    const user = await this.userRepo.findById(userId);
+    if (!user) return Result.fail("User not found");
+    if (dto.items.length === 0) return Result.fail("Order must have at least one item");
+    const order = Order.create({ ...dto, userId });
+    await this.orderRepo.save(order);
+    return Result.ok(order);
+  }
+}
+
+// 3. Repository: data access abstraction
+class PostgresOrderRepository implements IOrderRepository {
+  async save(order: Order): Promise<void> {
+    await prisma.order.create({ data: order.toPersistence() });
+  }
+}
+```
+
+Patterns applied: `/api/v1` versioning, zod boundary validation, service owns business rules, repository abstracts DB, centralized error format.
 
 ## Edge Cases
 
@@ -329,7 +361,7 @@ Database (PostgreSQL, MongoDB, etc.)
 
 ---
 
-## Workflow Integration
+## Workflow
 
 **E2E Development Workflow**:
 
@@ -344,7 +376,7 @@ Database (PostgreSQL, MongoDB, etc.)
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - Code organization and naming
+- [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
 - [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
 - [typescript](../typescript/SKILL.md) - Type-safe backend development

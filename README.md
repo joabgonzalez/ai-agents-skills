@@ -1,8 +1,8 @@
 # ai-agents-skills
 
-**v1.3.4** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.4.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 52 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 61 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 ## Quick Start
 
@@ -35,24 +35,28 @@ npx ai-agents-skills add --skill react --skill typescript
 # Interactive (prompts for skills, models, and presets)
 npx ai-agents-skills add
 
-# Install a preset with specific models
-npx ai-agents-skills add --preset astro-template --models claude,copilot
+# Install a preset
+npx ai-agents-skills add --preset astro-template
+
+# Target specific models
+npx ai-agents-skills add --model claude --model copilot
 
 # Install specific skills
 npx ai-agents-skills add --skill react --skill typescript
 
-# Preview without changes
+# Preview without changes — shows exact paths that would be created
 npx ai-agents-skills add --skill react --dry-run
 ```
 
 **Options:**
 
-| Flag                  | Description                           |
-| --------------------- | ------------------------------------- |
-| `-p, --preset <id>`   | Install a project starter preset      |
-| `-s, --skill <name>`  | Install a specific skill (repeatable) |
-| `-m, --models <list>` | Target models, comma-separated        |
-| `-d, --dry-run`       | Preview changes without installing    |
+| Flag                 | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `-l, --local`        | Use local `./skills/` directory (dev mode only) |
+| `-p, --preset <id>`  | Install a project starter preset                |
+| `-s, --skill <name>` | Install a specific skill (repeatable)           |
+| `-m, --model <name>` | Target a specific model (repeatable)            |
+| `-d, --dry-run`      | Preview changes — shows exact symlink paths     |
 
 ### `list` — Show installed skills
 
@@ -66,11 +70,14 @@ npx ai-agents-skills list
 # Interactive (prompts for actions: add models and/or update skills)
 npx ai-agents-skills sync
 
-# Add models to existing installation
-npx ai-agents-skills sync --add-models copilot,cursor
+# Update ALL installed skills to latest versions (no prompts)
+npx ai-agents-skills sync --update
 
-# Update skills to latest versions
-npx ai-agents-skills sync --update-skills
+# Update specific skills to latest versions
+npx ai-agents-skills sync --skill react --skill typescript
+
+# Add models to existing installation
+npx ai-agents-skills sync --model copilot --model cursor
 
 # Preview without changes
 npx ai-agents-skills sync --dry-run
@@ -78,37 +85,41 @@ npx ai-agents-skills sync --dry-run
 
 **Options:**
 
-| Flag                  | Description                      |
-| --------------------- | -------------------------------- |
-| `--add-models <list>` | Add models, comma-separated      |
-| `--update-skills`     | Update skills to latest versions |
-| `-d, --dry-run`       | Preview changes without applying |
+| Flag                 | Description                                        |
+| -------------------- | -------------------------------------------------- |
+| `-u, --update`       | Update all installed skills to latest (no prompts) |
+| `-s, --skill <name>` | Update a specific skill (repeatable)               |
+| `-m, --model <name>` | Add a specific model (repeatable)                  |
+| `-d, --dry-run`      | Preview changes without applying                   |
 
 ### `remove` — Remove skills with dependency checking
 
 ```bash
-# Interactive removal
+# Interactive — first choose: select skills or remove all (purge)
 npx ai-agents-skills remove
 
-# Remove specific skills
-npx ai-agents-skills remove --skills react,typescript
+# Remove specific skills (with dependency check)
+npx ai-agents-skills remove --skill react --skill typescript
 
-# Remove all skills (confirmation required)
-npx ai-agents-skills remove --all
+# Remove all skill entries from all models + ask about AGENTS.md
+npx ai-agents-skills remove --purge
 
-# Skip confirmation
-npx ai-agents-skills remove --skills react --confirm
+# Skip confirmation prompt (useful for automation)
+npx ai-agents-skills remove --skill react --confirm
+
+# Dry-run: same interactive flow, no changes applied
+npx ai-agents-skills remove --skill react --dry-run
 ```
 
 **Options:**
 
-| Flag                  | Description                       |
-| --------------------- | --------------------------------- |
-| `-s, --skills <list>` | Skills to remove, comma-separated |
-| `-m, --models <list>` | Target models, comma-separated    |
-| `-a, --all`           | Remove all skills                 |
-| `--confirm`           | Skip confirmation prompt          |
-| `-d, --dry-run`       | Preview without making changes    |
+| Flag                 | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
+| `-s, --skill <name>` | Remove a specific skill (repeatable)                                      |
+| `-m, --model <name>` | Target a specific model (repeatable)                                      |
+| `-p, --purge`        | Remove all skill entries from all models; asks separately about AGENTS.md |
+| `--confirm`          | Skip confirmation prompt (works in both normal and dry-run mode)          |
+| `-d, --dry-run`      | Same flow as normal — prompts included — but no changes applied           |
 
 ## How It Works
 
@@ -117,7 +128,7 @@ npx ai-agents-skills add --skill react
 ```
 
 1. Clones the skill repository to `~/.cache/ai-agents-skills/`
-2. Resolves dependencies: `react` → `javascript`, `typescript`, `conventions`
+2. Resolves dependencies: `react` → `javascript`, `typescript`, `code-conventions`
 3. Copies skills to `.agents/skills/` in your project
 4. Creates symlinks in each model directory (`.claude/skills/`, `.github/skills/`, etc.)
 5. Updates AGENTS.md with complete "How to Use Skills" workflow (push context)
@@ -130,7 +141,7 @@ your-project/
 ├── .agents/skills/           # Canonical copy (symlinks to framework)
 │   ├── react/
 │   ├── typescript/
-│   └── conventions/
+│   └── code-conventions/
 ├── .claude/skills/           # Symlinks → .agents/skills/* (auto-discovered)
 ├── .cursor/skills/           # Symlinks → .agents/skills/* (auto-discovered)
 ├── .github/skills/           # Symlinks → .agents/skills/* (auto-discovered)
@@ -138,7 +149,7 @@ your-project/
 └── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
 ```
 
-## Available Skills (52)
+## Available Skills (61)
 
 ### Frameworks
 
@@ -166,11 +177,15 @@ MUI, AG Grid, Redux Toolkit, Stagehand
 
 ### Quality & Architecture
 
-Conventions, Code Quality, Form Validation, Critical Partner, Architecture Patterns, Composition Patterns, English Writing, Technical Communication, Humanizer, Frontend Development
+Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring
+
+### Architecture Patterns
+
+Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern
 
 ### Behavioral
 
-Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
+English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
 
 ### Meta (creation tools)
 
@@ -194,7 +209,7 @@ license: "Apache 2.0"
 metadata:
   version: "1.0"
   skills:
-    - conventions
+    - code-conventions
 ---
 
 # My Skill
@@ -211,6 +226,16 @@ metadata:
 
 ...
 ```
+
+## Troubleshooting
+
+**Stale cache after an update or clone issue:**
+
+```bash
+rm -rf ~/.cache/ai-agents-skills
+```
+
+This removes the local skill cache. The next `npx ai-agents-skills` run re-downloads it fresh.
 
 ## License
 

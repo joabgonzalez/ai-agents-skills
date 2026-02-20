@@ -4,10 +4,9 @@ description: "Advanced data tables with AG Grid. Trigger: When implementing AG G
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: library
   skills:
     - react
-    - typescript
-    - a11y
   dependencies:
     ag-grid-community: ">=29.0.0 <31.0.0"
     ag-grid-react: ">=29.0.0 <31.0.0"
@@ -19,31 +18,23 @@ metadata:
 
 # AG Grid Skill
 
-## Overview
+React data tables with sorting, filtering, pagination, inline editing, and Excel-like features. TypeScript typing, accessibility, and virtualization.
 
-This skill provides comprehensive guidance for implementing AG Grid data tables in React and TypeScript applications, covering configuration, accessibility, performance optimization, and integration patterns.
-
-## Objective
-
-Enable developers to implement robust, accessible, and performant data grids using AG Grid with proper TypeScript typing, React integration, and accessibility standards.
-
----
+> Examples use `ag-grid-react`. Column config API (`ColDef`, `onGridReady`) is framework-agnostic — adapt cell renderers to your framework's component syntax for Angular/Vue.
 
 ## When to Use
 
-Use this skill when:
+- Data tables with sorting/filtering/pagination
+- Editable grids with inline editing
+- Complex grids with grouping/aggregation
+- High-performance with virtualization
+- Excel-like functionality
 
-- Implementing data tables with sorting, filtering, pagination
-- Creating editable grids with inline editing
-- Building complex data grids with grouping and aggregation
-- Requiring high-performance tables with virtualization
-- Implementing Excel-like functionality
+Don't use for:
 
-Don't use this skill for:
-
-- Simple tables (use HTML table or MUI Table)
-- Non-tabular data visualization (use charts)
-- Mobile-first tables (consider simpler alternatives)
+- Simple tables (use HTML/MUI Table)
+- Non-tabular viz (use charts)
+- Mobile-first (consider simpler)
 
 ---
 
@@ -99,42 +90,31 @@ const columnDefs = [
 
 ## Conventions
 
-Refer to conventions for:
-
-- Code organization
-- Documentation standards
-
-Refer to a11y for:
-
-- Keyboard navigation
-- Screen reader support
-- ARIA attributes
-
 ### AG Grid Specific
 
-- Use TypeScript interfaces for column definitions
-- Implement proper cell renderers for custom content
-- Configure accessibility features (keyboard navigation, screen reader support)
-- Use AG Grid's built-in features over custom implementations
-- Handle loading and error states appropriately
+- TypeScript interfaces for columns
+- Cell renderers for custom content
+- Apply accessibility best practices: keyboard navigation, screen reader support, ARIA attributes
+- Built-in features over custom
+- Handle loading/error states
 
 ---
 
 ## Decision Tree
 
-**Custom cell content?** → Use `cellRenderer` or `cellRendererFramework` for React components.
+**Custom cells?** → Use `cellRenderer`/`cellRendererFramework`.
 
-**Editable grid?** → Set `editable: true` on columns, handle `onCellValueChanged`.
+**Editable?** → `editable: true`, handle `onCellValueChanged`.
 
-**Filtering needed?** → Enable with `filter: true` or specify filter type: `'agTextColumnFilter'`, `'agNumberColumnFilter'`.
+**Filtering?** → `filter: true` or specify type (`agTextColumnFilter`, `agNumberColumnFilter`).
 
-**Large dataset?** → Use `rowModelType: 'infinite'` for server-side pagination.
+**Large dataset?** → `rowModelType: 'infinite'` for server pagination.
 
-**Grouping/aggregation?** → Enable row grouping with `rowGroup: true` on columns.
+**Grouping?** → `rowGroup: true` on columns.
 
-**Export data?** → Use built-in `exportDataAsCsv()` or `exportDataAsExcel()` methods.
+**Export?** → `exportDataAsCsv()`/`exportDataAsExcel()`.
 
-**Performance issues?** → Enable row virtualization (default), use `immutableData: true` for React optimization.
+**Performance?** → Virtualization (default), `immutableData: true` for React.
 
 ---
 
@@ -165,13 +145,13 @@ const columnDefs: ColDef<RowData>[] = [
 
 ## Edge Cases
 
-- Handle empty data sets with appropriate messaging
-- Manage loading states during data fetching
-- Implement error boundaries for grid failures
-- Handle resize events properly
-- Test keyboard navigation thoroughly
+- Empty data → appropriate messaging
+- Loading states during fetch
+- Error boundaries for failures
+- Resize events properly
+- Test keyboard navigation
 
-## References
+## Resources
 
 - https://www.ag-grid.com/react-data-grid/
 - https://www.ag-grid.com/react-data-grid/accessibility/

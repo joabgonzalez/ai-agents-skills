@@ -1,12 +1,9 @@
 # React Hook Form
 
-> Performant React form management with minimal re-renders
-
-## Overview
-
-React Hook Form provides performant form state management with uncontrolled components, minimal re-renders, and built-in validation. Best for modern React applications prioritizing performance.
+Performant form state management with uncontrolled components and minimal re-renders. Best for modern React applications prioritizing performance.
 
 **Dependencies:**
+
 ```json
 {
   "react-hook-form": "^7.0.0",
@@ -15,6 +12,7 @@ React Hook Form provides performant form state management with uncontrolled comp
 ```
 
 **Optional resolvers:**
+
 ```json
 {
   "@hookform/resolvers": "^3.0.0",  // For Zod/Yup integration
@@ -156,7 +154,7 @@ function MyForm() {
 ### Default Values
 
 ```typescript
-// ✅ CORRECT: Provide defaults on initialization
+// Provide defaults on initialization
 const { register } = useForm({
   defaultValues: {
     email: 'user@example.com',
@@ -369,7 +367,7 @@ const { reset, handleSubmit } = useForm();
 // Reset after successful submit
 const onSubmit = async (data) => {
   await submitForm(data);
-  reset(); // Clear form
+  reset();
 };
 ```
 
@@ -527,7 +525,7 @@ function MuiForm() {
 
 ---
 
-## Performance Optimization
+## Performance
 
 ### Minimize Re-Renders
 
@@ -541,7 +539,7 @@ const { formState } = useForm();
 console.log(formState.errors); // Re-renders on every change
 ```
 
-### Use mode for Validation Timing
+### Validation Timing (mode)
 
 ```typescript
 // Validate on submit (default, best performance)

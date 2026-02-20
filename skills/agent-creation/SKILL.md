@@ -4,7 +4,9 @@ description: "Standards-compliant agent definitions with templates. Trigger: Whe
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
+    - critical-partner
     - english-writing
 ---
 
@@ -55,7 +57,7 @@ metadata:
     - typescript
     - react
     - critical-partner # Mandatory for ALL agents
-    - conventions # Mandatory for coding-related agents
+    - code-conventions # Mandatory for coding-related agents
     - a11y
 ---
 ```
@@ -112,7 +114,7 @@ Replace `{model}` with your coding agent:
 
 Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency skill before proceeding.
 
-**Example:** `react` skill depends on: `conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
+**Example:** `react` skill depends on: `code-conventions`, `a11y`, `typescript`, `javascript`, `architecture-patterns`, `humanizer`
 
 You must read all 6 skills.
 
@@ -128,9 +130,9 @@ You must read all 6 skills.
 
 1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
-3. **Check frontmatter** → Dependencies: `conventions`, `javascript`
+3. **Check frontmatter** → Dependencies: `code-conventions`, `javascript`
 4. **Read dependencies:**
-   - `.{model}/skills/conventions/SKILL.md`
+   - `.{model}/skills/code-conventions/SKILL.md`
    - `.{model}/skills/javascript/SKILL.md`
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 ```
@@ -237,7 +239,7 @@ metadata:
     - typescript
     - react
     - critical-partner
-    - conventions
+    - code-conventions
     - a11y
 ---
 ```
@@ -334,7 +336,7 @@ your-project/
 
 ---
 
-## References
+## Resources
 
 - [agents.md spec](https://agents.md/)
 - [Agent Skills](https://agentskills.io/)

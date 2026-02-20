@@ -4,22 +4,27 @@ description: "Fast JavaScript/TypeScript runtime with bundling and testing. Trig
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - typescript
-    - javascript
+  type: language
   dependencies:
     bun: ">=1.0.0 <2.0.0"
 ---
 # Bun Skill
-All-in-one JavaScript/TypeScript runtime with native bundling, testing, and package management optimized for speed.
+
+Fast JS/TS runtime with native bundling, testing, package management.
+
 ## When to Use
+
 - Running JS/TS apps that benefit from fast startup and native TS support
 - Using Bun's built-in bundler, test runner, or package manager
 - Writing HTTP servers, scripts, or CLI tools
-- Don't use for: projects needing full Node.js API compatibility, native C++ addons, LTS stability guarantees
+- Don't use for: full Node.js API compat, native C++ addons, LTS stability
+
 ## Critical Patterns
-### Bun.serve() for HTTP Servers
-Built-in HTTP server with streaming -- no framework needed for simple services.
+
+### ✅ REQUIRED: Bun.serve() for HTTP Servers
+
+Built-in HTTP with streaming, no framework needed.
+
 ```typescript
 // CORRECT: zero-dependency HTTP with Bun.serve
 Bun.serve({
@@ -33,8 +38,11 @@ Bun.serve({
 // WRONG: importing express just for a simple endpoint
 import express from 'express';
 ```
-### Bun.file() for File I/O
-Native file API with lazy `BunFile` references for fast reads and writes.
+
+### ✅ REQUIRED: Bun.file() for File I/O
+
+Native file API with lazy `BunFile` for fast I/O.
+
 ```typescript
 // CORRECT: Bun-native file operations
 const file = Bun.file('./config.json');
@@ -43,8 +51,11 @@ await Bun.write('./output.txt', 'Hello from Bun');
 // WRONG: Node fs/promises in a Bun project
 import { readFile } from 'fs/promises';
 ```
-### bun:test for Testing
-Jest-compatible test runner built into the runtime -- no install, no config.
+
+### ✅ REQUIRED: bun:test for Testing
+
+Jest-compatible test runner, no install/config.
+
 ```typescript
 import { test, expect, describe, mock } from 'bun:test';
 describe('math utils', () => {
@@ -59,15 +70,21 @@ describe('math utils', () => {
   });
 });
 ```
-### bunx for Package Execution
-Run any npm package binary without global install -- like npx but faster.
+
+### ✅ REQUIRED: bunx for Package Execution
+
+Run npm binaries without install (like npx, faster).
+
 ```bash
 bunx tsc --noEmit
 bunx prettier --write src/
 bunx drizzle-kit generate
 ```
-### Workspace Configuration
+
+### ✅ REQUIRED: Workspace Configuration
+
 Monorepo support via npm-style workspaces in `package.json`.
+
 ```json
 {
   "workspaces": ["packages/*", "apps/*"],
@@ -78,8 +95,10 @@ Monorepo support via npm-style workspaces in `package.json`.
 }
 ```
 
-### Bun.spawn() for Shell Commands
+### ✅ REQUIRED: Bun.spawn() for Shell Commands
+
 Spawn child processes with native API -- faster than Node's `child_process`.
+
 ```typescript
 // CORRECT: Bun-native process spawning
 const proc = Bun.spawn(['git', 'status'], {
@@ -100,8 +119,10 @@ import { exec } from 'child_process';
 exec('git status', (err, stdout) => console.log(stdout));
 ```
 
-### Plugin System for Custom Loaders
+### ✅ REQUIRED: Plugin System for Custom Loaders
+
 Extend Bun's bundler with plugins for custom file types.
+
 ```typescript
 import type { BunPlugin } from 'bun';
 
@@ -126,8 +147,10 @@ await Bun.build({
 });
 ```
 
-### WebSockets with Bun.serve()
+### ✅ REQUIRED: WebSockets with Bun.serve()
+
 Native WebSocket support in HTTP server with zero dependencies.
+
 ```typescript
 Bun.serve({
   port: 3000,
@@ -155,6 +178,7 @@ Bun.serve({
 ```
 
 ## Decision Tree
+
 - Simple HTTP service? -> `Bun.serve()` with no framework
 - Reading/writing files? -> `Bun.file()` and `Bun.write()`
 - Running tests? -> `bun test` (Jest-compatible, zero config)
@@ -163,7 +187,9 @@ Bun.serve({
 - Monorepo? -> Configure `workspaces` in root `package.json`
 - Node API not supported? -> Check compatibility docs; fall back to Node
 - Shell scripting? -> `Bun.spawn()` or `Bun.$` tagged template
+
 ## Example
+
 ```typescript
 // server.ts -- HTTP server with route map
 const routes: Record<string, (req: Request) => Response | Promise<Response>> = {
@@ -183,35 +209,40 @@ Bun.serve({
   },
 });
 ```
+
 ## Edge Cases
 
-- **Node.js API gaps**: Some built-ins (`vm`, `worker_threads`, `inspector`) have partial support. Check [compatibility docs](https://bun.sh/docs/runtime/nodejs-apis) before migrating existing Node projects.
+- **Node.js API gaps**: Some built-ins (`vm`, `worker_threads`) partial. Check [compat docs](https://bun.sh/docs/runtime/nodejs-apis).
 
-- **Native modules**: C++ addons (`.node` files) for Node may not load. Use Bun's FFI (`bun:ffi`) for C libraries or compile to WASM as alternatives.
+- **Native modules**: C++ addons may not load. Use `bun:ffi` or WASM.
 
-- **Hot reloading vs watch mode**: `bun --watch` restarts entire process on file changes (for servers). `--hot` enables HMR without restart (experimental, for dev only).
+- **Watch modes**: `--watch` restarts process, `--hot` enables HMR (experimental).
 
-- **Environment variables**: Access with `Bun.env.VAR_NAME` (same as `process.env`). `.env` files load automatically from current directory and parent directories.
+- **Environment vars**: `Bun.env.VAR_NAME` or `process.env`. `.env` auto-loads.
 
-- **Large files**: `Bun.file()` returns lazy `BunFile` - doesn't read until accessed. Stream large files with `new Response(file)` without buffering entire file to memory.
+- **Large files**: `Bun.file()` is lazy. Stream with `new Response(file)`.
 
-- **TypeScript transpilation**: Bun transpiles TS on-the-fly (no `tsc` needed). However, type-checking is NOT performed - use `bunx tsc --noEmit` in CI for type safety.
+- **TS transpilation**: On-the-fly, no type-check. Use `bunx tsc --noEmit` in CI.
 
-- **Package resolution**: Bun uses aggressive caching and symlink-free installation. If package not found, try `bun install --force` to rebuild `node_modules`.
+- **Package resolution**: Aggressive caching. Try `bun install --force` if issues.
 
-- **Bun.serve() port already in use**: Unlike Node, Bun crashes immediately if port occupied. Handle with try/catch and env var fallback: `port: Number(Bun.env.PORT) || 3000`.
+- **Port conflicts**: Bun crashes if port in use. Handle with try/catch.
 
-- **Test isolation**: `bun:test` runs tests in same process by default (fast but shared state). Use `--preload` for test setup or `--bail` to stop on first failure.
+- **Test isolation**: Same process by default. Use `--preload` or `--bail`.
 
-- **Cross-platform builds**: `bun build --target=bun` outputs for Bun runtime only (not Node). Use `--target=node` for Node compatibility or `--target=browser` for client bundles.
+- **Build targets**: `--target=bun` (Bun only), `--target=node` (Node), `--target=browser` (client).
+
 ## Checklist
+
 - [ ] Use `Bun.serve()` for simple HTTP services instead of frameworks
 - [ ] Use `Bun.file()` / `Bun.write()` instead of `fs`
 - [ ] Tests use `bun:test` with no external runner
 - [ ] Scripts use `bun run` instead of `npm run`
 - [ ] Production builds use `bun build` with correct `--target`
 - [ ] Node API compatibility verified for imported modules
+
 ## Resources
+
 - [Bun Documentation](https://bun.sh/docs)
 - [Bun API Reference](https://bun.sh/docs/api/http)
 - [Bun Node.js Compatibility](https://bun.sh/docs/runtime/nodejs-apis)

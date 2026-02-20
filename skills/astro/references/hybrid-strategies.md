@@ -1,5 +1,12 @@
 # Hybrid Strategies (SSG + SSR)
 
+## Core Patterns
+
+- Mode Selection: Use `output: 'hybrid'` to default all pages to SSG with opt-in SSR via `export const prerender = false`
+- Decision Matrix: Static content (blogs, marketing) stays SSG; user-specific pages (dashboard, cart) use SSR
+- Migration Path: Install adapter, switch `output`, then mark only dynamic pages with `prerender: false`
+- Caching SSR: Add `Cache-Control` headers to SSR endpoints to reduce server load for semi-static data
+
 > Mixing static and dynamic rendering, migration paths, and per-page decisions
 
 ## When to Read This
@@ -23,7 +30,7 @@ export default defineConfig({
 });
 ```
 
-**Key difference from SSR mode:**
+**Key difference:**
 
 - `output: 'server'` → All pages SSR by default, opt-in to SSG with `prerender: true`
 - `output: 'hybrid'` → All pages SSG by default, opt-in to SSR with `prerender: false`
@@ -46,7 +53,7 @@ export default defineConfig({
 
 ## Hybrid Patterns
 
-### ✅ Static Homepage with Dynamic Dashboard
+### Static Homepage with Dynamic Dashboard
 
 ```astro
 // src/pages/index.astro (SSG by default)
@@ -70,7 +77,7 @@ const data = await fetchUserData(user.id); // Fetched per-request
 <h1>Welcome, {user.name}</h1>
 ```
 
-### ✅ Static Blog with Dynamic Search
+### Static Blog with Dynamic Search
 
 ```astro
 // src/pages/blog/[slug].astro (SSG)
@@ -124,8 +131,6 @@ export default defineConfig({
 
 ### Step 3: Identify Dynamic Pages
 
-Mark pages that need SSR:
-
 ```astro
 ---
 // Pages that need SSR
@@ -156,11 +161,10 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
 ## Performance Optimization
 
-### ✅ Maximize SSG Usage
+### Maximize SSG Usage
 
 ```astro
 ---
-// ✅ GOOD: Static pages for most content
 export async function getStaticPaths() {
   const pages = await getAllPages();
   return pages.map(page => ({
@@ -170,21 +174,7 @@ export async function getStaticPaths() {
 ---
 ```
 
-### ✅ Minimize SSR Usage
-
-```astro
----
-// ✅ GOOD: SSR only for truly dynamic pages
-export const prerender = false;
-
-// Check if page can be static
-if (!requiresDynamicData) {
-  // Consider making this SSG instead
-}
----
-```
-
-### ✅ Cache SSR Responses
+### Cache SSR Responses
 
 ```typescript
 // src/pages/api/trending.ts
@@ -203,11 +193,10 @@ export const GET: APIRoute = async () => {
 
 ## Common Patterns
 
-### ✅ Partial Hydration with SSG
+### Partial Hydration with SSG
 
 ```astro
 ---
-// SSG page with interactive components
 const staticData = await getStaticData();
 ---
 
@@ -220,7 +209,7 @@ const staticData = await getStaticData();
 </div>
 ```
 
-### ✅ API Routes in Hybrid
+### API Routes in Hybrid
 
 ```typescript
 // Static endpoint (no prerender directive)
@@ -245,11 +234,10 @@ export const GET: APIRoute = async ({ locals }) => {
 
 ## Edge Cases
 
-### ⚠️ Mixed Data Sources
+### Mixed Data Sources
 
 ```astro
 ---
-// Hybrid page: Static data + Dynamic data
 export const prerender = false;
 
 // Static data (could be from build-time)
@@ -274,7 +262,7 @@ const recommendations = user ? await getRecommendations(user.id) : [];
 </div>
 ```
 
-### ⚠️ Environment Variables
+### Environment Variables
 
 ```astro
 ---
@@ -293,12 +281,12 @@ const secret = import.meta.env.API_SECRET; // ✅ Available in SSR
 
 ## Best Practices
 
-1. **Default to SSG**: Use SSG for most pages, SSR only when necessary
-2. **Profile performance**: Measure SSR response times, optimize or cache
-3. **Separate concerns**: Keep static content in SSG, dynamic data in SSR
-4. **Use client directives**: Add interactivity to SSG pages without SSR
-5. **Cache aggressively**: Use HTTP caching for SSR endpoints
-6. **Monitor costs**: SSR uses server resources, SSG is essentially free
+1. Default to SSG — use SSR only when necessary
+2. Profile SSR response times; optimize or cache
+3. Keep static content in SSG, dynamic data in SSR
+4. Use client directives to add interactivity to SSG pages without SSR
+5. Use HTTP caching for SSR endpoints
+6. SSR uses server resources; SSG is essentially free
 
 ---
 

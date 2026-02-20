@@ -1,14 +1,11 @@
 # oxc (OXC Toolchain)
 
-> Experimental ultra-fast linter and formatter (Rust-based)
-
-## Overview
-
-oxc (Oxidation Compiler) is an experimental Rust-based JavaScript/TypeScript toolchain that includes a linter, formatter, resolver, and transformer. It aims to be the fastest tool in its category, targeting performance-critical CI/CD pipelines.
+Experimental Rust-based JavaScript/TypeScript toolchain with linter, formatter, resolver, and transformer. Targets performance-critical CI/CD pipelines.
 
 **Status:** Experimental (2026). API and rules may change between versions.
 
 **Dependencies:**
+
 ```json
 {
   "oxlint": "latest"
@@ -75,12 +72,14 @@ npx oxlint --config oxlintrc.json .
 ## When to Use oxc
 
 **Good fit:**
+
 - CI/CD where lint speed is critical (10x-100x faster than ESLint)
 - Large monorepos where ESLint is slow
 - As complement to ESLint (run oxc first for fast feedback, ESLint for full check)
 - Projects willing to accept experimental tooling
 
 **Bad fit:**
+
 - Need specific ESLint plugins (react-hooks, import, etc.)
 - Need stable, production-proven linting rules
 - Team unfamiliar with experimental tools
@@ -155,7 +154,7 @@ npx oxlint --config oxlintrc.json .
 }
 ```
 
-*Note: oxc formatter is early stage. Pair with Biome or Prettier for formatting.*
+*oxc formatter is early stage. Pair with Biome or Prettier for formatting.*
 
 ---
 
@@ -183,7 +182,7 @@ npx oxlint --config oxlintrc.json .
 
 **Formatter status:** oxc formatter is very early stage. Use Biome or Prettier for formatting.
 
-**Breaking changes:** As experimental software, oxc may introduce breaking changes. Pin versions in CI.
+**Breaking changes:** Pin versions in CI.
 
 ---
 

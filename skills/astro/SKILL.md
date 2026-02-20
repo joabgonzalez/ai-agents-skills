@@ -4,11 +4,10 @@ description: "Fast static sites with SSG/SSR and component islands. Trigger: Whe
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: framework
   skills:
-    - a11y
     - react
     - typescript
-    - architecture-patterns
   dependencies:
     astro: ">=5.0.0 <6.0.0"
     typescript: ">=5.0.0 <6.0.0"
@@ -17,24 +16,28 @@ metadata:
 
 # Astro Skill
 
-Build fast, optimized sites with Astro's SSG/SSR, minimal runtime JavaScript, TypeScript, and client island architecture.
+Fast sites with SSG/SSR, minimal JS, TypeScript, and client island architecture.
+
+> Client island examples use React (`@astrojs/react`). For Vue, Svelte, or Solid islands, replace `<ReactComp client:load />` with your framework's component — the directive syntax (`client:load`, `client:visible`, `client:idle`) is identical.
 
 ## When to Use
 
-- Building static sites (SSG), server-rendered sites (SSR), or hybrid approaches
+- Static sites (SSG), server-rendered (SSR), or hybrid
 - Content-focused sites (blogs, docs, marketing)
-- Implementing partial hydration with component islands
+- Partial hydration with islands
 
 Don't use for:
-- Full SPA applications (use react directly)
-- Highly dynamic client-heavy apps with constant client state
-- Real-time dashboards with WebSocket connections
+
+- Full SPAs (use react)
+- Client-heavy apps with constant state
+- Real-time dashboards with WebSockets
 
 ## Critical Patterns
 
-### Detect Project Type First
+### ✅ REQUIRED: Detect Project Type First
 
-Check `astro.config.mjs` to understand project type before writing any code.
+Check `astro.config.mjs` for project type before coding.
+
 ```javascript
 // SSG-only (no adapter) -- default
 export default defineConfig({ output: 'static' });
@@ -48,7 +51,7 @@ export default defineConfig({ output: 'hybrid', adapter: node() });
 // WRONG: Using SSR patterns (prerender: false, Astro.locals) in SSG-only project
 ```
 
-### Use .astro Components by Default
+### ✅ REQUIRED: Use .astro Components by Default
 
 ```astro
 ---
@@ -61,7 +64,7 @@ const { title } = Astro.props;
 <!-- <ReactHeader title={title} client:load /> -->
 ```
 
-### Client Directives Sparingly
+### ✅ REQUIRED: Client Directives Sparingly
 
 ```astro
 <!-- CORRECT: Only interactive components get JS -->
@@ -73,7 +76,7 @@ const { title } = Astro.props;
 <Footer client:load />
 ```
 
-### getStaticPaths for Dynamic Routes (SSG)
+### ✅ REQUIRED: getStaticPaths for Dynamic Routes (SSG)
 
 ```typescript
 export async function getStaticPaths() {
@@ -85,7 +88,7 @@ export async function getStaticPaths() {
 }
 ```
 
-### SSR with prerender: false
+### ✅ REQUIRED: SSR with prerender: false
 
 ```astro
 ---
@@ -96,7 +99,7 @@ const data = await fetchUserData(user.id);
 <h1>Welcome, {user.name}</h1>
 ```
 
-### Configure Output Mode
+### ✅ REQUIRED: Configure Output Mode
 
 ```javascript
 // astro.config.mjs
@@ -116,10 +119,9 @@ export default defineConfig({ output: 'hybrid', adapter: node() });
 - **Adding interactivity?** -> Read [client-directives.md](references/client-directives.md)
 - **Managing content (blog, docs)?** -> Read [content-collections.md](references/content-collections.md)
 - **Building forms?** -> Read [actions.md](references/actions.md)
-- **Smooth page transitions?** -> Read [view-transitions.md](references/view-transitions.md)
+- **Smooth page transitions or faster navigation?** -> Read [client-navigation.md](references/client-navigation.md)
 - **Auth or request logging?** -> Read [middleware.md](references/middleware.md)
 - **API keys or secrets?** -> Read [env-variables.md](references/env-variables.md)
-- **Faster navigation?** -> Read [prefetch.md](references/prefetch.md)
 - **Dynamic routes with known paths?** -> `getStaticPaths` (SSG)
 - **Dynamic routes with user data?** -> `prerender: false` (SSR)
 - **Immediate interaction?** -> `client:load`
@@ -175,14 +177,14 @@ export default defineConfig({
 
 ## Edge Cases
 
-- **SSG-only errors**: No adapter means `prerender: false`, `Astro.locals`, and POST endpoints cause build errors.
-- **SSR requires adapter**: Install adapter (node, vercel, netlify) for `output: 'server'` or `'hybrid'`.
-- **getStaticPaths in SSR**: Not needed when `prerender: false` -- routes render on request.
-- **Hybrid default**: Pages without `prerender` declaration default to SSG. Explicitly set `prerender: false` only for SSR pages.
-- **Environment variables**: `PUBLIC_` prefix for client-side vars, no prefix for server-only.
-- **Client directives work everywhere**: `client:load`, `client:visible` work in both SSG and SSR.
-- **Migration SSG -> SSR**: Install adapter, change output to `'hybrid'`, add `prerender: false` per page.
-- **Architecture patterns**: Only apply Clean Architecture/SOLID when project has complex server-side business logic. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md) and [frontend-integration.md](../architecture-patterns/references/frontend-integration.md).
+- **SSG-only errors**: No adapter → `prerender: false`/`Astro.locals`/POST fail build.
+- **SSR needs adapter**: Install adapter (node/vercel/netlify) for `output: 'server'`/`'hybrid'`.
+- **getStaticPaths in SSR**: Skip when `prerender: false` (routes render on request).
+- **Hybrid default**: Pages default SSG; set `prerender: false` only for SSR.
+- **Env variables**: `PUBLIC_` prefix for client-side, no prefix for server.
+- **Client directives**: Work in both SSG and SSR.
+- **Migration SSG→SSR**: Install adapter, set output `'hybrid'`, add `prerender: false` per page.
+- **Architecture**: Apply Clean Architecture/SOLID only with complex server logic. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md).
 
 ## Checklist
 
@@ -196,6 +198,6 @@ export default defineConfig({
 
 ## Resources
 
-- [references/](references/README.md) -- SSG, SSR, hybrid, client directives, content, actions, middleware, view transitions, env, prefetch
+- [references/](references/README.md) -- SSG, SSR, hybrid, client directives, content, actions, middleware, client navigation, env
 - https://docs.astro.build/
 - https://docs.astro.build/en/guides/client-side-scripts/

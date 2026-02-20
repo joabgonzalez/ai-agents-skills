@@ -4,9 +4,9 @@ description: "Standards-compliant skill creation with templates and validation. 
 license: "Apache 2.0"
 metadata:
   version: "1.0"
+  type: behavioral
   skills:
     - reference-creation
-    - critical-partner
     - skill-sync
     - english-writing
   allowed-tools:
@@ -17,7 +17,7 @@ metadata:
 
 # Skill Creation
 
-Create skills from simple single-file to complex multi-reference architectures. Each skill must have unique responsibility and delegate to conventions/a11y when applicable.
+Create skills from simple single-file to complex multi-reference architectures. Each skill must have unique responsibility and be self-sufficient.
 
 ## When to Use
 
@@ -35,11 +35,22 @@ Don't create when:
 
 ## Critical Patterns
 
-### ✅ REQUIRED: Use Template for Consistency
+### ✅ REQUIRED [CRITICAL]: Read Template Before Creating
+
+**ALWAYS read the template FIRST** before creating any skill or reference:
 
 ```bash
+# For new skill:
+# 1. Read skills/skill-creation/assets/SKILL-TEMPLATE.md
+# 2. Copy template
 cp skills/skill-creation/assets/SKILL-TEMPLATE.md skills/{skill-name}/SKILL.md
+
+# For new reference:
+# 1. Read skills/skill-creation/assets/REFERENCE-TEMPLATE.md
+# 2. Follow structure exactly
 ```
+
+**Why:** Templates define canonical structure. Reading them ensures consistency and prevents structural errors.
 
 ### ✅ REQUIRED: Include Trigger in Description
 
@@ -60,8 +71,9 @@ description: "What it does. Trigger: When to activate." # Required: include Trig
 license: "Apache 2.0"         # Optional: for npx distribution
 metadata:
   version: "1.0"              # Required: semantic versioning (X.Y or X.Y.Z)
+  type: framework             # Required: behavioral|universal|language|framework|library|tooling|domain
   skills:                     # Skill dependencies (see dependencies-matrix.md)
-    - conventions
+    - react
     - typescript
   dependencies:                # Package version ranges (if applicable)
     react: ">=17.0.0 <19.0.0"
@@ -69,6 +81,8 @@ metadata:
     - file-operations
 ---
 ```
+
+**CRITICAL**: The `type` field determines which dependencies are allowed. See [dependencies-matrix.md](references/dependencies-matrix.md) for type rules.
 
 See [frontmatter.md](references/frontmatter.md) for full field reference.
 
@@ -94,9 +108,9 @@ skills/{skill-name}/
 
 For complex skills, invoke [reference-creation](../reference-creation/SKILL.md) skill.
 
-### ✅ REQUIRED: Delegate to General Skills
+### ✅ REQUIRED: Self-Sufficient Content
 
-Don't duplicate rules from conventions, a11y, humanizer, or architecture-patterns. Declare them in `metadata.skills` and add only skill-specific rules.
+Don't duplicate universal rules (naming, formatting, accessibility) — they apply everywhere. Include only skill-specific content. Each skill must work on its own without relying on the reader having other skills loaded.
 
 ### ✅ REQUIRED: Token Efficiency
 
@@ -109,7 +123,7 @@ See [token-efficiency.md](references/token-efficiency.md) for compression strate
 
 ### ❌ NEVER: Duplicate Conventions
 
-Don't rewrite rules from conventions or a11y. Delegate first, then add skill-specific rules.
+Don't rewrite rules that already apply universally (naming, formatting). Skills are self-sufficient — include only skill-specific conventions.
 
 ### ✅ REQUIRED: references/ README.md Structure (Complex Skills Only)
 
@@ -147,19 +161,21 @@ Detailed description...
 
 See [interface-design/references/README.md](../interface-design/references/README.md) for complete example.
 
-### Modern Pattern Examples
-
-**Design systems:** Token hierarchy (brand → semantic → component), CVA (Class Variance Authority) for type-safe variants, OKLCH color space. See [tailwindcss/references/design-system.md](../tailwindcss/references/design-system.md).
-
-**Design thinking:** Validation checkpoints at each stage (User flow → Component → State → A11y). See [interface-design/SKILL.md](../interface-design/SKILL.md).
-
-**Behavioral workflows:** Structured review templates, decision trees with rationale. See [critical-partner/SKILL.md](../critical-partner/SKILL.md) and [systematic-debugging/SKILL.md](../systematic-debugging/SKILL.md).
-
 ---
 
 ## Decision Tree
 
 ```
+Creating new skill? (CRITICAL FIRST STEP)
+  → Read assets/SKILL-TEMPLATE.md BEFORE creating
+  → Understand structure: # Title, summary (1-2 lines), ## When to Use, ## Critical Patterns
+  → NO "Overview" or "Objective" sections
+
+Creating new reference file?
+  → Read assets/REFERENCE-TEMPLATE.md BEFORE creating
+  → Follow structure: # Title, summary (1-2 lines), ## Core Patterns
+  → NO "Overview" or "Purpose" sections
+
 Complexity?
   → <15 patterns, 1 topic → Simple: SKILL.md only
   → 15-40 patterns, 2-3 topics → Medium: SKILL.md + assets/
@@ -168,18 +184,31 @@ Complexity?
 Exceeding 300 lines? → Move content to references/
 Need templates/schemas? → Create assets/ directory
 
-Determining skill dependencies?
-  → Read references/dependencies-matrix.md
-  → Match skill category (Frontend/Backend/Testing/etc.)
-  → Frontend: conventions, a11y, typescript, javascript, architecture-patterns, humanizer
-  → Backend: conventions, nodejs, typescript, architecture-patterns (NO humanizer)
-  → Testing: conventions, typescript, javascript (NO humanizer)
-  → Build tools: conventions only
+Determining skill type? (CRITICAL - type determines dependencies)
+  → Read references/dependencies-matrix.md for full guide
+  → Is it process/methodology (not tech-specific)? → type: behavioral
+  → Tech-agnostic workflow orchestration? → type: universal
+  → Programming language (JS, TS, Python)? → type: language
+  → Framework (React, Express, Next)? → type: framework
+  → Library (MUI, Redux, Zod)? → type: library
+  → Dev tool (Vite, Jest, ESLint)? → type: tooling
+  → Domain knowledge (a11y, CSS, patterns)? → type: domain
 
-Generic rules? → Delegate to conventions
-Accessibility rules? → Delegate to a11y
-User-facing content/UI? → Add humanizer to skills
-Architecture patterns? → Delegate to architecture-patterns
+Determining dependencies based on type?
+  → Read references/dependencies-matrix.md for type-specific rules
+  → behavioral → Can ONLY depend on other behavioral (prefer NONE)
+  → universal → Can ONLY depend on behavioral
+  → language → Prefer NONE (self-sufficient)
+  → framework → Can depend on framework, language, domain, behavioral
+  → library → Can depend on library, framework, language, domain, behavioral
+  → tooling → Can depend on what it wraps
+  → domain → Prefer NONE (or related domain, behavioral)
+
+Check for transitive redundancy? (CRITICAL)
+  → Does any current dependency already provide what you need?
+  → If YES → Remove redundant dependency
+  → If NO → Keep it
+  → Example: ag-grid depends on react → Gets javascript + a11y transitively
 
 After creation? → Run ai-agents-skills sync or make sync
 ```
@@ -192,36 +221,14 @@ After creation? → Run ai-agents-skills sync or make sync
    - Checkpoint: ✅ Complexity level determined, structure chosen
 2. **Create structure** → `mkdir skills/{name}` + copy SKILL-TEMPLATE.md
    - Checkpoint: ✅ Directory exists, template copied
-3. **Fill template** → Frontmatter (name, description+Trigger, version, skills via [dependencies-matrix.md](references/dependencies-matrix.md)), all required sections
-   - Checkpoint: ✅ Frontmatter complete, description includes Trigger, dependencies correct per matrix
-4. **Add patterns** → Critical Patterns with inline examples, Decision Tree, Edge Cases
-   - Checkpoint: ✅ Each pattern has ✅/❌ example, Decision Tree covers all cases, no duplication of conventions/a11y
-5. **Validate and sync** → Run `ai-agents-skills validate --skill {name}` then `make sync`
+3. **Determine type and dependencies** → Identify skill type (behavioral/universal/language/framework/library/tooling/domain), then determine dependencies per [dependencies-matrix.md](references/dependencies-matrix.md)
+   - Checkpoint: ✅ Type correctly identified, dependencies follow type rules, no transitive redundancies
+4. **Fill template** → Frontmatter (name, description+Trigger, version, type, skills), all required sections
+   - Checkpoint: ✅ Frontmatter complete with type field, description includes Trigger, dependencies verified
+5. **Add patterns** → Critical Patterns with inline examples, Decision Tree, Edge Cases
+   - Checkpoint: ✅ Each pattern has ✅/❌ example, Decision Tree covers all cases, no duplication
+6. **Validate and sync** → Run `ai-agents-skills validate --skill {name}` then `make sync`
    - Checkpoint: ✅ Validation passes, skill synced to model directories, SKILL.md under 300 lines (complex)
-
-### Version Management
-
-| Change Type | Version Bump | Example |
-|------------|-------------|---------|
-| Add/update patterns, examples, docs | Minor (1.0→1.1) | New pattern added |
-| Breaking: remove patterns, change responsibility | Major (1.x→2.0) | Skill restructured |
-| New skill | Start at 1.0 | Always |
-
----
-
-## Conventions
-
-Delegate to conventions (naming, code org), a11y (semantics, ARIA), english-writing (generated content). Add only skill-creation-specific rules below.
-
-### Skill-Creation-Specific
-
-- Lowercase-with-hyphens for directory/file names
-- Include Trigger clause in description
-- Decision Tree in every skill
-- Inline examples under 15 lines
-- SKILL.md max 300 lines for complex skills
-
----
 
 ## Example
 
@@ -248,23 +255,28 @@ See [examples.md](references/examples.md) for complete examples:
 Before finalizing any skill:
 
 ### Structure & Frontmatter
+
 - [ ] Directory under `skills/` (lowercase-with-hyphens)
 - [ ] Based on SKILL-TEMPLATE.md
 - [ ] `name` and `description` (with Trigger) present
-- [ ] `metadata.version` set (start at "1.0")
-- [ ] `metadata.skills` follows [dependencies-matrix.md](references/dependencies-matrix.md) for skill category
+- [ ] `metadata.version` set — new skill starts at `1.0`; minor update → `1.x`; breaking change → `2.0`
+- [ ] `metadata.type` set (behavioral|universal|language|framework|library|tooling|domain)
+- [ ] `metadata.skills` follows type rules from [dependencies-matrix.md](references/dependencies-matrix.md)
+- [ ] No transitive redundancies (verified against dependency chains)
 - [ ] Empty arrays/objects omitted
 - [ ] Complex skills: references/ directory created
 
 ### Content
+
 - [ ] When to Use (with Don't use when)
 - [ ] Critical Patterns with ✅/❌ markers and inline examples (<15 lines each)
 - [ ] Decision Tree (condition→action format)
 - [ ] Example section
 - [ ] Edge Cases
-- [ ] Delegates to conventions/a11y/humanizer (not duplicated)
+- [ ] Delegates to code-conventions/a11y/humanizer (not duplicated)
 
 ### Quality
+
 - [ ] Token-efficient (no filler, every word adds value)
 - [ ] SKILL.md under 300 lines (complex skills)
 - [ ] All referenced skills exist
@@ -285,5 +297,5 @@ Before finalizing any skill:
 | [validation.md](references/validation.md) | Pre-finalization checks |
 
 - [SKILL-TEMPLATE.md](assets/SKILL-TEMPLATE.md) - Main skill template
-- [frontmatter-schema.json](assets/frontmatter-schema.json) - Validation schema (reference only, not enforced by CLI)
+- `assets/frontmatter-schema.json` - Validation schema (reference only, not enforced by CLI)
 - [Agent Skills Spec](https://agentskills.io/) - Official specification

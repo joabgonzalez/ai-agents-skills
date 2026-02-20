@@ -1,16 +1,17 @@
 # Content Patterns and Writing Guidelines
 
-> Comprehensive guide to writing skill content with Critical Patterns, Decision Trees, inline examples, and clear documentation
-
-## Overview
-
-Effective skill content combines clear patterns, practical examples, decision guidance, and token-efficient writing. This guide covers Critical Patterns structure, inline examples, Decision Trees, and writing best practices.
+Patterns for writing skill content with Critical Patterns, Decision Trees, inline examples, and token-efficient documentation.
 
 ---
 
-## Critical Patterns Section
+## Core Patterns
 
-### Purpose
+- Critical Patterns Section
+- Inline Examples
+- Decision Tree Section
+- Decision Tree
+
+## Critical Patterns Section
 
 Critical Patterns are the CORE of skill content - the most important rules AI must follow. Use visual markers (✅/❌) and inline examples for instant comprehension.
 
@@ -68,8 +69,6 @@ For skills with 30+ patterns, optionally add priority after marker:
 ---
 
 ## Inline Examples
-
-### Purpose
 
 Place focused examples IMMEDIATELY after each pattern for instant comprehension. No need to scroll to Examples section.
 
@@ -157,8 +156,6 @@ function handleClick() {
 
 ## Decision Tree Section
 
-### Purpose
-
 Help AI make decisions with clear condition→action mappings. Every skill MUST include Decision Tree.
 
 ### Structure
@@ -228,8 +225,6 @@ Styling approach?
 
 ## When to Use Section
 
-### Purpose
-
 Help AI and users identify when skill applies. Critical for auto-invocation.
 
 ### Structure
@@ -284,16 +279,14 @@ Don't use this skill when:
 
 ## Conventions Section
 
-### Purpose
-
 Define rules and best practices. Always delegate to general skills first, then add skill-specific rules.
 
 ### Delegation Pattern
 
 ```markdown
-## Conventions
+### Conventions
 
-Refer to [conventions](../conventions/SKILL.md) for:
+Refer to [code-conventions](../code-conventions/SKILL.md) for:
 
 - Naming patterns
 - Code organization
@@ -315,9 +308,9 @@ Refer to [a11y](../a11y/SKILL.md) for:
 ### Anti-Pattern: Don't Duplicate
 
 ```markdown
-# ❌ WRONG: Duplicating conventions
+# ❌ WRONG: Duplicating code-conventions
 
-## Conventions
+### Conventions
 
 - Use camelCase for variables
 - Use PascalCase for classes
@@ -327,9 +320,9 @@ Refer to [a11y](../a11y/SKILL.md) for:
 
 # ✅ CORRECT: Delegate + specific rules
 
-## Conventions
+### Conventions
 
-Refer to conventions for general coding standards.
+Refer to code-conventions for general coding standards.
 
 ### TypeScript-Specific
 
@@ -340,8 +333,6 @@ Refer to conventions for general coding standards.
 ---
 
 ## Edge Cases Section
-
-### Purpose
 
 Document boundary conditions, limitations, and special scenarios.
 

@@ -4,15 +4,12 @@ description: "Rigorous code review and improvement partner. Trigger: When valida
 license: "Apache 2.0"
 metadata:
   version: "1.0"
-  skills:
-    - architecture-patterns
-    - typescript
-    - a11y
+  type: behavioral
 ---
 
 # Critical Partner Skill
 
-Behavioral skill for rigorous, constructive code review and technical feedback. Act as an analytical partner that challenges assumptions, identifies issues, and suggests improvements with clear rationale.
+Rigorous, constructive code review and technical feedback. Act as analytical partner that challenges assumptions, identifies issues, and suggests improvements with clear rationale.
 
 ## When to Use
 
@@ -27,15 +24,40 @@ Use when:
 - Assessing adherence to project patterns and conventions
 
 Don't use for:
-- Simple syntax fixes (use conventions skill directly)
+
+- Simple syntax fixes (use code-conventions skill directly)
 - Generating new code without review context
 - Automated linting (use code-quality skill)
 
 ## Critical Patterns
 
+### ✅ REQUIRED: Operating Modes
+
+Choose mode based on task context.
+
+**Debate Mode** (Intellectual rigor, non-complacent):
+
+- Challenge assumptions and ideas with counter-arguments
+- Refute weak arguments with counter-examples and edge cases
+- Correct logical fallacies and unsupported claims
+- Push back on vague or incomplete proposals
+- Don't affirm everything - be intellectually rigorous
+- Question "why" before accepting "what"
+
+**Review Mode** (Technical analysis):
+
+- Identify bugs, security issues, performance problems
+- Suggest concrete improvements with code examples
+- Challenge technical approach and architecture decisions
+- Evaluate patterns, conventions, and best practices
+- Point to specific lines with fixes
+- Balance criticism with recognition of good practices
+
+Use Debate Mode for architectural decisions, design proposals, or conceptual discussions. Use Review Mode for code reviews, PRs, or implementation validation.
+
 ### ✅ REQUIRED: Structured Review Process
 
-Follow a systematic review approach for comprehensive feedback.
+Follow systematic review approach for comprehensive feedback.
 
 ```markdown
 ## Code Review Template
@@ -164,17 +186,65 @@ Is this about security?
   → Identify vulnerabilities → Recommend mitigations → Reference security skills (a11y for XSS, architecture-patterns for auth)
 ```
 
+## Example
+
+Critical review of an authentication PR using the structured review process.
+
+```markdown
+## Code Review: PR #42 — JWT Authentication Middleware
+
+### 1. Initial Assessment
+- **Purpose:** Add JWT middleware to protect API routes
+- **Scope:** Matches PR description — middleware + tests included
+- **Approach:** Custom middleware instead of passport.js — reasonable for this codebase size
+
+### 2. Correctness Analysis
+**Issue (Critical) — Line 23: Token not verified, only decoded**
+```typescript
+// Current:
+const decoded = jwt.decode(token);  // ❌ Does NOT verify signature
+// Fix:
+const decoded = jwt.verify(token, process.env.JWT_SECRET!);  // ✅ Verifies signature
+```
+
+**Issue (High) — Line 41: Error message leaks internals**
+
+```typescript
+// Current: res.status(401).json({ error: err.message });  // exposes stack info
+// Fix:     res.status(401).json({ error: "Unauthorized" });
+```
+
+### 3. Quality Evaluation
+
+**What works well:**
+
+- Middleware correctly attached to protected routes only
+- Tests cover the happy path with a valid token
+
+**Missing:**
+
+- No test for expired token or tampered signature
+- No test for missing Authorization header
+
+### 4. Recommendations
+
+- **Critical:** Replace `jwt.decode` with `jwt.verify` — current code accepts unsigned tokens
+- **High:** Sanitize error messages before sending to client
+- **Medium:** Add tests for expired/invalid token cases
+
+```
+
 ## Edge Cases
 
-- **Subjective style preferences**: Distinguish between objective issues (bugs, security) and subjective preferences (naming, formatting). Only push back on style if it violates project conventions.
+- **Subjective style preferences**: Distinguish between objective issues (bugs, security) and subjective preferences (naming, formatting). Only push back on style if violates project conventions.
 
-- **Over-engineering vs under-engineering**: Balance between "this is too complex" and "this is too simple". Consider maintainability, not just current requirements.
+- **Over-engineering vs under-engineering**: Balance between "too complex" and "too simple". Consider maintainability, not just current requirements.
 
 - **Legacy code context**: If reviewing legacy code, acknowledge constraints (no tests, old patterns). Suggest incremental improvements, not full rewrites.
 
-- **Time pressure**: If user has tight deadline, prioritize critical issues (correctness, security) over nice-to-haves (refactoring, optimization).
+- **Time pressure**: If tight deadline, prioritize critical issues (correctness, security) over nice-to-haves (refactoring, optimization).
 
-- **Beginner vs expert**: Adjust feedback depth based on user skill level. For beginners, explain *why* patterns matter. For experts, focus on trade-offs.
+- **Beginner vs expert**: Adjust feedback depth based on skill level. For beginners, explain *why* patterns matter. For experts, focus on trade-offs.
 
 ## Checklist
 
@@ -193,7 +263,7 @@ Before providing feedback, verify:
 
 ## Resources
 
-- [conventions](../conventions/SKILL.md) - General coding standards
+- [code-conventions](../code-conventions/SKILL.md) - General coding standards
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns and trade-offs
 - [typescript](../typescript/SKILL.md) - Type safety and strict typing
 - [a11y](../a11y/SKILL.md) - Accessibility compliance

@@ -8,6 +8,8 @@ export enum LogLevel {
   SILENT = 4,
 }
 
+type LogArg = string | number | boolean | null | undefined | object;
+
 class Logger {
   private level: LogLevel = LogLevel.INFO;
 
@@ -19,37 +21,37 @@ class Logger {
     return this.level;
   }
 
-  debug(message: string, ...args: any[]): void {
+  debug(message: string, ...args: LogArg[]): void {
     if (this.level <= LogLevel.DEBUG) {
       console.log(chalk.gray('[DEBUG]'), message, ...args);
     }
   }
 
-  info(message: string, ...args: any[]): void {
+  info(message: string, ...args: LogArg[]): void {
     if (this.level <= LogLevel.INFO) {
       console.log(chalk.blue('[INFO]'), message, ...args);
     }
   }
 
-  success(message: string, ...args: any[]): void {
+  success(message: string, ...args: LogArg[]): void {
     if (this.level <= LogLevel.INFO) {
       console.log(chalk.green('✓'), message, ...args);
     }
   }
 
-  warn(message: string, ...args: any[]): void {
+  warn(message: string, ...args: LogArg[]): void {
     if (this.level <= LogLevel.WARN) {
       console.warn(chalk.yellow('[WARN]'), message, ...args);
     }
   }
 
-  error(message: string, ...args: any[]): void {
+  error(message: string, ...args: LogArg[]): void {
     if (this.level <= LogLevel.ERROR) {
       console.error(chalk.red('[ERROR]'), message, ...args);
     }
   }
 
-  fatal(message: string, ...args: any[]): void {
+  fatal(message: string, ...args: LogArg[]): void {
     if (this.level <= LogLevel.ERROR) {
       console.error(chalk.red.bold('[FATAL]'), message, ...args);
     }
@@ -60,7 +62,7 @@ class Logger {
    */
   section(title: string): void {
     if (this.level <= LogLevel.INFO) {
-      console.log('\n' + chalk.bold.cyan(`=== ${title} ===`) + '\n');
+      console.log(`\n${chalk.bold.cyan(`=== ${title} ===`)}\n`);
     }
   }
 
@@ -89,7 +91,7 @@ class Logger {
   keyValue(key: string, value: string, indent: number = 0): void {
     if (this.level <= LogLevel.INFO) {
       const spaces = ' '.repeat(indent);
-      console.log(`${spaces}${chalk.bold(key + ':')} ${value}`);
+      console.log(`${spaces}${chalk.bold(`${key}:`)} ${value}`);
     }
   }
 
@@ -125,25 +127,27 @@ class Logger {
   }
 
   /**
-   * Print skill installation detail with spinner/checkmark
+   * Print skill installation/removal detail with spinner/checkmark
    */
   skillProgress(
     skillName: string,
-    status: 'installing' | 'completed' | 'skipped',
+    status: 'installing' | 'removing' | 'completed' | 'skipped',
     dependencies?: string[]
   ): void {
     if (this.level <= LogLevel.INFO) {
       const icon =
         status === 'installing'
           ? chalk.cyan('◐')
-          : status === 'completed'
-            ? chalk.green('✓')
-            : chalk.yellow('○');
+          : status === 'removing'
+            ? chalk.red('◐')
+            : status === 'completed'
+              ? chalk.green('✓')
+              : chalk.yellow('○');
 
-      let line = `  ${icon} ${chalk.bold(skillName)}`;
+      let line = `${chalk.dim('│')}  ${icon} ${chalk.bold(skillName)}`;
 
       if (dependencies && dependencies.length > 0) {
-        line += chalk.gray(` → ${dependencies.join(', ')}`);
+        line += chalk.dim(` → ${dependencies.join(' → ')}`);
       }
 
       console.log(line);
@@ -179,15 +183,6 @@ class Logger {
    */
   clear(): void {
     console.clear();
-  }
-
-  /**
-   * Print empty line
-   */
-  newline(): void {
-    if (this.level <= LogLevel.INFO) {
-      console.log();
-    }
   }
 
   /**

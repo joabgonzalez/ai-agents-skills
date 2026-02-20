@@ -2,9 +2,16 @@
 
 > Context API, compound components, render props, and state sharing strategies
 
+## Core Patterns
+
+- When to Read This
+- Context API
+- Context Performance Optimization
+- Compound Components
+
 ## When to Read This
 
-- Sharing state across multiple components
+- Sharing state across components
 - Avoiding prop drilling
 - Building component APIs
 - Creating flexible component compositions
@@ -19,7 +26,6 @@
 ```typescript
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-// 1. Create context with type
 interface ThemeContextType {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
@@ -27,7 +33,6 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-// 2. Create provider component
 interface ThemeProviderProps {
   children: ReactNode;
 }
@@ -46,7 +51,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   );
 }
 
-// 3. Create custom hook
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {
@@ -55,7 +59,6 @@ export function useTheme() {
   return context;
 }
 
-// 4. Usage
 function App() {
   return (
     <ThemeProvider>
@@ -130,7 +133,6 @@ export function useAuth() {
   return context;
 }
 
-// Usage with actions
 function LoginForm() {
   const { state, dispatch } = useAuth();
 
@@ -176,7 +178,7 @@ function ThemeButton() {
 ### ✅ Solution 1: Split Contexts
 
 ```typescript
-// ✅ CORRECT: Separate contexts for independent data
+// Separate contexts for independent data
 function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
@@ -187,7 +189,6 @@ function ThemeProvider({ children }) {
   return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
 }
 
-// Compose providers
 function App() {
   return (
     <UserProvider>
@@ -198,9 +199,9 @@ function App() {
   );
 }
 
-// Now ThemeButton only re-renders when theme changes
+// ThemeButton only re-renders when theme changes
 function ThemeButton() {
-  const { theme, setTheme } = useTheme(); // Independent context
+  const { theme, setTheme } = useTheme();
   return <button onClick={() => setTheme('dark')}>{theme}</button>;
 }
 ```
@@ -228,7 +229,6 @@ function AppProvider({ children }) {
 ### ✅ Solution 3: Selector Pattern
 
 ```typescript
-// Context with state only
 const StateContext = createContext<State | undefined>(undefined);
 const DispatchContext = createContext<Dispatch | undefined>(undefined);
 
@@ -244,14 +244,14 @@ function AppProvider({ children }) {
   );
 }
 
-// Selector hook (only re-renders when selected value changes)
+// Only re-renders when selected value changes
 function useSelector<T>(selector: (state: State) => T): T {
   const state = useContext(StateContext);
   if (!state) throw new Error('Must be used within provider');
   return selector(state);
 }
 
-// Usage: Only re-renders when theme changes
+// Only re-renders when theme changes
 function ThemeButton() {
   const theme = useSelector(state => state.theme);
   const dispatch = useContext(DispatchContext);
@@ -311,7 +311,7 @@ export function TabPanel({ id, children }: { id: string; children: ReactNode }) 
   return <div role="tabpanel">{children}</div>;
 }
 
-// Usage: Clean API without prop drilling
+// Clean API without prop drilling
 function App() {
   return (
     <Tabs defaultTab="profile">
@@ -338,7 +338,6 @@ function App() {
 ### ✅ Pattern: Flexible Composition
 
 ```typescript
-// Dropdown compound component
 interface DropdownContextType {
   isOpen: boolean;
   toggle: () => void;
@@ -392,7 +391,6 @@ export function DropdownItem({ onClick, children }: { onClick: () => void; child
   return <button className="dropdown-item" onClick={handleClick}>{children}</button>;
 }
 
-// Usage: Flexible composition
 function UserMenu() {
   return (
     <Dropdown>
@@ -436,7 +434,6 @@ function MouseTracker({ render }: { render: (pos: MousePosition) => ReactNode })
   return <>{render(position)}</>;
 }
 
-// Usage: Flexible rendering
 function App() {
   return (
     <MouseTracker
@@ -474,7 +471,6 @@ function DataFetcher<T>({ url, children }: { url: string; children: (data: T | n
   return <>{children(data, loading, error)}</>;
 }
 
-// Usage
 function UserProfile() {
   return (
     <DataFetcher<User> url="/api/user">
@@ -504,7 +500,6 @@ function UserProfile() {
 ### ✅ Modern Approach: Hooks
 
 ```typescript
-// ✅ RECOMMENDED: Custom hook
 function useMousePosition() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -519,7 +514,6 @@ function useMousePosition() {
   return position;
 }
 
-// Usage: Clean, composable
 function App() {
   const { x, y } = useMousePosition();
   return <div>Mouse: {x}, {y}</div>;

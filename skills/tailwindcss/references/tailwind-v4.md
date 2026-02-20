@@ -1,17 +1,15 @@
 # Tailwind CSS v4 Migration Guide
 
-> CSS-first configuration, OKLCH colors, new utilities, and native dark mode support.
-
-## Overview
-
-Tailwind v4 shifts from JavaScript configuration to **CSS-first design**:
-- `@import 'tailwindcss'` replaces `@tailwind` directives
-- `@theme` blocks replace `tailwind.config.js` theme configuration
-- OKLCH color space for better perceptual uniformity
-- New utilities: `size-*`, improved animations
-- Native dark mode with `@custom-variant`
+CSS-first configuration using `@theme` blocks, OKLCH colors, `size-*` utilities, and `@custom-variant` dark mode replace JavaScript config patterns.
 
 ---
+
+## Core Patterns
+
+- CSS-First Configuration
+- @theme Blocks
+- OKLCH Color Space
+- New Utilities
 
 ## CSS-First Configuration
 
@@ -65,6 +63,7 @@ module.exports = {
 ```
 
 **Benefits:**
+
 - No JavaScript config needed (unless using plugins)
 - Faster builds (CSS parsing > JS execution)
 - Better IDE support (CSS IntelliSense)
@@ -183,6 +182,7 @@ H = Hue (0-360 degrees)
 | Wide gamut (P3) | ❌ | ❌ | ✅ |
 
 **Example: Gradient**
+
 ```css
 /* HSL: Muddy midtone */
 background: linear-gradient(to right, hsl(0, 100%, 50%), hsl(240, 100%, 50%));
@@ -210,10 +210,12 @@ Replaces separate `w-*` and `h-*` utilities.
 ```
 
 **When to use:**
+
 - Square elements (icons, avatars, buttons)
 - Full-width/height containers
 
 **When to use separate w/h:**
+
 - Rectangular elements (cards, images)
 - Different responsive sizing (w-full md:w-1/2 h-64 md:h-96)
 
@@ -261,6 +263,7 @@ module.exports = {
 ```
 
 **Why better?**
+
 - No config needed
 - More flexible (can create custom variants)
 - Consistent with CSS-first approach
@@ -339,6 +342,7 @@ module.exports = {
 ```
 
 **Benefits:**
+
 - Tree-shaking: Unused animations removed
 - Scoped: No global namespace pollution
 - Smaller bundles: Only ship what you use
@@ -455,6 +459,7 @@ rm tailwind.config.js
 ```
 
 **Keep if:**
+
 - Using plugins (still require config)
 - Complex content paths
 - Custom safelist
@@ -570,6 +575,7 @@ module.exports = {
 **Cause:** Missing `@import 'tailwindcss'`
 
 **Fix:**
+
 ```css
 /* Add to main CSS file */
 @import 'tailwindcss';
@@ -580,6 +586,7 @@ module.exports = {
 **Cause:** Missing `@custom-variant dark`
 
 **Fix:**
+
 ```css
 @custom-variant dark (&:where(.dark, .dark *));
 ```
@@ -589,6 +596,7 @@ module.exports = {
 **Cause:** @keyframes outside @theme block
 
 **Fix:**
+
 ```css
 /* ❌ WRONG */
 @keyframes spin { /* ... */ }
@@ -604,6 +612,7 @@ module.exports = {
 **Cause:** Missing `--color-` prefix
 
 **Fix:**
+
 ```css
 /* ❌ WRONG */
 @theme {

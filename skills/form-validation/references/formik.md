@@ -1,12 +1,9 @@
 # Formik
 
-> React form management with Yup integration
-
-## Overview
-
-Formik provides form state management for React with built-in Yup validation support. Best for legacy projects or teams already familiar with Formik patterns. For new projects, consider React Hook Form for better performance.
+React form state management with built-in Yup validation support. Best for legacy projects or teams familiar with Formik patterns.
 
 **Dependencies:**
+
 ```json
 {
   "formik": ">=2.0.0 <3.0.0",
@@ -335,7 +332,6 @@ function MyForm() {
             Reset
           </button>
 
-          {/* Check form state */}
           <button type="submit" disabled={isSubmitting}>
             Submit
           </button>
@@ -537,11 +533,11 @@ function MultiStepForm() {
 
 ---
 
-## Performance Considerations
+## Performance
 
-**Re-render behavior:** Formik re-renders the entire form on every field change. For large forms (50+ fields), consider React Hook Form for better performance.
+**Re-render behavior:** Formik re-renders the entire form on every field change. For large forms (50+ fields), consider React Hook Form.
 
-**FastField optimization:** Use `<FastField>` for independent fields that don't depend on other values.
+**FastField:** Use `<FastField>` for independent fields that don't depend on other values.
 
 ```typescript
 import { FastField } from 'formik';
@@ -559,7 +555,7 @@ import { FastField } from 'formik';
 ```typescript
 const handleSubmit = async (values, { resetForm, setSubmitting }) => {
   await submitForm(values);
-  resetForm(); // Clear form
+  resetForm();
   setSubmitting(false);
 };
 ```
@@ -571,7 +567,6 @@ const handleSubmit = async (values, { setErrors, setSubmitting }) => {
   try {
     await submitForm(values);
   } catch (error) {
-    // Set errors from server response
     setErrors({
       email: 'Email already exists',
       password: 'Password too weak',
@@ -588,7 +583,7 @@ const handleSubmit = async (values, { setErrors, setSubmitting }) => {
 <Formik
   initialValues={initialValues}
   validationSchema={validationSchema}
-  validateOnMount // Validate immediately on mount
+  validateOnMount
   onSubmit={handleSubmit}
 >
   {/* form */}
@@ -598,8 +593,6 @@ const handleSubmit = async (values, { setErrors, setSubmitting }) => {
 ---
 
 ## Migration to React Hook Form
-
-If migrating from Formik to React Hook Form:
 
 | Formik | React Hook Form |
 |--------|----------------|
@@ -614,6 +607,7 @@ If migrating from Formik to React Hook Form:
 | `validationSchema` (Yup) | `resolver: yupResolver(schema)` |
 
 **Migration strategy:**
+
 1. Migrate one form at a time
 2. Start with simple forms
 3. Use same validation schema (Yup) with `yupResolver`
