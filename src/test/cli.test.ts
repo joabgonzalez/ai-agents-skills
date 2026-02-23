@@ -370,6 +370,18 @@ describe('CLI list: controlled state (tmpProject)', () => {
     expect(exitCode).toBe(0);
   });
 
+  test('does not show an uninstalled skill (jest)', () => {
+    // jest is available in skills/ but NOT installed → must not appear in list output
+    const { output } = runIn(tmpProject, 'list');
+    expect(output).not.toMatch(/\bjest\b/i);
+  });
+
+  test('does not show a model with no directory (cursor)', () => {
+    // cursor is a valid model ID but has no directory in tmpProject → must not appear
+    const { output } = runIn(tmpProject, 'list');
+    expect(output).not.toMatch(/\bcursor\b/i);
+  });
+
   test('exits 0 with guidance when no skills are installed', () => {
     const emptyDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cli-empty-'));
     fs.writeFileSync(path.join(emptyDir, 'package.json'), JSON.stringify({ name: 'empty' }));
@@ -394,6 +406,40 @@ describe('CLI list: controlled state (tmpProject)', () => {
 //   - __nonexistent__: invalid skill name → "not found" warning
 //   - __nopreset__: invalid preset → "Preset not found" early exit(1)
 //   - test-preset: valid preset defined in tmpProject/presets/
+
+describe('CLI add --local: local mode prerequisite', () => {
+  test('exits 1 with clear message when run outside the ai-agents-skills repo', () => {
+    // A plain temp dir has no skills/ folder and a generic package.json name
+    const otherDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cli-other-repo-'));
+    fs.writeFileSync(
+      path.join(otherDir, 'package.json'),
+      JSON.stringify({ name: 'some-other-project' })
+    );
+    try {
+      const { output, exitCode } = runIn(otherDir, 'add --local --skill jest --model claude');
+      expect(exitCode).toBe(1);
+      expect(output).toMatch(/--local requires|ai-agents-skills/i);
+    } finally {
+      fs.rmSync(otherDir, { recursive: true, force: true });
+    }
+  });
+
+  test('exits 1 when skills/ dir exists but package.json name is wrong', () => {
+    const otherDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cli-bad-pkg-'));
+    fs.writeFileSync(
+      path.join(otherDir, 'package.json'),
+      JSON.stringify({ name: 'not-ai-agents-skills' })
+    );
+    fs.mkdirSync(path.join(otherDir, 'skills'), { recursive: true });
+    try {
+      const { output, exitCode } = runIn(otherDir, 'add --local --skill jest --model claude');
+      expect(exitCode).toBe(1);
+      expect(output).toMatch(/--local requires|ai-agents-skills/i);
+    } finally {
+      fs.rmSync(otherDir, { recursive: true, force: true });
+    }
+  });
+});
 
 describe('CLI add --local: skill validation', () => {
   test('warns on non-existent skill and exits 0', () => {
@@ -515,19 +561,15 @@ describe('CLI remove --confirm: skill validation', () => {
     }
   });
 
-  test('dry-run with installed skill (typescript) exits 0', () => {
-    const { exitCode } = runIn(tmpProject, 'remove --skill typescript --confirm --dry-run');
+  test('dry-run with installed skill (typescript): exits 0 and shows preview', () => {
+    const { output, exitCode } = runIn(
+      tmpProject,
+      'remove --skill typescript --confirm --dry-run'
+    );
     expect(exitCode).toBe(0);
-  });
-
-  test('dry-run shows removal preview with skill name', () => {
-    const { output } = runIn(tmpProject, 'remove --skill typescript --confirm --dry-run');
     expect(output).toMatch(/typescript/i);
-  });
-
-  test('dry-run shows paths that would be deleted', () => {
-    const { output } = runIn(tmpProject, 'remove --skill typescript --confirm --dry-run');
     expect(output).toMatch(/Paths that would be deleted|Removal Preview/i);
+    expect(output).toMatch(/DRY RUN/i);
   });
 });
 
@@ -559,6 +601,39 @@ describe('CLI remove --confirm: model validation', () => {
   });
 });
 
+// ─── remove --purge: dry-run scenarios ────────────────────────────────────
+//
+// --purge triggers purgeCommand(), a separate code path from regular remove.
+// --confirm skips the "Remove all X skills?" prompt.
+// --dry-run prevents any filesystem writes.
+// tmpProject state: typescript installed in .agents/ and .claude/.
+
+describe('CLI remove --purge: dry-run', () => {
+  test('exits 0 with --confirm and --dry-run', () => {
+    const { exitCode } = runIn(tmpProject, 'remove --purge --confirm --dry-run');
+    expect(exitCode).toBe(0);
+  });
+
+  test('output shows purge preview with skills and models', () => {
+    const { output } = runIn(tmpProject, 'remove --purge --confirm --dry-run');
+    expect(output).toMatch(/Purge Preview/i);
+    expect(output).toMatch(/typescript/i);
+    expect(output).toMatch(/claude/i);
+  });
+
+  test('output indicates dry-run — no changes made', () => {
+    const { output } = runIn(tmpProject, 'remove --purge --confirm --dry-run');
+    expect(output).toMatch(/DRY RUN/i);
+  });
+
+  test('does not remove any files from the filesystem', () => {
+    const agentsSkillBefore = path.join(tmpProject, '.agents', 'skills', 'typescript');
+    runIn(tmpProject, 'remove --purge --confirm --dry-run');
+    // typescript must still exist — dry-run must not touch the filesystem
+    expect(fs.existsSync(agentsSkillBefore)).toBe(true);
+  });
+});
+
 // ─── sync: guard rails ────────────────────────────────────────────────────
 //
 // sync fetches remote data. The guard rail (no skills installed) is testable
@@ -575,5 +650,45 @@ describe('CLI sync: guard rails', () => {
     } finally {
       fs.rmSync(emptyDir, { recursive: true, force: true });
     }
+  });
+});
+
+// ─── sync --skill: validation ──────────────────────────────────────────────
+//
+// These paths are exercised without network because validation exits before
+// fetchRepo() is called (skill not in installedSkills → exit(1) immediately).
+
+describe('CLI sync: skill validation', () => {
+  test('warns and exits 1 when specified skill is not installed', () => {
+    // tmpProject has typescript installed; __nonexistent__ is not → warns + exit(1)
+    const { output, exitCode } = runIn(
+      tmpProject,
+      'sync --skill __nonexistent_skill_xyz__'
+    );
+    expect(exitCode).toBe(1);
+    expect(output).toMatch(/not installed/i);
+  });
+});
+
+// ─── sync --model: validation ─────────────────────────────────────────────
+//
+// Model validation also exits before any network call.
+
+describe('CLI sync: model validation', () => {
+  test('warns and exits 1 on unknown model name', () => {
+    // __invalid_model__ is not in ModelDetector's known list → warns "unknown model" → exit(1)
+    const { output, exitCode } = runIn(
+      tmpProject,
+      'sync --model __invalid_model_xyz__'
+    );
+    expect(exitCode).toBe(1);
+    expect(output).toMatch(/unknown model/i);
+  });
+
+  test('warns and exits 0 when all specified models are already configured', () => {
+    // claude is already installed in tmpProject (.claude/ exists) → "already configured" → exit(0)
+    const { output, exitCode } = runIn(tmpProject, 'sync --model claude');
+    expect(exitCode).toBe(0);
+    expect(output).toMatch(/already configured/i);
   });
 });
