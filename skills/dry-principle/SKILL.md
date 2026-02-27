@@ -82,6 +82,37 @@ type User = { id: string; email: string; role: string }; // different!
 export interface User { id: string; email: string; name: string; role: string; }
 ```
 
+### ✅ REQUIRED: React Custom Hooks as DRY Abstraction
+
+Extract repeated fetch/state patterns into custom hooks — same Rule of Three applies.
+
+```typescript
+// ❌ WRONG: identical fetch + state pattern in 3+ components
+function UserList() {
+  const [users, setUsers]     = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { fetch('/api/users').then(r => r.json()).then(setUsers).finally(() => setLoading(false)); }, []);
+}
+function ProductList() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading]   = useState(true);
+  useEffect(() => { fetch('/api/products').then(r => r.json()).then(setProducts).finally(() => setLoading(false)); }, []);
+}
+
+// ✅ CORRECT: extract once, parameterize the URL
+function useFetch<T>(url: string) {
+  const [data, setData]       = useState<T[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { fetch(url).then(r => r.json()).then(setData).finally(() => setLoading(false)); }, [url]);
+  return { data, loading };
+}
+
+function UserList()    { const { data: users,    loading } = useFetch<User>('/api/users');    ... }
+function ProductList() { const { data: products, loading } = useFetch<Product>('/api/products'); ... }
+```
+
+**Rule**: Apply only after seeing the same hook pattern in 3+ components — not speculatively.
+
 ### ❌ NEVER: Merge Code That Looks Similar but Isn't
 
 DRY is about knowledge duplication, not code similarity.

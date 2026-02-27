@@ -198,7 +198,13 @@ export async function syncCommand(options: SyncOptions) {
       );
     }
   } catch (error) {
-    p.log.error(`Sync failed: ${error instanceof Error ? error.message : String(error)}`);
+    const msg = error instanceof Error ? error.message : String(error);
+    p.log.error(`Sync failed: ${msg}`);
+    if (/git|clone|pull|fetch|diverge/i.test(msg)) {
+      p.log.warn(
+        `If the error persists, clear the cache and retry:\n  rm -rf ~/.cache/ai-agents-skills`
+      );
+    }
     p.cancel('Sync failed');
     process.exit(1);
   }

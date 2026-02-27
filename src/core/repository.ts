@@ -68,18 +68,28 @@ export class RepositoryManager {
   }
 
   /**
-   * Fetch repository and cache locally
+   * Fetch repository and cache locally.
+   * If `git pull` fails (e.g. divergent branches), the stale cache is deleted
+   * and the repository is re-cloned automatically.
    */
   async fetchRepository(source: string): Promise<RepositoryInfo> {
     const { url, shorthand } = this.parseSource(source);
     const hash = this.hashSource(url);
     const cachePath = path.join(this.cacheDir, hash);
 
-    // If already cached, update it
+    // If already cached, try to update it
     if (fs.existsSync(cachePath)) {
       console.log(`Updating cached repository: ${shorthand || url}`);
       const git = simpleGit(cachePath);
-      await git.pull();
+      try {
+        await git.pull();
+      } catch {
+        // git pull failed (e.g. "Need to specify how to reconcile divergent branches").
+        // Delete the stale cache entry and re-clone fresh.
+        console.log('Cache out of sync — re-cloning repository...');
+        fs.rmSync(cachePath, { recursive: true, force: true });
+        await this.git.clone(url, cachePath);
+      }
 
       return {
         url,

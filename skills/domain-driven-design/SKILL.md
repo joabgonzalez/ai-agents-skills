@@ -52,6 +52,35 @@ Shipping Context:  Package { trackingNumber, weight, dimensions }
 
 Don't force a single `Product` model across all contexts. Each context has its own model.
 
+### ✅ REQUIRED: Entity
+
+Object with **identity** that persists over time. Two entities with the same attributes are NOT the same entity if their IDs differ.
+
+- Has a unique, stable identity (never changes)
+- Mutable — attributes can change across its lifecycle
+- Equality is identity-based, not attribute-based
+
+```typescript
+class User {                           // Entity
+  constructor(
+    readonly id: UserId,               // identity — never changes
+    private email: Email,              // state — can change
+    private name: string,
+  ) {}
+
+  changeEmail(newEmail: Email): void { this.email = newEmail; }
+
+  equals(other: User): boolean {
+    return this.id.equals(other.id);   // same id = same user
+  }
+}
+
+// Two users with same email but different id → NOT the same entity
+// Two Money objects with same amount/currency → ARE equal (Value Object)
+```
+
+**Entity vs Value Object:** Entity = has lifecycle and identity (User, Order, Product). Value Object = defined entirely by its attributes (Money, Email, Address).
+
 ### ✅ REQUIRED: Aggregate + Aggregate Root
 
 Cluster of objects treated as a unit. Only access internals through the Aggregate Root.
@@ -67,7 +96,9 @@ class Order {  // Aggregate Root
 
 ### ✅ REQUIRED: Value Objects
 
-Immutable objects defined by their value, not identity. No ID, no mutable state.
+Objects defined entirely by their **attributes**. No identity, no mutable state. Two Value Objects with the same attributes are always equal and interchangeable.
+
+Key characteristics: immutable (return new instance to "change"), self-validating (throw in constructor), side-effect-free operations, conceptual whole (Money = amount + currency, never just a number).
 
 ```typescript
 class Money {
@@ -168,10 +199,13 @@ class Order {
 Complex business rules?                → Apply DDD Aggregates + Entities
 Multiple teams on different areas?     → Define Bounded Contexts with explicit APIs
 Technical jargon in domain model?      → Build Ubiquitous Language with domain experts
-Objects defined by attributes only?    → Use Value Objects (immutable, no ID)
+Has lifecycle and identity (User, Order)? → Entity (mutable, identity-based equality)
+Defined entirely by attributes (Money, Email)? → Value Object (immutable, value equality)
 Side effects from domain events?       → Use Domain Events to decouple
 Need to persist an aggregate?          → Define a Repository interface
 Logic spans multiple aggregates?       → Extract to a Domain Service
+Integrating legacy system or 3rd party? → Anti-Corruption Layer (see advanced-patterns.md)
+Long-running multi-aggregate workflow? → Saga / Process Manager (see advanced-patterns.md)
 Simple CRUD?                           → Skip DDD, not worth the complexity
 ```
 
@@ -237,4 +271,12 @@ Patterns applied: value object (`Money`), aggregate root (`Order`) protecting in
 
 ## Resources
 
-- [tactical-strategic.md](references/tactical-strategic.md) — Context Map patterns, advanced tactical DDD, strategic design
+**Tactical pattern references:**
+
+- [entity.md](references/entity.md) — Identity-based equality, lifecycle, Entity vs Value Object
+- [value-objects.md](references/value-objects.md) — Immutability, self-validation, equality contract, conceptual whole
+- [aggregate.md](references/aggregate.md) — Consistency boundaries, invariant enforcement, root access rules
+- [domain-events.md](references/domain-events.md) — Facts, naming conventions, event bus, eventual consistency
+- [repository.md](references/repository.md) — Persistence abstraction, interface vs implementation, unit of work
+- [domain-service.md](references/domain-service.md) — Cross-aggregate logic, stateless services, when to extract
+- [advanced-patterns.md](references/advanced-patterns.md) — Anti-Corruption Layer, Sagas, Context Mapping

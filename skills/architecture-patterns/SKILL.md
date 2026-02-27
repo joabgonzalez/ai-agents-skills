@@ -126,14 +126,18 @@ Planning refactoring?
   → Strategic (modules, layers)?         → Use THIS skill
 
 Need specific pattern knowledge?
-  → SOLID principles         → solid skill
-  → Clean Architecture       → clean-architecture skill
-  → Domain-Driven Design     → domain-driven-design skill
-  → Ports and Adapters       → hexagonal-architecture skill
-  → Error handling pattern   → result-pattern skill
-  → Eliminate duplication    → dry-principle skill
-  → Decoupled communication  → mediator-pattern skill
-  → Microservice sidecar     → sidecar-pattern skill
+  → SOLID principles              → solid skill
+  → Clean Architecture            → clean-architecture skill
+  → Domain-Driven Design          → domain-driven-design skill
+  → Ports and Adapters            → hexagonal-architecture skill
+  → Domain-first folder structure → screaming-architecture skill
+  → Error handling pattern        → result-pattern skill
+  → Eliminate duplication         → dry-principle skill
+  → Decoupled communication       → mediator-pattern skill
+  → State / workflow modeling     → state-machines-pattern skill
+  → Flexible component APIs       → composition-pattern skill
+  → Fault tolerance / fast fail   → circuit-breaker-pattern skill
+  → Microservice sidecar          → sidecar-pattern skill
 ```
 
 ---
@@ -200,8 +204,11 @@ Why this fits a medium project (4-10 devs, 10k–100k LOC):
 **Pattern-specific skills:**
 
 - [solid](../solid/SKILL.md), [clean-architecture](../clean-architecture/SKILL.md), [domain-driven-design](../domain-driven-design/SKILL.md)
-- [hexagonal-architecture](../hexagonal-architecture/SKILL.md), [result-pattern](../result-pattern/SKILL.md)
-- [dry-principle](../dry-principle/SKILL.md), [mediator-pattern](../mediator-pattern/SKILL.md), [sidecar-pattern](../sidecar-pattern/SKILL.md)
+- [hexagonal-architecture](../hexagonal-architecture/SKILL.md), [screaming-architecture](../screaming-architecture/SKILL.md)
+- [result-pattern](../result-pattern/SKILL.md), [dry-principle](../dry-principle/SKILL.md)
+- [mediator-pattern](../mediator-pattern/SKILL.md), [composition-pattern](../composition-pattern/SKILL.md)
+- [state-machines-pattern](../state-machines-pattern/SKILL.md), [circuit-breaker-pattern](../circuit-breaker-pattern/SKILL.md)
+- [sidecar-pattern](../sidecar-pattern/SKILL.md)
 
 **Integration examples:**
 

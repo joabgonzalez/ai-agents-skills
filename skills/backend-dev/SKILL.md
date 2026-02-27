@@ -378,6 +378,9 @@ Patterns applied: `/api/v1` versioning, zod boundary validation, service owns bu
 
 - [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Repository, Service Layer, Clean Architecture)
+- [result-pattern](../result-pattern/SKILL.md) - Typed error handling in services and controllers
+- [circuit-breaker-pattern](../circuit-breaker-pattern/SKILL.md) - Fault tolerance for external API and DB calls
+- [state-machines-pattern](../state-machines-pattern/SKILL.md) - Explicit state modeling for workflows (orders, approvals)
 - [nodejs](../nodejs/SKILL.md) - Node.js runtime patterns
 - [typescript](../typescript/SKILL.md) - Type-safe backend development
 - [form-validation](../form-validation/SKILL.md) - Input validation with zod/yup

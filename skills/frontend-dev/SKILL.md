@@ -319,6 +319,10 @@ Patterns applied: component decomposition by responsibility, local state for UI,
 
 - [code-conventions](../code-conventions/SKILL.md) - Code organization and naming
 - [architecture-patterns](../architecture-patterns/SKILL.md) - Design patterns (Composition, HOC, Render Props)
+- [screaming-architecture](../screaming-architecture/SKILL.md) - Domain-first folder structure (backend + React/frontend)
+- [state-machines-pattern](../state-machines-pattern/SKILL.md) - Explicit state modeling for async flows and workflows
+- [result-pattern](../result-pattern/SKILL.md) - Typed error handling in hooks and services
+- [composition-pattern](../composition-pattern/SKILL.md) - Flexible, composable component APIs
 - [react](../react/SKILL.md) - React patterns and hooks
 - [typescript](../typescript/SKILL.md) - Type-safe frontend development
 - [a11y](../a11y/SKILL.md) - Accessibility requirements

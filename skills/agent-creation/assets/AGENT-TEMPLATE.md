@@ -25,11 +25,24 @@ output: "{description of expected output | data_type}"
 
 This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
 
-### Step 1: Find the Trigger
+### Step 1: Discover Available Skills
 
-Check the "Skills Reference" table below. Match your task to the "Trigger" column.
+List your model's skills directory to see all installed skills:
 
-### Step 2: Read the Skill
+- **Cursor:** `.cursor/skills/`
+- **Claude:** `.claude/skills/`
+- **Copilot:** `.github/skills/`
+- **Gemini:** `.gemini/skills/`
+- **Codex:** `.codex/skills/`
+
+Each installed skill has a `SKILL.md` file. Read the `description` field to understand when to use it.
+
+### Step 2: Match Task to Skill
+
+Check the "Skills Reference" table below (if present) for a quick lookup.
+If your task is not in the table, or the table is absent, scan `.{model}/skills/` for the most relevant skill.
+
+### Step 3: Read the Skill
 
 **Path format:** `.{model}/skills/{skill-name}/SKILL.md`
 
@@ -41,15 +54,15 @@ Replace `{model}` with your coding agent:
 - **Gemini:** `.gemini/skills/typescript/SKILL.md`
 - **Codex:** `.codex/skills/typescript/SKILL.md`
 
-### Step 3: Read Dependencies
+### Step 4: Read Dependencies
 
 Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each direct dependency before proceeding.
 
 **Example:** `react` skill depends on: `a11y`, `typescript`, `javascript`, `architecture-patterns`
 
-Read these 4 direct dependencies. Dependencies are resolved transitively - when you read `typescript`, you'll see it depends on `javascript`, which depends on `code-conventions`. The dependency chain ensures you have all required context.
+Read these 4 direct dependencies. Dependencies are resolved transitively — when you read `typescript`, you'll see it depends on `javascript`, which depends on `code-conventions`. The dependency chain ensures you have all required context.
 
-### Step 4: Apply Patterns
+### Step 5: Apply Patterns
 
 - Follow "Critical Patterns" marked with ✅ REQUIRED
 - Use "Decision Tree" for implementation choices
@@ -59,27 +72,31 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 
 **Task:** "Create TypeScript interface for User model"
 
-1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
+1. **Scan** `.{model}/skills/` → find `typescript/SKILL.md`
 2. **Read:** `.{model}/skills/typescript/SKILL.md`
 3. **Check frontmatter** → Dependencies: `javascript`
-4. **Read dependency:**
-   - `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
+4. **Read dependency:** `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
+
+<!-- CONDITIONAL SECTION: Include "Skills Reference" only if skills are already installed in this project.
+     If no skills are installed yet, delete this section entirely.
+     New skills installed after this file was created are auto-discovered via `.{model}/skills/`. -->
 
 ## Skills Reference
 
 **IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
+New skills installed after this file was created are auto-discovered via `.{model}/skills/`.
 
-| Trigger                     | Skill                   | Relative Path                                 |
-| --------------------------- | ----------------------- | --------------------------------------------- |
-| {Task trigger description}  | {skill-name}            | {model}/skills/{skill-name}/SKILL.md          |
-| {Task trigger description}  | {skill-name}            | {model}/skills/{skill-name}/SKILL.md          |
-| TypeScript types/interfaces | typescript              | {model}/skills/typescript/SKILL.md            |
-| React components/hooks      | react                   | {model}/skills/react/SKILL.md                 |
-| Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                  |
+| Trigger                     | Skill                   | Relative Path                                   |
+| --------------------------- | ----------------------- | ----------------------------------------------- |
+| {Task trigger description}  | {skill-name}            | {model}/skills/{skill-name}/SKILL.md            |
+| {Task trigger description}  | {skill-name}            | {model}/skills/{skill-name}/SKILL.md            |
+| TypeScript types/interfaces | typescript              | {model}/skills/typescript/SKILL.md              |
+| React components/hooks      | react                   | {model}/skills/react/SKILL.md                   |
+| Accessibility               | a11y                    | {model}/skills/a11y/SKILL.md                    |
 | Commit messages, PRs, docs  | technical-communication | {model}/skills/technical-communication/SKILL.md |
-| Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md      |
-| Coding standards            | conventions             | {model}/skills/code-conventions/SKILL.md           |
+| Code review                 | critical-partner        | {model}/skills/critical-partner/SKILL.md        |
+| Coding standards            | code-conventions        | {model}/skills/code-conventions/SKILL.md        |
 
 **Example triggers for your specific agent:**
 

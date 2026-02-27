@@ -1,8 +1,8 @@
 # ai-agents-skills
 
-**v1.4.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.4.2** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 61 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 64 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 ## Quick Start
 
@@ -149,7 +149,7 @@ your-project/
 └── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
 ```
 
-## Available Skills (61)
+## Available Skills (64)
 
 ### Frameworks
 
@@ -181,7 +181,7 @@ Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactor
 
 ### Architecture Patterns
 
-Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern
+Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Screaming Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern, Circuit Breaker Pattern, State Machines Pattern
 
 ### Behavioral
 

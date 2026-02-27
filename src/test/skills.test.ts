@@ -52,13 +52,7 @@ const ALLOWED_DEPS: Record<SkillType, SkillType[]> = {
   domain: ['domain', 'behavioral'],
 };
 
-const BANNED_REF_NAMES = new Set([
-  'advanced.md',
-  'misc.md',
-  'extras.md',
-  'other.md',
-  'various.md',
-]);
+const BANNED_REF_NAMES = new Set(['advanced.md', 'misc.md', 'extras.md', 'other.md', 'various.md']);
 
 const FILLER_WORDS = ['comprehensive', 'detailed', 'robust', 'various', 'multiple'];
 
@@ -168,34 +162,32 @@ describe('Frontmatter', () => {
     expect(VALID_TYPES as readonly string[]).toContain(meta.type);
   });
 
-  it.each(skillNames)(
-    '%s — metadata.skills items are lowercase-with-hyphens and exist as skill directories',
-    (name) => {
-      const meta = getMetadata(getFrontmatter(name));
-      if (!Array.isArray(meta.skills)) return;
-      for (const dep of meta.skills as string[]) {
-        expect(typeof dep).toBe('string');
-        expect(dep).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
-        const exists = fs.existsSync(path.join(SKILLS_DIR, dep));
-        expect(exists).toBe(true);
-      }
+  it.each(
+    skillNames
+  )('%s — metadata.skills items are lowercase-with-hyphens and exist as skill directories', (name) => {
+    const meta = getMetadata(getFrontmatter(name));
+    if (!Array.isArray(meta.skills)) return;
+    for (const dep of meta.skills as string[]) {
+      expect(typeof dep).toBe('string');
+      expect(dep).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+      const exists = fs.existsSync(path.join(SKILLS_DIR, dep));
+      expect(exists).toBe(true);
     }
-  );
+  });
 
-  it.each(skillNames)(
-    '%s — metadata.dependencies values are version ranges, not "latest"',
-    (name) => {
-      const meta = getMetadata(getFrontmatter(name));
-      const deps = meta.dependencies;
-      if (typeof deps !== 'object' || deps === null || Array.isArray(deps)) return;
-      for (const version of Object.values(deps as JsonObject)) {
-        expect(typeof version).toBe('string');
-        expect(version).not.toBe('latest');
-        // Must contain a digit (e.g. ">=17.0.0")
-        expect(version as string).toMatch(/\d/);
-      }
+  it.each(
+    skillNames
+  )('%s — metadata.dependencies values are version ranges, not "latest"', (name) => {
+    const meta = getMetadata(getFrontmatter(name));
+    const deps = meta.dependencies;
+    if (typeof deps !== 'object' || deps === null || Array.isArray(deps)) return;
+    for (const version of Object.values(deps as JsonObject)) {
+      expect(typeof version).toBe('string');
+      expect(version).not.toBe('latest');
+      // Must contain a digit (e.g. ">=17.0.0")
+      expect(version as string).toMatch(/\d/);
     }
-  );
+  });
 
   it.each(skillNames)('%s — no empty arrays or objects in metadata', (name) => {
     const meta = getMetadata(getFrontmatter(name));
@@ -260,24 +252,21 @@ describe('Frontmatter', () => {
 // ── 2. Dependency Type Rules ───────────────────────────────────────────────
 
 describe('Dependency Type Rules', () => {
-  it.each(skillNames)(
-    '%s — declared skill dependencies are allowed types for its type',
-    (name) => {
-      const meta = getMetadata(getFrontmatter(name));
-      const skillType = meta.type as SkillType;
+  it.each(skillNames)('%s — declared skill dependencies are allowed types for its type', (name) => {
+    const meta = getMetadata(getFrontmatter(name));
+    const skillType = meta.type as SkillType;
 
-      if (!(VALID_TYPES as readonly string[]).includes(skillType)) return;
-      if (!Array.isArray(meta.skills) || (meta.skills as string[]).length === 0) return;
+    if (!(VALID_TYPES as readonly string[]).includes(skillType)) return;
+    if (!Array.isArray(meta.skills) || (meta.skills as string[]).length === 0) return;
 
-      const allowed = ALLOWED_DEPS[skillType];
+    const allowed = ALLOWED_DEPS[skillType];
 
-      for (const dep of meta.skills as string[]) {
-        const depType = skillTypeMap.get(dep);
-        if (depType === undefined) continue; // dep existence is checked in Frontmatter tests
-        expect(allowed as string[]).toContain(depType);
-      }
+    for (const dep of meta.skills as string[]) {
+      const depType = skillTypeMap.get(dep);
+      if (depType === undefined) continue; // dep existence is checked in Frontmatter tests
+      expect(allowed as string[]).toContain(depType);
     }
-  );
+  });
 });
 
 // ── 3. Content Structure ───────────────────────────────────────────────────
@@ -350,43 +339,29 @@ describe('References Directory', () => {
   });
 
   it.each(skillsWithRefs)('%s — README.md has ## Quick Navigation', (name) => {
-    const readme = fs.readFileSync(
-      path.join(SKILLS_DIR, name, 'references', 'README.md'),
-      'utf-8'
-    );
+    const readme = fs.readFileSync(path.join(SKILLS_DIR, name, 'references', 'README.md'), 'utf-8');
     expect(readme).toContain('## Quick Navigation');
   });
 
   it.each(skillsWithRefs)('%s — README.md has ## Reading Strategy section', (name) => {
-    const readme = fs.readFileSync(
-      path.join(SKILLS_DIR, name, 'references', 'README.md'),
-      'utf-8'
-    );
+    const readme = fs.readFileSync(path.join(SKILLS_DIR, name, 'references', 'README.md'), 'utf-8');
     // Matches "Reading Strategy" or "Reading Strategies"
     expect(readme).toMatch(/## Reading Strateg/);
   });
 
   it.each(skillsWithRefs)('%s — README.md has ## File Descriptions', (name) => {
-    const readme = fs.readFileSync(
-      path.join(SKILLS_DIR, name, 'references', 'README.md'),
-      'utf-8'
-    );
+    const readme = fs.readFileSync(path.join(SKILLS_DIR, name, 'references', 'README.md'), 'utf-8');
     expect(readme).toContain('## File Descriptions');
   });
 
   it.each(skillsWithRefs)('%s — README.md has ## Cross-Reference Map', (name) => {
-    const readme = fs.readFileSync(
-      path.join(SKILLS_DIR, name, 'references', 'README.md'),
-      'utf-8'
-    );
+    const readme = fs.readFileSync(path.join(SKILLS_DIR, name, 'references', 'README.md'), 'utf-8');
     expect(readme).toContain('## Cross-Reference Map');
   });
 
   it.each(skillsWithRefs)('%s — no vague reference file names', (name) => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     for (const file of files) {
       expect(BANNED_REF_NAMES).not.toContain(file);
     }
@@ -394,9 +369,7 @@ describe('References Directory', () => {
 
   it.each(skillsWithRefs)('%s — reference file names are lowercase-with-hyphens', (name) => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     for (const file of files) {
       const base = file.replace(/\.md$/, '');
       expect(base).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
@@ -405,42 +378,33 @@ describe('References Directory', () => {
 
   it.each(skillsWithRefs)('%s — reference files have ## Core Patterns section', (name) => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     for (const file of files) {
       const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
       expect(content).toContain('## Core Patterns');
     }
   });
 
-  it.each(skillsWithRefs)(
-    '%s — reference files have no ## Overview, ## Objective, or ## Purpose sections',
-    (name) => {
-      const refsDir = path.join(SKILLS_DIR, name, 'references');
-      const files = fs
-        .readdirSync(refsDir)
-        .filter((f) => f.endsWith('.md') && f !== 'README.md');
-      for (const file of files) {
-        const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
-        expect(content).not.toMatch(/^## (Overview|Objective|Purpose)\s*$/im);
-      }
+  it.each(
+    skillsWithRefs
+  )('%s — reference files have no ## Overview, ## Objective, or ## Purpose sections', (name) => {
+    const refsDir = path.join(SKILLS_DIR, name, 'references');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
+    for (const file of files) {
+      const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
+      expect(content).not.toMatch(/^## (Overview|Objective|Purpose)\s*$/im);
     }
-  );
+  });
 
   it.each(skillsWithRefs)('%s — references count is 10 or fewer', (name) => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     expect(files.length).toBeLessThanOrEqual(10);
   });
 
   it.each(skillsWithRefs)('%s — reference files are 1–800 lines', (name) => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     for (const file of files) {
       const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
       const lines = content.split('\n').length;
@@ -453,9 +417,7 @@ describe('References Directory', () => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
     if (!fs.existsSync(path.join(refsDir, 'README.md'))) return;
     const readme = fs.readFileSync(path.join(refsDir, 'README.md'), 'utf-8');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     for (const file of files) {
       expect(readme).toContain(file);
     }
@@ -467,7 +429,10 @@ describe('References Directory', () => {
     const readme = fs.readFileSync(path.join(refsDir, 'README.md'), 'utf-8');
     const links = [...readme.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)]
       .map((m) => m[2])
-      .filter((l) => !l.startsWith('http') && !l.startsWith('#') && !l.startsWith('..') && l.endsWith('.md'));
+      .filter(
+        (l) =>
+          !l.startsWith('http') && !l.startsWith('#') && !l.startsWith('..') && l.endsWith('.md')
+      );
     for (const link of links) {
       expect(fs.existsSync(path.join(refsDir, link))).toBe(true);
     }
@@ -475,9 +440,7 @@ describe('References Directory', () => {
 
   it.each(skillsWithRefs)('%s — no duplicate ## sections in reference files', (name) => {
     const refsDir = path.join(SKILLS_DIR, name, 'references');
-    const files = fs
-      .readdirSync(refsDir)
-      .filter((f) => f.endsWith('.md') && f !== 'README.md');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
     for (const file of files) {
       const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
       const h2s = [...content.matchAll(/^## (.+)$/gm)].map((m) => m[1].trim());

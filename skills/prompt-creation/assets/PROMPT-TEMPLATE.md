@@ -1,87 +1,91 @@
 ---
-name: { prompt-name }
-type: { technology-stack | behavioral }
-description: { One-line description of what this prompt provides }
-context: { When this prompt should be included in context }
-priority: { high | medium | low }
+name: {prompt-name}
+type: {behavioral | technology-stack}
+description: {One-line description of what this prompt provides}
+version: "1.0"          # optional
+priority: {high | medium | low}  # optional
+context: {When to include this prompt}  # optional
 ---
 
 # {Prompt Name}
 
-## Purpose
+## Overview
 
-{Clear explanation of what this prompt provides to the AI assistant.}
+{What this prompt does and when to use it.}
 
-## Context Type
+**Use this prompt when you need:**
 
-- **Type**: {Technology Stack | Behavioral}
-- **Priority**: {High | Medium | Low}
-- **Scope**: {Project-wide | Component-specific | Task-specific}
-
----
-
-## When to Include
-
-Include this prompt when:
-
-- {Condition 1}
-- {Condition 2}
-- {Condition 3}
+- {Use case 1}
+- {Use case 2}
+- {Use case 3}
 
 ---
 
-## Content
+## Persona  ← (remove this section for technology-stack prompts)
 
-{Main content of the prompt. This is what will be provided to the AI assistant as context.}
+**Role**: {Specific role the AI assistant adopts}
 
-### {Section 1}
+**Traits**:
 
-{Detailed information about aspect 1}
-
-### {Section 2}
-
-{Detailed information about aspect 2}
+- {Trait 1}
+- {Trait 2}
+- {Trait 3}
 
 ---
 
-## Guidelines
+## General Rules
 
-### ✅ Do
-
-- {Guideline 1}
-- {Guideline 2}
-- {Guideline 3}
-
-### ❌ Don't
-
-- {Anti-pattern 1}
-- {Anti-pattern 2}
-- {Anti-pattern 3}
+1. **Rule name**: Explanation
+2. **Rule name**: Explanation
+3. **Rule name**: Explanation
 
 ---
 
-## Examples
+## Instruction Types  ← (remove if not applicable)
 
-### Example 1: {Use Case}
+### {Mode Name} (`{trigger}:`)
 
-```{language}
-// Example demonstrating the guidance
-{code example}
+**Behavior**: {What the assistant does in this mode}
+
+**Rules**:
+
+- {Rule specific to this mode}
+- {Rule specific to this mode}
+
+**Example**:
+
 ```
+User: "{trigger}: example input"
 
-### Example 2: {Use Case}
-
-```{language}
-// Another example
-{code example}
+Response structure:
+- {Output element 1}
+- {Output element 2}
 ```
 
 ---
 
-## Decision Tree
+## Evaluation Criteria  ← (optional)
 
-```
-{Question}? → {Recommendation A}
-{Question}? → {Recommendation B}
-Otherwise   → {Default recommendation}
-```
+When reviewing, check:
+
+1. **Criterion**: Explanation
+2. **Criterion**: Explanation
+3. **Criterion**: Explanation
+
+---
+
+## Output Format  ← (optional)
+
+**Structure all responses as:**
+
+1. **Section 1** (description)
+2. **Section 2** (description)
+3. **Section 3** (description)
+
+---
+
+## Runtime Behaviors
+
+- Default behavior when instruction type is unclear
+- How to handle missing context
+- Tone and communication style defaults
