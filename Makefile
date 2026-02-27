@@ -1,4 +1,4 @@
-.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format release
+.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format release security-setup security
 
 # Default: install skills from local ./skills/ (interactive)
 all: add
@@ -49,3 +49,15 @@ format:
 # Release
 release:
 	npm run release:patch
+
+# One-time developer setup: install uv (required for mcp-scan)
+security-setup:
+	@command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
+	@echo "Setup complete. Run 'npx snyk auth' to authenticate."
+
+# Security scanning (dependencies + skill content)
+security:
+	@echo "Running security checks..."
+	npm run security:snyk:deps
+	npm run security:snyk:skills
+	@echo "Security checks complete."

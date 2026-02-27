@@ -1,6 +1,6 @@
 {
   "name": "ai-agents-skills",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Modular CLI for distributing 50+ AI agent skills across Claude, GitHub Copilot, Cursor, Gemini, and Codex",
   "main": "dist/index.js",
   "bin": {
@@ -26,7 +26,12 @@
     "release": "npm publish --access public",
     "release:patch": "npm version patch && npm publish --access public",
     "release:minor": "npm version minor && npm publish --access public",
-    "release:major": "npm version major && npm publish --access public"
+    "release:major": "npm version major && npm publish --access public",
+    "security": "npm run security:snyk:deps && npm run security:snyk:skills:inspect",
+    "security:ci": "npm run security:snyk:deps && npm run security:snyk:skills",
+    "security:snyk:deps": "snyk test",
+    "security:snyk:skills": "uvx mcp-scan@latest --skills ./skills/",
+    "security:snyk:skills:inspect": "uvx mcp-scan@latest inspect --skills ./skills/"
   },
   "keywords": [
     "ai",
@@ -60,6 +65,7 @@
     "@types/node": "^25.2.1",
     "jest": "^30.2.0",
     "markdownlint-cli2": "^0.21.0",
+    "snyk": "^1.1303.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

@@ -114,6 +114,39 @@ Secondary (Driven) Ports: Defined by core, implemented by infrastructure
   → IEmailService   ← SendGridEmailService
 ```
 
+### ✅ REQUIRED: Frontend Adapter Pattern (React)
+
+Same principle in the browser: define the port in the feature, implement with fetch/axios, swap with mock in tests.
+
+```typescript
+// Port — owned by the feature, not by the API layer
+interface IUserApi {
+  getUser(id: string): Promise<User>;
+  updateUser(id: string, data: Partial<User>): Promise<User>;
+}
+
+// Secondary adapter — implements the port with real network calls
+class RestUserApi implements IUserApi {
+  async getUser(id: string)                         { return fetch(`/api/users/${id}`).then(r => r.json()); }
+  async updateUser(id: string, data: Partial<User>) { return fetch(`/api/users/${id}`, { method: 'PATCH', body: JSON.stringify(data) }).then(r => r.json()); }
+}
+
+// Mock adapter — same port, no network (for tests and Storybook)
+class MockUserApi implements IUserApi {
+  async getUser(id: string)                         { return { id, name: 'Test User', email: 'test@example.com' }; }
+  async updateUser(id: string, data: Partial<User>) { return { id, ...data } as User; }
+}
+
+// Driving adapter — hook consumes the port; concrete impl injected at composition root
+function useUser(id: string, api: IUserApi = new RestUserApi()) {
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => { api.getUser(id).then(setUser); }, [id]);
+  return user;
+}
+
+// Tests: inject MockUserApi — no HTTP calls, no server needed
+```
+
 ---
 
 ## Decision Tree

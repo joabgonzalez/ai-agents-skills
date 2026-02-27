@@ -100,6 +100,42 @@ app.post("/users", async (req, res) => {
 });
 ```
 
+### ✅ REQUIRED: Frontend — React Hook with Result
+
+Use Result in hooks to surface typed errors without exceptions bubbling into components.
+
+```typescript
+// Service — returns Result instead of throwing
+async function submitOrder(items: OrderItem[]): Promise<Result<Order>> {
+  if (items.length === 0) return Result.fail("EMPTY_ORDER");
+  const res = await fetch("/api/orders", { method: "POST", body: JSON.stringify({ items }) });
+  if (!res.ok) return Result.fail(res.status === 409 ? "ORDER_CONFLICT" : "SERVER_ERROR");
+  return Result.ok(await res.json());
+}
+
+// Hook — drives UI state with typed error codes, no try/catch leaking into component
+function useCreateOrder() {
+  const [state, setState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorCode, setErrorCode] = useState<string | null>(null);
+
+  async function submit(items: OrderItem[]): Promise<void> {
+    setState("loading");
+    const result = await submitOrder(items);
+    if (result.isSuccess) { setState("success"); }
+    else                   { setState("error"); setErrorCode(result.error!); }
+  }
+
+  return { submit, state, errorCode };
+}
+
+// Component maps error codes to readable messages — no string parsing
+const errorMessages: Record<string, string> = {
+  EMPTY_ORDER:    "Add at least one item.",
+  ORDER_CONFLICT: "This order was already placed.",
+  SERVER_ERROR:   "Something went wrong. Try again.",
+};
+```
+
 ### ❌ NEVER: Swallow Errors Without Result
 
 ```typescript
