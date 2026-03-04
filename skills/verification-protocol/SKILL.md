@@ -181,20 +181,9 @@ Skipping steps leads to undetected failures.
 ✅ Lint clean (assumed - didn't check)
 
 # ✅ CORRECT: Evidence for each claim
-## Tests
-- Ran: npm test
-- Result: 25/25 passed ✅
-- Evidence: [screenshot or output]
-
-## Build
-- Ran: npm run build
-- Result: Success ✅
-- Evidence: dist/ folder created
-
-## Lint
-- Ran: npm run lint
-- Result: 0 errors, 0 warnings ✅
-- Evidence: "All files pass linting rules"
+- Tests: ran npm test → 25/25 passed ✅
+- Build: ran npm run build → dist/ created ✅
+- Lint: ran npm run lint → 0 errors ✅
 ```
 
 ---
@@ -301,30 +290,6 @@ Verification blocked (environment issue)?
 
 ---
 
-## Task 2: Login endpoint
-
-### Verification
-
-1. **IDENTIFY**: POST /auth/login must authenticate and return JWT
-2. **RUN**: `npm test -- auth-login.test.ts`
-3. **READ**:
-   ```
-
-   PASS tests/auth-login.test.ts
-     POST /auth/login
-       ✓ returns JWT on valid credentials (67ms)
-       ✓ returns 401 on invalid password (34ms)
-       ✓ returns 401 on non-existent email (28ms)
-       ✓ JWT contains user ID (12ms)
-
-   Tests: 4 passed, 4 total
-
-   ```
-4. **VERIFY**: ✅ All tests passed
-5. **CLAIM**: ✅ Login endpoint verified
-
----
-
 ## Integration Verification
 
 1. **IDENTIFY**: Full auth flow must work (register → login)
@@ -342,25 +307,6 @@ Verification blocked (environment issue)?
    ```
 4. **VERIFY**: ✅ Integration tests passed
 5. **CLAIM**: ✅ Full auth flow verified
-
----
-
-## Final Verification: All auth features
-
-**Summary**:
-- Task 1 (Registration): ✅ Verified
-- Task 2 (Login): ✅ Verified
-- Integration: ✅ Verified
-- Total tests: 12/12 passed
-
-**Evidence**:
-```bash
-npm test -- auth
-# Output: Tests: 12 passed, 12 total
-# Time: 2.1s
-```
-
-**Claim**: ✅ User authentication feature complete and verified
 
 ```
 
