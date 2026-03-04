@@ -1,6 +1,6 @@
 # ai-agents-skills
 
-**v1.4.2** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.4.4** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
 Install 64 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
