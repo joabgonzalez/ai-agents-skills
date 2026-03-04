@@ -47,22 +47,6 @@ Versioning strategy?
 
 **Implementation**: Delegate to framework skills ([express](../express/SKILL.md), [nest](../nest/SKILL.md), [hono](../hono/SKILL.md))
 
-**Deprecation Timeline**:
-
-1. Announce deprecation (release notes, docs, headers)
-2. Maintain both versions (3-6 months)
-3. Remove deprecated version (after migration period)
-
-**Example Versioning Strategy**:
-
-```
-v1 (current production)
-  → Add v2 with breaking changes
-  → v1 returns Deprecation header: "Deprecated. Use /api/v2. Sunset: 2026-09-01"
-  → Monitor v1 usage (analytics)
-  → Remove v1 after sunset date
-```
-
 ### ✅ REQUIRED: Data Modeling with Validation
 
 Validate at boundaries and separate domain logic from persistence.
@@ -82,26 +66,6 @@ Validation library?
 ```
 
 **Implementation**: Delegate to [form-validation](../form-validation/SKILL.md) for validation patterns
-
-**Validation Layers**:
-
-1. **API Boundary** (controller): Validate shape, types, format (zod/yup)
-2. **Domain Logic** (service): Business rules (e.g., "cannot delete user with active orders")
-3. **Database** (schema): Constraints as safety net (NOT NULL, UNIQUE, CHECK)
-
-**Example Data Flow**:
-
-```
-Client request
-  ↓
-Controller validates input (zod schema)
-  ↓
-Service applies business logic
-  ↓
-Repository persists to database
-  ↓
-Database enforces constraints (last resort)
-```
 
 ### ✅ REQUIRED: Centralized Error Handling
 
@@ -131,15 +95,6 @@ Error response format?
 - **Conflict errors** (409): State conflict (e.g., duplicate email)
 - **Server errors** (500): Unhandled exceptions
 
-**Error Context to Log**:
-
-- Request ID (for tracing)
-- User ID (if authenticated)
-- Endpoint + method (GET /api/v1/users)
-- Timestamp
-- Stack trace (for 500 errors only)
-- NEVER log passwords or tokens
-
 ### ✅ REQUIRED: Environment-Based Configuration
 
 Never hardcode config values. Use environment variables.
@@ -160,30 +115,6 @@ Validating env vars?
 
 **Implementation**: Delegate to [nodejs](../nodejs/SKILL.md) for process.env patterns
 
-**Configuration Pattern**:
-
-```
-env.ts
-  → Validates all required env vars at startup
-  → Exports typed config object
-
-.env.example
-  → Documents all required env vars (committed)
-
-.env
-  → Actual values (NOT committed, in .gitignore)
-```
-
-**Fail Fast on Missing Env Vars**:
-
-```
-App startup
-  → Load .env file
-  → Validate env vars with zod schema
-  → If validation fails → Throw error, exit process (don't start server)
-  → If validation passes → Continue startup
-```
-
 ### ✅ REQUIRED: API Contract Design
 
 **When designing API contracts**:
@@ -192,19 +123,6 @@ App startup
 2. **Define operations**: CRUD (POST create, GET read, PATCH update, DELETE delete)
 3. **Model relationships**: users.orders (1:N), orders.products (N:M)
 4. **Version from start**: Start with /api/v1 (easier to add v2 later)
-
-**RESTful Patterns**:
-
-```
-GET /api/v1/users → List users (pagination, filters)
-GET /api/v1/users/:id → Get single user
-POST /api/v1/users → Create user
-PATCH /api/v1/users/:id → Update user (partial)
-DELETE /api/v1/users/:id → Delete user
-
-Relationships:
-GET /api/v1/users/:id/orders → User's orders (nested resource)
-```
 
 **Red Flags**:
 
@@ -230,24 +148,6 @@ ORM vs Query Builder?
 ```
 
 **Implementation**: Delegate to [nodejs](../nodejs/SKILL.md) for database patterns
-
-**Repository Pattern**:
-
-```
-Controller (HTTP layer)
-  ↓
-Service (Business logic)
-  ↓
-Repository (Data access - abstraction over database)
-  ↓
-Database (PostgreSQL, MongoDB, etc.)
-```
-
-**Benefits of Repository Pattern**:
-
-- Easy to test (mock repository)
-- Database-agnostic (swap Postgres → MongoDB)
-- Centralized query logic
 
 ### ✅ REQUIRED: Performance Optimization
 
