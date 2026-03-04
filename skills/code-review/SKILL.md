@@ -245,9 +245,7 @@ Reviewing architectural decisions?
 # Code Review: User Registration Feature
 
 ## Summary
-- **Files reviewed**: 4
-- **Spec compliance**: PASS ✅
-- **Code quality**: PASS with 3 minor improvements ⚠️
+4 files reviewed — spec compliance PASS ✅, code quality PASS with 3 minor suggestions ⚠️
 
 ---
 
@@ -301,43 +299,13 @@ export async function registerUser(email: string, password: string): Promise<Use
 
 ---
 
-## File: tests/auth.test.ts
-
-### Stage 1: Spec Compliance ✅
-
-- ✅ Tests POST /auth/register happy path
-- ✅ Tests duplicate email error
-- ✅ Tests validation errors
-- ✅ Tests password not returned in response
-
-**Result**: Spec compliance PASSED
-
-### Stage 2: Code Quality ✅
-
-- ✅ Tests are isolated (no shared state)
-- ✅ Descriptive test names
-- ✅ AAA pattern (Arrange-Act-Assert)
-- ✅ Uses proper matchers
-
-**No issues found**
-
----
-
 ## Overall Assessment
 
 **Spec Compliance**: ✅ PASS (all requirements met)
 
-**Code Quality**: ⚠️ PASS with minor improvements
+**Code Quality**: ⚠️ PASS with minor improvements (3 non-blocking suggestions; production-ready as-is)
 
-- 3 suggestions (non-blocking)
-- All suggestions are enhancements, not fixes
-- Code is production-ready as-is
-
-**Security**: ✅ No issues
-
-- Passwords properly hashed
-- Input validation present
-- Error messages don't leak sensitive info
+**Security**: ✅ No issues (passwords hashed, inputs validated, no sensitive data leaked)
 
 **Recommendation**: ✅ APPROVE with suggestions
 
