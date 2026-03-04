@@ -296,14 +296,22 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 
 #### Easing Functions
 
+> **Library note:** Framer Motion was renamed to **Motion** (`motion` package, motion.dev). The API is
+> identical — `import { motion } from 'motion/react'` replaces `import { motion } from 'framer-motion'`.
+
+**Easing character by product tone:**
+
+- **Professional / dense tools** (dashboards, admin, IDE): deceleration easing (`easeOut`) — fast entry, smooth stop. Avoid spring or bounce — they feel playful in a context that demands efficiency.
+- **Consumer / expressive apps**: spring physics can reinforce brand personality — use deliberately, not by default.
+
 ```typescript
 // Matched easing for use case
 const easings = {
   easeInOut: [0.4, 0, 0.2, 1],     // Most UI transitions (smooth start/end)
-  easeOut: [0, 0, 0.2, 1],          // Entrances (elements arriving)
+  easeOut: [0, 0, 0.2, 1],          // Entrances — preferred for professional interfaces
   easeIn: [0.4, 0, 1, 1],           // Exits (elements leaving)
   linear: [0, 0, 1, 1],             // Progress bars, loaders
-  anticipate: [0.68, -0.55, 0.27, 1.55], // Playful bounce
+  anticipate: [0.68, -0.55, 0.27, 1.55], // Playful bounce — consumer/expressive only
 };
 
 // Example usage

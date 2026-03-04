@@ -136,70 +136,19 @@ After frontmatter, include:
 
 ### ✅ REQUIRED: How to Use Skills Section
 
-AGENTS.md must include this section BEFORE the Skills Reference table. It must always include auto-discovery as the primary mechanism, regardless of whether skills are installed.
+AGENTS.md must include this section BEFORE the Skills Reference table. It must always include auto-discovery as the primary mechanism.
 
-**Template (copy this into AGENTS.md):**
+**Key steps (copy full template from references):**
 
-```markdown
-## How to Use Skills (MANDATORY WORKFLOW)
+1. **Step 1 — Discover**: List `.{model}/skills/` to find installed skills; read each `SKILL.md` description
+2. **Step 2 — Match**: Check Skills Reference table; if absent, scan directory for best match
+3. **Step 3 — Read**: Open `.{model}/skills/{skill-name}/SKILL.md`
+4. **Step 4 — Dependencies**: Read every skill listed in `metadata.skills` before proceeding
+5. **Step 5 — Apply**: Follow Critical Patterns (✅ REQUIRED), Decision Tree, and inline examples
 
-This project has skills installed in your model's skills directory. Follow this protocol for ALL coding tasks:
+> Full section template with all sub-steps: [agent-templates.md](./references/agent-templates.md)
 
-### Step 1: Discover Available Skills
-
-List the contents of your model's skills directory:
-
-- **Cursor:** `.cursor/skills/`
-- **Claude:** `.claude/skills/`
-- **Copilot:** `.github/skills/`
-- **Gemini:** `.gemini/skills/`
-- **Codex:** `.codex/skills/`
-
-Each installed skill has a `SKILL.md` file. Read the `description` field to understand when to use it.
-
-### Step 2: Match Task to Skill
-
-Check the "Skills Reference" table below (if present) for a quick lookup.
-If your task is not in the table, or the table is absent, scan `.{model}/skills/` for the most relevant skill.
-
-### Step 3: Read the Skill
-
-**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
-
-Replace `{model}` with your coding agent:
-
-- **Cursor:** `.cursor/skills/typescript/SKILL.md`
-- **Claude:** `.claude/skills/typescript/SKILL.md`
-- **Copilot:** `.github/skills/typescript/SKILL.md`
-- **Gemini:** `.gemini/skills/typescript/SKILL.md`
-- **Codex:** `.codex/skills/typescript/SKILL.md`
-
-### Step 4: Read Dependencies
-
-Every skill lists dependencies in its frontmatter (`metadata.skills`). Read each dependency before proceeding.
-
-### Step 5: Apply Patterns
-
-- Follow "Critical Patterns" marked with ✅ REQUIRED
-- Use "Decision Tree" for implementation choices
-- Reference inline code examples
-
-### Example Workflow
-
-**Task:** "Create TypeScript interface for User model"
-
-1. **Scan** `.{model}/skills/` → find `typescript/SKILL.md`
-2. **Read:** `.{model}/skills/typescript/SKILL.md`
-3. **Check frontmatter** → Dependencies: `javascript`
-4. **Read dependency:** `.{model}/skills/javascript/SKILL.md`
-5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
-```
-
-**Why auto-discovery matters:**
-
-- Skills Reference table reflects skills known at creation time — new skills installed later are not listed
-- Auto-discovery via directory listing always reflects the current installed state
-- Both mechanisms together ensure 100% coverage at all times
+**Why auto-discovery matters:** Skills Reference table reflects skills at creation time only; directory listing always reflects current state. Both together ensure 100% coverage.
 
 ---
 
@@ -212,76 +161,17 @@ Every identified skill must appear in **both** places:
 1. `metadata.skills` in the frontmatter
 2. A row in the Skills Reference table
 
-This applies regardless of whether the skills are physically installed yet. The table represents the intended skill set for this agent.
+When included, place it AFTER the `How to Use Skills` section. Use `{model}` placeholders for model-agnostic paths.
 
-When included, place it AFTER the `How to Use Skills` section:
-
-```markdown
-## Skills Reference
-
-**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
-New skills installed after this file was created are auto-discovered via `.{model}/skills/`.
-
-| Trigger                     | Skill                 | Relative Path                                 |
-| --------------------------- | --------------------- | --------------------------------------------- |
-| TypeScript types/interfaces | typescript            | {model}/skills/typescript/SKILL.md            |
-| React components/hooks      | react                 | {model}/skills/react/SKILL.md                 |
-| Code review                 | critical-partner      | {model}/skills/critical-partner/SKILL.md      |
-```
-
-Rules for the table:
-
-- List every skill identified during context gathering (interview or analysis)
-- Use `{model}` placeholders for model-agnostic paths
-- Keep formatting compact to save tokens
+> Full table template: [agent-templates.md](./references/agent-templates.md)
 
 ---
 
 ### ✅ REQUIRED: Add "Project Structure & Skills Storage" Section
 
-AGENTS.md must include this section AFTER the Skills Reference table. This explains the symlink architecture for LLMs that struggle with symlink resolution.
+AGENTS.md must include this section AFTER the Skills Reference table. Explains the 3-layer symlink structure for LLMs that struggle with symlink resolution.
 
-**Template (copy this into AGENTS.md):**
-
-````markdown
-## Project Structure & Skills Storage
-
-**IMPORTANT FOR LLMs:** Skills use a 3-layer symlink structure:
-
-\```
-your-project/
-├── .agents/skills/ # Canonical symlinks to framework skills/ (shared across models)
-│ ├── react/ → ../../skills/react/
-│ ├── typescript/ → ../../skills/typescript/
-│ └── ...
-├── .claude/skills/ # Claude-specific symlinks to .agents/skills/
-│ ├── react/ → ../../.agents/skills/react/
-│ └── typescript/ → ../../.agents/skills/typescript/
-├── .cursor/skills/ # Cursor-specific symlinks to .agents/skills/
-├── .github/skills/ # Copilot-specific symlinks to .agents/skills/
-├── .gemini/skills/ # Gemini-specific symlinks to .agents/skills/
-├── .codex/skills/ # Codex-specific symlinks to .agents/skills/
-└── AGENTS.md # This file
-\```
-
-**How to access skills:**
-
-- **Preferred:** Read from `.{model}/skills/<skill-name>/SKILL.md` (your model's directory)
-- **If symlinks fail:** Skills are stored in the ai-agents-skills framework installation (referenced via symlinks)
-- **Real files location:** All source skills are in the framework's `skills/` directory
-
-**Why 3 layers?**
-
-1. **Layer 1 (framework skills/):** Source of truth maintained by framework
-2. **Layer 2 (.agents/skills/):** Canonical shared location in your project
-3. **Layer 3 (.{model}/skills/):** Model-specific access for your AI assistant
-
-**Benefits:**
-
-- **Zero duplication:** Skills installed once, available to all 5 AI models
-- **Always up-to-date:** Changes propagate instantly via symlinks
-- **Token-efficient:** Your AI reads only the skills it needs
-````
+> Full section template with symlink diagram: [agent-templates.md](./references/agent-templates.md)
 
 ---
 
@@ -363,82 +253,31 @@ metadata:
     - critical-partner
     - code-conventions
     - a11y
----
 ```
 
-````markdown
+Resulting AGENTS.md structure (abbreviated):
+
+```
 # Example Project Agent
 
-## Purpose
+Purpose: Primary development assistant for TypeScript/React best practices and accessibility.
 
-Primary development assistant ensuring code quality, accessibility, and TypeScript/React best practices.
+How to Use Skills (MANDATORY WORKFLOW):
+  Step 1 — Discover  | Step 2 — Match | Step 3 — Read
+  Step 4 — Dependencies | Step 5 — Apply
 
-## How to Use Skills (MANDATORY WORKFLOW)
+Skills Reference:
+  TypeScript types/interfaces | typescript       | {model}/skills/typescript/SKILL.md
+  React components/hooks      | react            | {model}/skills/react/SKILL.md
+  Code review                 | critical-partner | {model}/skills/critical-partner/SKILL.md
 
-### Step 1: Discover Available Skills
+Project Structure & Skills Storage: 3-layer symlink structure (see template for full diagram)
 
-List your model's skills directory (`.{model}/skills/`) to see all installed skills.
-Each skill has a `SKILL.md` with a `description` field showing when to use it.
-
-### Step 2: Match Task to Skill
-
-Check the Skills Reference table below for a quick lookup.
-If your task is not listed, scan `.{model}/skills/` for the most relevant skill.
-
-### Step 3: Read the Skill
-
-**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
-
-...
-
-## Skills Reference
-
-**IMPORTANT:** Paths shown are model-agnostic. See "How to Use Skills" above for your model's actual path.
-New skills installed after this file was created are auto-discovered via `.{model}/skills/`.
-
-| Trigger                     | Skill                 | Relative Path                                 |
-| --------------------------- | --------------------- | --------------------------------------------- |
-| TypeScript types/interfaces | typescript            | {model}/skills/typescript/SKILL.md            |
-| React components/hooks      | react                 | {model}/skills/react/SKILL.md                 |
-| Code review                 | critical-partner      | {model}/skills/critical-partner/SKILL.md      |
-
-## Project Structure & Skills Storage
-
-**IMPORTANT FOR LLMs:** Skills use a 3-layer symlink structure:
-...
-
-## Supported Stack
-
-- TypeScript 5.0+, React 18+, Vite
-
-## Policies
-
-- Strict typing (no `any`), keyboard-accessible components, React hooks best practices
-````
-
-### Analysis Mode
-
-**Scenario:** User runs the skill from a React + TypeScript project directory.
-
+Supported Stack: TypeScript 5.0+, React 18+, Vite
+Policies: Strict typing (no `any`), keyboard-accessible components, React hooks best practices
 ```
-Agent reads: package.json → { "name": "my-store", "dependencies": { "react": "^18", "typescript": "5" } }
-Agent reads: README.md → "E-commerce platform built with React, TypeScript, and Redux Toolkit"
-Agent reads: tsconfig.json → { "strict": true }
-Agent reads: src/ → components/, store/, hooks/, pages/
 
-Agent infers:
-  Q1 (purpose): E-commerce development assistant
-  Q2 (input): User stories, bug reports, code review requests
-  Q3 (output): TypeScript components, Redux slices, hooks
-  Q4 (skills): typescript, react, redux-toolkit, critical-partner
-  Q7 (tech): React 18, TypeScript 5, Redux Toolkit, Vite
-
-Agent confirms: "Based on your project, I found: React 18 + TypeScript 5 e-commerce app.
-  Skills to include: typescript, react, redux-toolkit, critical-partner.
-  Does this look correct? Anything to add or change?"
-
-User confirms → Agent creates AGENTS.md
-```
+> Full AGENTS.md content with all section templates: [agent-templates.md](./references/agent-templates.md)
 
 ---
 
@@ -477,6 +316,7 @@ User confirms → Agent creates AGENTS.md
 
 ## Resources
 
+- [agent-templates.md](./references/agent-templates.md) — Full How to Use Skills template, Skills Reference table, Project Structure & Skills Storage template, complete Interview and Analysis Mode examples
 - [agents.md spec](https://agents.md/)
 - [Agent Skills](https://agentskills.io/)
 - [skill-creation](../skill-creation/SKILL.md)

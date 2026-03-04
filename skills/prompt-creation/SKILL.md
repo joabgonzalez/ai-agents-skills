@@ -62,9 +62,7 @@ priority: high
 
 ### ✅ REQUIRED: Context Gathering (10 Questions)
 
-**NEVER create a prompt without gathering context first.**
-
-**Technology Stack Prompts:**
+**NEVER create a prompt without gathering context first.** Technology Stack Prompts:
 
 1. Project name?
 2. Technologies used? (languages, frameworks, versions)
@@ -156,32 +154,17 @@ instruction_types:
 ---
 # (Empty markdown body)
 
-# ✅ CORRECT: Content in markdown body
+# ✅ CORRECT: All content in markdown body
 ---
 name: english-practice
 type: behavioral
-description: English teacher and technical writing coach
+description: English teacher and writing coach
 version: "1.0"
 ---
 
-# English Practice Prompt
+# Prompt Title
 
-## Persona
-**Role**: English language teacher
-
-**Traits**:
-- Patient with explanations
-- Encouraging but precise
-
-## Rules
-1. Use only ASCII apostrophes (')
-2. Never translate literally
-3. Always explain corrections
-
-## Instruction Types
-
-### Practice Mode
-**Behavior**: Review and correct English text
+## Persona / ## Rules / ## Instruction Types — all in markdown body
 ```
 
 ---

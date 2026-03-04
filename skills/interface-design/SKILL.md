@@ -11,7 +11,7 @@ metadata:
 
 # Interface Design
 
-Plan UI with user flows, wireframing, component hierarchy, validation. UX decisions before implementation.
+Plan UI with intentional aesthetic direction, user flows, component hierarchy, and visual system. Design decisions before implementation.
 
 ## When to Use
 
@@ -31,9 +31,32 @@ Don't use for:
 
 ## Critical Patterns
 
-### ✅ REQUIRED: User-First Design Process
+### ✅ REQUIRED: Commit to a Bold Aesthetic Direction
 
-Process before writing UI code.
+Before writing any UI code, define a clear conceptual direction and commit to it.
+
+```markdown
+## Aesthetic Direction
+
+**Purpose**: What problem does this interface solve? Who uses it?
+**Domain**: 5+ concepts, metaphors, or vocabulary from this product's world
+**Color world**: 5+ colors that exist naturally in this domain's physical space
+**Tone**: Pick ONE — brutally minimal, maximalist, editorial, luxury, brutalist,
+          retro-futuristic, soft/pastel, industrial, organic... commit to an extreme.
+**Differentiation**: What's the one element that could only exist for THIS product?
+**Defaults rejected**: Three obvious patterns you're explicitly not doing.
+```
+
+"Bold maximalism and refined minimalism both work — the key is intentionality, not intensity."
+
+**Typography**: choose distinctive, characterful faces over generic defaults.
+**Color**: a palette that feels like it came FROM the product's world, not applied to it.
+**Composition**: unexpected layouts, asymmetry, diagonal flow, generous negative space or
+controlled density — all valid when intentional.
+**Backgrounds**: gradient meshes, noise textures, geometric patterns, grain overlays, layered transparencies, dramatic shadows — atmosphere and depth beyond solid colors.
+**Complexity**: match implementation to vision — maximalist design = elaborate animations and effects; minimalist = restraint, precision, and whitespace.
+
+### ✅ REQUIRED: User-First Design Process
 
 ```markdown
 ## Design Process
@@ -98,19 +121,48 @@ Identify what state each component needs before implementing.
 ```markdown
 ## State Analysis: Checkout
 
-| Component          | State Needed              | Source            |
-|-------------------|---------------------------|-------------------|
-| CartReview        | items, quantities         | Redux store       |
-| ShippingForm      | address fields, errors    | Local form state  |
-| ShippingMethod    | methods[], selected       | API + local       |
-| PaymentForm       | card fields, errors       | Local form state  |
-| OrderSummary      | totals, tax, shipping     | Derived from above|
-| CheckoutPage      | currentStep, isSubmitting | Local state       |
+| Component       | State Needed              | Source             |
+|-----------------|---------------------------|--------------------|
+| CartReview      | items, quantities         | Redux store        |
+| ShippingForm    | address fields, errors    | Local form state   |
+| ShippingMethod  | methods[], selected       | API + local        |
+| PaymentForm     | card fields, errors       | Local form state   |
+| OrderSummary    | totals, tax, shipping     | Derived from above |
+| CheckoutPage    | currentStep, isSubmitting | Local state        |
+```
+
+### ✅ REQUIRED: Depth Strategy — Pick One
+
+Choose ONE depth approach and apply it consistently. Mixing strategies breaks visual coherence.
+
+```
+Borders-only      → technical, precise feel; no shadows
+Subtle shadows    → layered surfaces with soft elevation
+Surface shifts    → elevation via lightness (dark mode: higher = slightly lighter)
+Borders + shadows → reserved for emphasis elements only
+
+❌ Don't mix approaches — inconsistent depth is the clearest sign of no system.
+```
+
+Inputs: slightly darker than surroundings (signals "type here"). Sidebars: same background
+as canvas with a subtle border — not a different hue that fragments space.
+
+### ✅ REQUIRED: Interactive States — All 5
+
+Every interactive element needs all five states defined before shipping.
+
+```
+Default  → resting appearance
+Hover    → cursor over element
+Active   → pressed/clicked (brief; gives physical feel)
+Focus    → keyboard navigation — visible ring, never hidden
+Disabled → reduced opacity + cursor:not-allowed
+
+❌ Missing focus = broken keyboard accessibility
+❌ Missing disabled = broken form UX
 ```
 
 ### ✅ REQUIRED: Validation Checkpoints
-
-Validate design at each stage before proceeding.
 
 ```markdown
 ## Checkpoint 1: User Flow
@@ -128,63 +180,47 @@ Validate design at each stage before proceeding.
 - [ ] No redundant state (derived values computed, not stored)
 - [ ] Loading and error states accounted for
 
-## Checkpoint 4: Accessibility
-- [ ] Keyboard navigation planned
-- [ ] Screen reader flow makes sense
-- [ ] Color is not the only indicator
-- [ ] Focus management for modals/dialogs
+## Checkpoint 4: Craft Self-Evaluation
+- [ ] Swap Test: replacing the typeface/layout with generic alternatives changes how it feels
+- [ ] Squint Test: hierarchy is perceivable without reading — contrast/scale carry it
+- [ ] Signature Test: 3+ specific elements feel unique to THIS product
+- [ ] Token Test: CSS variable names evoke this product's world, not any generic project
+```
+
+### ❌ NEVER: Generic AI Defaults
+
+```
+❌ Generic fonts (Inter, Roboto, Arial, system-ui) when context calls for character
+❌ Purple/blue gradients on white — the most overused AI aesthetic
+❌ Predictable card-grid-dashboard layouts without context-specific differentiation
+❌ "Clean and modern" without defining what those mean for THIS product
+❌ Same aesthetic repeated — vary light/dark themes, typefaces, and palettes across projects
+
+"No design should be the same. Make unexpected choices that feel genuinely designed
+for this context."
+"Extraordinary creative work is possible here — don't hold back."
 ```
 
 ### ❌ NEVER: Design in Code
 
 ```markdown
-# ❌ WRONG: Start coding UI immediately
-"Let me create the components and figure it out as I go"
+# ❌ WRONG
+"Let me create the components and figure it out as I go."
 
-# ✅ CORRECT: Plan first, then code
-"Let me map the user flow, define the component hierarchy,
-identify state needs, then implement."
+# ✅ CORRECT
+"Let me commit to an aesthetic direction, map the user flow,
+define the component hierarchy, identify state needs, then implement."
 ```
 
 ---
 
 ## Conventions
 
-### ✅ REQUIRED: Apply Visual Design System
+**Visual system**: Modular type scale (0.75rem → 3rem), line-height (headings 1.1–1.3, body 1.5–1.7), fluid `clamp()`. Spacing: 8pt grid (4px → 64px). Color: semantic tokens, WCAG ratios (4.5:1 text, 3:1 UI). See [visual-design.md](references/visual-design.md).
 
-Consistent typography, spacing, color for visual harmony.
+**Responsive**: Mobile-first, content-driven breakpoints. `dvh` for mobile browser compatibility. Touch targets 44×44px minimum. See [responsive-design.md](references/responsive-design.md).
 
-**Typography:** Modular scale (0.75rem → 3rem), line-height (headings 1.1-1.3, body 1.5-1.7), fluid `clamp()`
-
-**Spacing:** 8pt grid (4px → 64px), consistent spacing (cards 16-24px, sections 32-64px)
-
-**Color:** Semantic naming, WCAG ratios (4.5:1 text, 3:1 UI)
-
-See [visual-design.md](references/visual-design.md) for complete typography scale, spacing system, color contrast calculations, and iconography patterns.
-
-### ✅ REQUIRED: Design Responsive Layouts
-
-Plan mobile-first, progressively enhance for larger screens.
-
-**Breakpoints:** Content-driven (not device-specific), test by resizing until design breaks
-
-**Patterns:** Container queries (component-level), fluid typography (`clamp()`), flexible grids (`auto-fit`)
-
-**Viewport:** Use `dvh` for mobile browser compatibility (accounts for address bar)
-
-See [responsive-design.md](references/responsive-design.md) for mobile-first strategy, breakpoint guidelines, touch targets (44x44px minimum), and responsive image patterns.
-
-### ✅ REQUIRED: Add Purposeful Motion
-
-Motion communicates state changes and guides attention — it doesn't decorate.
-
-**Timing:** 100-150ms (feedback), 200-300ms (toggles), 300-500ms (modals), 500ms+ (choreography)
-
-**Performance:** `transform`/`opacity` for 60fps, avoid layout properties (`width`, `height`, `top`, `left`)
-
-**Accessibility:** Support `prefers-reduced-motion`
-
-See [interaction-design.md](references/interaction-design.md) for micro-interactions, loading states, gesture patterns, and spring physics animations.
+**Motion**: `transform`/`opacity` for 60fps. In React, use the Motion library for complex sequences. Timing: 100–150ms (feedback), 200–300ms (toggles), 300–500ms (modals). Support `prefers-reduced-motion`. One well-orchestrated page-load reveal creates more delight than scattered micro-interactions. See [interaction-design.md](references/interaction-design.md).
 
 ---
 
@@ -192,28 +228,30 @@ See [interaction-design.md](references/interaction-design.md) for micro-interact
 
 ```
 Designing a new page/feature?
-  → User flow → Component hierarchy → State analysis → Visual design → Responsive layout → Motion → Implementation
+  → Aesthetic direction → User flow → Component hierarchy → State analysis
+  → Visual design → Responsive → Motion → Implementation
+
+Committing to aesthetic direction?
+  → Define tone (pick ONE extreme), differentiation, and 3 defaults you reject
 
 Planning visual design?
-  → See references/visual-design.md for typography scale, spacing system, color contrast, iconography
+  → See references/visual-design.md
 
 Planning responsive behavior?
-  → See references/responsive-design.md for mobile-first strategy, container queries, fluid patterns, touch targets
+  → See references/responsive-design.md
 
 Adding interactions/animations?
-  → See references/interaction-design.md for timing guidelines, micro-interactions, feedback patterns, performance
+  → See references/interaction-design.md
 
 Choosing between UI patterns?
-  → See Common UI Patterns table below or references/design-thinking.md for pattern comparisons
-
-Planning component structure?
-  → Component hierarchy → Identify shared state → Slots/composition (see composition-pattern skill)
+  → See Examples table below or references/design-thinking.md
 
 Evaluating existing UI?
-  → Walk through user flows → Check validation checkpoints → Verify visual consistency → Test responsiveness
+  → Run 4 craft checkpoints → Verify depth strategy is consistent
+  → Confirm all 5 interactive states are covered
 
 Accessibility concerns?
-  → Use a11y skill for specifics, use Checkpoint 4 here for planning, see visual-design.md for contrast ratios
+  → Use a11y skill; Checkpoint 4 for planning; visual-design.md for contrast ratios
 ```
 
 ---
@@ -237,20 +275,23 @@ Accessibility concerns?
 
 **Responsive**: Mobile-first, then expand.
 
-**Loading states**: Every async needs loading, success, error, empty.
+**Loading states**: Every async operation needs loading, success, error, and empty states.
 
-**Empty states**: Design for zero data (first use, no results).
+**Empty states**: Design for zero data (first use, no results, filtered to nothing).
 
-**Error recovery**: Always provide way forward.
+**Error recovery**: Always provide a way forward — never a dead end.
 
 ---
 
 ## Checklist
 
+- [ ] Aesthetic direction committed (domain explored, color world, tone, differentiation, 3 defaults rejected)
 - [ ] User flow mapped with entry, goal, and edge cases
 - [ ] Component hierarchy reflects visual structure
 - [ ] State identified and colocated appropriately
-- [ ] All 4 validation checkpoints passed
+- [ ] All 4 validation checkpoints passed (including craft self-evaluation)
+- [ ] Depth strategy chosen and applied consistently
+- [ ] All 5 interactive states defined per interactive element
 - [ ] Loading, error, and empty states designed
 - [ ] Responsive behavior planned
 - [ ] Accessibility considerations included

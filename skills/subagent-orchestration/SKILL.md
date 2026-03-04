@@ -75,62 +75,23 @@ Review each task output in two stages: spec compliance FIRST, then code quality.
 ```markdown
 ## Task 1: User Registration Endpoint
 
-**Subagent-1 Output**:
-- File: src/routes/auth.ts
-- Tests: tests/auth-register.test.ts
-- Commits: 3 commits
-
----
-
 ### Stage 1: Spec Compliance Review (Architect)
-
-**Spec Requirements**:
 - ✅ Accepts email/password via POST /auth/register
-- ✅ Returns 201 with user object (no password)
-- ✅ Email validation enforced
 - ❌ Missing: Rate limiting (spec section 3.2)
 - ❌ Missing: Email uniqueness check returns 409
+**Decision**: ❌ FAIL → Return to subagent with feedback
 
-**Decision**: ❌ FAIL spec review
-
-**Feedback to Subagent-1**:
-1. Add rate limiting middleware (5 requests/min per IP)
-2. Check email uniqueness, return 409 if exists
-3. Add tests for both scenarios
-
-**Status**: Return to subagent-1 for fixes
-
----
-
-[After subagent-1 fixes]
+[After subagent fixes]
 
 ### Stage 1 (Retry): Spec Compliance
-
-**Re-review**:
 - ✅ All spec requirements met
-- ✅ Rate limiting present
-- ✅ Email uniqueness check with 409 response
-
-**Decision**: ✅ PASS spec review → Proceed to Stage 2
-
----
+**Decision**: ✅ PASS → Proceed to Stage 2
 
 ### Stage 2: Code Quality Review
-
-**Quality Assessment**:
 - ✅ TypeScript strict mode enabled
-- ✅ Proper error handling
-- ⚠️ Password hashing uses deprecated bcrypt.hashSync (use async bcrypt.hash)
-- ⚠️ Magic number (rate limit: 5) should be constant
+- ⚠️ Password hashing uses deprecated bcrypt.hashSync
 - ✅ Tests cover happy path + edge cases
-
 **Decision**: ✅ PASS with minor improvements noted
-
-**Optional improvements** (non-blocking):
-1. Use async bcrypt.hash
-2. Extract rate limit to config
-
-**Status**: ✅ Task 1 complete, proceed to Task 2
 ```
 
 **Two-stage benefits:**
@@ -140,67 +101,26 @@ Review each task output in two stages: spec compliance FIRST, then code quality.
 - Architect reviews spec, senior dev reviews quality
 - Faster iteration (fix spec issues first)
 
+> Full walkthrough: [orchestration-patterns.md](./references/orchestration-patterns.md)
+
 ### ✅ REQUIRED: Task Handoff Protocol
 
 Clear handoff between agents with explicit context.
 
-```markdown
-## Handoff: Task 1 → Task 2
+**Handoff structure:**
 
-**From**: subagent-1 (registration complete)
-**To**: subagent-2 (password reset implementation)
-
----
-
-### Context Provided to Subagent-2:
-
-**Files to read** (shared context):
-- `src/entities/User.ts` - User entity schema
-- `src/services/EmailService.ts` - Email service interface
-- `tests/helpers.ts` - Test utilities
-
-**Interfaces to use**:
-```typescript
-interface IEmailService {
-  sendPasswordResetEmail(email: string, token: string): Promise<void>;
-}
-```
-
-**Constraints**:
-
-- Follow same error response format as Task 1 (RFC 7807)
-- Use same test patterns (AAA, descriptive names)
-- Rate limiting: 3 requests/10min for reset endpoint
-
----
-
-### NOT Provided (fresh context):
-
-- Implementation details from registration endpoint
-- Assumptions made in Task 1
-- Technical decisions (e.g., bcrypt config)
-
-**Rationale**: Subagent-2 should make independent decisions for password reset, not copy Task 1
-
----
-
-### Subagent-2 Instructions:
-
-1. Read User entity schema to understand structure
-2. Read EmailService interface for email integration
-3. Implement POST /auth/reset-password endpoint
-4. Generate secure reset token (crypto.randomBytes)
-5. Store token with expiration (30 min)
-6. Send reset email via EmailService
-7. Write tests (happy path + edge cases)
-8. Follow RFC 7807 error format
-
-```
+- **From / To**: Identify source and destination agent
+- **Files to read** (shared context): Interfaces, schemas, helpers
+- **Constraints**: Error formats, test patterns, rate limits to follow
+- **NOT provided**: Implementation details or assumptions from prior task
 
 **Handoff includes:**
+
 - **Shared interfaces**: What APIs to use
 - **Constraints**: What rules to follow
-- **NOT included**: How Task 1 was implemented (allows fresh approach)
+- **NOT included**: How prior task was implemented (allows fresh approach)
+
+> Full template with instructions: [orchestration-patterns.md](./references/orchestration-patterns.md)
 
 ### ✅ REQUIRED: Parallel Execution When Possible
 
@@ -229,37 +149,6 @@ Launch independent tasks in parallel for efficiency.
 
 **Subagent-A**: ✅ Complete (16 min actual)
 **Subagent-B**: ✅ Complete (18 min actual)
-
----
-
-### Two-Stage Review (each agent)
-
-**Subagent-A Review**:
-- Stage 1 (Spec): ✅ PASS
-- Stage 2 (Quality): ✅ PASS
-
-**Subagent-B Review**:
-- Stage 1 (Spec): ❌ FAIL (missing pagination)
-- [Fix and re-review]
-- Stage 1 (Retry): ✅ PASS
-- Stage 2 (Quality): ✅ PASS
-
----
-
-## Batch 2: Sequential (dependent tasks)
-
-### Sequential Group 1
-
-**Subagent-C** (sequential):
-- Task 3: Password reset endpoint
-- Dependencies: Task 1 complete (email service from registration)
-- Estimated: 15 min
-
-**Status**: Waiting for Subagent-A completion ⏳
-
-[After Subagent-A completes]
-
-**Subagent-C**: ✅ Started
 ```
 
 **Benefits of parallel execution:**
@@ -352,156 +241,35 @@ Subagent blocked?
 - **Sequential Tasks**: 2 (tasks 3-4 depend on 1-2)
 - **Estimated Time**: 45 min
 
----
-
 ## Batch 1: Parallel Execution (Tasks 1-2)
 
-### Task 1: User Registration
-**Subagent-A**: Fresh agent
-**Input**:
-- User registration spec
-- User entity schema
-- bcrypt for password hashing
+**Subagent-A**: User Registration endpoint (fresh agent)
+**Subagent-B**: Email Service integration (fresh agent, parallel with A)
 
-**Output**: Registration endpoint + tests
-**Status**: ⏳ Running in parallel
+[Both complete after ~22 min parallel vs ~40 min sequential]
 
----
-
-### Task 2: Email Service Integration
-**Subagent-B**: Fresh agent (parallel with A)
-**Input**:
-- Email service spec
-- SendGrid API credentials
-- Email templates
-
-**Output**: EmailService implementation + tests
-**Status**: ⏳ Running in parallel
-
----
-
-[Both complete]
-
-**Subagent-A**: ✅ Complete (18 min)
-**Subagent-B**: ✅ Complete (22 min)
-**Actual parallel time**: 22 min (vs 40 min sequential)
-
----
-
-### Subagent-A Review (Task 1)
-
-**Stage 1: Spec Compliance**
-- ✅ All requirements met
-- ✅ Tests passing
-**Decision**: ✅ PASS
-
-**Stage 2: Code Quality**
-- ✅ Clean code
-- ⚠️ Minor: Extract magic numbers
-**Decision**: ✅ PASS with improvements noted
-
----
-
-### Subagent-B Review (Task 2)
-
-**Stage 1: Spec Compliance**
-- ❌ Missing retry logic for failed emails
-- ❌ No test for SendGrid API failure
-
-**Feedback to Subagent-B**:
-1. Add exponential backoff retry (3 attempts)
-2. Test email send failure scenario
-
-**Status**: ⚠️ Return to Subagent-B for fixes
-
----
-
-[After Subagent-B fixes]
-
-**Stage 1 (Retry)**: ✅ PASS
-**Stage 2**: ✅ PASS
-
----
+- Subagent-A: ✅ Passed two-stage review
+- Subagent-B: ⚠️ Stage 1 failed (missing retry logic) → fixed → ✅ PASS
 
 ## Batch 2: Sequential (Tasks 3-4)
 
-### Task 3: Password Reset Endpoint
-**Subagent-C**: Fresh agent (depends on Tasks 1 + 2)
-
-**Handoff from Batch 1**:
-- Context: User entity (from A), EmailService (from B)
-- Files: User.ts, EmailService.ts
-- Constraints: Same error format as registration
-
-**Input**:
-- Password reset spec
-- EmailService from Task 2
-- User entity from Task 1
-
-**Output**: Password reset endpoint + tests
-**Status**: ⏳ Running
-
-**Result**: ✅ Complete (15 min)
-
----
-
-### Subagent-C Review
-
-**Stage 1**: ✅ PASS
-**Stage 2**: ✅ PASS
-
----
-
-### Task 4: Integration Tests
-**Subagent-D**: Fresh agent (depends on all previous)
-
-**Input**:
-- All endpoints from Tasks 1-3
-- Integration test spec
-
-**Output**: E2E tests for complete auth flow
-**Status**: ⏳ Running
-
-**Result**: ✅ Complete (10 min)
-
----
-
-### Subagent-D Review
-
-**Stage 1**: ✅ PASS
-**Stage 2**: ✅ PASS
-
----
+**Subagent-C**: Password Reset endpoint (depends on Tasks 1+2) → ✅ PASS
+**Subagent-D**: Integration Tests (depends on Tasks 1-3) → ✅ PASS
 
 ## Final Summary
-
-**Status**: ✅ ALL TASKS COMPLETE
-
-**Agents Used**: 4 fresh agents (A, B, C, D)
-
-**Total Time**:
-- Estimated: 45 min
-- Actual: 47 min (22 parallel + 15 + 10)
-- vs Sequential: 65 min (18+22+15+10)
-- **Time saved**: 18 min (28% faster)
-
-**Quality**:
-- All 4 tasks passed two-stage review
-- 1 task required fix (Task 2 - retry logic)
-- All tests passing
-- Integration verified
-
-**Deliverables**:
-- User registration ✅
-- Email service ✅
-- Password reset ✅
-- Integration tests ✅
+- **Agents Used**: 4 fresh agents
+- **Total Time**: 47 min (22 parallel + 15 + 10)
+- **vs Sequential**: 65 min — saved 18 min (28% faster)
+- **Quality**: All 4 tasks passed two-stage review
 ```
+
+> Full execution details with all review stages: [orchestration-patterns.md](./references/orchestration-patterns.md)
 
 ---
 
 ## Resources
 
+- [orchestration-patterns.md](./references/orchestration-patterns.md) — Full handoff templates, two-stage review walkthrough, complete execution example
 - [writing-plans](../writing-plans/SKILL.md) - Breaking down complex work into agent tasks
 - [code-review](../code-review/SKILL.md) - Two-stage review process (spec → quality)
 - [verification-protocol](../verification-protocol/SKILL.md) - Verification gates for agent outputs

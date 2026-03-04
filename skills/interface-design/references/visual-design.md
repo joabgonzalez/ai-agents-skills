@@ -28,6 +28,34 @@ Use a modular scale for consistent, harmonious type sizing.
 --text-5xl: 3rem;      /* 48px */
 ```
 
+### Typographic Levels by Role
+
+Each level has a distinct character beyond just size:
+
+| Level | Weight | Tracking | Notes |
+|-------|--------|----------|-------|
+| **Display / Hero** | Bold (700–900) | Tight (−0.02em to −0.04em) | Short, punchy; tight tracking creates tension |
+| **Headings** | Semibold (600) | Slightly tight (−0.01em) | Structural landmarks |
+| **Body** | Regular (400) | Normal (0) | Comfortable reading weight |
+| **Labels / UI** | Medium (500) | Slightly wide (+0.01em) | Small sizes need tracking to breathe |
+| **Data / Numeric** | Monospace, tabular | Normal | Use `font-variant-numeric: tabular-nums` — numbers must align in columns |
+
+```css
+/* ✅ Data display: columns align, numbers don't shift */
+.metric-value {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* ✅ Display headline: tight tracking for impact */
+.hero-title {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+```
+
 ### Line-Height Rules
 
 | Content Type | Line Height | Reasoning |
@@ -50,18 +78,23 @@ code, pre { line-height: 1.5; font-family: monospace; }
 
 ### Font Pairing Examples
 
+> **⚠ Start here, then replace.** Generic defaults (Inter, Roboto, Space Grotesk, system-ui) are starting
+> points for understanding structure — not final choices. The Aesthetic Direction requires committing to
+> distinctive, characterful faces. See SKILL.md → "Commit to a Bold Aesthetic Direction".
+
 | Heading Font | Body Font | Style |
 |--------------|-----------|-------|
-| Inter | Inter | Modern, neutral (single-family) |
 | Playfair Display | Source Sans Pro | Editorial, elegant |
-| Space Grotesk | IBM Plex Sans | Technical, geometric |
-| Merriweather | Open Sans | Classic, readable |
+| Syne | DM Sans | Geometric, contemporary |
+| Fraunces | Libre Baskerville | Literary, warm |
+| Cabinet Grotesk | Instrument Sans | Refined, versatile |
 
 **Pairing rules:**
 
 - Contrast serif with sans-serif, OR
 - Use single font family with weight/size variation
 - Limit to 2 font families maximum
+- Ask: "Would swapping for Inter change the feel?" — if not, the font isn't doing its job
 
 ### Fluid Typography
 
@@ -223,6 +256,30 @@ Name colors by purpose, not appearance.
 
 **Why semantic?** If you rebrand from blue to purple, `--color-brand` updates once; `--color-blue` requires find-replace across codebase.
 
+### Token Naming as Design Decision
+
+Token names are part of the design system — they should evoke the product's world, not describe a generic structure.
+
+```css
+/* ✅ Domain-evocative names (finance product) */
+:root {
+  --color-surface-vault: #0f1117;     /* Primary background */
+  --color-surface-ledger: #1a1d27;   /* Elevated surfaces */
+  --color-accent-gold: #d4a847;      /* Brand accent */
+  --color-text-primary: #f0eff4;
+  --color-text-muted: #6b7280;
+}
+
+/* ❌ Generic token names */
+:root {
+  --color-gray-900: #0f1117;
+  --color-gray-800: #1a1d27;
+  --color-yellow-500: #d4a847;
+}
+```
+
+**Rule:** If your token names could belong to any project, they're not doing their job. Names like `--surface-coal`, `--accent-ember`, `--text-fog` carry the product's voice into the codebase.
+
 ### Contrast Ratios (WCAG Compliance)
 
 | Use Case | Ratio | Level | Example |
@@ -290,16 +347,52 @@ body { color: #222; background: #fff; }
 .dark body { color: #f5f5f5; background: #121212; } /* Must override everything */
 ```
 
-**Dark mode best practices:**
+**Dark mode design principles:**
 
+- **Shadows → borders**: In dark mode, box-shadows lose definition against dark surfaces — lean on subtle borders for elevation instead
+- **Desaturate semantic colors**: Vibrant success/warning/error colors strain eyes on dark backgrounds — reduce saturation by 15–25%
+- **Inverted lightness hierarchy**: Higher elevation = slightly lighter surface (dark mode reversal of light mode logic); avoid pure black (#000) and pure white (#fff)
 - Plan from the start (retrofitting is painful)
-- Use elevated surfaces (#1e1e1e) instead of pure black
-- Reduce saturation in dark mode (vibrant colors strain eyes)
-- Test contrast in both modes
+- Test contrast in both modes — WCAG ratios apply equally
+
+---
+
+## Border Radius System
+
+### Radius Scale + Semantic Meaning
+
+Sharpness communicates personality. Commit to one character and apply it consistently.
+
+```
+Sharp (0–2px) → technical, precise, professional tools (IDEs, dashboards, CLIs)
+Moderate (4–6px) → balanced, neutral (most SaaS apps)
+Rounded (8–12px) → approachable, friendly (consumer apps, onboarding)
+Pill (999px) → soft, playful (badges, tags, mobile-first)
+```
+
+```css
+/* ✅ CORRECT: Consistent scale with committed character */
+:root {
+  --radius-sm: 4px;   /* inputs, buttons */
+  --radius-md: 8px;   /* cards, dropdowns */
+  --radius-lg: 12px;  /* modals, panels */
+}
+
+/* ❌ WRONG: Mixing characters */
+.button { border-radius: 2px; }   /* Sharp = technical */
+.card   { border-radius: 16px; } /* Round = friendly */
+.modal  { border-radius: 4px; }  /* Back to sharp */
+```
+
+**Rule:** Large radius on small elements (e.g., `border-radius: 16px` on a `24px` button) creates a pill that signals a different product personality than intended.
 
 ---
 
 ## Iconography
+
+**Principle:** Icons clarify, they don't decorate. Every icon must answer "what action or concept does this communicate?" If removed, the user should notice. Choose one icon family and use it exclusively — mixing Heroicons with Lucide with FontAwesome creates visual noise and inconsistent optical weight.
+
+Give standalone icons (without adjacent labels) a subtle background container so they have enough target area and visual context.
 
 ### Sizing System
 

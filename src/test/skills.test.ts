@@ -306,7 +306,7 @@ describe('Content Structure', () => {
     expect(content).toContain('## Edge Cases');
   });
 
-  it.each(skillsWithRefs)('%s — SKILL.md is 325 lines or fewer (complex skill)', (name) => {
+  it.each(skillNames)('%s — SKILL.md is 325 lines or fewer', (name) => {
     const content = readSkillContent(name);
     const lineCount = content.split('\n').length;
     expect(lineCount).toBeLessThanOrEqual(325);
