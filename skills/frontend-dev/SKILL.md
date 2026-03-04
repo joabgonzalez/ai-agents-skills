@@ -82,14 +82,6 @@ Derived state?
 
 **Implementation**: Delegate to [react](../react/SKILL.md) for state patterns
 
-**Colocated State Examples**:
-
-- Modal open/closed → Local state in Modal component
-- Form input values → Local state in Form component (or form library)
-- Theme (light/dark) → Global context (shared across app)
-- User authentication → Global context or Redux
-- Shopping cart items → Global Redux (shared + complex updates)
-
 ### ✅ REQUIRED: Testing with User-Centric Approach
 
 Test behavior, not implementation. Simulate real user interactions.
@@ -297,8 +289,7 @@ Patterns applied: component decomposition by responsibility, local state for UI,
 - [ ] Bundle size analyzed and optimized
 - [ ] TypeScript strict mode enabled
 - [ ] CI/CD pipeline configured (lint, test, build, deploy)
-- [ ] Responsive design tested on mobile and desktop
-- [ ] Browser compatibility verified (Chrome, Firefox, Safari)
+- [ ] Responsive design tested on mobile and desktop; browser compatibility verified (Chrome, Firefox, Safari)
 
 ---
 
@@ -330,5 +321,4 @@ Patterns applied: component decomposition by responsibility, local state for UI,
 - [tailwindcss](../tailwindcss/SKILL.md) - Utility-first CSS
 - [form-validation](../form-validation/SKILL.md) - Form validation patterns
 - [react-testing-library](../react-testing-library/SKILL.md) - User-centric testing
-- https://reactpatterns.com/ - React design patterns
 - https://web.dev/patterns/ - Web platform patterns
