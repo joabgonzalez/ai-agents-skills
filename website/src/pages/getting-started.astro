@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import IconArrowRight from '../components/icons/IconArrowRight.astro';
 import IconCheck from '../components/icons/IconCheck.astro';
 import IconCopy from '../components/icons/IconCopy.astro';
 import SkillTypeBadge from '../components/SkillTypeBadge.astro';
@@ -169,19 +170,19 @@ const models = [
         </div>
         <ul class="divide-y divide-gray-100 bg-white text-sm text-gray-600 dark:divide-gray-800 dark:bg-gray-950 dark:text-gray-400">
           <li class="flex items-start gap-3 px-4 py-2.5">
-            <span class="mt-0.5 text-blue-500">→</span>
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
             <span>Skills reference — which skill to use for each type of task</span>
           </li>
           <li class="flex items-start gap-3 px-4 py-2.5">
-            <span class="mt-0.5 text-blue-500">→</span>
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
             <span>Project structure — how the codebase is organized</span>
           </li>
           <li class="flex items-start gap-3 px-4 py-2.5">
-            <span class="mt-0.5 text-blue-500">→</span>
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
             <span>Workflows — step-by-step processes for common tasks</span>
           </li>
           <li class="flex items-start gap-3 px-4 py-2.5">
-            <span class="mt-0.5 text-blue-500">→</span>
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
             <span>Policies — code style, typing rules, and team conventions</span>
           </li>
         </ul>
@@ -214,7 +215,7 @@ const models = [
         href={base}
         class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
       >
-        Browse Skill Catalog →
+        Browse Skill Catalog <IconArrowRight class="h-4 w-4" />
       </a>
     </div>
   </div>

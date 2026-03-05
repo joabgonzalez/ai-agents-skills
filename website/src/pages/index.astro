@@ -1,8 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import IconBolt from "../components/icons/IconBolt.astro";
+import IconArrowRight from "../components/icons/IconArrowRight.astro";
+import Logo from "../components/icons/Logo.astro";
 import IconCheck from "../components/icons/IconCheck.astro";
 import IconCopy from "../components/icons/IconCopy.astro";
+import IconSearchOff from "../components/icons/IconSearchOff.astro";
 import SearchBar from "../components/SearchBar.astro";
 import SkillCard from "../components/SkillCard.astro";
 import TypeFilter from "../components/TypeFilter.astro";
@@ -56,7 +58,7 @@ const installCmd = "npx ai-agents-skills add";
           />
           <!-- Dark mode: inline version with light text -->
           <div class="hidden dark:flex items-center gap-4 sm:gap-6">
-            <IconBolt
+            <Logo
               class="h-16 w-auto shrink-0 sm:h-20 lg:h-24"
               gradientId="bolt-hero"
             />
@@ -120,7 +122,7 @@ const installCmd = "npx ai-agents-skills add";
             href={`${base}getting-started/`}
             class="text-blue-600 hover:underline dark:text-blue-400"
           >
-            Getting Started →
+            Getting Started <IconArrowRight class="inline h-3.5 w-3.5" />
           </a>
         </div>
       </div>
@@ -141,6 +143,15 @@ const installCmd = "npx ai-agents-skills add";
       id="skills-grid"
     >
       {skills.map((skill) => <SkillCard {...skill} />)}
+    </div>
+
+    <!-- Empty state -->
+    <div id="skills-empty" class="hidden py-20 text-center">
+      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+        <IconSearchOff class="h-6 w-6 text-gray-400 dark:text-gray-500" />
+      </div>
+      <p class="text-lg font-medium text-gray-900 dark:text-gray-100">No skills found</p>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Try a different search term or clear the type filter.</p>
     </div>
   </div>
 </BaseLayout>

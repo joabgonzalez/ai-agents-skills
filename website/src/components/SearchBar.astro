@@ -1,36 +1,42 @@
 ---
-const base = import.meta.env.BASE_URL;
+import IconSearch from './icons/IconSearch.astro';
 ---
 
-{import.meta.env.DEV ? (
-  <div class="w-full" data-pagefind-ignore>
-    <input
-      type="search"
-      placeholder="Search skills… (run npm run build to enable full search)"
-      class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-500"
-      disabled
-    />
-  </div>
-) : (
-  <>
-    <div id="search" class="w-full" data-pagefind-ignore></div>
-    <link href={`${base}pagefind/pagefind-ui.css`} rel="stylesheet" />
-    <script>
-      async function initSearch() {
-        if (typeof window !== 'undefined' && 'PagefindUI' in window) {
-          // @ts-ignore
-          new window.PagefindUI({
-            element: '#search',
-            showSubResults: true,
-            showImages: false,
-            resetStyles: false,
-          });
-        }
-      }
-      const script = document.createElement('script');
-      script.src = `${import.meta.env.BASE_URL}pagefind/pagefind-ui.js`;
-      script.onload = initSearch;
-      document.head.appendChild(script);
-    </script>
-  </>
-)}
+<div class="relative w-full">
+  <span class="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-gray-400 dark:text-gray-500">
+    <IconSearch class="h-4 w-4" />
+  </span>
+  <input
+    id="skill-search"
+    type="search"
+    placeholder="Search skills…"
+    autocomplete="off"
+    class="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-4 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/30"
+  />
+</div>
+
+<script>
+  function applyFilters() {
+    const sf = ((window as any).__sf ?? { type: '', search: '' }) as { type: string; search: string };
+    const cards = document.querySelectorAll<HTMLElement>('[data-type]');
+    const countEl = document.getElementById('skill-count');
+    const emptyEl = document.getElementById('skills-empty');
+    let visible = 0;
+    cards.forEach((card) => {
+      const matchType = !sf.type || card.dataset.type === sf.type;
+      const matchSearch = !sf.search || (card.dataset.name ?? '').includes(sf.search);
+      const show = matchType && matchSearch;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    if (countEl) countEl.textContent = String(visible);
+    if (emptyEl) emptyEl.classList.toggle('hidden', visible > 0);
+  }
+
+  const input = document.getElementById('skill-search') as HTMLInputElement | null;
+  input?.addEventListener('input', () => {
+    if (!(window as any).__sf) (window as any).__sf = { type: '', search: '' };
+    (window as any).__sf.search = input.value.toLowerCase().trim();
+    applyFilters();
+  });
+</script>

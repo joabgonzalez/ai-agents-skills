@@ -10,6 +10,8 @@ interface Props {
   currentRef?: string;
 }
 
+import IconArrowLeft from './icons/IconArrowLeft.astro';
+
 const { skillName, refs, currentRef } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
@@ -26,7 +28,7 @@ const formatSlug = (slug: string) =>
     href={`${base}skills/${skillName}/`}
     class="mb-2 hidden items-center gap-1.5 px-2.5 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 lg:flex"
   >
-    <span aria-hidden="true">←</span>
+    <IconArrowLeft class="h-3.5 w-3.5" />
     <span>{formatSlug(skillName)}</span>
   </a>
 
