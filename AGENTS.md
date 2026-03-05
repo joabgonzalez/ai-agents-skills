@@ -14,6 +14,23 @@ metadata:
     - unit-testing
     - jest
     - brainstorming
+    - astro
+    - tailwindcss
+    - a11y
+    - frontend-dev
+    - interface-design
+    - technical-communication
+    - reference-creation
+    - skill-sync
+    - systematic-debugging
+    - html
+    - css
+    - javascript
+    - english-writing
+    - code-review
+    - writing-plans
+    - verification-protocol
+    - prompt-creation
 ---
 
 # AI Agents Skills Framework
@@ -80,6 +97,23 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Writing unit tests               | unit-testing     |
 | Jest test suite or config        | jest             |
 | Exploring ideas or approaches    | brainstorming    |
+| Astro pages, layouts, components | astro                  |
+| Tailwind utilities or styling    | tailwindcss            |
+| Accessibility or UI components   | a11y                   |
+| Frontend workflow or components  | frontend-dev           |
+| UI/UX decisions or design review | interface-design       |
+| Commit messages or documentation | technical-communication|
+| Creating reference files         | reference-creation     |
+| Syncing skills across models     | skill-sync             |
+| Debugging errors or root cause   | systematic-debugging   |
+| HTML markup or structure         | html                   |
+| CSS properties or animations     | css                    |
+| JavaScript patterns or scripts   | javascript             |
+| Writing skill content in English | english-writing        |
+| Formal code review checklist     | code-review            |
+| Planning implementation tasks    | writing-plans          |
+| Verifying task completion        | verification-protocol  |
+| Creating model prompt files      | prompt-creation        |
 
 ## Skills Reference
 
@@ -124,6 +158,15 @@ ai-agents-skills/
 │   ├── core/              # Dependency resolver, installer, skill parser
 │   └── utils/             # Logger, YAML parser, instruction generator
 ├── templates/             # Model instruction templates (5 models)
+├── website/               # Astro SSG skill catalog website
+│   ├── src/
+│   │   ├── content/       # Content collections (skills, references)
+│   │   ├── layouts/       # BaseLayout, SkillLayout
+│   │   ├── pages/         # Index, getting-started, skills/[name], references/[ref]
+│   │   ├── components/    # SkillMeta, ReferenceSidebar, TableOfContents, etc.
+│   │   └── styles/        # global.css (Tailwind v4 CSS-based config)
+│   ├── astro.config.mjs
+│   └── package.json
 └── AGENTS.md             # This file
 ```
 
@@ -185,6 +228,22 @@ All 5 models see updated react skill instantly
 2. Gather context (9 questions)
 3. Create `presets/{project-name}/AGENTS.md`
 4. Validate all referenced skills exist
+
+### Update Website
+
+The website (`website/`) is an Astro SSG site that auto-renders skills from `skills/` via content collections.
+
+1. Read `skills/astro/SKILL.md` and `skills/tailwindcss/SKILL.md`
+2. Pages live in `website/src/pages/` — skills rendered via `[name]/index.astro`
+3. Layouts: `BaseLayout.astro` (shell), `SkillLayout.astro` (two-column with sidebar)
+4. Components: `SkillMeta`, `ReferenceSidebar`, `TableOfContents`, `Breadcrumb`
+5. Styles: Tailwind v4 via `@theme` in `website/src/styles/global.css` (no `tailwind.config.*`)
+6. Build: `cd website && npm run build` — deploys via GitHub Actions on push to `main`
+
+**Key conventions:**
+- Reference sidebar uses `{slug, title}[]` — titles extracted from H1 of each reference file
+- Skills H1: topic name only, no "Skill" suffix (e.g., `# React`, not `# React Skill`)
+- `---` separator required before every `##` section except the first
 
 ### Install Skills
 
