@@ -1,0 +1,41 @@
+---
+import Breadcrumb from '../components/Breadcrumb.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  breadcrumbs: BreadcrumbItem[];
+}
+
+const { title, description, breadcrumbs } = Astro.props;
+---
+
+<BaseLayout {title} {description}>
+  <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <Breadcrumb items={breadcrumbs} />
+
+    <div class="mt-6 lg:grid lg:grid-cols-[1fr_280px] lg:gap-10">
+      <!-- Main content -->
+      <div class="min-w-0">
+        <div class="mb-6">
+          <slot name="meta" />
+        </div>
+        <slot name="content" />
+      </div>
+
+      <!-- Sidebar -->
+      <aside
+        class="sidebar-scroll mt-8 lg:mt-0 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto"
+        data-pagefind-ignore
+      >
+        <slot name="sidebar" />
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

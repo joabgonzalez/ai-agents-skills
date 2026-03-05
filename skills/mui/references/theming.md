@@ -9,6 +9,8 @@
 - Palette
 - Typography
 
+---
+
 ## When to Read This
 
 - Setting up MUI theme for new project

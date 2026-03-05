@@ -8,6 +8,8 @@ This directory contains a patterns-and-examples reference for the DRY principle,
 |---|---|---|
 | [patterns-examples.md](patterns-examples.md) | Rule of Three, configuration centralization, data normalization, shared types, custom hooks, coincidental duplication, over-abstraction, YAGNI, context-specific guidance | When deciding whether to extract repeated code or keep it inline |
 
+---
+
 ## Reading Strategy
 
 ### For extracting repeated logic
@@ -25,6 +27,8 @@ This directory contains a patterns-and-examples reference for the DRY principle,
 1. Read main [SKILL.md](../SKILL.md)
 2. CHECK: [patterns-examples.md](patterns-examples.md) "DRY in Different Contexts" section
 
+---
+
 ## File Descriptions
 
 ### [patterns-examples.md](patterns-examples.md)
@@ -38,6 +42,8 @@ This directory contains a patterns-and-examples reference for the DRY principle,
 - Custom hooks: useFetch<T> hook eliminating repeated fetch/loading/error state pattern across components
 - When NOT to apply: coincidental duplication (validateUser vs validateProduct with different change reasons), over-abstraction, YAGNI single-use utilities
 - Context guide: API routes, database queries, configuration, tests, and CSS/styles
+
+---
 
 ## Cross-Reference Map
 

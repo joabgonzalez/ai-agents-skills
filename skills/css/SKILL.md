@@ -11,7 +11,7 @@ metadata:
     - file-reader
 ---
 
-# CSS Modern Skill
+# CSS Modern
 
 Maintainable CSS with Grid, Flexbox, custom properties, container queries, cascade layers.
 
@@ -25,6 +25,8 @@ Use when:
 - Creating animations and transitions
 
 Don't use for Tailwind (tailwindcss skill) or MUI sx (mui skill).
+
+---
 
 ## Critical Patterns
 
@@ -118,6 +120,8 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 }
 ```
 
+---
+
 ## Decision Tree
 
 **One-dimensional layout?** -> Flexbox.
@@ -133,6 +137,8 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 **Hide element?** -> `display: none` (removes), `visibility: hidden` (keeps space), `opacity: 0` (transitions).
 
 **Responsive breakpoints?** -> Container queries (component), media queries (viewport).
+
+---
 
 ## Example
 
@@ -156,6 +162,8 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 }
 ```
 
+---
+
 ## Edge Cases
 
 - Handle print stylesheets with `@media print`
@@ -163,6 +171,8 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 - Test with different font sizes and zoom levels
 - Verify with color blindness simulators
 - Avoid `!important` except in utility layers
+
+---
 
 ## Checklist
 
@@ -176,6 +186,8 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 - [ ] `aspect-ratio` for media containers
 - [ ] BEM or consistent naming convention
 - [ ] Tested across target browsers
+
+---
 
 ## Resources
 

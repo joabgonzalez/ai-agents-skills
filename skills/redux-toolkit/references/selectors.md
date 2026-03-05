@@ -9,6 +9,8 @@
 - Memoized Selectors
 - Selector Composition
 
+---
+
 ## When to Read This
 
 - Deriving data from Redux state

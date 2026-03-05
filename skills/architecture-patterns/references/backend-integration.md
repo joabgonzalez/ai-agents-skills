@@ -11,6 +11,8 @@ Concrete backend implementation examples for all architecture patterns. Node.js 
 - Testing
 - Environment-Based Adapter Selection
 
+---
+
 ## Complete Example: Order Service
 
 ### Folder Structure

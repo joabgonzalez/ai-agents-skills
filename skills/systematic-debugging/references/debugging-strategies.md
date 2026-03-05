@@ -9,6 +9,8 @@
 - TypeScript Debugging
 - API Debugging
 
+---
+
 ## React Debugging
 
 ### State Not Updating

@@ -9,6 +9,8 @@
 
 > Hydration strategies for adding interactivity with minimal JavaScript
 
+---
+
 ## When to Read This
 
 - Adding interactive components to Astro pages

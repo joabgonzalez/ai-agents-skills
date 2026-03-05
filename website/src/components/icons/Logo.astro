@@ -1,0 +1,25 @@
+---
+interface Props {
+  class?: string;
+  gradientId?: string;
+}
+const { class: cls = 'h-5 w-auto', gradientId = 'bolt-grad' } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 24 44" aria-hidden="true">
+  <defs>
+    <radialGradient id={gradientId} cx="45%" cy="32%" r="62%">
+      <stop offset="0%" stop-color="#fefce8" />
+      <stop offset="45%" stop-color="#fcd34d" />
+      <stop offset="100%" stop-color="#b45309" />
+    </radialGradient>
+  </defs>
+  <path
+    d="M4 25 L14 4 L12 19 L20 19 L10 40 L12 25 Z"
+    fill={`url(#${gradientId})`}
+    stroke="#92400e"
+    stroke-width="1.5"
+    stroke-linejoin="round"
+    paint-order="stroke"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

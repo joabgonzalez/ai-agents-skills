@@ -9,7 +9,7 @@ metadata:
     - file-reader
 ---
 
-# Code Conventions Skill
+# Code Conventions
 
 Universal meta-conventions: naming, file structure, code organization. Rules that apply regardless of language or framework. Tech-specific conventions live in their respective skills.
 
@@ -91,7 +91,7 @@ const result = items.find(item => item.id === id);
 
 **Rule:** Inner scope names must not shadow outer scope names.
 
-### 📌 DELEGATE: Import Organization (TypeScript/JS)
+### DELEGATE: Import Organization (TypeScript/JS)
 
 For `import type`, named vs namespace imports, barrel exports → see **typescript** or **javascript** skill.
 
@@ -171,6 +171,8 @@ function validateLoginInput(input: LoginInput): ValidationResult {
 ```
 
 Every file has one clear name that matches its single responsibility. No `utils.ts`, no shadowed variables, no commented-out code.
+
+---
 
 ## Edge Cases
 

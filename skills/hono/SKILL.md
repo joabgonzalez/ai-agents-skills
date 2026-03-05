@@ -9,7 +9,7 @@ metadata:
     hono: ">=3.0.0 <4.0.0"
 ---
 
-# Hono Skill
+# Hono
 
 Lightweight, type-safe APIs for edge/serverless platforms.
 
@@ -24,6 +24,8 @@ Don't use for:
 - Full-stack SSR + React (use Next.js)
 - Heavy ORM/session state (use Express/NestJS)
 - Long-running processes (use Node.js server)
+
+---
 
 ## Critical Patterns
 
@@ -91,6 +93,8 @@ app.get("/items", async (c) => {
 });
 ```
 
+---
+
 ## Decision Tree
 
 - Cloudflare Workers? -> Use `Hono<{ Bindings: ... }>` for typed env
@@ -100,6 +104,8 @@ app.get("/items", async (c) => {
 - Returning JSON? -> Always use `c.json()` with explicit status codes
 - Streaming response? -> Use `c.stream()` or `c.streamText()`
 - Multiple platforms? -> Use adapter exports (`hono/cloudflare-workers`, `hono/bun`)
+
+---
 
 ## Example
 
@@ -119,6 +125,8 @@ app.post("/items", zValidator("json", ItemSchema), (c) => {
 export default app;
 ```
 
+---
+
 ## Edge Cases
 
 - **Cold start**: Hono ~14KB but bundled deps inflate; tree-shake aggressively.
@@ -127,6 +135,8 @@ export default app;
 - **Body parsing**: Lazy JSON via `c.req.json()`; multipart needs `hono/multipart`.
 - **Path params**: All `c.req.param()` are strings; parse to numbers before DB.
 - **CORS**: Register `cors()` before handlers for OPTIONS.
+
+---
 
 ## Checklist
 
@@ -137,6 +147,8 @@ export default app;
 - [ ] Environment bindings are typed via the Hono generic parameter
 - [ ] CORS middleware is registered before route definitions
 - [ ] The final export matches the target platform adapter
+
+---
 
 ## Resources
 

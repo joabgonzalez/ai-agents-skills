@@ -163,6 +163,8 @@ npx ai-agents-skills validate --all
 
 Key takeaway: only new skills need the sync command. Edits to existing symlinked skills propagate automatically.
 
+---
+
 ## Edge Cases
 
 **No model directories installed:** Skip sync. Skills will be installed when user runs `npx ai-agents-skills local` for the first time.

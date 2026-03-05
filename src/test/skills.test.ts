@@ -120,6 +120,23 @@ function stripCodeBlocks(content: string): string {
   return content.replace(/^`{3,}[^\n]*\n[\s\S]*?^`{3,}[^\n]*$/gm, '');
 }
 
+// Return heading lines (outside code fences) that contain decorative emojis (✅ ❌ ⚠️ are allowed)
+function headingsWithDecorativeEmoji(content: string): string[] {
+  const EMOJI_RE = /[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\uFE0E\uFE0F]/gu;
+  const result: string[] = [];
+  let inFence = false;
+  for (const line of content.split('\n')) {
+    if (line.startsWith('```')) { inFence = !inFence; continue; }
+    if (inFence) continue;
+    if (/^#+/.test(line)) {
+      const withoutAllowed = line.replace(/✅|❌|⚠️/gu, '');
+      EMOJI_RE.lastIndex = 0;
+      if (EMOJI_RE.test(withoutAllowed)) result.push(line);
+    }
+  }
+  return result;
+}
+
 function getMetadata(fm: JsonObject): JsonObject {
   const meta = fm.metadata;
   if (typeof meta !== 'object' || meta === null || Array.isArray(meta)) return {};
@@ -306,10 +323,10 @@ describe('Content Structure', () => {
     expect(content).toContain('## Edge Cases');
   });
 
-  it.each(skillNames)('%s — SKILL.md is 325 lines or fewer', (name) => {
+  it.each(skillNames)('%s — SKILL.md is 335 lines or fewer', (name) => {
     const content = readSkillContent(name);
     const lineCount = content.split('\n').length;
-    expect(lineCount).toBeLessThanOrEqual(325);
+    expect(lineCount).toBeLessThanOrEqual(335);
   });
 
   it.each(skillNames)('%s — only allowed ## sections per SKILL-TEMPLATE.md', (name) => {
@@ -328,6 +345,37 @@ describe('Content Structure', () => {
       expect(seen.has(h2)).toBe(false);
       seen.add(h2);
     }
+  });
+
+  it.each(skillNames)('%s — no decorative emojis in headings', (name) => {
+    const content = readSkillContent(name);
+    expect(headingsWithDecorativeEmoji(content)).toEqual([]);
+  });
+
+  it.each(skillNames)('%s — --- separator before every ## section (except the first)', (name) => {
+    const raw = readSkillContent(name);
+    const lines = raw.split('\n');
+    let fmCount = 0;
+    let fmDone = false;
+    let inFence = false;
+    let firstH2Seen = false;
+    let prevNonBlank = '';
+    const missing: string[] = [];
+
+    for (const line of lines) {
+      if (!fmDone) {
+        if (line.trim() === '---') { fmCount++; if (fmCount === 2) fmDone = true; }
+        continue;
+      }
+      if (line.startsWith('```')) { inFence = !inFence; prevNonBlank = line; continue; }
+      if (!inFence && /^## /.test(line)) {
+        if (!firstH2Seen) { firstH2Seen = true; prevNonBlank = line.trim(); continue; }
+        if (prevNonBlank !== '---') missing.push(line.trim());
+      }
+      if (line.trim() !== '') prevNonBlank = line.trim();
+    }
+
+    expect(missing).toEqual([]);
   });
 });
 
@@ -449,6 +497,37 @@ describe('References Directory', () => {
         expect(seen.has(h2)).toBe(false);
         seen.add(h2);
       }
+    }
+  });
+
+  it.each(skillsWithRefs)('%s — no decorative emojis in headings of reference files', (name) => {
+    const refsDir = path.join(SKILLS_DIR, name, 'references');
+    const files = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md'));
+    for (const file of files) {
+      const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
+      expect(headingsWithDecorativeEmoji(content)).toEqual([]);
+    }
+  });
+
+  it.each(skillsWithRefs)('%s — --- separator before every ## section in reference files', (name) => {
+    const refsDir = path.join(SKILLS_DIR, name, 'references');
+    const allFiles = fs.readdirSync(refsDir).filter((f) => f.endsWith('.md'));
+    for (const file of allFiles) {
+      const raw = fs.readFileSync(path.join(refsDir, file), 'utf-8');
+      const lines = raw.split('\n');
+      let inFence = false;
+      let firstH2Seen = false;
+      let prevNonBlank = '';
+      const missing: string[] = [];
+      for (const line of lines) {
+        if (line.startsWith('```')) { inFence = !inFence; prevNonBlank = line; continue; }
+        if (!inFence && /^## /.test(line)) {
+          if (!firstH2Seen) { firstH2Seen = true; prevNonBlank = line.trim(); continue; }
+          if (prevNonBlank !== '---') missing.push(`${file}: ${line.trim()}`);
+        }
+        if (line.trim() !== '') prevNonBlank = line.trim();
+      }
+      expect(missing).toEqual([]);
     }
   });
 });

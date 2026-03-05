@@ -348,6 +348,8 @@ npx @biomejs/biome migrate prettier --write
 - See [prettier.md](prettier.md) for Prettier comparison
 - See main [code-quality/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [Biome Documentation](https://biomejs.dev/)

@@ -8,6 +8,8 @@ This directory contains deployment configuration examples and implementation gui
 |---|---|---|
 | [deployment-patterns.md](deployment-patterns.md) | Shared lifecycle, shared resources (HTTP communication), Kubernetes Pod with sidecars, Docker Compose with multiple sidecars, Istio service mesh auto-injection, decision tree, advantages/disadvantages, related patterns | When adding a sidecar to a containerized service, choosing a sidecar tool, or deciding between in-process and out-of-process cross-cutting concerns |
 
+---
+
 ## Reading Strategy
 
 ### For adding a sidecar to an existing service
@@ -25,6 +27,8 @@ This directory contains deployment configuration examples and implementation gui
 1. Read main [SKILL.md](../SKILL.md)
 2. MUST read: [deployment-patterns.md](deployment-patterns.md) "Service Mesh (Istio)" section for annotation-based auto-injection
 
+---
+
 ## File Descriptions
 
 ### [deployment-patterns.md](deployment-patterns.md)
@@ -39,6 +43,8 @@ This directory contains deployment configuration examples and implementation gui
 - Istio service mesh: Deployment with sidecar.istio.io/inject annotation for Envoy auto-injection
 - Decision tree: orchestration check, concern-to-tool mapping, and resource constraint guidance
 - Related patterns: Ambassador (outbound proxy) and Adapter (output normalization) sidecar variants
+
+---
 
 ## Cross-Reference Map
 

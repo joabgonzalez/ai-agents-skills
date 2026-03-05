@@ -7,7 +7,7 @@ metadata:
   type: language
 ---
 
-# JavaScript Skill
+# JavaScript
 
 Modern JS/TS patterns for ES2020+ with async code, safe property access, modern syntax.
 
@@ -21,6 +21,8 @@ Use when:
 - Using destructuring, optional chaining, nullish coalescing
 
 Don't use for TypeScript (typescript skill), React (react skill), or Node.js backend.
+
+---
 
 ## Critical Patterns
 
@@ -130,6 +132,8 @@ const posts = await fetchPosts();
 const comments = await fetchComments();
 ```
 
+---
+
 ## Decision Tree
 
 **Importing a module?** -> Named imports: `import { x } from 'mod'`. Never `require()` in ES modules.
@@ -152,6 +156,8 @@ const comments = await fetchComments();
 
 **Multiple independent awaits?** -> `Promise.all()` for parallel execution.
 
+---
+
 ## Example
 
 ```javascript
@@ -170,6 +176,8 @@ const { name, age = 18 } = user;
 const greeting = `Hello, ${name}!`;
 ```
 
+---
+
 ## Edge Cases
 
 - **Parallel async:** `Promise.all()` for concurrent execution
@@ -177,6 +185,8 @@ const greeting = `Hello, ${name}!`;
 - **Number precision:** Use decimal.js for financial calculations
 - **Equality:** Always `===` (never `==`)
 - **this binding:** Arrow functions don't bind `this`
+
+---
 
 ## Checklist
 
@@ -192,6 +202,8 @@ const greeting = `Hello, ${name}!`;
 - [ ] Destructuring for objects and arrays
 - [ ] Arrow functions for callbacks
 - [ ] Modern array methods (`.map`, `.filter`, `.reduce`)
+
+---
 
 ## Resources
 

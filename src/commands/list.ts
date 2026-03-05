@@ -3,7 +3,7 @@ import color from 'picocolors';
 import { ModelDetector, ProjectDetector } from '../core';
 
 export async function listCommand() {
-  p.intro(color.bgCyan(color.black(' ai-agents-skills ')));
+  p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
 
   // 1. Detect project
   const projectDetector = new ProjectDetector();

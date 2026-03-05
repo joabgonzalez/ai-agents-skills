@@ -1,0 +1,87 @@
+---
+import IconCheck from './icons/IconCheck.astro';
+import IconCopy from './icons/IconCopy.astro';
+import SkillTypeBadge from './SkillTypeBadge.astro';
+
+interface Props {
+  name: string;
+  type: string;
+  version: string;
+  relatedSkills?: string[];
+}
+
+const { name, type, version, relatedSkills = [] } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const installCmd = `npx ai-agents-skills add --skill ${name}`;
+---
+
+<div class="flex flex-col gap-5 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900">
+  <!-- Install command -->
+  <div>
+    <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+      Install
+    </p>
+    <div class="relative flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 font-mono text-xs dark:border-gray-700 dark:bg-gray-950">
+      <span class="select-none text-gray-400 dark:text-gray-600">$</span>
+      <code class="flex-1 overflow-x-auto text-gray-800 dark:text-gray-200" id={`install-cmd-${name}`}>
+        {installCmd}
+      </code>
+      <button
+        id={`copy-btn-${name}`}
+        data-cmd={installCmd}
+        class="shrink-0 rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+        aria-label="Copy install command"
+        title="Copy"
+      >
+        <span id={`copy-icon-${name}`}><IconCopy /></span>
+        <span id={`check-icon-${name}`} class="hidden text-green-500"><IconCheck /></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Type + Version -->
+  <div class="flex flex-wrap items-center gap-3">
+    <SkillTypeBadge {type} />
+    <span class="text-xs text-gray-500 dark:text-gray-400">v{version}</span>
+  </div>
+
+  <!-- Related skills -->
+  {relatedSkills.length > 0 && (
+    <div>
+      <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        Also Installs
+      </p>
+      <ul class="space-y-1">
+        {relatedSkills.map((skill) => (
+          <li>
+            <a
+              href={`${base}skills/${skill}/`}
+              class="font-mono text-xs text-blue-600 hover:underline dark:text-blue-400"
+            >
+              {skill}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[id^="copy-btn-"]').forEach((btn) => {
+    const name = btn.id.replace('copy-btn-', '');
+    const copyIcon = document.getElementById(`copy-icon-${name}`);
+    const checkIcon = document.getElementById(`check-icon-${name}`);
+    btn.addEventListener('click', async () => {
+      const cmd = btn.dataset.cmd;
+      if (!cmd || !copyIcon || !checkIcon) return;
+      await navigator.clipboard.writeText(cmd);
+      copyIcon.classList.add('hidden');
+      checkIcon.classList.remove('hidden');
+      setTimeout(() => {
+        checkIcon.classList.add('hidden');
+        copyIcon.classList.remove('hidden');
+      }, 1500);
+    });
+  });
+</script>

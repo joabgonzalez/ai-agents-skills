@@ -9,6 +9,8 @@
 - Astro.locals (Server Context)
 - Server Endpoints
 
+---
+
 ## When to Read This
 
 - Building dynamic pages with user-specific data

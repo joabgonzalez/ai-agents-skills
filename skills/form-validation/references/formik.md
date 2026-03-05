@@ -621,6 +621,8 @@ const handleSubmit = async (values, { setErrors, setSubmitting }) => {
 - See [react-hook-form.md](react-hook-form.md) for modern alternative
 - See main [form-validation/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [Formik Documentation](https://formik.org/docs/overview)

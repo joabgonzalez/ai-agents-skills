@@ -11,6 +11,8 @@ Server Components enable direct database/API access, Suspense enables streaming,
 - Loading and Error States
 - Server Actions
 
+---
+
 ## React Server Components (RSC)
 
 ### Server vs Client Components
@@ -259,6 +261,8 @@ function OrderForm() {
 - See [hooks-advanced.md](hooks-advanced.md) for useTransition and useDeferredValue
 - See [context-patterns.md](context-patterns.md) for error boundaries
 - See main [SKILL.md](../SKILL.md) for decision tree
+
+---
 
 ## References
 

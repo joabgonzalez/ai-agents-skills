@@ -9,7 +9,7 @@ metadata:
     - file-reader
 ---
 
-# Accessibility (a11y) Skill
+# Accessibility (a11y)
 
 Ensures WCAG 2.1/2.2 Level AA compliance: semantic structure, ARIA, contrast, keyboard nav.
 
@@ -200,6 +200,8 @@ Before implementing accessibility patterns manually, check if your framework or 
 
 - 24×24px min (WCAG 2.2), 44×44px recommended; adequate spacing between targets
 
+---
+
 ## Decision Tree
 
 ```
@@ -269,6 +271,8 @@ function ConfirmDeleteModal({ isOpen, onClose, onConfirm }: ModalProps) {
 ```
 
 Patterns applied: `role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`, focus on open, Escape to dismiss.
+
+---
 
 ## Edge Cases
 

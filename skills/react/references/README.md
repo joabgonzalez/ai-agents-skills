@@ -10,20 +10,20 @@ This directory contains detailed guides for specific aspects of React developmen
 
 ## Quick Navigation
 
-### 🎣 Hooks & Effects
+### Hooks & Effects
 
 | Reference                                      | Purpose                                           | Read When                                                  |
 | ---------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
 | [hooks-advanced.md](hooks-advanced.md)         | useState vs useReducer, custom hooks, composition | Working with complex state or creating reusable hooks      |
 | [use-effect-patterns.md](use-effect-patterns.md) | Cleanup, dependencies, race conditions            | Implementing side effects, subscriptions, or data fetching |
 
-### ⚡ Performance & Optimization
+### Performance & Optimization
 
 | Reference                        | Purpose                                                       | Read When                                                    |
 | -------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------ |
 | [performance.md](performance.md) | useMemo, useCallback, React.memo, concurrent features, Suspense | Optimizing re-renders or working with expensive computations |
 
-### 🏗️ State & Composition
+### State & Composition
 
 | Reference                                  | Purpose                                           | Read When                                                  |
 | ------------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------- |
@@ -31,7 +31,7 @@ This directory contains detailed guides for specific aspects of React developmen
 | [composition.md](composition.md)           | Children, slots, compound, headless, polymorphic  | Building reusable components with flexible APIs            |
 | [forms-state.md](forms-state.md)           | Controlled vs uncontrolled, validation             | Building forms with state management                       |
 
-### 🖥️ Server Features
+### Server Features
 
 | Reference                                    | Purpose                                          | Read When                                                    |
 | -------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------ |

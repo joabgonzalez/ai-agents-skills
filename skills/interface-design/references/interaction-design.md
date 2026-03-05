@@ -11,6 +11,8 @@ Interaction design covers the temporal and kinetic dimensions of UI: motion timi
 - Performance
 - Micro-Interaction Examples
 
+---
+
 ## Motion Timing Guidelines
 
 | Duration | Use Case | Example | Reasoning |

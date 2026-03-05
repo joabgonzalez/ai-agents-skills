@@ -9,6 +9,8 @@
 - Example: Password Reset Flow
 - Page Structure Principles
 
+---
+
 ## The Design Process
 
 ### 1. Understand (Research)

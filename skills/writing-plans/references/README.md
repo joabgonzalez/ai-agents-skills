@@ -8,6 +8,8 @@ Navigation guide for writing-plans reference files.
 |-----------|-------|-------|
 | [plan-example.md](plan-example.md) | ~115 | Complete 9-task User Registration API plan across 3 batches |
 
+---
+
 ## Reading Strategy
 
 **Writing a plan for the first time:** Read SKILL.md → plan-example.md for a full worked example.
@@ -16,11 +18,15 @@ Navigation guide for writing-plans reference files.
 
 **Verifying plan quality:** Use SKILL.md Checklist against your plan.
 
+---
+
 ## File Descriptions
 
 ### plan-example.md (~115 lines)
 
 Complete plan for User Registration API: 9 tasks grouped into 3 batches, with full TypeScript code examples (User entity, crypto utils, RegisterDTO, auth route, integration test), precise file paths, and checkpoint verification steps. Demonstrates TDD workflow (test in Task 6 validates Task 5 implementation).
+
+---
 
 ## Cross-Reference Map
 

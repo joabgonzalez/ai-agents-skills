@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from 'astro:content';
+import ReferenceSidebar from '../../../../components/ReferenceSidebar.astro';
+import TableOfContents from '../../../../components/TableOfContents.astro';
+import SkillLayout from '../../../../layouts/SkillLayout.astro';
+
+export async function getStaticPaths() {
+  const allRefs = await getCollection('references');
+
+  // Only non-README files generate individual pages
+  const refEntries = allRefs.filter((r) => r.id.split('/').pop()?.toLowerCase() !== 'readme');
+
+  return refEntries.map((ref) => {
+    const skillName = ref.id.split('/')[0];
+    const refSlug = ref.id.split('/').pop() ?? '';
+    return {
+      params: { name: skillName, ref: refSlug },
+      props: { reference: ref, skillName },
+    };
+  });
+}
+
+const { reference, skillName } = Astro.props;
+const { name: skillParam, ref: refParam } = Astro.params;
+const base = import.meta.env.BASE_URL;
+
+const { Content, headings } = await render(reference);
+
+// Get all non-README refs for this skill (for sidebar)
+const allRefs = await getCollection('references');
+
+const extractH1 = (body: string, fallback: string) =>
+  body.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? fallback;
+
+const formatSlug = (slug: string) =>
+  slug.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+const siblingsRefs = allRefs
+  .filter((r) => {
+    const sName = r.id.split('/')[0];
+    const fName = r.id.split('/').pop() ?? '';
+    return sName === skillName && fName.toLowerCase() !== 'readme';
+  })
+  .map((r) => {
+    const slug = r.id.split('/').pop() ?? '';
+    return { slug, title: extractH1(r.body ?? '', formatSlug(slug)) };
+  });
+
+// Use H1 from rendered headings for page title/breadcrumb
+const refTitle = headings.find((h) => h.depth === 1)?.text ?? formatSlug(refParam ?? '');
+---
+
+<SkillLayout
+  title={`${refTitle} — ${skillName} References — AI Agent Skills`}
+  description={`${refTitle} reference for the ${skillName} skill.`}
+  breadcrumbs={[
+    { label: 'Home', href: base },
+    { label: 'Skills', href: base },
+    { label: skillName.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), href: `${base}skills/${skillName}/` },
+    { label: 'References', href: `${base}skills/${skillName}/references/` },
+    { label: refTitle },
+  ]}
+>
+  <!-- Main content -->
+  <article slot="content" class="prose prose-gray max-w-none dark:prose-invert">
+    <Content />
+  </article>
+
+  <!-- Sidebar -->
+  <div slot="sidebar" class="flex flex-col gap-1">
+    <ReferenceSidebar
+      skillName={skillName}
+      refs={siblingsRefs}
+      currentRef={refParam}
+    />
+    <TableOfContents {headings} />
+  </div>
+</SkillLayout>

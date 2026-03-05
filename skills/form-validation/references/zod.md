@@ -402,6 +402,8 @@ z.discriminatedUnion('type', [
 - See [yup.md](yup.md) for Yup comparison and migration
 - See main [form-validation/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [Zod Documentation](https://zod.dev/)

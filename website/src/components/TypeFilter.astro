@@ -1,0 +1,76 @@
+---
+interface Props {
+  types: string[];
+  total: number;
+}
+
+const { types, total } = Astro.props;
+
+const allTypes = [
+  'behavioral',
+  'domain',
+  'framework',
+  'language',
+  'library',
+  'tooling',
+  'universal',
+];
+---
+
+<div class="flex flex-col gap-3" data-pagefind-ignore>
+  <div class="flex flex-wrap gap-2" id="type-filters">
+    <button
+      data-filter=""
+      class="filter-btn active rounded-full border border-gray-300 px-3 py-1 text-sm font-medium text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-50 data-[active]:border-blue-500 data-[active]:bg-blue-50 data-[active]:text-blue-700 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:data-[active]:border-blue-400 dark:data-[active]:bg-blue-900/30 dark:data-[active]:text-blue-300"
+      data-active
+    >
+      All
+    </button>
+    {
+      allTypes.map((type) => (
+        <button
+          data-filter={type}
+          class="filter-btn rounded-full border border-gray-300 px-3 py-1 text-sm font-medium text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-50 data-[active]:border-blue-500 data-[active]:bg-blue-50 data-[active]:text-blue-700 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:data-[active]:border-blue-400 dark:data-[active]:bg-blue-900/30 dark:data-[active]:text-blue-300"
+        >
+          {type.charAt(0).toUpperCase() + type.slice(1)}
+        </button>
+      ))
+    }
+  </div>
+
+  <p class="text-sm text-gray-500 dark:text-gray-400">
+    Showing <span id="skill-count">{total}</span> skill{total === 1 ? '' : 's'}
+  </p>
+</div>
+
+<script>
+  function applyFilters() {
+    const sf = ((window as any).__sf ?? { type: '', search: '' }) as { type: string; search: string };
+    const cards = document.querySelectorAll<HTMLElement>('[data-type]');
+    const countEl = document.getElementById('skill-count');
+    const emptyEl = document.getElementById('skills-empty');
+    let visible = 0;
+    cards.forEach((card) => {
+      const matchType = !sf.type || card.dataset.type === sf.type;
+      const matchSearch = !sf.search || (card.dataset.name ?? '').includes(sf.search);
+      const show = matchType && matchSearch;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    if (countEl) countEl.textContent = String(visible);
+    if (emptyEl) emptyEl.classList.toggle('hidden', visible > 0);
+  }
+
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? '';
+      filterBtns.forEach((b) => delete b.dataset.active);
+      btn.dataset.active = '';
+      if (!(window as any).__sf) (window as any).__sf = { type: '', search: '' };
+      (window as any).__sf.type = filter;
+      applyFilters();
+    });
+  });
+</script>

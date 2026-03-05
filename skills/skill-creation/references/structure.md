@@ -11,6 +11,8 @@ Organizing skills from simple single-file to complex multi-reference architectur
 - When to Use
 - Critical Patterns
 
+---
+
 ## Complexity Assessment
 
 **BEFORE creating structure, assess complexity:**

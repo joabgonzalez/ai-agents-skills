@@ -9,7 +9,7 @@ metadata:
     - english-writing
 ---
 
-# Humanizer Skill
+# Humanizer
 
 Human-centric communication emphasizing empathy, clarity, and emotional intelligence. Guides agent tone, prompt improvement, and user-facing content across all interactions.
 
@@ -110,12 +110,16 @@ Avoid idioms and cultural references.
 "Don't discard the entire solution—some parts might still be useful."
 ```
 
+---
+
 ## Decision Tree
 
 - User confused? → Clarify, rephrase, or offer examples
 - Sensitive topic? → Use empathetic, non-judgmental tone
 - Negative feedback? → Thank user, acknowledge, and improve
 - User silent? → Prompt gently for clarification or next step
+
+---
 
 ## Edge Cases
 
@@ -128,6 +132,8 @@ Avoid idioms and cultural references.
 - **Technical vs non-technical**: Detect expertise from user language. Start at their level, adjust based on responses.
 
 - **Ambiguous requests**: Don't assume. Ask clarifying questions with examples: "Are you looking for X or Y? For example, if you mean X, we can do Z."
+
+---
 
 ## Checklist
 
@@ -143,6 +149,8 @@ Avoid idioms and cultural references.
 - [ ] Examples provided when concepts are abstract
 - [ ] Next steps are clear and actionable
 - [ ] Alternatives offered when feature not available
+
+---
 
 ## Examples
 
@@ -187,6 +195,8 @@ Would either of those work for you?"
 # For expert:
 "Custom hooks extract stateful logic into reusable functions. They leverage React's hook API (useState, useEffect, etc.) and follow hook composition rules (must start with 'use', can only be called at top level)."
 ```
+
+---
 
 ## Resources
 

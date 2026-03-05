@@ -9,6 +9,8 @@
 - Queries (Read Operations)
 - Mutations (Write Operations)
 
+---
+
 ## When to Read This
 
 - Implementing data fetching with RTK Query

@@ -1,0 +1,33 @@
+---
+import IconArrowRight from './icons/IconArrowRight.astro';
+const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="mt-16 border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+  data-pagefind-ignore
+>
+  <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-center justify-between gap-3 text-sm text-gray-500 sm:flex-row dark:text-gray-400">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <a
+          href={base}
+          class="font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
+        >
+          ai-agents-skills
+        </a>
+        <span>© {year} Joab González</span>
+        <span>Apache 2.0</span>
+      </div>
+      <a
+        href="https://github.com/joabgonzalez/ai-agents-skills"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-gray-700 dark:hover:text-gray-300"
+      >
+        GitHub <IconArrowRight class="inline h-3.5 w-3.5" />
+      </a>
+    </div>
+  </div>
+</footer>

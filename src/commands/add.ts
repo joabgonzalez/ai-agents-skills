@@ -45,7 +45,7 @@ function isLocalModeAvailable(cwd: string): boolean {
 }
 
 export async function addCommand(options: AddOptions) {
-  p.intro(color.bgCyan(color.black(' ai-agents-skills ')));
+  p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
 
   const cwd = process.cwd();
 

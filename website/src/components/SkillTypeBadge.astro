@@ -1,0 +1,40 @@
+---
+type SkillType =
+  | 'behavioral'
+  | 'universal'
+  | 'language'
+  | 'framework'
+  | 'library'
+  | 'tooling'
+  | 'domain';
+
+interface Props {
+  type: SkillType | string;
+  class?: string;
+}
+
+const { type, class: className = '' } = Astro.props;
+
+const colorMap: Record<string, string> = {
+  behavioral: 'bg-type-behavioral',
+  domain: 'bg-type-domain',
+  framework: 'bg-type-framework',
+  language: 'bg-type-language',
+  library: 'bg-type-library',
+  tooling: 'bg-type-tooling',
+  universal: 'bg-type-universal',
+};
+
+const bgClass = colorMap[type] ?? 'bg-gray-500';
+const label = type.charAt(0).toUpperCase() + type.slice(1);
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium text-white',
+    bgClass,
+    className,
+  ]}
+>
+  {label}
+</span>

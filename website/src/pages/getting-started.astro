@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IconArrowRight from '../components/icons/IconArrowRight.astro';
+import IconCheck from '../components/icons/IconCheck.astro';
+import IconCopy from '../components/icons/IconCopy.astro';
+import SkillTypeBadge from '../components/SkillTypeBadge.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const skillTypes = [
+  { type: 'behavioral', desc: 'Code style, conventions, and general AI behavior rules.' },
+  { type: 'universal', desc: 'Cross-language patterns applicable to any project.' },
+  { type: 'language', desc: 'Language-specific patterns — TypeScript, Python, Go, etc.' },
+  { type: 'framework', desc: 'Framework guidance — React, Astro, Next.js, Express, etc.' },
+  { type: 'library', desc: 'Library usage patterns — Tailwind, Zod, Prisma, etc.' },
+  { type: 'tooling', desc: 'Tooling workflows — Jest, ESLint, Docker, CI/CD, etc.' },
+  { type: 'domain', desc: 'Domain knowledge — Clean Architecture, DDD, A11y, etc.' },
+];
+
+const commands = [
+  {
+    cmd: 'npx ai-agents-skills add',
+    desc: 'Interactive mode — prompts you to choose skills, models, and presets.',
+  },
+  {
+    cmd: 'npx ai-agents-skills add --skill react',
+    desc: 'Install a specific skill directly, no prompts.',
+  },
+  {
+    cmd: 'npx ai-agents-skills add --skill react --skill typescript',
+    desc: 'Install multiple skills at once.',
+  },
+  {
+    cmd: 'npx ai-agents-skills add --preset astro-template',
+    desc: 'Install a project preset (curated bundle of skills).',
+  },
+  {
+    cmd: 'npx ai-agents-skills list',
+    desc: 'List all skills currently installed in your project.',
+  },
+  {
+    cmd: 'npx ai-agents-skills remove',
+    desc: 'Remove installed skills interactively.',
+  },
+  {
+    cmd: 'npx ai-agents-skills sync',
+    desc: 'Sync skills across all model directories (Claude, Copilot, Cursor…).',
+  },
+];
+
+const models = [
+  { name: 'Claude', dir: '.claude/', id: 'claude' },
+  { name: 'GitHub Copilot', dir: '.github/', id: 'copilot' },
+  { name: 'Cursor', dir: '.cursor/', id: 'cursor' },
+  { name: 'Gemini', dir: '.gemini/', id: 'gemini' },
+  { name: 'OpenAI Codex', dir: '.codex/', id: 'codex' },
+];
+---
+
+<BaseLayout
+  title="Getting Started — AI Agent Skills"
+  description="Learn how to install and use AI Agent Skills with Claude, Copilot, Cursor, Gemini, and Codex."
+>
+  <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+    <h1 class="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+      Getting Started
+    </h1>
+    <p class="mb-10 text-lg text-gray-600 dark:text-gray-400">
+      Install curated AI skills into your coding assistant in seconds.
+    </p>
+
+    <!-- What are skills -->
+    <section class="mb-12">
+      <h2 class="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-100">What are skills?</h2>
+      <p class="text-gray-600 dark:text-gray-400">
+        Skills are markdown files that tell your AI coding assistant how to behave in specific situations.
+        They encode best practices, patterns, and conventions for frameworks, languages, and domains —
+        so your assistant gives better suggestions out of the box, without needing constant prompting.
+      </p>
+      <p class="mt-3 text-gray-600 dark:text-gray-400">
+        Each skill is installed as a file in your project's model config directory
+        (<code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">.claude/</code>,
+        <code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">.github/</code>, etc.)
+        where your AI assistant picks it up automatically.
+      </p>
+    </section>
+
+    <!-- Supported models -->
+    <section class="mb-12">
+      <h2 class="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-100">Supported AI assistants</h2>
+      <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-50 dark:bg-gray-900">
+            <tr>
+              <th class="px-4 py-2.5 text-left font-medium text-gray-600 dark:text-gray-400">Assistant</th>
+              <th class="px-4 py-2.5 text-left font-mono font-medium text-gray-600 dark:text-gray-400">Directory</th>
+              <th class="px-4 py-2.5 text-left font-mono font-medium text-gray-600 dark:text-gray-400">--model ID</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+            {models.map((m) => (
+              <tr class="bg-white dark:bg-gray-950">
+                <td class="px-4 py-2.5 text-gray-800 dark:text-gray-200">{m.name}</td>
+                <td class="px-4 py-2.5 font-mono text-gray-600 dark:text-gray-400">{m.dir}</td>
+                <td class="px-4 py-2.5 font-mono text-gray-600 dark:text-gray-400">{m.id}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Commands -->
+    <section class="mb-12">
+      <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-100">Commands</h2>
+      <div class="flex flex-col gap-3">
+        {commands.map((c) => (
+          <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+            <!-- command bar -->
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2.5 dark:bg-gray-900">
+              <span class="select-none font-mono text-sm text-gray-400 dark:text-gray-600">$</span>
+              <code class="flex-1 font-mono text-sm text-gray-800 dark:text-gray-200">{c.cmd}</code>
+              <button
+                data-copy={c.cmd}
+                class="copy-btn shrink-0 rounded p-1.5 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                aria-label="Copy command"
+                title="Copy"
+              >
+                <span class="copy-icon"><IconCopy /></span>
+                <span class="check-icon hidden text-green-500"><IconCheck /></span>
+              </button>
+            </div>
+            <!-- description -->
+            <p class="border-t border-gray-100 bg-white px-4 py-3 text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Skill types -->
+    <section class="mb-12">
+      <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-100">Skill types</h2>
+      <div class="overflow-hidden rounded-xl border border-gray-200 divide-y divide-gray-100 dark:border-gray-800 dark:divide-gray-800">
+        {skillTypes.map(({ type, desc }) => (
+          <a
+            href={`${base}skills/?type=${type}`}
+            class="flex items-center gap-4 px-4 py-3 bg-white transition-colors hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-900"
+          >
+            <span class="w-24 shrink-0"><SkillTypeBadge {type} /></span>
+            <p class="min-w-0 text-sm text-gray-600 dark:text-gray-400">{desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- AGENTS.md -->
+    <section class="mb-12">
+      <h2 class="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-100">AGENTS.md</h2>
+      <p class="text-gray-600 dark:text-gray-400">
+        <code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">AGENTS.md</code> is a project-level briefing file placed at the root of your repository.
+        It tells your AI assistant which skills are available, when to trigger each one, how the project is structured, and what workflows and policies to follow.
+      </p>
+      <p class="mt-3 text-gray-600 dark:text-gray-400">
+        Think of it as a persistent system prompt for your entire project — written once, applied to every conversation.
+        Your AI reads it on every session and uses it to stay consistent with your team's standards without needing to be reminded.
+      </p>
+      <div class="mt-4 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+        <div class="bg-gray-50 px-4 py-2.5 dark:bg-gray-900">
+          <p class="font-mono text-xs font-medium text-gray-500 dark:text-gray-400">AGENTS.md contains</p>
+        </div>
+        <ul class="divide-y divide-gray-100 bg-white text-sm text-gray-600 dark:divide-gray-800 dark:bg-gray-950 dark:text-gray-400">
+          <li class="flex items-start gap-3 px-4 py-2.5">
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
+            <span>Skills reference — which skill to use for each type of task</span>
+          </li>
+          <li class="flex items-start gap-3 px-4 py-2.5">
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
+            <span>Project structure — how the codebase is organized</span>
+          </li>
+          <li class="flex items-start gap-3 px-4 py-2.5">
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
+            <span>Workflows — step-by-step processes for common tasks</span>
+          </li>
+          <li class="flex items-start gap-3 px-4 py-2.5">
+            <IconArrowRight class="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
+            <span>Policies — code style, typing rules, and team conventions</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Presets -->
+    <section class="mb-12">
+      <h2 class="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-100">Presets</h2>
+      <p class="text-gray-600 dark:text-gray-400">
+        A preset is a curated starter bundle for a specific project type. It installs a collection of relevant skills
+        <em>and</em> generates a ready-to-use <code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">AGENTS.md</code> tailored to that stack — so your AI assistant is fully configured from day one.
+      </p>
+      <p class="mt-3 text-gray-600 dark:text-gray-400">
+        For example, an <strong class="font-medium text-gray-800 dark:text-gray-200">astro-template</strong> preset would install
+        the Astro, TypeScript, Tailwind CSS, and accessibility skills, then drop an <code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">AGENTS.md</code> pre-configured for that stack at your project root.
+      </p>
+      <div class="mt-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900/50 dark:bg-amber-950/20">
+        <span class="mt-0.5 text-amber-500">⚙</span>
+        <p class="text-sm text-amber-800 dark:text-amber-300">
+          Presets are supported by the CLI today via <code class="rounded bg-amber-100 px-1 py-0.5 font-mono text-xs dark:bg-amber-900/40">--preset &lt;id&gt;</code> — the catalog is actively being developed and will be published soon.
+        </p>
+      </div>
+    </section>
+
+    <!-- Browse catalog CTA -->
+    <div class="rounded-xl border border-blue-100 bg-blue-50 p-6 text-center dark:border-blue-900 dark:bg-blue-950/30">
+      <p class="mb-3 text-gray-700 dark:text-gray-300">Ready to explore all skills?</p>
+      <a
+        href={base}
+        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+      >
+        Browse Skill Catalog <IconArrowRight class="h-4 w-4" />
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const cmd = btn.dataset.copy;
+      if (!cmd) return;
+      await navigator.clipboard.writeText(cmd);
+      const copyIcon = btn.querySelector<HTMLElement>('.copy-icon');
+      const checkIcon = btn.querySelector<HTMLElement>('.check-icon');
+      if (!copyIcon || !checkIcon) return;
+      copyIcon.classList.add('hidden');
+      checkIcon.classList.remove('hidden');
+      setTimeout(() => {
+        checkIcon.classList.add('hidden');
+        copyIcon.classList.remove('hidden');
+      }, 1500);
+    });
+  });
+</script>

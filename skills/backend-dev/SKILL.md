@@ -7,7 +7,7 @@ metadata:
   type: universal
 ---
 
-# Backend Development Skill
+# Backend Development
 
 Universal backend workflow guiding API design, data modeling, error handling, and deployment. Technology-agnostic, orchestrates technical skills (nodejs, express, nest) without duplicating patterns.
 
@@ -227,6 +227,8 @@ class PostgresOrderRepository implements IOrderRepository {
 ```
 
 Patterns applied: `/api/v1` versioning, zod boundary validation, service owns business rules, repository abstracts DB, centralized error format.
+
+---
 
 ## Edge Cases
 

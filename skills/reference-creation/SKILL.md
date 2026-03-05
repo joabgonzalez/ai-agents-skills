@@ -304,6 +304,8 @@ README.md has 4 required sections: Quick Navigation table (with line counts), Re
 - [ ] References expand (not duplicate) SKILL.md content
 - [ ] Cross-links: SKILL.md→references, references→SKILL.md, references↔references
 - [ ] Consistent structure across all reference files (# Title, summary, ## Core Patterns)
+- [ ] `---` separator between every major `## ` section in each file (except before the first)
+- [ ] No decorative emojis in headings (✅ ❌ ⚠️ are allowed; pictographic emoji are not)
 - [ ] Token efficiency applied:
   - [ ] No filler words ("comprehensive", "detailed", "robust", "various")
   - [ ] No verbose phrases ("This reference provides...", "It is important to note...")

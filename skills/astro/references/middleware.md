@@ -9,6 +9,8 @@
 
 > Request/response interception for authentication, logging, redirects
 
+---
+
 ## When to Read This
 
 - Implementing authentication/authorization

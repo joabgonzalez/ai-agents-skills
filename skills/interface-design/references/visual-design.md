@@ -9,6 +9,8 @@
 - Color System
 - Iconography
 
+---
+
 ## Typography Scale
 
 ### Modular Ratio-Based Sizing

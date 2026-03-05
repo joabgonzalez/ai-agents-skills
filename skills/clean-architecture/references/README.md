@@ -8,6 +8,8 @@ This directory contains a comprehensive layer-by-layer walkthrough of Clean Arch
 |---|---|---|
 | [layer-examples.md](layer-examples.md) | Domain entities, Application use cases, Infrastructure adapters, Presentation controllers, folder structures, common mistakes | When implementing any layer, wiring dependencies, or diagnosing a dependency rule violation |
 
+---
+
 ## Reading Strategy
 
 ### For implementing a new feature end-to-end
@@ -25,6 +27,8 @@ This directory contains a comprehensive layer-by-layer walkthrough of Clean Arch
 1. Read main [SKILL.md](../SKILL.md)
 2. MUST read: [layer-examples.md](layer-examples.md) Folder Structure Examples section
 
+---
+
 ## File Descriptions
 
 ### [layer-examples.md](layer-examples.md)
@@ -38,6 +42,8 @@ This directory contains a comprehensive layer-by-layer walkthrough of Clean Arch
 - Frontend example: React/Redux equivalent using the same four-layer structure with RTK Query
 - Folder structure templates for both backend (Node.js) and frontend (React) projects
 - Common mistakes: domain depending on infrastructure, use case knowing about HTTP, business logic in controllers
+
+---
 
 ## Cross-Reference Map
 

@@ -9,6 +9,8 @@
 - styled API
 - Custom Variants
 
+---
+
 ## When to Read This
 
 - Customizing component styles

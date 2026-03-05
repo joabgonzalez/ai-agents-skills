@@ -8,7 +8,7 @@ metadata:
   dependencies:
     bun: ">=1.0.0 <2.0.0"
 ---
-# Bun Skill
+# Bun
 
 Fast JS/TS runtime with native bundling, testing, package management.
 
@@ -18,6 +18,8 @@ Fast JS/TS runtime with native bundling, testing, package management.
 - Using Bun's built-in bundler, test runner, or package manager
 - Writing HTTP servers, scripts, or CLI tools
 - Don't use for: full Node.js API compat, native C++ addons, LTS stability
+
+---
 
 ## Critical Patterns
 
@@ -177,6 +179,8 @@ Bun.serve({
 });
 ```
 
+---
+
 ## Decision Tree
 
 - Simple HTTP service? -> `Bun.serve()` with no framework
@@ -187,6 +191,8 @@ Bun.serve({
 - Monorepo? -> Configure `workspaces` in root `package.json`
 - Node API not supported? -> Check compatibility docs; fall back to Node
 - Shell scripting? -> `Bun.spawn()` or `Bun.$` tagged template
+
+---
 
 ## Example
 
@@ -210,6 +216,8 @@ Bun.serve({
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **Node.js API gaps**: Some built-ins (`vm`, `worker_threads`) partial. Check [compat docs](https://bun.sh/docs/runtime/nodejs-apis).
@@ -232,6 +240,8 @@ Bun.serve({
 
 - **Build targets**: `--target=bun` (Bun only), `--target=node` (Node), `--target=browser` (client).
 
+---
+
 ## Checklist
 
 - [ ] Use `Bun.serve()` for simple HTTP services instead of frameworks
@@ -240,6 +250,8 @@ Bun.serve({
 - [ ] Scripts use `bun run` instead of `npm run`
 - [ ] Production builds use `bun build` with correct `--target`
 - [ ] Node API compatibility verified for imported modules
+
+---
 
 ## Resources
 

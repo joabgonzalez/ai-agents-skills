@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Page not found — AI Agent Skills">
+  <div class="mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-32 text-center">
+    <p class="mb-2 font-mono text-5xl font-bold text-gray-200 dark:text-gray-800">404</p>
+    <h1 class="mb-3 text-2xl font-semibold text-gray-800 dark:text-gray-200">Page not found</h1>
+    <p class="mb-8 text-gray-500 dark:text-gray-400">
+      The skill or page you were looking for doesn't exist.
+    </p>
+    <a
+      href={base}
+      class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+    >
+      Back to Catalog
+    </a>
+  </div>
+</BaseLayout>

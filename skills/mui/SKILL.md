@@ -13,7 +13,7 @@ metadata:
     react: ">=17.0.0 <19.0.0"
 ---
 
-# MUI (Material UI) Skill
+# MUI (Material UI)
 
 Material UI for React with theming, sx prop, and accessibility patterns for v5+.
 

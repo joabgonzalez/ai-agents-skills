@@ -10,7 +10,7 @@ This directory contains detailed guides for Redux Toolkit state management patte
 
 ## Quick Navigation
 
-### 🏗️ Core Patterns
+### Core Patterns
 
 | Reference File                                         | Topics Covered                                                 | When to Read                                                   |
 | ------------------------------------------------------ | -------------------------------------------------------------- | -------------------------------------------------------------- |
@@ -122,6 +122,8 @@ This directory contains detailed guides for Redux Toolkit state management patte
 - **Derived state**: createSelector for memoization
 - **Relational data**: createEntityAdapter for normalization
 - **Type safety**: Pre-typed hooks from store configuration
+
+---
 
 ## Cross-Reference Map
 

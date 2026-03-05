@@ -9,6 +9,8 @@
 - Error Handling
 - ThunkAPI Parameters
 
+---
+
 ## When to Read This
 
 - Implementing API calls from Redux

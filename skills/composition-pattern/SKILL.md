@@ -193,6 +193,8 @@ function Card({ header, footer, children, className }: CardProps) {
 
 Patterns applied: children as default slot, named ReactNode props for distinct regions, optional slots (`header && ...`), consumer controls all content.
 
+---
+
 ## Edge Cases
 
 **Render props vs children**: Use render props when consumer needs access to internal state (e.g., `renderItem={(item) => <Item data={item} />}`).

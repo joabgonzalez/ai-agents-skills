@@ -212,6 +212,8 @@ app.post("/api/v1/orders", async (req, res) => {
 
 Patterns applied: service returns `Result.ok` / `Result.fail`, error codes are plain strings the controller maps to HTTP statuses, no try/catch needed — all paths are explicit.
 
+---
+
 ## Edge Cases
 
 **Team unfamiliarity:** Result pattern has a learning curve. If team is unfamiliar, introduce gradually (one service at a time).

@@ -1,0 +1,71 @@
+---
+interface RefItem {
+  slug: string;
+  title: string;
+}
+
+interface Props {
+  skillName: string;
+  refs: RefItem[];
+  currentRef?: string;
+}
+
+import IconArrowLeft from './icons/IconArrowLeft.astro';
+
+const { skillName, refs, currentRef } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const formatSlug = (slug: string) =>
+  slug
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+---
+
+<nav class="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700 lg:mt-0 lg:border-t-0 lg:pt-0">
+  <!-- Back link: only shown on desktop where sidebar has spatial context -->
+  <a
+    href={`${base}skills/${skillName}/`}
+    class="mb-2 hidden items-center gap-1.5 px-2.5 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 lg:flex"
+  >
+    <IconArrowLeft class="h-3.5 w-3.5" />
+    <span>{formatSlug(skillName)}</span>
+  </a>
+
+  <!-- Section label: only shown on mobile/tablet where nav lacks spatial context -->
+  <p class="mb-1 px-2.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 lg:hidden">
+    {formatSlug(skillName)} References
+  </p>
+
+  <div class="flex flex-col gap-1">
+  <!-- Overview (README) -->
+  <a
+    href={`${base}skills/${skillName}/references/`}
+    class:list={[
+      'rounded-md px-2.5 py-1.5 text-sm transition-colors',
+      !currentRef
+        ? 'bg-blue-50 font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100',
+    ]}
+  >
+    Overview
+  </a>
+
+  <!-- Individual reference files -->
+  {
+    refs.map(({ slug, title }) => (
+      <a
+        href={`${base}skills/${skillName}/references/${slug}/`}
+        class:list={[
+          'rounded-md px-2.5 py-1.5 text-sm transition-colors',
+          currentRef === slug
+            ? 'bg-blue-50 font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100',
+        ]}
+      >
+        {title}
+      </a>
+    ))
+  }
+  </div>
+</nav>

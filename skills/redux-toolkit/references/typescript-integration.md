@@ -9,6 +9,8 @@
 - Typed Hooks
 - Slice Typing
 
+---
+
 ## When to Read This
 
 - Setting up Redux with TypeScript

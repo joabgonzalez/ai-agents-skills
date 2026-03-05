@@ -9,7 +9,7 @@ metadata:
     - english-writing
 ---
 
-# Technical Communication Skill
+# Technical Communication
 
 Clear technical writing for documentation, code comments, commit messages, and architecture decisions. Emphasizes conciseness and developer-friendly communication.
 

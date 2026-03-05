@@ -15,7 +15,7 @@ metadata:
     - file-reader
 ---
 
-# Expo Skill
+# Expo
 
 Cross-platform mobile with Expo managed workflow. Setup, native features (EAS Build/Update), deployment with TypeScript and React Native.
 
@@ -173,6 +173,8 @@ const styles = StyleSheet.create({
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **Platform-specific code**: Use `Platform.select()` for inline differences; platform-specific file extensions (`.ios.tsx`, `.android.tsx`) for large divergences between platforms.
@@ -185,6 +187,8 @@ const styles = StyleSheet.create({
 
 - **Custom native modules**: Use Expo config plugins first. Use a development client (`expo-dev-client`) for modules not available in Expo Go. Only eject to bare workflow when config plugins cannot satisfy the requirement.
 
+---
+
 ## Checklist
 
 - [ ] `eas init` run — project linked to EAS
@@ -196,6 +200,8 @@ const styles = StyleSheet.create({
 - [ ] TypeScript strict mode enabled
 - [ ] All native features use Expo SDK modules (not direct React Native linking)
 - [ ] Expo Go used for dev, physical device/simulator for final testing
+
+---
 
 ## Resources
 

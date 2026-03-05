@@ -16,7 +16,7 @@ metadata:
     - file-reader
 ---
 
-# AG Grid Skill
+# AG Grid
 
 React data tables with sorting, filtering, pagination, inline editing, and Excel-like features. TypeScript typing, accessibility, and virtualization.
 
@@ -143,6 +143,8 @@ const columnDefs: ColDef<RowData>[] = [
 />
 ```
 
+---
+
 ## Edge Cases
 
 - Empty data → appropriate messaging
@@ -150,6 +152,8 @@ const columnDefs: ColDef<RowData>[] = [
 - Error boundaries for failures
 - Resize events properly
 - Test keyboard navigation
+
+---
 
 ## Resources
 

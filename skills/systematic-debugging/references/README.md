@@ -9,6 +9,8 @@
 | [debugging-strategies.md](debugging-strategies.md) | Techniques per technology     | Debugging React, Node.js, TypeScript    |
 | [common-mistakes.md](common-mistakes.md)         | Error patterns and root causes  | Encountering a specific error type      |
 
+---
+
 ## Reading Strategy
 
 ### For Quick Debugging
@@ -22,6 +24,8 @@
 ### For Common Errors
 
 - [common-mistakes.md](common-mistakes.md) — "I've seen this error before" patterns
+
+---
 
 ## File Descriptions
 
@@ -42,6 +46,8 @@
 - React anti-patterns and fixes
 - Async/await pitfalls
 - Configuration mistakes
+
+---
 
 ## Cross-Reference Map
 

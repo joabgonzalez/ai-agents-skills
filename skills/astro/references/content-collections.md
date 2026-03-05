@@ -9,6 +9,8 @@
 
 > Type-safe content management with Markdown/MDX
 
+---
+
 ## When to Read This
 
 - Managing blog posts, documentation, or CMS content

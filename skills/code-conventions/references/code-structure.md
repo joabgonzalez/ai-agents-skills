@@ -9,6 +9,8 @@
 - Common Pitfalls
 - Related Topics
 
+---
+
 ## Core Principle: Single Responsibility for Files
 
 Each file should have ONE clear purpose. If a file does validation + API calls + formatting + types, split it.

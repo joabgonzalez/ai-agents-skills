@@ -8,6 +8,8 @@
 - Patterns
 - Related Topics
 
+---
+
 ## Core Rules
 
 | Type | Convention | Example |

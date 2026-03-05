@@ -13,7 +13,7 @@ metadata:
     "@testing-library/react": ">=14.0.0 <15.0.0"
 ---
 
-# React Testing Library Skill
+# React Testing Library
 
 Tests components the way users interact with them -- querying by accessible roles and text, not implementation details.
 
@@ -27,6 +27,8 @@ Don't use for:
 
 - Pure function or service logic (use jest skill)
 - E2E multi-page flows (use Playwright or Cypress)
+
+---
 
 ## Critical Patterns
 
@@ -100,6 +102,8 @@ expect(screen.getByRole('alert')).not.toBeInTheDocument(); // always throws
 
 See **unit-testing** skill for the broader strategy of testing both presence and absence.
 
+---
+
 ## Decision Tree
 
 - Element present now? -> `getByRole` / `getByText`
@@ -109,6 +113,8 @@ See **unit-testing** skill for the broader strategy of testing both presence and
 - No accessible query? -> Add `aria-label`; `getByTestId` last resort
 - Custom hook? -> `renderHook(() => useMyHook())`
 - Side effects? -> `waitFor(() => expect(...))`
+
+---
 
 ## Example
 
@@ -131,6 +137,8 @@ describe('ContactForm', () => {
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **Portals/modals**: Use `screen` queries since portals render outside parent DOM
@@ -138,6 +146,8 @@ describe('ContactForm', () => {
 - **Act warnings**: Ensure async operations complete; `findBy*` handles automatically
 - **Providers**: Create `renderWithProviders` wrapper for context (theme, router, store)
 - **Cleanup**: RTL calls `cleanup` automatically with Jest; do not call manually
+
+---
 
 ## Checklist
 
@@ -147,6 +157,8 @@ describe('ContactForm', () => {
 - [ ] No test inspects internal state, props, or instances
 - [ ] `renderWithProviders` wraps components needing context
 - [ ] Every interactive element has an accessible name
+
+---
 
 ## Resources
 

@@ -10,7 +10,7 @@ metadata:
   dependencies:
     playwright: ">=1.40.0 <2.0.0"
 ---
-# Playwright Skill
+# Playwright
 
 Cross-browser E2E testing with auto-waiting, fixtures, and assertions.
 
@@ -19,6 +19,8 @@ Cross-browser E2E testing with auto-waiting, fixtures, and assertions.
 - E2E browser testing, cross-browser automation
 - CI/CD integration, visual regression
 - Don't use for: unit tests (vitest/jest), API-only (supertest), static analysis
+
+---
 
 ## Critical Patterns
 
@@ -131,6 +133,8 @@ test('creates user', async ({ page }) => {
 });
 ```
 
+---
+
 ## Decision Tree
 
 - UI flow or API only? -> UI: `page` fixture; API: `request` fixture
@@ -139,6 +143,8 @@ test('creates user', async ({ page }) => {
 - Cross-browser? -> Configure `projects` in `playwright.config.ts`
 - Flaky network? -> Mock with `page.route()` to intercept requests
 - CI integration? -> `npx playwright test --reporter=html` with artifact upload
+
+---
 
 ## Example
 
@@ -163,6 +169,8 @@ test.describe('Login flow', () => {
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **Flaky network**: Mock APIs with `page.route()` in CI. Record with `page.route('**/*', route => route.continue())`, convert to mocks.
@@ -185,6 +193,8 @@ test.describe('Login flow', () => {
 
 - **Slow CI**: Parallel `--workers=4`, `fullyParallel: true`. Shard: `--shard=1/4`, `--shard=2/4`.
 
+---
+
 ## Checklist
 
 - [ ] All locators use `getByRole`, `getByLabel`, `getByTestId`, or `getByText`
@@ -193,6 +203,8 @@ test.describe('Login flow', () => {
 - [ ] Assertions use `expect(locator)` web-first form
 - [ ] CI uploads trace files on failure (`--trace on-first-retry`)
 - [ ] Auth state reused via `storageState` to avoid repeated logins
+
+---
 
 ## Resources
 

@@ -14,6 +14,8 @@ Per-pattern reference files for DDD tactical and advanced building blocks, each 
 | [domain-service.md](domain-service.md) | Domain Service | When business logic spans multiple aggregates or entities |
 | [advanced-patterns.md](advanced-patterns.md) | ACL, Sagas, Context Mapping | When integrating contexts, orchestrating workflows, or mapping boundaries |
 
+---
+
 ## Reading Strategy
 
 ### Modeling a new domain
@@ -35,6 +37,8 @@ Read [advanced-patterns.md](advanced-patterns.md) — Anti-Corruption Layer sect
 
 Read [advanced-patterns.md](advanced-patterns.md) — Sagas / Process Managers section.
 
+---
+
 ## File Descriptions
 
 **entity.md** — Identity-based equality, mutable state, lifecycle. Includes Entity vs Value Object decision table and common mistakes (attribute equality, mutable ID, anemic model).
@@ -50,6 +54,8 @@ Read [advanced-patterns.md](advanced-patterns.md) — Sagas / Process Managers s
 **domain-service.md** — Cross-aggregate stateless business logic. Includes PricingService, TransferService, and AuthorizationService examples. Contrasts domain service vs application service.
 
 **advanced-patterns.md** — Three sections: (1) Anti-Corruption Layer with translator and adapter examples; (2) Sagas with choreography and orchestration patterns, compensating transactions, idempotency; (3) Context Mapping with Partnership, Customer-Supplier, Conformist, ACL, Published Language decision guide.
+
+---
 
 ## Cross-Reference Map
 

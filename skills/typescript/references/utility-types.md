@@ -9,6 +9,8 @@
 - Required<Type>
 - Readonly<Type>
 
+---
+
 ## When to Read This
 
 - Transforming existing types (making optional, readonly, etc.)

@@ -230,6 +230,8 @@ After creation? → Run ai-agents-skills sync or make sync
 6. **Validate and sync** → Run `ai-agents-skills validate --skill {name}` then `make sync`
    - Checkpoint: ✅ Validation passes, skill synced to model directories, SKILL.md under 300 lines (complex)
 
+---
+
 ## Example
 
 See [examples.md](references/examples.md) for complete examples:
@@ -268,11 +270,14 @@ Before finalizing any skill:
 
 ### Content
 
+- [ ] H1 title is the topic name only — no "Skill" suffix (e.g., `# React`, not `# React Skill`)
 - [ ] When to Use (with Don't use when)
 - [ ] Critical Patterns with ✅/❌ markers and inline examples (<15 lines each)
 - [ ] Decision Tree (condition→action format)
 - [ ] Example section
 - [ ] Edge Cases
+- [ ] `---` separator between every major `## ` section (except before the first)
+- [ ] No decorative emojis in headings (✅ ❌ ⚠️ are allowed; pictographic emoji are not)
 - [ ] Delegates to code-conventions/a11y/humanizer (not duplicated)
 
 ### Quality

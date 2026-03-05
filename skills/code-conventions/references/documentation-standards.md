@@ -9,6 +9,8 @@
 - Setup
 - Development
 
+---
+
 ## Core Principle: Comment the "Why", Not the "What"
 
 Code should be self-documenting through good naming. Comments explain *why* a decision was made, not *what* the code does.

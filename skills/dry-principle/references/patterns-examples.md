@@ -226,6 +226,8 @@ function OrderList() {
 - Same API call patterns in multiple components
 - Error handling logic repeated across routes/handlers
 
+---
+
 ## When NOT to Apply DRY (Critical)
 
 ### ❌ Coincidental Duplication
@@ -338,6 +340,8 @@ Would extraction create too much complexity?
 - See [frontend-integration.md](frontend-integration.md) for React-specific DRY patterns (custom hooks, shared types)
 - See [backend-integration.md](backend-integration.md) for Node.js DRY patterns (middleware, error handling)
 - See main [architecture-patterns/SKILL.md](../SKILL.md) for overview
+
+---
 
 ## References
 

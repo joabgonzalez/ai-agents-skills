@@ -9,6 +9,8 @@
 - Complete Frontmatter Examples
 - Formatting Rules
 
+---
+
 ## Required Fields
 
 ### name (required)

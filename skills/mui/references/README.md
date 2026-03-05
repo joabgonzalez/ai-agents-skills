@@ -10,7 +10,7 @@ This directory contains detailed guides for Material-UI component usage and cust
 
 ## Quick Navigation
 
-### 🎨 Core Concepts
+### Core Concepts
 
 | Reference File                       | Topics Covered                                               | When to Read                                                |
 | ------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------------------- |

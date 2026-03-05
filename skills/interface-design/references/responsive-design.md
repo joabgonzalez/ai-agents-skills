@@ -9,6 +9,8 @@
 - Responsive Patterns
 - Responsive Images
 
+---
+
 ## Mobile-First Breakpoint Strategy
 
 Start with mobile constraints (smallest screen), then progressively enhance for larger screens using `min-width` media queries.

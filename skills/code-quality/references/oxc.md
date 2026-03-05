@@ -208,6 +208,8 @@ npx oxlint --config oxlintrc.json .
 - See [eslint.md](eslint.md) for mature linting
 - See main [code-quality/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [oxc Documentation](https://oxc.rs/)

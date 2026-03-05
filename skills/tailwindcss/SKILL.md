@@ -11,7 +11,7 @@ metadata:
     tailwindcss: ">=3.0.0 <5.0.0"
 ---
 
-# Tailwind CSS Skill
+# Tailwind CSS
 
 Utility-first CSS for responsive UIs with composable classes and configuration.
 
@@ -25,6 +25,8 @@ Use when:
 - Custom utilities/plugins
 
 Don't use for: MUI (use mui skill), plain CSS (use css skill), complex animations (use css skill).
+
+---
 
 ## Critical Patterns
 
@@ -94,6 +96,8 @@ module.exports = {
 /* WRONG: single-use classes — use utilities directly */
 ```
 
+---
+
 ## Conventions
 
 ### Token Hierarchy
@@ -117,6 +121,8 @@ CSS-first config with `@theme` blocks and OKLCH.
 **New:** `size-*` shorthand, improved spacing, tree-shakeable animations
 
 See [tailwind-v4.md](references/tailwind-v4.md) for migration, breaking changes, OKLCH syntax.
+
+---
 
 ## Decision Tree
 
@@ -143,6 +149,8 @@ See [tailwind-v4.md](references/tailwind-v4.md) for migration, breaking changes,
 **Production build?** -> Ensure all template paths in `content` array or classes get purged.
 
 **Custom animations?** -> v3: Extend `theme.animation`. v4: Use `@keyframes` in `@theme` (see tailwind-v4.md).
+
+---
 
 ## Example
 
@@ -178,6 +186,8 @@ module.exports = {
 </html>
 ```
 
+---
+
 ## Edge Cases
 
 - **Arbitrary values:** `w-[137px]` — avoid; extend theme
@@ -185,6 +195,8 @@ module.exports = {
 - **Purge config:** All paths in `content` or classes removed in prod
 - **Third-party:** Inline styles override; use `!important` or wrappers
 - **@layer:** `@layer components` for components, `@layer utilities` for custom
+
+---
 
 ## Checklist
 
@@ -198,6 +210,8 @@ module.exports = {
 - [ ] Focus/accessibility utilities included
 - [ ] Production build tested (no missing classes)
 - [ ] Dynamic class names avoided (Tailwind cannot detect them)
+
+---
 
 ## Resources
 

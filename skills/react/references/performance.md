@@ -9,6 +9,8 @@
 - useMemo
 - useCallback
 
+---
+
 ## When to Read This
 
 - Components re-rendering unnecessarily
