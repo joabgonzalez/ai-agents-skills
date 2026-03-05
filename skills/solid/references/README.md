@@ -13,6 +13,8 @@ This directory contains a comprehensive reference for all five SOLID principles 
 | [interface-segregation.md](interface-segregation.md) | ISP: IWorker fat interface split into IWorkable/IEatable/ISleepable/ISalaried; IRepository split into IReadRepository/IWriteRepository; React container pattern | When a client depends on methods it does not use |
 | [dependency-inversion.md](dependency-inversion.md) | DIP: UserService injecting IEmailService instead of concrete SendGridEmailProvider; React UserList depending on IUserApi hook abstraction; mock testing pattern | When code is hard to test or tightly coupled to a specific implementation |
 
+---
+
 ## Reading Strategy
 
 ### For applying a specific SOLID principle
@@ -29,6 +31,8 @@ This directory contains a comprehensive reference for all five SOLID principles 
 
 1. Read main [SKILL.md](../SKILL.md)
 2. MUST read: [dependency-inversion.md](dependency-inversion.md) for the interface injection and mock testing pattern
+
+---
 
 ## File Descriptions
 
@@ -77,6 +81,8 @@ This directory contains a comprehensive reference for all five SOLID principles 
 - UserService depending on IEmailService abstraction rather than concrete SendGridEmailProvider; swapping to AWSEmailService without modifying UserService
 - Composition root pattern for wiring concrete implementations to interfaces
 - React UserList depending on IUserApi hook abstraction; mock implementation for unit tests
+
+---
 
 ## Cross-Reference Map
 

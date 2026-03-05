@@ -9,6 +9,8 @@
 - createEntityAdapter
 - CRUD Operations
 
+---
+
 ## When to Read This
 
 - Managing collections of items (users, posts, products)

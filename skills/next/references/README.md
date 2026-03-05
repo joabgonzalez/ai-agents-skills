@@ -5,6 +5,8 @@
 | [data-fetching-patterns.md](./data-fetching-patterns.md) | Server vs Client Components, Route Handlers, fetch cache options, unstable_cache, ISR revalidation, parallel fetching |
 | [routing-patterns.md](./routing-patterns.md) | Parallel routes, intercepting routes, middleware, catch-all routes, route groups, generateStaticParams |
 
+---
+
 ## Reading Strategy
 
 Start with the SKILL.md Decision Tree to identify which concern applies, then jump
@@ -15,6 +17,8 @@ directly to the relevant reference file.
 
 Read the Core Patterns section at the top of each file first. Each subsequent section
 is self-contained; read only the section that matches your immediate need.
+
+---
 
 ## File Descriptions
 
@@ -30,6 +34,8 @@ pages as modals using intercepting route notation, enforcing auth and locale rul
 `middleware.ts`, matching variable URL segments with catch-all and optional catch-all
 routes, separating layouts without changing URLs with route groups, and pre-generating
 dynamic pages at build time with `generateStaticParams()`.
+
+---
 
 ## Cross-Reference Map
 

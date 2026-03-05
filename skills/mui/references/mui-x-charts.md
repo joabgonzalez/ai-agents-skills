@@ -65,6 +65,8 @@ Use container-based sizing, never fixed pixel dimensions:
 <LineChart width={800} height={400} />
 ```
 
+---
+
 ## Chart Type Decision Tree
 
 ```
@@ -74,6 +76,8 @@ Part-to-whole relationship? → PieChart
 Correlation between vars?  → ScatterChart
 Multiple metrics?          → Multiple series in same chart
 ```
+
+---
 
 ## Example
 
@@ -94,6 +98,8 @@ function RevenueChart() {
   );
 }
 ```
+
+---
 
 ## Edge Cases
 

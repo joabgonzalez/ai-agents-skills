@@ -11,7 +11,7 @@ metadata:
     jest: ">=29.0.0 <30.0.0"
 ---
 
-# Jest Skill
+# Jest
 
 Standard test runner for JS/TS projects with built-in mocking, assertions, and coverage.
 
@@ -25,6 +25,8 @@ Don't use for:
 
 - E2E browser testing (use Playwright or Cypress)
 - React component queries (use react-testing-library skill)
+
+---
 
 ## Critical Patterns
 
@@ -102,6 +104,8 @@ await expect(service.fetch('bad-id')).rejects.toThrow('Not found');
 await expect(service.fetch('bad-id')).rejects.toBeInstanceOf(NotFoundError);
 ```
 
+---
+
 ## Decision Tree
 
 - New test file? -> `<module>.test.ts` next to source
@@ -110,6 +114,8 @@ await expect(service.fetch('bad-id')).rejects.toBeInstanceOf(NotFoundError);
 - Async code? -> `async/await` in the `it` callback
 - Error paths? -> `await expect(...).rejects.toThrow()`
 - Shared setup? -> `beforeEach` + `afterEach` cleanup
+
+---
 
 ## Example
 
@@ -134,6 +140,8 @@ describe('OrderService.placeOrder', () => {
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **ES module mocking**: `jest.unstable_mockModule` for ESM; `jest.mock` is CommonJS only
@@ -141,6 +149,8 @@ describe('OrderService.placeOrder', () => {
 - **Snapshot drift**: Review diffs carefully; update with `--updateSnapshot` intentionally
 - **Timer leaks**: Call `jest.useRealTimers()` in `afterEach` to prevent bleed
 - **Global state**: Use `jest.resetModules()` if module caches state at import
+
+---
 
 ## Checklist
 
@@ -150,6 +160,8 @@ describe('OrderService.placeOrder', () => {
 - [ ] All async tests use `async/await`
 - [ ] No test depends on execution order of other tests
 - [ ] Coverage thresholds configured in `jest.config.ts`
+
+---
 
 ## Resources
 

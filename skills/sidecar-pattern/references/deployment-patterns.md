@@ -223,6 +223,8 @@ Resource constraints?
 - Reusable across services (same sidecar image)
 - Consistent cross-cutting concerns across all services
 
+---
+
 ## Disadvantages
 
 - Increased resource consumption (each sidecar uses CPU/memory)
@@ -241,6 +243,8 @@ Resource constraints?
 - Service mesh deployment (Istio, Linkerd)
 - Need to proxy or filter traffic to/from service
 
+---
+
 ## When NOT to Use
 
 - Monolithic applications (use middleware instead)
@@ -258,6 +262,8 @@ Resource constraints?
 - See [backend-integration.md](backend-integration.md) for complete backend examples
 - See [hexagonal-architecture.md](hexagonal-architecture.md) for port/adapter pattern (conceptually similar)
 - See [dry-principle.md](dry-principle.md) for extracting shared cross-cutting concerns
+
+---
 
 ## References
 

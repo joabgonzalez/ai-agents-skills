@@ -9,6 +9,8 @@
 - Tab Navigator
 - Drawer Navigator
 
+---
+
 ## When to Read This
 
 - Setting up React Navigation (Stack, Tab, Drawer)

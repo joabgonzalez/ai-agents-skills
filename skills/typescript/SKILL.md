@@ -9,7 +9,7 @@ metadata:
     typescript: ">=5.0.0 <6.0.0"
 ---
 
-# TypeScript Skill
+# TypeScript
 
 Strict typing with compile-time correctness. Avoid `any`, leverage generics/utility types.
 
@@ -28,6 +28,8 @@ Strict typing with compile-time correctness. Avoid `any`, leverage generics/util
 - Runtime validation ([form-validation](../form-validation/SKILL.md))
 - JS-only patterns (javascript skill)
 - Framework typing (react, mui skills)
+
+---
 
 ## Critical Patterns
 
@@ -163,6 +165,8 @@ const ROUTES = {
 type Route = (typeof ROUTES)[keyof typeof ROUTES]; // '/' | '/about'
 ```
 
+---
+
 ## Decision Tree
 
 - **Runtime validation needed?** -> Use [form-validation](../form-validation/SKILL.md) (Zod/Yup). TypeScript is compile-time only.
@@ -177,6 +181,8 @@ type Route = (typeof ROUTES)[keyof typeof ROUTES]; // '/' | '/about'
 - **External API response?** -> Define interface from actual response shape. Use quicktype for generation.
 - **New project setup?** -> See [references/config-patterns.md](references/config-patterns.md).
 - **Type-safe error handling?** -> See [references/error-handling.md](references/error-handling.md).
+
+---
 
 ## Example
 
@@ -198,6 +204,8 @@ const result: User = updateUser(
   { name: "Jane" },
 );
 ```
+
+---
 
 ## Edge Cases
 
@@ -227,6 +235,8 @@ function isUser(value: unknown): value is User {
 - **Index signatures:** `Record<string, Type>` for dynamic keys; mapped types for known keys.
 - **Const assertions:** `as const` creates readonly literal types.
 
+---
+
 ## Checklist
 
 - [ ] `strict: true` in `tsconfig.json`
@@ -238,6 +248,8 @@ function isUser(value: unknown): value is User {
 - [ ] Generics constrained with `extends`
 - [ ] `satisfies` for validation without type widening
 - [ ] `as const` for literal inference
+
+---
 
 ## Resources
 

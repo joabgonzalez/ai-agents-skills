@@ -10,6 +10,8 @@
 - Navigation components: AppBar, Drawer, Tabs with controlled state
 - Feedback components: Dialog with actions, Snackbar with Alert
 
+---
+
 ## When to Read This
 
 - Using MUI components for the first time

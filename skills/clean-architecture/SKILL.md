@@ -161,6 +161,8 @@ app.post("/api/v1/users", async (req, res) => {
 
 Dependency rule satisfied: Domain ← Application ← Infrastructure / Presentation. Domain has zero external imports.
 
+---
+
 ## Edge Cases
 
 **Frontend Clean Architecture:** Usually overkill for React/Vue apps. State management + component composition covers most needs. Apply only if the frontend has substantial business logic.

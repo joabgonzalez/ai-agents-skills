@@ -11,6 +11,8 @@ CSS-first configuration using `@theme` blocks, OKLCH colors, `size-*` utilities,
 - OKLCH Color Space
 - New Utilities
 
+---
+
 ## CSS-First Configuration
 
 ### Before (v3): JavaScript Config

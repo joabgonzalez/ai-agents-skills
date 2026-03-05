@@ -9,7 +9,7 @@ metadata:
     webpack: ">=5.0.0 <6.0.0"
 ---
 
-# Webpack Skill
+# Webpack
 
 Module bundler: loaders, plugins, code splitting, optimization, cache busting.
 

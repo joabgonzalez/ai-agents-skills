@@ -20,6 +20,8 @@ Enforces clear, professional English in all generated content (code, docs, promp
 
 - Translating to other languages (unless explicitly requested)
 
+---
+
 ## Critical Patterns
 
 ### ✅ REQUIRED: All content in English (American spelling)
@@ -118,6 +120,8 @@ Consider using strict typing for TypeScript files.
 
 Avoid unnecessary use of "you"; focus on direct, actionable statements.
 
+---
+
 ## Decision Tree
 
 ```
@@ -138,9 +142,13 @@ Is there unnecessary direct address? → Remove or rephrase
 Otherwise → Content is compliant
 ```
 
+---
+
 ## Conventions
 
 These rules apply to all generated code, documentation, comments, and prompt content. They do not apply to conversational responses in chat or user-facing explanations unless those are part of generated documentation or code comments.
+
+---
 
 ## Example
 
@@ -154,9 +162,13 @@ Add the dependency to package.json.
 You should add the dependency to package.json.
 ```
 
+---
+
 ## Edge Cases
 
 - If a code example requires a non-English string (e.g., for i18n), clearly comment the exception.
+
+---
 
 ## Resources
 

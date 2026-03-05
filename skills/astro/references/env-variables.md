@@ -9,6 +9,8 @@
 
 > Managing secrets, API keys, and configuration across environments
 
+---
+
 ## When to Read This
 
 - Storing API keys and secrets securely

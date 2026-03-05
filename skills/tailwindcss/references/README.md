@@ -7,6 +7,8 @@
 | [design-system.md](design-system.md) | ~280 | Token hierarchy, semantic naming, CVA, dark mode |
 | [tailwind-v4.md](tailwind-v4.md) | ~220 | v4 migration, OKLCH, new utilities, CSS-first config |
 
+---
+
 ## Reading Strategy
 
 ### Building a Design System with Tailwind

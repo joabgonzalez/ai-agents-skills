@@ -11,6 +11,8 @@ Patterns for writing skill content with Critical Patterns, Decision Trees, inlin
 - Decision Tree Section
 - Decision Tree
 
+---
+
 ## Critical Patterns Section
 
 Critical Patterns are the CORE of skill content - the most important rules AI must follow. Use visual markers (✅/❌) and inline examples for instant comprehension.

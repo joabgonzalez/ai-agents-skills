@@ -9,6 +9,8 @@
 - Try/Catch with `unknown`
 - Custom Error Classes
 
+---
+
 ## When to Read This
 
 - Handling errors without exceptions

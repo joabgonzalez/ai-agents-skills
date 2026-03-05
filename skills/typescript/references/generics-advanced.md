@@ -9,6 +9,8 @@
 - Generic Factory Patterns
 - Conditional Types
 
+---
+
 ## When to Read This
 
 - Creating reusable generic functions/components

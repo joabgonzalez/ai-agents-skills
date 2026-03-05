@@ -6,7 +6,7 @@ metadata:
   version: "1.0"
   type: domain
 ---
-# End-to-End Testing Skill
+# End-to-End Testing
 
 Orchestrates E2E testing strategy and architecture -- delegates to playwright and stagehand skills.
 
@@ -16,6 +16,8 @@ Orchestrates E2E testing strategy and architecture -- delegates to playwright an
 - Automating browser or API flows across services
 - Integrating E2E tests with CI/CD pipelines
 - Don't use for: unit tests, component tests in isolation, load/performance testing
+
+---
 
 ## Critical Patterns
 
@@ -109,6 +111,8 @@ e2e-tests:
       with: { name: playwright-report, path: playwright-report/ }
 ```
 
+---
+
 ## Decision Tree
 
 - Browser UI flow? -> Delegate to the **playwright** skill
@@ -118,6 +122,8 @@ e2e-tests:
 - Testing auth flows? -> Store `storageState` and reuse across tests
 - API-only flow? -> Use Playwright `request` fixture or HTTP client
 - Slow suite? -> Shard across CI workers with `--shard=N/M`
+
+---
 
 ## Example
 
@@ -142,6 +148,8 @@ test.describe('Checkout flow', () => {
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **Flaky network**: Mock external APIs with `page.route()` in CI
@@ -149,6 +157,8 @@ test.describe('Checkout flow', () => {
 - **CI differences**: Pin browser versions; use `playwright install --with-deps`
 - **Long suites**: Shard across CI workers (`--shard=1/4`)
 - **Auth expiry**: Generate short-lived tokens per run; don't cache sessions across runs
+
+---
 
 ## Checklist
 
@@ -159,6 +169,8 @@ test.describe('Checkout flow', () => {
 - [ ] CI uploads trace/report artifacts on failure
 - [ ] External services are mocked in CI
 - [ ] Suite runs under 10 minutes (shard if needed)
+
+---
 
 ## Resources
 

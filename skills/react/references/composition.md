@@ -11,6 +11,8 @@
 - Compound Components
 - Headless Components
 
+---
+
 ## Children Pattern (Composition Over Configuration)
 
 ```typescript

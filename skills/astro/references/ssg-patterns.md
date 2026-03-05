@@ -9,6 +9,8 @@
 - getStaticPaths for Dynamic Routes
 - Pagination
 
+---
+
 ## When to Read This
 
 - Building static websites (blogs, documentation, marketing)

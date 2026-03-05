@@ -196,6 +196,8 @@ Existing users have hashes with old round count; new bcrypt.compare uses new cou
 - [ ] Edge case: users who haven't logged in since migration get password reset email
 ```
 
+---
+
 ## Edge Cases
 
 **Third-party library bug**: Verify with minimal reproduction. Check GitHub issues. Consider workaround vs upgrade vs fork.

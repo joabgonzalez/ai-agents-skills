@@ -9,7 +9,7 @@ metadata:
     - a11y
 ---
 
-# HTML Skill
+# HTML
 
 Semantic, accessible HTML with modern standards, proper structure, meta tags.
 
@@ -23,6 +23,8 @@ Use when:
 - Adding metadata and head elements
 
 Don't use for React JSX (react skill) or accessibility details (a11y skill).
+
+---
 
 ## Critical Patterns
 
@@ -103,6 +105,8 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 </html>
 ```
 
+---
+
 ## Decision Tree
 
 **Interactive element?** -> `<button>` for actions, `<a>` for navigation.
@@ -118,6 +122,8 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 **Image?** -> `<img>` with descriptive `alt`; empty `alt=""` for decorative.
 
 **Tabular data?** -> `<table>` with `<thead>`, `<tbody>`, `<th scope>`.
+
+---
 
 ## Example
 
@@ -147,6 +153,8 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 </html>
 ```
 
+---
+
 ## Edge Cases
 
 - **Multiple h1:** Allowed, but one per page better for screen readers
@@ -154,6 +162,8 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 - **Div soup:** Prefer semantic elements over `<div>`
 - **Form without action:** Needs `action` or JS handler
 - **Button type:** Default `submit`; specify `type="button"` for non-submit
+
+---
 
 ## Checklist
 
@@ -167,6 +177,8 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 - [ ] Labels on all form inputs
 - [ ] Valid nesting (one `<main>`, proper structure)
 - [ ] HTML validated against spec
+
+---
 
 ## Resources
 

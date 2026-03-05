@@ -11,6 +11,8 @@ Checklists and validation procedures for ensuring skill quality and standards co
 - Frontmatter Validation
 - Content Validation
 
+---
+
 ## Pre-Creation Validation
 
 ### Context Gathering
@@ -426,7 +428,7 @@ done
 
 ## Complete Compliance Checklist
 
-### Structure ✓
+### Structure
 
 - [ ] Directory under `skills/` (lowercase, hyphens)
 - [ ] `SKILL.md` file exists
@@ -435,7 +437,7 @@ done
 - [ ] `references/` directory (if 40+ patterns)
 - [ ] All files follow naming conventions
 
-### Frontmatter ✓
+### Frontmatter
 
 - [ ] Required fields: `name`, `description` (with Trigger)
 - [ ] Optional fields add value (not obvious)
@@ -446,7 +448,7 @@ done
 - [ ] All referenced skills exist
 - [ ] Validates against schema
 
-### Content ✓
+### Content
 
 - [ ] All required sections present
 - [ ] Overview (2-5 sentences)
@@ -458,7 +460,7 @@ done
 - [ ] Edge Cases (with workarounds)
 - [ ] Resources (link assets/ and references/)
 
-### Quality ✓
+### Quality
 
 - [ ] Delegates to code-conventions/a11y (not duplicated)
 - [ ] Token-efficient (no redundancy, filler removed)
@@ -468,7 +470,7 @@ done
 - [ ] Active voice, imperative mood
 - [ ] ASCII characters only
 
-### Post-Creation ✓
+### Post-Creation
 
 - [ ] Added to AGENTS.md tables
 - [ ] Synced to model directories
@@ -528,6 +530,9 @@ useEffect(() => { ... }, [deps]);
 # ❌ FAILS: No Decision Tree section
 
 # ✅ PASSES
+
+---
+
 ## Decision Tree
 
 ````

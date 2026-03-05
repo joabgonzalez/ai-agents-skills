@@ -9,6 +9,8 @@
 - DataGrid (MUI X)
 - List
 
+---
+
 ## When to Read This
 
 - Displaying tables with sorting/pagination

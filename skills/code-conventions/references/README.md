@@ -11,6 +11,8 @@
 | [code-structure.md](code-structure.md)                   | File/folder organization    | Structuring projects, SRP for files    |
 | [documentation-standards.md](documentation-standards.md) | JSDoc, comments, READMEs    | Documenting code, APIs, architecture   |
 
+---
+
 ## Reading Strategy
 
 ### For Quick Reference

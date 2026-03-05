@@ -13,7 +13,7 @@ metadata:
     "@testing-library/jest-native": ">=5.0.0"
 ---
 
-# React Native Testing Library Skill
+# React Native Testing Library
 
 Component testing for React Native apps, focusing on behavior over implementation details.
 
@@ -30,6 +30,8 @@ Don't use for:
 - End-to-end tests across app (use Detox or Maestro)
 - Testing native modules directly (use native test frameworks)
 - Performance benchmarking (use React Native performance tools)
+
+---
 
 ## Critical Patterns
 
@@ -125,6 +127,8 @@ test('saves data to storage', async () => {
 });
 ```
 
+---
+
 ## Decision Tree
 
 ```
@@ -164,6 +168,8 @@ Testing with context (Redux, theme)?
   → Share wrapper across test suite
 ```
 
+---
+
 ## Edge Cases
 
 - **Native module mocks**: Some modules require specific mock implementations. Check library docs for recommended mocks (e.g., react-native-reanimated requires babel plugin).
@@ -175,6 +181,8 @@ Testing with context (Redux, theme)?
 - **Navigation testing**: Mocking navigation can be complex. Consider integration tests with createNavigationContainerRef for complex flows.
 
 - **Accessibility labels**: If label not set, queries fail. Always set accessibilityLabel or accessible={true} on interactive elements.
+
+---
 
 ## Checklist
 
@@ -188,6 +196,8 @@ Testing with context (Redux, theme)?
 - [ ] Custom render function created if using providers (Redux, theme)
 - [ ] Mocks reset between tests (jest.clearAllMocks in beforeEach)
 - [ ] Accessibility labels verified on interactive elements
+
+---
 
 ## Example
 
@@ -253,6 +263,8 @@ describe('AsyncButton', () => {
   });
 });
 ```
+
+---
 
 ## Resources
 

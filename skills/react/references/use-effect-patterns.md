@@ -9,6 +9,8 @@
 - Cleanup Patterns
 - Async Patterns
 
+---
+
 ## When to Read This
 
 - Implementing data fetching or subscriptions

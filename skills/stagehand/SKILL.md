@@ -12,7 +12,7 @@ metadata:
     stagehand: ">=1.0.0 <2.0.0"
 ---
 
-# Stagehand Skill
+# Stagehand
 
 AI browser automation with natural language for interaction/extraction. Extends Playwright's `Page` object — key concepts: `page.goto(url)` navigates, `page.locator()` finds elements, `expect(locator).toBeVisible()` asserts. Stagehand adds `page.act()` (natural language actions) and `page.extract()` (structured data extraction) on top.
 
@@ -22,6 +22,8 @@ AI browser automation with natural language for interaction/extraction. Extends 
 - Extracting structured data from web pages
 - Discovering page elements before writing precise selectors
 - Don't use for: deterministic tests (playwright), static scraping, non-browser
+
+---
 
 ## Critical Patterns
 
@@ -160,6 +162,8 @@ const reviews = await page.extract({
 });
 ```
 
+---
+
 ## Decision Tree
 
 - Known, stable selectors? -> Use **playwright** directly instead
@@ -168,6 +172,8 @@ const reviews = await page.extract({
 - Action keeps failing? -> Make the instruction more specific, add retries
 - Exploring unfamiliar page? -> Start with `page.observe()` to map elements
 - Building deterministic tests? -> Prototype with Stagehand, convert to Playwright
+
+---
 
 ## Example
 
@@ -196,6 +202,8 @@ console.log(stories);
 await stagehand.close();
 ```
 
+---
+
 ## Edge Cases
 
 - **Dynamic SPAs**: Call `page.observe()` after navigation or state changes to re-index the DOM. Stagehand doesn't automatically detect SPA route changes.
@@ -218,6 +226,8 @@ await stagehand.close();
 
 - **Complex multi-step forms**: Break into discrete `act()` calls with verification between steps: `await page.act('Fill email field with "user@example.com"')`, then `await page.act('Fill password field with "pass123"')`, not `await page.act('Fill and submit the form')`.
 
+---
+
 ## Checklist
 
 - [ ] Each `act()` call contains a single, specific instruction
@@ -226,6 +236,8 @@ await stagehand.close();
 - [ ] `observe()` is used first when exploring unfamiliar pages
 - [ ] Literal text values are quoted in instructions
 - [ ] Stable flows use Playwright directly -- Stagehand is for AI flexibility
+
+---
 
 ## Resources
 

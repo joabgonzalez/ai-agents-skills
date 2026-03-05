@@ -8,7 +8,7 @@ metadata:
 
 ---
 
-# Frontend Development Skill
+# Frontend Development
 
 Universal frontend workflow guiding componentization, state management, testing, and deployment. Technology-agnostic, orchestrates technical skills (react, typescript, a11y) without duplicating patterns.
 
@@ -260,6 +260,8 @@ it("filters products by search input", async () => {
 ```
 
 Patterns applied: component decomposition by responsibility, local state for UI, React Query for server state, derived state computed during render, `getByRole` accessible queries.
+
+---
 
 ## Edge Cases
 

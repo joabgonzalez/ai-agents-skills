@@ -9,6 +9,8 @@
 - Node.js/Express
 - TypeScript-Specific
 
+---
+
 ## JavaScript/TypeScript
 
 | Error | Common Root Cause | Fix |
@@ -19,6 +21,8 @@
 | `Cannot find module` | Wrong path, missing install | Check path relativity, run `npm install` |
 | `Unexpected token` | Syntax error or wrong file type | Check for missing brackets, commas, semicolons |
 | `Assignment to constant variable` | Reassigning `const` | Use `let` if value changes, or create new variable |
+
+---
 
 ## React
 
@@ -32,6 +36,8 @@
 | Stale closure in useCallback | Empty dependency array captures old values | Include dependencies in array |
 | Infinite useEffect loop | Object/array in dependency array (new reference each render) | Memoize with useMemo or move inside effect |
 
+---
+
 ## Node.js/Express
 
 | Error | Common Root Cause | Fix |
@@ -42,6 +48,8 @@
 | "Headers already sent" | Calling `res.json()` twice | Return after first response |
 | `UnhandledPromiseRejection` | Missing try/catch in async handler | Wrap async handlers, add error middleware |
 | `ENOMEM` | Memory leak or large payload | Profile memory, add limits, stream large data |
+
+---
 
 ## TypeScript-Specific
 

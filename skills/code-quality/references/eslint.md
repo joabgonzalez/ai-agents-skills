@@ -246,6 +246,8 @@ module.exports = {
 - See [biome.md](biome.md) for modern alternative
 - See main [code-quality/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [ESLint Documentation](https://eslint.org/docs/latest/)

@@ -9,6 +9,8 @@
 - Image Optimization
 - Navigation Performance
 
+---
+
 ## When to Read This
 
 - Optimizing FlatList rendering

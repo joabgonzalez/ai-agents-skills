@@ -11,7 +11,7 @@ metadata:
     react: ">=17.0.0 <19.0.0"
 ---
 
-# React Skill
+# React
 
 Hooks, functional components, state management, and performance optimization for React apps.
 
@@ -30,6 +30,8 @@ Don't use for:
 - React Native (use react-native skill)
 - Redux (use redux-toolkit skill)
 - Server-side frameworks (use astro or relevant framework skill)
+
+---
 
 ## Critical Patterns
 
@@ -86,6 +88,8 @@ const [value, setValue] = useState(0);
 const shouldUse = condition ? value : defaultValue;
 ```
 
+---
+
 ## Decision Tree
 
 - **Simple state (<3 values)?** -> `useState`. See [hooks-advanced.md](references/hooks-advanced.md) (useState Patterns section).
@@ -102,6 +106,8 @@ const shouldUse = condition ? value : defaultValue;
 - **File upload?** -> Controlled input + File API. See [forms-state.md](references/forms-state.md) (File Uploads section).
 - **Large list (1000+)?** -> Virtualization. See [performance.md](references/performance.md) (List Rendering Optimization section).
 - **Conditional rendering?** -> `&&` for simple, ternary for if-else, early return for complex logic.
+
+---
 
 ## Example
 
@@ -133,6 +139,8 @@ const TodoList: React.FC<TodoProps> = ({ items }) => {
 };
 ```
 
+---
+
 ## Edge Cases
 
 **Stale closures in useEffect:** Include all dependencies or use functional setState: `setState(prev => prev + 1)`.
@@ -154,6 +162,8 @@ useEffect(() => {
 
 **Architecture patterns:** Apply Clean Architecture/SOLID only when AGENTS.md specifies it, codebase uses domain/application/infrastructure folders, or user requests. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md).
 
+---
+
 ## Checklist
 
 - [ ] Functional components with hooks (no class components)
@@ -164,6 +174,8 @@ useEffect(() => {
 - [ ] useMemo/useCallback only where profiling shows need
 - [ ] Controlled inputs for forms with validation
 - [ ] Context split by update frequency to avoid unnecessary re-renders
+
+---
 
 ## Resources
 

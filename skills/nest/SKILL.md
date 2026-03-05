@@ -11,7 +11,7 @@ metadata:
     "@nestjs/core": ">=10.0.0 <11.0.0"
 ---
 
-# NestJS Skill
+# NestJS
 
 Scalable server apps with NestJS modules, dependency injection, and decorators.
 
@@ -26,6 +26,8 @@ Don't use for:
 - Single-file scripts/CLIs (use Node.js)
 - Lightweight edge functions (use Hono/Express)
 - Frontend-only projects
+
+---
 
 ## Critical Patterns
 
@@ -106,6 +108,8 @@ export class DomainExceptionFilter implements ExceptionFilter {
 }
 ```
 
+---
+
 ## Decision Tree
 
 - REST API? -> Use `@Controller` with HTTP method decorators
@@ -116,6 +120,8 @@ export class DomainExceptionFilter implements ExceptionFilter {
 - Response shaping? -> Use an Interceptor or Serializer
 - Background work? -> Use `@nestjs/bull` or `@nestjs/schedule`
 - Config secrets? -> Use `ConfigModule.forRoot()` with `.env`
+
+---
 
 ## Example
 
@@ -137,6 +143,8 @@ export class UsersController {
 }
 ```
 
+---
+
 ## Edge Cases
 
 - **Circular deps**: Use `forwardRef(() => SomeModule)` for mutual dependencies.
@@ -144,6 +152,8 @@ export class UsersController {
 - **Module order**: Import `ConfigModule` before dependent modules.
 - **Global pipes**: `app.useGlobalPipes()` skips DI; use `APP_PIPE` provider for injected deps.
 - **Test mocks**: Override providers in `Test.createTestingModule()`, not imports.
+
+---
 
 ## Checklist
 
@@ -155,6 +165,8 @@ export class UsersController {
 - [ ] Exception filters map domain errors to HTTP status codes
 - [ ] `ConfigModule` loads environment variables before dependent modules
 - [ ] Unit tests mock providers via the testing module
+
+---
 
 ## Resources
 

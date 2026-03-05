@@ -13,6 +13,8 @@ Dependency rules based on skill **type classification**. Every skill must have a
 - Type Determination Guide
 - Dependency Resolution Examples
 
+---
+
 ## Type System Overview
 
 Every skill must be classified into one of these 7 types:

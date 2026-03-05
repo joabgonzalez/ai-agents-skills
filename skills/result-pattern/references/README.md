@@ -8,6 +8,8 @@ This directory contains advanced Result pattern implementations including the ba
 |---|---|---|
 | [advanced-patterns.md](advanced-patterns.md) | Basic Result<T> implementation, API endpoint integration, chaining with flatMap, React custom hook with Result, Redux Toolkit slice, Either<L,R>, Option<T>, Result + Clean Architecture, Result + SOLID, exceptions comparison | When implementing Result in a new context, chaining async operations, or choosing between Result and Either |
 
+---
+
 ## Reading Strategy
 
 ### For adding Result to a backend API
@@ -25,6 +27,8 @@ This directory contains advanced Result pattern implementations including the ba
 1. Read main [SKILL.md](../SKILL.md)
 2. CHECK: [advanced-patterns.md](advanced-patterns.md) "Either<L,R>" and "Option<T>" sections, and the Comparison with Exceptions table
 
+---
+
 ## File Descriptions
 
 ### [advanced-patterns.md](advanced-patterns.md)
@@ -40,6 +44,8 @@ This directory contains advanced Result pattern implementations including the ba
 - Option<T>: Some/None variant replacing nullable returns with type-safe presence checks
 - Integration: Result + Clean Architecture use case returning Result<Order>; Result + SOLID SRP separating validation and duplication checks into distinct services
 - Comparison table: exceptions vs Result across visibility, handling, performance, composability, and type safety
+
+---
 
 ## Cross-Reference Map
 

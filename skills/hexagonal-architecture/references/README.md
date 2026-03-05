@@ -8,6 +8,8 @@ This directory contains a complete ports-and-adapters reference with TypeScript 
 |---|---|---|
 | [port-adapter-examples.md](port-adapter-examples.md) | Application core, secondary ports (interfaces), secondary adapters (Postgres, Mongo, SendGrid, AWS SES), primary adapters (HTTP, CLI), composition root, unit and integration tests, frontend analytics example, folder structure | When defining ports, implementing adapters, wiring dependencies, or writing tests against mock adapters |
 
+---
+
 ## Reading Strategy
 
 ### For defining ports and wiring the composition root
@@ -25,6 +27,8 @@ This directory contains a complete ports-and-adapters reference with TypeScript 
 1. Read main [SKILL.md](../SKILL.md)
 2. MUST read: [port-adapter-examples.md](port-adapter-examples.md) "Testing with Adapters" section for unit (mock) and integration (real adapter) test patterns
 
+---
+
 ## File Descriptions
 
 ### [port-adapter-examples.md](port-adapter-examples.md)
@@ -41,6 +45,8 @@ This directory contains a complete ports-and-adapters reference with TypeScript 
 - Adapter swapping: Postgres to MongoDB and SendGrid to AWS SES with single-line change at composition root
 - Frontend example: IAnalytics port with Segment and Google Analytics adapters wired via React Context
 - Folder structure: core/ports, adapters/repositories, adapters/services, adapters/http
+
+---
 
 ## Cross-Reference Map
 

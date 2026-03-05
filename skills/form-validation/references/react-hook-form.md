@@ -628,6 +628,8 @@ const { register } = useForm({ mode: 'onTouched' });
 - See [formik.md](formik.md) for Formik comparison
 - See main [form-validation/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [React Hook Form Documentation](https://react-hook-form.com/)

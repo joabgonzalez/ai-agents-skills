@@ -9,6 +9,8 @@
 | [interaction-design.md](interaction-design.md) | ~450 | Motion, micro-interactions, feedback, gestures, performance |
 | [responsive-design.md](responsive-design.md) | ~420 | Mobile-first, breakpoints, fluid layouts, touch targets |
 
+---
+
 ## Reading Strategy
 
 ### Planning a New Feature/Page

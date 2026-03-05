@@ -93,6 +93,8 @@ This directory contains detailed guides for advanced TypeScript features. Main [
 - Error unions
 - Exception handling
 
+---
+
 ## Cross-Reference Map
 
 - [config-patterns.md](config-patterns.md) → Project setup; foundational before all other patterns

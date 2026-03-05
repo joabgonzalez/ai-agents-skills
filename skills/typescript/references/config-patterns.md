@@ -9,6 +9,8 @@
 - Module Resolution
 - Path Mapping
 
+---
+
 ## When to Read This
 
 - Setting up new TypeScript project

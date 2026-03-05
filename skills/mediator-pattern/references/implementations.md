@@ -428,6 +428,8 @@ const order = await mediator.query(new GetOrderQuery("order-1"));
 - Event-driven architecture
 - CQRS pattern
 
+---
+
 ## When NOT to Use
 
 - Simple one-to-one communication

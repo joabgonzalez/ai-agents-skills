@@ -9,6 +9,8 @@
 - Context Performance Optimization
 - Compound Components
 
+---
+
 ## When to Read This
 
 - Sharing state across components

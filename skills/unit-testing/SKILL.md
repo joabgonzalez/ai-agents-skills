@@ -7,7 +7,7 @@ metadata:
   type: domain
 ---
 
-# Unit Testing Skill
+# Unit Testing
 
 Patterns for isolated, maintainable unit tests. Orchestrates **jest** and **react-testing-library** -- delegate to them for runner APIs and component queries.
 
@@ -22,6 +22,8 @@ Don't use for:
 - Jest syntax and mock APIs -- delegate to **jest** skill
 - React component queries -- delegate to **react-testing-library** skill
 - Integration or E2E test strategy (different scope)
+
+---
 
 ## Critical Patterns
 
@@ -102,6 +104,8 @@ expect(repo.save).not.toHaveBeenCalled();     // no side-effect on failure
 
 Negative assertions use Jest matchers — see **jest** skill for `.not`, `.toThrow()`, `.rejects`.
 
+---
+
 ## Decision Tree
 
 - React component? -> Delegate to **react-testing-library** skill
@@ -111,6 +115,8 @@ Negative assertions use Jest matchers — see **jest** skill for `.not`, `.toThr
 - Multiple behaviors? -> One `it` per behavior under `describe`
 - Error handling? -> Dedicated `it('should throw when ...')` case
 - Unsure what to mock? -> Mock anything touching network, disk, or clock
+
+---
 
 ## Example
 
@@ -138,6 +144,8 @@ describe('AccountService.withdraw', () => {
 });
 ```
 
+---
+
 ## Edge Cases
 
 - **Flaky async**: Always `await` async operations; use fake timers for time-dependent logic
@@ -145,6 +153,8 @@ describe('AccountService.withdraw', () => {
 - **Test coupling**: If renaming private method breaks tests, test public API only
 - **Shared utilities**: Extract factories (`createUser()`) into `test/helpers/`
 - **Non-deterministic data**: Seed random values or freeze `Date.now()`
+
+---
 
 ## Checklist
 
@@ -155,6 +165,8 @@ describe('AccountService.withdraw', () => {
 - [ ] `beforeEach` creates fresh instances; `afterEach` restores mocks
 - [ ] Error and edge-case paths have dedicated test cases
 - [ ] Test file lives next to source: `<module>.test.ts`
+
+---
 
 ## Resources
 

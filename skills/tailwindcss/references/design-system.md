@@ -9,6 +9,8 @@
 - CVA (Class Variance Authority)
 - Dark Mode Patterns
 
+---
+
 ## Token Hierarchy
 
 Organize design tokens in three layers for clarity and maintainability.

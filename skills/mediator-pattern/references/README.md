@@ -8,6 +8,8 @@ This directory contains concrete TypeScript implementations of the Mediator patt
 |---|---|---|
 | [implementations.md](implementations.md) | Classic mediator structure, order processing mediator, event bus, Redux middleware mediator, React Context mediator, CQRS command/query routing | When implementing multi-component coordination, event-driven architecture, or CQRS |
 
+---
+
 ## Reading Strategy
 
 ### For decoupling components or services
@@ -25,6 +27,8 @@ This directory contains concrete TypeScript implementations of the Mediator patt
 1. Read main [SKILL.md](../SKILL.md)
 2. MUST read: [implementations.md](implementations.md) "CQRS with Mediator" section for command and query handler registration and routing
 
+---
+
 ## File Descriptions
 
 ### [implementations.md](implementations.md)
@@ -37,6 +41,8 @@ This directory contains concrete TypeScript implementations of the Mediator patt
 - Frontend Redux middleware: analyticsMiddleware acting as mediator between dispatched actions and analytics/logging services
 - Frontend React Context: AppMediator coordinating analytics, logger, and error tracker via context provider and useMediator hook
 - CQRS mediator: Mediator class with registerCommand/registerQuery, CreateOrderCommand/Handler, GetOrderQuery/Handler with type-safe routing
+
+---
 
 ## Cross-Reference Map
 

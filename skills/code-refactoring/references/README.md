@@ -12,6 +12,8 @@ Supporting reference material for the code-refactoring skill.
 | [deployment-safety.md](./deployment-safety.md) | Canary deployments, rollback, pair programming | When deploying refactored code to production |
 | [compliance-checklist.md](./compliance-checklist.md) | 4-phase checklist with 4 compliance gates | Before merging or deploying any refactoring work |
 
+---
+
 ## Reading Strategy
 
 1. **Start here** if you are new: read `migration-patterns.md` to understand concrete before/after transformations.
@@ -19,6 +21,8 @@ Supporting reference material for the code-refactoring skill.
 3. **During refactoring legacy code**: consult `legacy-testing.md` for characterization test strategies.
 4. **For large or multi-file refactors**: read `advanced-techniques.md` for worktrees and codemod automation.
 5. **Before deployment**: read `deployment-safety.md` for canary rollout and rollback procedures.
+
+---
 
 ## File Descriptions
 
@@ -31,6 +35,8 @@ Supporting reference material for the code-refactoring skill.
 **deployment-safety.md** — Defines the approval gate structure by risk level (LOW/MEDIUM/HIGH/CRITICAL), the Kubernetes canary deployment pattern for gradual traffic shifting, automated rollback logic based on error rate and latency thresholds, and the pair programming protocol for high-risk changes.
 
 **compliance-checklist.md** — The complete four-phase compliance checklist (Baseline Capture, Refactoring with Validation Gates, Post-Refactoring Audit, Production Deployment) along with all four mandatory compliance gates, failure response procedures, and a condensed quick-reference version of each gate.
+
+---
 
 ## Cross-Reference Map
 

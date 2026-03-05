@@ -9,6 +9,8 @@
 
 > Mixing static and dynamic rendering, migration paths, and per-page decisions
 
+---
+
 ## When to Read This
 
 - Combining static and dynamic pages in one project

@@ -4,15 +4,21 @@
 | ---- | ------- |
 | [middleware-patterns.md](./middleware-patterns.md) | Built-in middleware, custom middleware factories, runtime adapters, context variables, error handling |
 
+---
+
 ## Reading Strategy
 
 Start with the SKILL.md for the core Hono patterns (route chaining, middleware composition, zValidator, context helpers, Cloudflare environment bindings). Then read `middleware-patterns.md` for complete implementation details on every middleware scenario: built-in middleware configuration, writing reusable middleware factories, adapting to different runtimes, sharing typed data through the middleware chain with context variables, and handling errors globally with `app.onError()`.
 
 This references directory has one content file covering the full middleware surface area. All middleware topics are in a single file to keep cross-referencing simple — use the section headers to navigate directly to the pattern you need.
 
+---
+
 ## File Descriptions
 
 **middleware-patterns.md** — Complete Hono middleware reference: built-in middleware (`logger`, `cors`, `compress`, `bearerAuth`, `zValidator`) with configuration options and registration order; custom middleware with inline `app.use()` functions and the `createMiddleware()` factory for typed context variables; runtime adapter differences for Cloudflare Workers (`export default app`), Bun (`export default { fetch: app.fetch }`), and Node.js (`serve({ fetch: app.fetch })`); context variable typing with the `Variables` generic and `c.set()`/`c.get()`; global error handling with `app.onError()` and `app.notFound()`; `HTTPException` for structured HTTP errors; per-route try/catch with re-throw for unknown errors.
+
+---
 
 ## Cross-Reference Map
 

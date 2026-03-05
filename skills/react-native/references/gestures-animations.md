@@ -9,6 +9,8 @@
 - Animated API
 - Reanimated (v3)
 
+---
+
 ## When to Read This
 
 - Implementing gestures (tap, pan, swipe)

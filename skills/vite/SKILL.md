@@ -9,7 +9,7 @@ metadata:
     vite: ">=5.0.0 <6.0.0"
 ---
 
-# Vite Skill
+# Vite
 
 Fast build with native ES modules, HMR. Config, plugins, env vars, optimization.
 

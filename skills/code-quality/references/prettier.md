@@ -180,6 +180,8 @@ npx husky init
 - See [biome.md](biome.md) for modern alternative (replaces Prettier)
 - See main [code-quality/SKILL.md](../SKILL.md) for decision tree
 
+---
+
 ## References
 
 - [Prettier Documentation](https://prettier.io/docs/en/)

@@ -11,7 +11,7 @@ metadata:
     express: ">=4.18.0 <5.0.0"
 ---
 
-# Express.js Skill
+# Express.js
 
 REST APIs and server logic with Express v4.x middleware and routing.
 
@@ -26,6 +26,8 @@ Don't use for:
 - Static site generation (use Next.js/Astro)
 - GraphQL-first APIs (use Apollo Server)
 - Edge/serverless zero cold-start (use Hono)
+
+---
 
 ## Critical Patterns
 
@@ -102,6 +104,8 @@ router.delete("/users/:id", asyncHandler(async (req, res) => {
 }));
 ```
 
+---
+
 ## Decision Tree
 
 - Multiple resource routes? -> Group into a Router per resource
@@ -111,6 +115,8 @@ router.delete("/users/:id", asyncHandler(async (req, res) => {
 - Creating a resource? -> Return 201, not 200
 - Deleting a resource? -> Return 204 with no body
 - Unhandled error? -> Let centralized error middleware respond
+
+---
 
 ## Example
 
@@ -133,6 +139,8 @@ app.post("/users", asyncHandler(async (req: any, res: any) => {
 }));
 ```
 
+---
+
 ## Edge Cases
 
 - **Async errors**: Express 4 swallows rejected promises; use async wrapper.
@@ -140,6 +148,8 @@ app.post("/users", asyncHandler(async (req: any, res: any) => {
 - **Large payloads**: Set `express.json({ limit: "1mb" })` to prevent 413/memory issues.
 - **Double response**: `res.json()` twice throws; guard with `if (res.headersSent)`.
 - **Missing Content-Type**: No `Content-Type: application/json` → empty `req.body`.
+
+---
 
 ## Checklist
 
@@ -150,6 +160,8 @@ app.post("/users", asyncHandler(async (req: any, res: any) => {
 - [ ] Correct HTTP status codes are used (201, 204, 400, 404, 500)
 - [ ] `express.json()` has an explicit size limit
 - [ ] Sensitive headers (CORS, Helmet) are configured
+
+---
 
 ## Resources
 

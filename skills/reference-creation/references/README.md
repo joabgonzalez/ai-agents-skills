@@ -8,6 +8,8 @@ Navigation guide for reference-creation reference files.
 |-----------|-------|-------|
 | [templates.md](templates.md) | ~110 | Full reference file template and hooks.md/components.md examples |
 
+---
+
 ## Reading Strategy
 
 **Creating a reference file for the first time:** Read SKILL.md → templates.md for the structural template.
@@ -16,11 +18,15 @@ Navigation guide for reference-creation reference files.
 
 **Validating an existing reference file:** Use SKILL.md Checklist + templates.md structure as the standard.
 
+---
+
 ## File Descriptions
 
 ### templates.md (~110 lines)
 
 Full structural template for reference files, including critical rules (no Overview section, H3 for sub-sections, token efficiency). Also contains complete real-world examples: hooks.md and components.md patterns for a React skill.
+
+---
 
 ## Cross-Reference Map
 

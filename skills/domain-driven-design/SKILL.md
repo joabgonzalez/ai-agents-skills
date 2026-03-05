@@ -257,6 +257,8 @@ interface OrderRepository { save(order: Order): Promise<void>; findById(id: stri
 
 Patterns applied: value object (`Money`), aggregate root (`Order`) protecting invariants, domain event (`OrderConfirmedEvent`), repository interface (infrastructure implements it).
 
+---
+
 ## Edge Cases
 
 **Aggregate size:** Too-large aggregates cause contention (everything locks on Order). Too-small aggregates lose invariant protection. Design around business transactions, not data.

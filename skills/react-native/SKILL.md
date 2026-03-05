@@ -12,7 +12,7 @@ metadata:
     react: ">=17.0.0 <19.0.0"
 ---
 
-# React Native Skill
+# React Native
 
 Cross-platform iOS/Android with React Native. Native components, platform code, navigation, and performance.
 

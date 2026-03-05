@@ -11,6 +11,8 @@ Strategies for creating token-efficient skills without sacrificing clarity. Maxi
 - Content Compression
 - Critical Patterns
 
+---
+
 ## Why Token Efficiency Matters
 
 ### Impact on AI Performance
@@ -256,6 +258,8 @@ npm install prettier
 ```
 ````
 
+---
+
 ## Configuration
 
 ```json
@@ -264,6 +268,8 @@ npm install prettier
 }
 ```
 
+---
+
 ## Usage
 
 ```bash
@@ -271,6 +277,8 @@ npx prettier --write .
 ```
 
 # ✅ COMBINED (single cohesive section)
+
+---
 
 ## Setup and Usage
 

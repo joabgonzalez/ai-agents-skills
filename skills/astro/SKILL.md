@@ -14,7 +14,7 @@ metadata:
     react: ">=18.0.0 <19.0.0"
 ---
 
-# Astro Skill
+# Astro
 
 Fast sites with SSG/SSR, minimal JS, TypeScript, and client island architecture.
 
@@ -31,6 +31,8 @@ Don't use for:
 - Full SPAs (use react)
 - Client-heavy apps with constant state
 - Real-time dashboards with WebSockets
+
+---
 
 ## Critical Patterns
 
@@ -111,6 +113,8 @@ export default defineConfig({ output: 'server', adapter: node() });
 export default defineConfig({ output: 'hybrid', adapter: node() });
 ```
 
+---
+
 ## Decision Tree
 
 - **No adapter (SSG-only)?** -> Read [ssg-patterns.md](references/ssg-patterns.md)
@@ -127,6 +131,8 @@ export default defineConfig({ output: 'hybrid', adapter: node() });
 - **Immediate interaction?** -> `client:load`
 - **Below fold interaction?** -> `client:visible`
 - **Non-critical interaction?** -> `client:idle`
+
+---
 
 ## Example
 
@@ -175,6 +181,8 @@ export default defineConfig({
 // profile.astro -> SSR (export const prerender = false)
 ```
 
+---
+
 ## Edge Cases
 
 - **SSG-only errors**: No adapter → `prerender: false`/`Astro.locals`/POST fail build.
@@ -186,6 +194,8 @@ export default defineConfig({
 - **Migration SSG→SSR**: Install adapter, set output `'hybrid'`, add `prerender: false` per page.
 - **Architecture**: Apply Clean Architecture/SOLID only with complex server logic. See [architecture-patterns SKILL.md](../architecture-patterns/SKILL.md).
 
+---
+
 ## Checklist
 
 - [ ] Project type detected from `astro.config.mjs` before writing code
@@ -195,6 +205,8 @@ export default defineConfig({
 - [ ] `prerender: false` only on SSR pages with adapter installed
 - [ ] Semantic HTML with proper heading hierarchy
 - [ ] Minimal runtime JavaScript
+
+---
 
 ## Resources
 

@@ -12,7 +12,7 @@ metadata:
     react-redux: ">=8.0.0 <10.0.0"
 ---
 
-# Redux Toolkit Skill
+# Redux Toolkit
 
 Redux state with simplified API. createSlice, configureStore, RTK Query for predictable state and async logic.
 
@@ -101,6 +101,8 @@ const store = createStore(
 - Immer for immutable updates
 - Follow Redux style guide
 
+---
+
 ## Decision Tree
 
 **Setting up Redux?** → **MUST read [typescript-integration.md](references/typescript-integration.md)** for store setup, typed hooks (useAppDispatch, useAppSelector), RootState/AppDispatch types.
@@ -122,6 +124,8 @@ const store = createStore(
 **Cross-slice logic?** → Use extraReducers in slice or dispatch actions from async thunks. Avoid direct slice imports (circular deps).
 
 **DevTools not working?** → Verify `configureStore` enables DevTools by default. Use Redux DevTools Extension for time-travel debugging.
+
+---
 
 ## Example
 

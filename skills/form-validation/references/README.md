@@ -11,6 +11,8 @@
 | [react-hook-form.md](react-hook-form.md) | Performant React form management with minimal re-renders | Building forms in React (modern approach) |
 | [formik.md](formik.md) | React form management with Yup integration | Using Formik (legacy projects) |
 
+---
+
 ## Reading Strategy
 
 ### For Schema Validation Only (No Forms)
@@ -29,6 +31,8 @@
 
 - **API validation:** Read [zod.md](zod.md) or [yup.md](yup.md) depending on project
 
+---
+
 ## Library Comparison
 
 | Feature | Zod | Yup | React Hook Form | Formik |
@@ -41,6 +45,8 @@
 | **React Integration** | Via resolver | Via validator | Native | Native |
 | **Status** | Active (2021+) | Active (2016+) | Active (2019+) | Maintenance mode |
 | **Best For** | TypeScript projects | Legacy projects | Modern React forms | Existing Formik codebases |
+
+---
 
 ## Decision Guide
 
@@ -69,6 +75,8 @@
 - Existing Formik codebase
 - Migration risk is high
 - Team familiar with Formik patterns
+
+---
 
 ## Context-Aware Usage
 

@@ -10,7 +10,7 @@ This directory contains detailed guides for specific aspects of Astro developmen
 
 ## Quick Navigation
 
-### 🏗️ Rendering Strategies
+### Rendering Strategies
 
 | Reference                                    | Purpose                                                 | Read When                                               |
 | -------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
@@ -18,7 +18,7 @@ This directory contains detailed guides for specific aspects of Astro developmen
 | [ssr-patterns.md](ssr-patterns.md)           | Server-Side Rendering, Astro.locals, server endpoints   | Building dynamic pages, authentication, personalization |
 | [hybrid-strategies.md](hybrid-strategies.md) | Mixing SSG + SSR, migration paths                       | Combining static and dynamic pages                      |
 
-### ⚡ Interactivity & Content
+### Interactivity & Content
 
 | Reference                                        | Purpose                                        | Read When                                           |
 | ------------------------------------------------ | ---------------------------------------------- | --------------------------------------------------- |
@@ -27,7 +27,7 @@ This directory contains detailed guides for specific aspects of Astro developmen
 | [actions.md](actions.md)                         | Server actions, form handling, validation      | Implementing form submissions and server-side logic |
 | [composition.md](composition.md)                 | Named slots, fallback content, slot conditions | Building reusable layout components with slots      |
 
-### 🚀 Performance & Advanced Features
+### Performance & Advanced Features
 
 | Reference                                            | Purpose                                                          | Read When                                                         |
 | ---------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |

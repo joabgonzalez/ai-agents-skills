@@ -9,6 +9,8 @@
 - Custom Hooks
 - useRef Patterns
 
+---
+
 ## When to Read This
 
 - Deciding between useState and useReducer for complex state

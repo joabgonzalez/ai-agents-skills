@@ -11,6 +11,8 @@ Full skill examples demonstrating proper structure at simple, medium, and comple
 - Objective
 - When to Use
 
+---
+
 ## Example 1: Simple Skill (Prettier)
 
 **Indicators:** <15 patterns, single topic, no sub-divisions

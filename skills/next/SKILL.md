@@ -12,7 +12,7 @@ metadata:
     react: ">=18.0.0 <19.0.0"
 ---
 
-# Next.js Skill
+# Next.js
 
 Fullstack React apps with App Router, server components, and server actions for Next.js 13-14.
 
@@ -27,6 +27,8 @@ Don't use for:
 - Static sites without React (use Astro)
 - Backend-only APIs (use Express/Hono)
 - Non-React frontends (use SvelteKit/Nuxt)
+
+---
 
 ## Critical Patterns
 
@@ -104,6 +106,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 }
 ```
 
+---
+
 ## Decision Tree
 
 - Needs browser APIs or state? -> Add `"use client"` directive
@@ -114,6 +118,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 - Protecting routes? -> Use `middleware.ts` at the project root
 - Periodic data refresh? -> Use `fetch` with `next: { revalidate: N }`
 - On-demand cache clear? -> Call `revalidatePath()` or `revalidateTag()`
+
+---
 
 ## Example
 
@@ -139,6 +145,8 @@ export default async function PostsPage() {
 }
 ```
 
+---
+
 ## Edge Cases
 
 - **Client boundaries**: `"use client"` makes component + imports client-side; push down tree.
@@ -146,6 +154,8 @@ export default async function PostsPage() {
 - **Waterfall fetches**: Sequential `await` creates waterfalls; use `Promise.all()`.
 - **Middleware limits**: Edge Runtime only; no Node.js APIs (`fs`, DB drivers).
 - **Revalidation conflicts**: Mixed `revalidate` values use lowest; set deliberately.
+
+---
 
 ## Checklist
 
@@ -157,6 +167,8 @@ export default async function PostsPage() {
 - [ ] `middleware.ts` handles auth redirects and rewrites
 - [ ] Fetch calls include `next: { revalidate }` or `cache` options
 - [ ] Client component boundaries are pushed as low in the tree as possible
+
+---
 
 ## Resources
 

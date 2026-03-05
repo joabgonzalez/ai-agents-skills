@@ -135,6 +135,8 @@ class AlertService {
 // Test: inject mock channels — no SMTP or Slack calls in unit tests
 ```
 
+---
+
 ## Edge Cases
 
 **Over-engineering SRP:** Splitting too far creates 20 tiny classes with one method each. SRP means "one reason to change", not "one method". A repository with findById + save + delete has ONE responsibility (data access).

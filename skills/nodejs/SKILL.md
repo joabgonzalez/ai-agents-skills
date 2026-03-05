@@ -11,7 +11,7 @@ metadata:
     node: ">=18.0.0 <23.0.0"
 ---
 
-# Node.js Skill
+# Node.js
 
 Async I/O, process management, backend services with Node.js runtime.
 
@@ -30,6 +30,8 @@ Don't use for:
 - CPU-intensive tasks (worker threads/separate processes)
 - Browser code (javascript/typescript skills)
 - Framework patterns (express, nest, hono skills)
+
+---
 
 ## Critical Patterns
 
@@ -104,6 +106,8 @@ process.on('uncaughtException', (error) => {
 });
 ```
 
+---
+
 ## Decision Tree
 
 ```
@@ -137,6 +141,8 @@ Memory-intensive operations?
   → Implement backpressure for streams
 ```
 
+---
+
 ## Edge Cases
 
 - **Unhandled rejections**: `.catch()` or try/catch. Use `process.on('unhandledRejection')` as fallback.
@@ -148,6 +154,8 @@ Memory-intensive operations?
 - **File descriptors**: OS limits (default ~1024). Use `ulimit -n` or connection pooling.
 
 - **Event loop blocking**: CPU tasks block loop. Use worker threads or `setImmediate()`.
+
+---
 
 ## Checklist
 
@@ -161,6 +169,8 @@ Memory-intensive operations?
 - [ ] Child processes cleaned up on exit
 - [ ] Health check endpoint implemented (for services)
 - [ ] Process memory usage monitored (for long-running processes)
+
+---
 
 ## Example
 
@@ -227,6 +237,8 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 ```
+
+---
 
 ## Resources
 

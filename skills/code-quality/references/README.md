@@ -11,6 +11,8 @@
 | [biome.md](biome.md) | All-in-one linter + formatter (Rust-based) | Using Biome or starting new project |
 | [oxc.md](oxc.md) | Experimental fast linter/formatter | Performance-critical CI/CD |
 
+---
+
 ## Reading Strategy
 
 ### For ESLint + Prettier Projects
@@ -33,6 +35,8 @@
 - Read current tool reference + target tool reference
 - Key migration paths: ESLint+Prettier → Biome, ESLint → Biome
 
+---
+
 ## Tool Comparison
 
 | Feature | ESLint | Prettier | Biome | oxc |
@@ -46,6 +50,8 @@
 | **Config** | Complex | Simple | Simple | Simple |
 | **Maturity** | Very mature (2013) | Mature (2017) | Stable (2023) | Experimental (2023) |
 | **Best For** | Enterprise, complex rules | Formatting only | New projects, speed | CI/CD speed |
+
+---
 
 ## Decision Guide
 
@@ -68,6 +74,8 @@
 - CI/CD performance is critical
 - Willing to use experimental tool
 - Already evaluated and accepted limitations
+
+---
 
 ## Context-Aware Usage
 

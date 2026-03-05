@@ -9,6 +9,8 @@
 - User-Defined Type Guards
 - Discriminated Unions
 
+---
+
 ## When to Read This
 
 - Runtime type checking

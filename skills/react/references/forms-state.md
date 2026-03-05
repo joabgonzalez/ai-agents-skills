@@ -9,6 +9,8 @@
 - Basic Form Patterns
 - Validation Patterns
 
+---
+
 ## When to Read This
 
 - Building forms with React

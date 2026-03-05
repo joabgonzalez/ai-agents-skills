@@ -194,6 +194,8 @@ Brainstorming applied to "Which state management approach for our React app?"
 **Consequences:** Team ramp-up on Zustand (~1 day); no additional infra cost
 ```
 
+---
+
 ## Edge Cases
 
 **Analysis paralysis**: If >4 alternatives, filter to top 3 using constraints. Bias toward action.

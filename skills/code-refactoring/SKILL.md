@@ -7,7 +7,7 @@ metadata:
   type: behavioral
 ---
 
-# Code Refactoring Skill
+# Code Refactoring
 
 Refactoring legacy code, migrating technologies, and resolving technical debt with minimal risk and maximum impact.
 
@@ -25,6 +25,8 @@ Refactoring legacy code, migrating technologies, and resolving technical debt wi
 - Code that works well and won't change
 - Production-critical code without adequate test coverage
 - Situations with severe time constraints or change freezes
+
+---
 
 ## Critical Patterns
 
@@ -163,6 +165,8 @@ export const paymentService = new NewPaymentService();
 // Unreviewable, hard to rollback, high risk
 ```
 
+---
+
 ## Decision Tree
 
 ```
@@ -197,6 +201,8 @@ Calculate ROI
   <50% in 6 months → Accept debt, revisit annually
 ```
 
+---
+
 ## Example
 
 ### JavaScript to TypeScript
@@ -224,6 +230,8 @@ function processData(data: DataItem[]): number[] {
 
 See [references/migration-patterns.md](./references/migration-patterns.md) for the full Redux ORM removal, callbacks→async/await, and Redux Classic→RTK walkthroughs.
 
+---
+
 ## Edge Cases
 
 - **Partial migration state**: Use feature flags to run old + new code in parallel. Monitor error rates for both implementations.
@@ -246,6 +254,8 @@ See [references/migration-patterns.md](./references/migration-patterns.md) for t
 
 - **Team members need original code during refactor**: Use feature branch + feature flag. Original code remains accessible until migration complete.
 
+---
+
 ## Checklist
 
 Summary of the 4 phases — see [references/compliance-checklist.md](./references/compliance-checklist.md) for the full checklist with all gates.
@@ -258,6 +268,8 @@ Summary of the 4 phases — see [references/compliance-checklist.md](./reference
 - [ ] **Gate 3 — Pre-Merge Validation**: 2+ code review approvals, static analysis passes, documentation updated, deployment plan reviewed
 - [ ] **Phase 4 — Production Deployment**: Feature flags configured, rollback tested, on-call notified, monitoring dashboards live
 - [ ] **Gate 4 — Post-Deployment**: Error rate ≤ baseline (24h), latency ≤ baseline (24h), zero user complaints, business metrics unchanged
+
+---
 
 ## Resources
 

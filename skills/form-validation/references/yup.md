@@ -460,6 +460,8 @@ try {
 - See [react-hook-form.md](react-hook-form.md) for React Hook Form integration
 - See [zod.md](zod.md) for Zod comparison
 
+---
+
 ## References
 
 - [Yup Documentation](https://github.com/jquense/yup)

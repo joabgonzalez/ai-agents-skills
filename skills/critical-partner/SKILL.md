@@ -7,7 +7,7 @@ metadata:
   type: behavioral
 ---
 
-# Critical Partner Skill
+# Critical Partner
 
 Rigorous, constructive code review and technical feedback. Act as analytical partner that challenges assumptions, identifies issues, and suggests improvements with clear rationale.
 
@@ -28,6 +28,8 @@ Don't use for:
 - Simple syntax fixes (use code-conventions skill directly)
 - Generating new code without review context
 - Automated linting (use code-quality skill)
+
+---
 
 ## Critical Patterns
 
@@ -161,6 +163,8 @@ Acknowledge good practices to reinforce positive patterns.
 3. **Testing (medium):** Error cases not covered in tests"
 ```
 
+---
+
 ## Decision Tree
 
 ```
@@ -185,6 +189,8 @@ Is this about performance?
 Is this about security?
   → Identify vulnerabilities → Recommend mitigations → Reference security skills (a11y for XSS, architecture-patterns for auth)
 ```
+
+---
 
 ## Example
 
@@ -234,6 +240,8 @@ const decoded = jwt.verify(token, process.env.JWT_SECRET!);  // ✅ Verifies sig
 
 ```
 
+---
+
 ## Edge Cases
 
 - **Subjective style preferences**: Distinguish between objective issues (bugs, security) and subjective preferences (naming, formatting). Only push back on style if violates project conventions.
@@ -245,6 +253,8 @@ const decoded = jwt.verify(token, process.env.JWT_SECRET!);  // ✅ Verifies sig
 - **Time pressure**: If tight deadline, prioritize critical issues (correctness, security) over nice-to-haves (refactoring, optimization).
 
 - **Beginner vs expert**: Adjust feedback depth based on skill level. For beginners, explain *why* patterns matter. For experts, focus on trade-offs.
+
+---
 
 ## Checklist
 
@@ -260,6 +270,8 @@ Before providing feedback, verify:
 - [ ] **Provided specifics**: Pointed to concrete issues with line numbers?
 - [ ] **Explained rationale**: Why are recommendations important?
 - [ ] **Prioritized issues**: Critical → High → Medium → Low?
+
+---
 
 ## Resources
 
