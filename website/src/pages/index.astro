@@ -1,0 +1,165 @@
+---
+import { getCollection } from "astro:content";
+import IconBolt from "../components/icons/IconBolt.astro";
+import IconCheck from "../components/icons/IconCheck.astro";
+import IconCopy from "../components/icons/IconCopy.astro";
+import SearchBar from "../components/SearchBar.astro";
+import SkillCard from "../components/SkillCard.astro";
+import TypeFilter from "../components/TypeFilter.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+const allSkills = await getCollection("skills");
+const allRefs = await getCollection("references");
+
+// Build a set of skill names that have references (excluding README)
+const skillsWithRefs = new Map<string, number>();
+for (const ref of allRefs) {
+  const skillName = ref.id.split("/")[0];
+  const fileName = ref.id.split("/").pop() ?? "";
+  if (fileName !== "README") {
+    skillsWithRefs.set(skillName, (skillsWithRefs.get(skillName) ?? 0) + 1);
+  }
+}
+
+// Extract skill name from collection ID (e.g. "react/SKILL" → "react")
+const skills = allSkills
+  .map((skill) => ({
+    name: skill.data.name,
+    description: skill.data.description,
+    type: skill.data.metadata.type,
+    version: skill.data.metadata.version,
+    refCount: skillsWithRefs.get(skill.data.name) ?? 0,
+    href: `${base}skills/${skill.data.name}/`,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const total = skills.length;
+const installCmd = "npx ai-agents-skills add";
+---
+
+<BaseLayout
+  title="Agents Skills"
+  description={`${total} curated behavioral patterns for AI coding assistants — Claude, Copilot, Cursor, and Codex.`}
+>
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <!-- Hero -->
+    <div class="mb-12 border-b border-gray-100 pb-12 dark:border-gray-800">
+      <div class="max-w-2xl">
+        <!-- Wordmark -->
+        <div class="mb-8 select-none" aria-label="Agents Skills">
+          <!-- Light mode: static SVG (matches README exactly) -->
+          <img
+            src={`${base}logo-wordmark.svg`}
+            alt="Agents Skills"
+            class="h-16 w-auto sm:h-20 lg:h-24 dark:hidden"
+          />
+          <!-- Dark mode: inline version with light text -->
+          <div class="hidden dark:flex items-center gap-4 sm:gap-6">
+            <IconBolt
+              class="h-16 w-auto shrink-0 sm:h-20 lg:h-24"
+              gradientId="bolt-hero"
+            />
+            <div
+              class="leading-none tracking-widest text-gray-100"
+              style="font-family: 'Exo 2', sans-serif; font-weight: 900;"
+            >
+              <div class="text-2xl sm:text-3xl lg:text-4xl">AGENTS</div>
+              <div class="text-2xl sm:text-3xl lg:text-4xl mt-3 sm:mt-4">
+                SKILLS
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tagline -->
+        <p
+          class="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-400"
+        >
+          Curated behavioral patterns for AI coding assistants.<br />
+          Install once. Works with Claude Code, GitHub Copilot, Cursor, and Codex
+          (OpenAI).
+        </p>
+
+        <!-- Install command -->
+        <div
+          class="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-900"
+        >
+          <span
+            class="font-mono text-sm text-gray-400 dark:text-gray-600 select-none"
+            >$</span
+          >
+          <code
+            class="flex-1 font-mono text-sm text-gray-800 dark:text-gray-200"
+            id="hero-cmd"
+          >
+            {installCmd}
+          </code>
+          <button
+            id="hero-copy-btn"
+            data-cmd={installCmd}
+            class="shrink-0 rounded-md p-1.5 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+            aria-label="Copy install command"
+          >
+            <span id="hero-copy-icon"><IconCopy /></span>
+            <span id="hero-check-icon" class="hidden text-green-500"
+              ><IconCheck /></span
+            >
+          </button>
+        </div>
+
+        <!-- Stats + CTA -->
+        <div
+          class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400"
+        >
+          <span>{total} skills</span>
+          <span aria-hidden="true">·</span>
+          <span>7 types</span>
+          <span aria-hidden="true">·</span>
+          <a
+            href={`${base}getting-started/`}
+            class="text-blue-600 hover:underline dark:text-blue-400"
+          >
+            Getting Started →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-6">
+      <SearchBar />
+    </div>
+
+    <!-- Filter + grid -->
+    <div class="mb-6">
+      <TypeFilter types={[]} {total} />
+    </div>
+
+    <div
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      id="skills-grid"
+    >
+      {skills.map((skill) => <SkillCard {...skill} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const btn = document.getElementById("hero-copy-btn");
+  const copyIcon = document.getElementById("hero-copy-icon");
+  const checkIcon = document.getElementById("hero-check-icon");
+  if (btn && copyIcon && checkIcon) {
+    btn.addEventListener("click", async () => {
+      const cmd = (btn as HTMLButtonElement).dataset.cmd;
+      if (!cmd) return;
+      await navigator.clipboard.writeText(cmd);
+      copyIcon.classList.add("hidden");
+      checkIcon.classList.remove("hidden");
+      setTimeout(() => {
+        checkIcon.classList.add("hidden");
+        copyIcon.classList.remove("hidden");
+      }, 1500);
+    });
+  }
+</script>

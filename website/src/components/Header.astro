@@ -1,0 +1,82 @@
+---
+import IconBolt from "./icons/IconBolt.astro";
+import IconGitHub from "./icons/IconGitHub.astro";
+import IconMoon from "./icons/IconMoon.astro";
+import IconSun from "./icons/IconSun.astro";
+
+const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname;
+
+const isActive = (path: string) =>
+  currentPath === `${base}${path}` || currentPath === `${base}${path}/`;
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-950/90"
+  data-pagefind-ignore
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+  >
+    <!-- Logo -->
+    <a
+      href={base}
+      class="flex items-center gap-2 text-base font-semibold text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+    >
+      <IconBolt class="h-5 w-auto shrink-0" gradientId="bolt-nav" />
+      <span
+        style="font-family: 'Exo 2', sans-serif; font-weight: 900;"
+        class="hidden sm:inline text-sm tracking-widest">AGENTS SKILLS</span
+      >
+    </a>
+
+    <!-- Nav -->
+    <nav class="flex items-center gap-1 sm:gap-2">
+      <a
+        href={`${base}getting-started/`}
+        class:list={[
+          "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+          isActive("getting-started")
+            ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100",
+        ]}
+      >
+        Getting Started
+      </a>
+
+      <!-- Dark mode toggle -->
+      <button
+        id="theme-toggle"
+        aria-label="Toggle dark mode"
+        class="rounded-md p-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+      >
+        <!-- Sun icon (shown in dark mode) -->
+        <span id="icon-sun" class="hidden dark:block">
+          <IconSun />
+        </span>
+        <!-- Moon icon (shown in light mode) -->
+        <span id="icon-moon" class="block dark:hidden">
+          <IconMoon />
+        </span>
+      </button>
+
+      <a
+        href="https://github.com/joabgonzalez/ai-agents-skills"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+      >
+        <IconGitHub />
+        <span class="hidden sm:inline">GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("theme-toggle");
+  btn?.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+</script>

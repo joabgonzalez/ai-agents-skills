@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Class-based dark mode: dark: variants respond to .dark on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Exo 2', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Skill type badge colors — L ≤ 0.52 for WCAG AA contrast with white text */
+  --color-type-behavioral: oklch(0.48 0.24 303.9);
+  --color-type-domain: oklch(0.46 0.12 215.221);
+  --color-type-framework: oklch(0.50 0.14 55);
+  --color-type-language: oklch(0.46 0.14 162.48);
+  --color-type-library: oklch(0.50 0.22 354.308);
+  --color-type-tooling: oklch(0.42 0.04 257.417);
+  --color-type-universal: oklch(0.48 0.19 259.815);
+
+  /* Accent */
+  --color-accent: oklch(0.623 0.214 259.815);
+}
+
+/* Pagefind UI overrides */
+:root {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-border-radius: 0.5rem;
+}
+
+/* Smooth scrolling for TOC links */
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    scroll-margin-top: 5rem; /* offset for sticky navbar (~68px) + breathing room */
+  }
+}
+
+/* Shiki dual-theme: apply light/dark variables via .dark class on <html>.
+   defaultColor: false in astro.config.mjs prevents Shiki from hardcoding
+   inline colors, so we can set them here without !important.
+   Light mode gets a subtle gray bg + border so the block is visually distinct
+   from the page (github-light bg is #fff, same as page background). */
+pre.astro-code-themes {
+  background-color: #f6f8fa;
+  color: var(--shiki-light);
+  border: 1px solid #e1e4e8;
+  border-radius: 0.375rem;
+}
+
+pre.astro-code-themes span {
+  color: var(--shiki-light);
+}
+
+.dark pre.astro-code-themes {
+  background-color: var(--shiki-dark-bg);
+  color: var(--shiki-dark);
+  border-color: transparent;
+}
+
+.dark pre.astro-code-themes span {
+  color: var(--shiki-dark);
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-300) transparent;
+}
+
+.dark .sidebar-scroll {
+  scrollbar-color: var(--color-gray-600) transparent;
+}
