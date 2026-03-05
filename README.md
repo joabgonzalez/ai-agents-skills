@@ -1,4 +1,4 @@
-# ai-agents-skills
+<img src="assets/logo-wordmark.svg" alt="Agents Skills" width="200" />
 
 **v1.4.4** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 

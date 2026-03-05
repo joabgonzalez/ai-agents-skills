@@ -23,7 +23,7 @@ interface SkillVersion {
 
 export async function syncCommand(options: SyncOptions) {
   try {
-    p.intro(color.bgCyan(color.black(' ai-agents-skills ')));
+    p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
 
     if (options.dryRun) {
       p.note('Preview mode - no changes will be made', 'Dry Run Mode');

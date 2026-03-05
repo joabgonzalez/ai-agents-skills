@@ -178,6 +178,7 @@ class Logger {
     }
   }
 
+
   /**
    * Clear console
    */

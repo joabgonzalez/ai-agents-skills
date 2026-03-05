@@ -16,7 +16,7 @@ export interface RemoveOptions {
 
 export async function removeCommand(options: RemoveOptions): Promise<void> {
   try {
-    p.intro(color.bgCyan(color.black(' ai-agents-skills ')));
+    p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
 
     const projectDetector = new ProjectDetector();
     const modelDetector = new ModelDetector();
