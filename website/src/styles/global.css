@@ -41,15 +41,33 @@ html {
   }
 }
 
+/* Inline code: remove backtick pseudo-elements and add visible highlight.
+   Outside @layer so unlayered specificity overrides the typography plugin. */
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+.prose :not(pre) > code {
+  background-color: var(--color-gray-200);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+}
+
+.dark .prose :not(pre) > code {
+  background-color: var(--color-gray-800);
+}
+
 /* Shiki dual-theme: apply light/dark variables via .dark class on <html>.
    defaultColor: false in astro.config.mjs prevents Shiki from hardcoding
    inline colors, so we can set them here without !important.
    Light mode gets a subtle gray bg + border so the block is visually distinct
    from the page (github-light bg is #fff, same as page background). */
 pre.astro-code-themes {
-  background-color: #f6f8fa;
+  background-color: var(--color-code-bg);
   color: var(--shiki-light);
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--color-code-border);
   border-radius: 0.375rem;
 }
 
@@ -70,6 +88,8 @@ pre.astro-code-themes span {
 /* Grid background utility — responds to dark mode automatically */
 :root {
   --color-grid: rgba(0, 0, 0, 0.04);
+  --color-code-bg: #f6f8fa;
+  --color-code-border: #e1e4e8;
 }
 :root:where(.dark) {
   --color-grid: rgba(255, 255, 255, 0.04);

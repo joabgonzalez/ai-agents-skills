@@ -47,7 +47,8 @@ const VIEW_H = Math.ceil(BASELINE_2 + 16); // padding below descenders
 // Bolt scaled to full SVG height
 const boltScale = VIEW_H / 44;
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VIEW_W} ${VIEW_H}" width="${VIEW_W}" height="${VIEW_H}">
+function buildSvg(textColor) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VIEW_W} ${VIEW_H}" width="${VIEW_W}" height="${VIEW_H}">
   <defs>
     <radialGradient id="bolt" cx="45%" cy="32%" r="62%">
       <stop offset="0%" stop-color="#fefce8"/>
@@ -60,18 +61,21 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VIEW_W} ${VI
     <path d="M4 25 L14 4 L12 19 L20 19 L10 40 L12 25 Z" fill="url(#bolt)" stroke="#92400e" stroke-width="0.4" stroke-linejoin="round" paint-order="stroke"/>
   </g>
   <!-- AGENTS — vectorized -->
-  <path d="${agentsPath.toPathData(2)}" fill="#111827"/>
+  <path d="${agentsPath.toPathData(2)}" fill="${textColor}"/>
   <!-- SKILLS — vectorized -->
-  <path d="${skillsPath.toPathData(2)}" fill="#111827"/>
+  <path d="${skillsPath.toPathData(2)}" fill="${textColor}"/>
 </svg>
 `;
+}
 
-const outPath = join(ROOT, 'assets/logo-wordmark.svg');
-const outPathPublic = join(ROOT, 'website/public/logo-wordmark.svg');
-writeFileSync(outPath, svg, 'utf8');
-writeFileSync(outPathPublic, svg, 'utf8');
-console.log(`✓ Written: ${outPath}`);
-console.log(`✓ Written: ${outPathPublic}`);
+const svgLight = buildSvg('#111827');
+const svgDark  = buildSvg('#f9fafb');
+
+for (const [name, content] of [['logo-wordmark.svg', svgLight], ['logo-wordmark-dark.svg', svgDark]]) {
+  writeFileSync(join(ROOT, 'assets', name), content, 'utf8');
+  writeFileSync(join(ROOT, 'website/public', name), content, 'utf8');
+  console.log(`✓ Written: assets/${name} + website/public/${name}`);
+}
 console.log(`  viewBox: 0 0 ${VIEW_W} ${VIEW_H}`);
 console.log(`  AGENTS bbox: x=${agentsBB.x1.toFixed(1)}–${agentsBB.x2.toFixed(1)}`);
 console.log(`  SKILLS bbox: x=${skillsBB.x1.toFixed(1)}–${skillsBB.x2.toFixed(1)}`);
