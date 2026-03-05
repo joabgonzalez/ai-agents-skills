@@ -67,6 +67,21 @@ pre.astro-code-themes span {
   color: var(--shiki-dark);
 }
 
+/* Grid background utility — responds to dark mode automatically */
+:root {
+  --color-grid: rgba(0, 0, 0, 0.04);
+}
+:root:where(.dark) {
+  --color-grid: rgba(255, 255, 255, 0.04);
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
 /* Custom scrollbar for sidebar */
 .sidebar-scroll {
   scrollbar-width: thin;
