@@ -1,4 +1,7 @@
-<img src="assets/logo-wordmark.svg" alt="Agents Skills" width="200" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo-wordmark-dark.svg">
+  <img src="assets/logo-wordmark.svg" alt="Agents Skills" width="200">
+</picture>
 
 **v1.5.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
