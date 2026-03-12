@@ -307,6 +307,24 @@ class CircuitBreaker {
 
 **Circuit breaker with bulkhead**: Combine circuit breaker (stop calls on failure) with bulkhead (limit concurrent calls) for full resilience: `bulkhead → circuit breaker → timeout → retry → actual call`.
 
+**Fallback strategy when OPEN**: Choose based on whether staleness is acceptable:
+
+- *Cached data acceptable*: Return last-known-good response from an in-memory or Redis cache.
+- *Partial results acceptable*: Return degraded response (e.g., empty recommendations list instead of 500).
+- *No fallback possible*: Fast-fail immediately with a user-facing message; never hang.
+
+Avoid retrying inside the fallback — the circuit is OPEN precisely to prevent cascading load.
+
+**Observability**: Log every state transition with service name and failure reason:
+
+```
+circuit_breaker{service="payments", state="OPEN", reason="timeout"} 1
+```
+
+Expose a gauge metric `circuit_breaker_state` (0=CLOSED, 1=OPEN, 2=HALF_OPEN). Alert when OPEN for >30s — sustained OPEN indicates the downstream service has not recovered.
+
+**Testing HALF_OPEN**: Wall-clock `resetTimeout` makes tests slow and flaky. Use a configurable timeout (inject via constructor or env var) and set it to 0ms in tests. Alternatively, expose a `forceHalfOpen()` method on the breaker for test-only state injection.
+
 ---
 
 ## Resources

@@ -283,13 +283,15 @@ Corrections: past tense, article usage, word order
 
 ## Edge Cases
 
+**Competing use cases in one prompt:** When a prompt must handle mutually exclusive workflows (e.g., new project setup vs. adding to existing), use conditional sections (`## When starting from scratch` / `## When adding to existing project`) rather than overloading the main instructions. A single flat rule list fails when context diverges.
+
+**Prompt conflicts with agent system instructions:** If a prompt's behavior contradicts an agent's `.claude/agents/*.md` instructions (e.g., prompt says "always add comments", agent says "no comments unless requested"), the agent-level instruction wins. Design prompts to complement agent constraints, not override them. If conflict is unavoidable, document the priority explicitly in the prompt's frontmatter `description`.
+
+**Reusable vs. one-off prompts:** Prompts shared across multiple agents or projects must use version-stable, context-neutral language. Avoid relative references ("the current sprint", "our team's convention") — they become meaningless outside the original context. One-off project-specific prompts can use local context freely but should be stored in the project's `prompts/` directory, not in a shared skill.
+
 **Incomplete context:** Ask remaining questions before proceeding. Never create generic prompts.
 
-**Conflicting versions:** Flag compatibility issues (e.g., "React Router 5 is incompatible with React 18. Use v6+").
-
-**Vague persona:** Ensure specific, actionable traits (not just "Nice" or "Helper").
-
-**Empty fields:** Omit entirely - never include `rules: []` or `examples: {}`.
+**Empty fields:** Omit entirely — never include `rules: []` or `examples: {}`.
 
 ---
 

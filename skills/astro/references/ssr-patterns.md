@@ -407,9 +407,111 @@ Astro.cookies.set('theme', 'dark', { maxAge: 86400 });
 
 ---
 
+## SEO Meta Tags and Sitemaps
+
+### Meta Tags with Astro's `<head>`
+
+```astro
+---
+// src/layouts/BaseLayout.astro
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/og/default.jpg',
+  canonicalUrl = Astro.url.href,
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Core SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body><slot /></body>
+</html>
+```
+
+### Dynamic Meta per Page
+
+```astro
+---
+// src/pages/blog/[slug].astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+---
+
+<BaseLayout
+  title={`${post.data.title} | My Blog`}
+  description={post.data.description}
+  image={post.data.heroImage}
+/>
+```
+
+### Generate Sitemap
+
+```bash
+# ✅ Official sitemap integration (SSG)
+npx astro add sitemap
+```
+
+```javascript
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+
+export default defineConfig({
+  site: 'https://example.com', // REQUIRED for sitemap
+  integrations: [sitemap()],
+});
+```
+
+Sitemap is generated at `/sitemap-index.xml` and `/sitemap-0.xml` at build time. For SSR, use the `@astrojs/sitemap` integration with `serialize` option for filtering or dynamic URLs.
+
+### robots.txt
+
+```
+# public/robots.txt — served as static file
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap-index.xml
+```
+
+---
+
 ## References
 
 - [Astro SSR Documentation](https://docs.astro.build/en/guides/server-side-rendering/)
 - [Adapters](https://docs.astro.build/en/guides/integrations-guide/#official-integrations)
 - [Middleware](https://docs.astro.build/en/guides/middleware/)
 - [Server Endpoints](https://docs.astro.build/en/core-concepts/endpoints/#server-endpoints-api-routes)
+- [Astro Sitemap Integration](https://docs.astro.build/en/guides/integrations-guide/sitemap/)

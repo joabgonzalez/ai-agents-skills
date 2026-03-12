@@ -128,7 +128,7 @@ When skill has 40+ patterns or 4+ sub-topics:
 
 ```
 skills/{skill-name}/
-├── SKILL.md (300 lines max)
+├── SKILL.md (400 lines max)
 └── references/
     ├── {sub-topic-1}.md
     └── {sub-topic-2}.md

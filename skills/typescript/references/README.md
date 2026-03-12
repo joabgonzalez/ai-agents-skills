@@ -17,6 +17,7 @@ This directory contains detailed guides for advanced TypeScript features. Main [
 | [type-guards.md](type-guards.md)             | Type narrowing, discriminated unions             | Runtime type checking and validation            |
 | [config-patterns.md](config-patterns.md)     | tsconfig.json deep dive, strict mode             | Setting up TypeScript projects                  |
 | [error-handling.md](error-handling.md)       | Type-safe error patterns, Result types           | Handling errors without exceptions              |
+| [ts5-patterns.md](ts5-patterns.md)           | NoInfer, branded types, exhaustive switch, `using`, const type parameters | Using TypeScript 5.x features |
 
 ---
 
@@ -93,6 +94,16 @@ This directory contains detailed guides for advanced TypeScript features. Main [
 - Error unions
 - Exception handling
 
+### [ts5-patterns.md](ts5-patterns.md)
+
+**TypeScript 5.x language features**
+
+- `NoInfer<T>` — prevent unintended type inference (TS 5.4)
+- Branded/nominal types — type-safe IDs and domain values
+- Exhaustive switch with `never` and `assertNever` helper
+- `using` / `await using` — explicit resource management (TS 5.2)
+- Const type parameters — preserve literal types in generics (TS 5.0)
+
 ---
 
 ## Cross-Reference Map
@@ -102,4 +113,5 @@ This directory contains detailed guides for advanced TypeScript features. Main [
 - [type-guards.md](type-guards.md) → Runtime type narrowing; pairs with error-handling.md for safe code
 - [utility-types.md](utility-types.md) → Built-in transformations; reduces need for custom types
 - [error-handling.md](error-handling.md) → Type-safe errors; pairs with type-guards.md for safe handling
+- [ts5-patterns.md](ts5-patterns.md) → TypeScript 5.x features; builds on generics-advanced.md and type-guards.md
 - Related skills: [react](../../react/SKILL.md), [nodejs](../../nodejs/SKILL.md)

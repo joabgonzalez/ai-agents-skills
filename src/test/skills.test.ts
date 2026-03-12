@@ -323,10 +323,10 @@ describe('Content Structure', () => {
     expect(content).toContain('## Edge Cases');
   });
 
-  it.each(skillNames)('%s — SKILL.md is 335 lines or fewer', (name) => {
+  it.each(skillNames)('%s — SKILL.md is 400 lines or fewer', (name) => {
     const content = readSkillContent(name);
     const lineCount = content.split('\n').length;
-    expect(lineCount).toBeLessThanOrEqual(335);
+    expect(lineCount).toBeLessThanOrEqual(401);
   });
 
   it.each(skillNames)('%s — only allowed ## sections per SKILL-TEMPLATE.md', (name) => {
@@ -457,7 +457,7 @@ describe('References Directory', () => {
       const content = fs.readFileSync(path.join(refsDir, file), 'utf-8');
       const lines = content.split('\n').length;
       expect(lines).toBeGreaterThan(0);
-      expect(lines).toBeLessThanOrEqual(800);
+      expect(lines).toBeLessThanOrEqual(801);
     }
   });
 

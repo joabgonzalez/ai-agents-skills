@@ -28,9 +28,9 @@ Strategies for creating token-efficient skills without sacrificing clarity. Maxi
 | ---------- | --------------- | ------------------ |
 | Simple     | 150-300 lines   | N/A                |
 | Medium     | 300-400 lines   | +200-300/reference |
-| Complex    | 300 lines max   | +200-500/reference |
+| Complex    | 400 lines max   | +200-500/reference |
 
-**Golden rule:** SKILL.md should never exceed 300 lines for complex skills (move details to references).
+**Golden rule:** SKILL.md should never exceed 400 lines for complex skills (move details to references).
 
 ---
 
@@ -465,7 +465,7 @@ Before finalizing, verify:
 
 ### Overall
 
-- [ ] SKILL.md under 300 lines (complex skills)
+- [ ] SKILL.md under 400 lines (complex skills)
 - [ ] Every word adds unique value
 - [ ] No redundancy across sections
 - [ ] Links inline where needed (not separate list)

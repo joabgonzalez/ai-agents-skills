@@ -212,7 +212,7 @@ references/hooks.md (400 lines)
   - useEffect section
 ```
 
-Guideline: 4-9 references optimal. More = harder to discover.
+Target 2-9 references. Hard limit: 10 (enforced by tests). More = harder to discover.
 
 ---
 
@@ -231,8 +231,8 @@ Each sub-topic has 10+ patterns?
   → No: Merge sub-topics or keep inline in SKILL.md
   → Yes: Create reference file for each sub-topic
 
-References count: 4-9 files?
-  → No: Consolidate (if >9) or add more sub-topics (if <4)
+References count: 2-10 files?
+  → No (>10): Consolidate — hard limit is 10 (enforced by tests)
   → Yes: Create references/ with README.md
 
 README.md created with navigation?
@@ -297,7 +297,7 @@ README.md has 4 required sections: Quick Navigation table (with line counts), Re
   - [ ] Reading Strategies by use case (how to navigate content)
   - [ ] File Descriptions (what each reference covers, ~line count)
   - [ ] Cross-Reference Map (topic interconnections between files)
-- [ ] 4-9 reference files (optimal range)
+- [ ] ≤10 reference files (2-9 recommended)
 - [ ] Each file 200-600 lines (max 800 before splitting)
 - [ ] Descriptive file names (no "advanced", "misc", "other")
 - [ ] SKILL.md retains top 15 critical patterns, under 300 lines

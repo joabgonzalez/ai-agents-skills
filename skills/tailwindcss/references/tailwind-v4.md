@@ -629,6 +629,162 @@ module.exports = {
 
 ---
 
+## Container Queries
+
+Native container queries replace the need for media-query workarounds. Components respond to their parent container's size, not the viewport.
+
+### Enable Container Queries
+
+```html
+<!-- ✅ Mark parent as a container -->
+<div class="@container">
+  <!-- Child uses @{size}: variants -->
+  <div class="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3">
+    <!-- 1 column by default, 2 at container ≥28rem, 3 at ≥32rem -->
+  </div>
+</div>
+```
+
+### Named Containers
+
+```html
+<!-- ✅ Named containers for nested container queries -->
+<div class="@container/card">
+  <div class="@container/sidebar">
+    <p class="text-sm @md/card:text-base @lg/card:text-lg">
+      Text size responds to "card" container, not "sidebar"
+    </p>
+  </div>
+</div>
+```
+
+### Container Query Sizes
+
+| Variant | Min-width |
+| ------- | --------- |
+| `@xs:`  | 20rem (320px) |
+| `@sm:`  | 24rem (384px) |
+| `@md:`  | 28rem (448px) |
+| `@lg:`  | 32rem (512px) |
+| `@xl:`  | 36rem (576px) |
+| `@2xl:` | 42rem (672px) |
+
+### Custom Container Size
+
+```css
+@theme { --container-card: 400px; } /* enables @card: variant */
+```
+
+### vs Media Queries
+
+Use container queries for reusable components (cards, sidebars, widgets) that may appear in different contexts. Use media queries for page-level layout changes.
+
+---
+
+## @utility Directive
+
+Register custom utility classes with full Tailwind integration (variants, responsive, hover, etc.).
+
+### Before (v3): @layer utilities
+
+```css
+/* ❌ v3 approach — less integrated */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+```
+
+### After (v4): @utility
+
+```css
+/* ✅ v4 — works with all Tailwind variants */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+```
+
+```html
+<!-- ✅ Now supports hover:, focus:, dark:, responsive prefixes -->
+<div class="scrollbar-hide hover:scrollbar-hide md:scrollbar-hide">...</div>
+```
+
+### Custom Utilities with Values
+
+```css
+/* ✅ Custom utility that accepts Tailwind spacing values */
+@utility tab-size-* {
+  tab-size: --value(--spacing-*);
+}
+```
+
+```html
+<pre class="tab-size-4">  indented code</pre>
+```
+
+### When to Use @utility vs @apply
+
+```
+Custom single-property utilities → @utility
+Reusable component styles (multiple properties) → @apply in @layer components
+One-off styles → inline Tailwind utilities
+```
+
+---
+
+## starting: Variant (Enter Animations)
+
+The `starting:` variant applies styles before an element's first paint — enabling CSS-only enter animations.
+
+### Basic Enter Animation
+
+```html
+<!-- ✅ Element enters with fade-in from below -->
+<div class="
+  opacity-100 translate-y-0 transition duration-300
+  starting:opacity-0 starting:translate-y-2
+">
+  Animates in on first render
+</div>
+```
+
+### Dialog / Modal Enter
+
+```html
+<!-- ✅ CSS-only dialog enter animation -->
+<dialog open class="
+  opacity-100 scale-100 transition duration-200
+  starting:opacity-0 starting:scale-95
+">
+  <p>Dialog content</p>
+</dialog>
+```
+
+### Toast Notification
+
+```html
+<!-- ✅ Toast slides up on appear -->
+<div class="
+  translate-y-0 opacity-100 transition-all duration-300 ease-out
+  starting:translate-y-4 starting:opacity-0
+">
+  Item saved successfully
+</div>
+```
+
+**Browser support:** Chrome 117+, Firefox 129+, Safari 17.5+. For wider support, use JavaScript-controlled class toggling.
+
+---
+
 ## Related Topics
 
 - See [design-system.md](design-system.md) for token hierarchy, semantic naming, CVA patterns
