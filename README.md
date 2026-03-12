@@ -3,9 +3,9 @@
   <img src="assets/logo-wordmark.svg" alt="Agents Skills" width="200">
 </picture>
 
-**v1.5.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.5.1** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 64 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 68 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 Browse the full skill catalog at **[joabgonzalez.github.io/ai-agents-skills](https://joabgonzalez.github.io/ai-agents-skills/)**
 
@@ -154,7 +154,7 @@ your-project/
 └── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
 ```
 
-## Available Skills (64)
+## Available Skills (68)
 
 ### Frameworks
 
@@ -162,11 +162,15 @@ React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
 
 ### Testing
 
-Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
+Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing, Testing Strategy
 
 ### Standards
 
 TypeScript, JavaScript, HTML, CSS, TailwindCSS, A11y
+
+### Web
+
+Web Performance, Web SEO
 
 ### Backend
 
@@ -190,7 +194,7 @@ Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagona
 
 ### Behavioral
 
-English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
+English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Slides
 
 ### Meta (creation tools)
 

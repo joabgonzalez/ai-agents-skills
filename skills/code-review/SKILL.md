@@ -3,7 +3,7 @@ name: code-review
 description: "Two-stage code review: spec compliance then code quality. Trigger: When reviewing code for correctness and quality."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
   skills:
     - critical-partner
@@ -146,6 +146,41 @@ try {
 - Code snippets (what's wrong)
 - Suggested fix (how to improve)
 - Rationale (why it matters)
+
+### ✅ REQUIRED: Stage 2 Quality Dimensions
+
+Check these four dimensions when Stage 1 passes. Always cite file and line number.
+
+**Security** (flag immediately — does not wait for Stage 2 order):
+
+- Injections: SQL, NoSQL, command injection (parameterized queries? user input in queries?)
+- XSS: `innerHTML`/`dangerouslySetInnerHTML` with user input not sanitized
+- Auth: missing authentication checks, broken authorization, exposed credentials/secrets in code
+- CSRF: missing tokens on state-changing endpoints
+- Path traversal / SSRF: user-controlled file paths or URLs passed to `fetch`/`fs`
+
+**Performance**:
+
+- N+1 queries: loops that trigger individual DB calls
+- Algorithmic complexity: O(n²) or worse in hot paths (nested loops over unbounded data)
+- Resource leaks: unclosed files, connections, streams, event listeners
+- Unbounded operations: queries/loops without pagination or size limits
+
+**Correctness** (beyond spec — catches runtime failures):
+
+- Null/undefined/empty input: are edge cases handled before use?
+- Off-by-one: array bounds, pagination offsets, inclusive/exclusive ranges
+- Race conditions: shared mutable state, concurrent writes without locking
+- Type coercion: implicit conversions that may produce `NaN`, `undefined`, or `"0"`
+
+**Maintainability**:
+
+- Single responsibility: functions/classes doing more than one thing
+- Test quality: tests are deterministic, independent, named descriptively
+- Dead code / commented-out code: remove, don't archive in code
+- Magic numbers/strings: extract to named constants
+
+---
 
 ### ❌ NEVER: Review Quality Before Spec
 
