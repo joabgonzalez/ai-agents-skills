@@ -64,11 +64,11 @@ const installCmd = "npx ai-agents-skills add";
   description={`${total} curated behavioral patterns for AI coding assistants — Claude, Copilot, Cursor, and Codex.`}
 >
   <!-- Hero: full-width so bg-grid reaches viewport edges -->
-  <div class="relative bg-grid pb-12 pt-10">
+  <div class="relative bg-grid pb-6 pt-10">
     <!-- Radial overlay: fades grid toward content area -->
     <div class="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_55%_120%_at_10%_50%,white_20%,transparent_100%)] dark:[background:radial-gradient(ellipse_55%_120%_at_10%_50%,#030712_20%,transparent_100%)]" aria-hidden="true"></div>
     <!-- Bottom fade: softens the border-b cut -->
-    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-linear-to-b from-transparent to-white dark:to-gray-950" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent to-white dark:to-gray-950" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="max-w-2xl">
         <!-- Wordmark -->
@@ -193,8 +193,8 @@ const installCmd = "npx ai-agents-skills add";
         </div>
 
         <!-- Install command -->
-        <p class="mb-2 text-xs font-medium tracking-widest uppercase text-gray-400 dark:text-gray-500 select-none">
-          Quick start
+        <p class="mb-2 text-xs text-gray-400 dark:text-gray-500 select-none">
+          Try it now
         </p>
         <div
           class="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-900"
@@ -242,7 +242,7 @@ const installCmd = "npx ai-agents-skills add";
   </div>
 
   <!-- Catalog -->
-  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 pt-6 pb-10 sm:px-6 lg:px-8">
     <!-- Search -->
     <div class="mb-6">
       <SearchBar />
