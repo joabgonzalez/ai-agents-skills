@@ -1,0 +1,10 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: cls = 'h-5 w-5' } = Astro.props;
+---
+<svg class={cls} fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OpenCode">
+  <title>OpenCode</title>
+  <path d="M16 6H8v12h8V6zm4 16H4V2h16v20z"/>
+</svg>

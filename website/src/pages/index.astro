@@ -1,10 +1,29 @@
 ---
 import { getCollection } from "astro:content";
 import IconArrowRight from "../components/icons/IconArrowRight.astro";
-import Logo from "../components/icons/Logo.astro";
 import IconCheck from "../components/icons/IconCheck.astro";
 import IconCopy from "../components/icons/IconCopy.astro";
 import IconSearchOff from "../components/icons/IconSearchOff.astro";
+import IconTextAntigravity from "../components/icons/IconTextAntigravity.astro";
+import IconTextClaude from "../components/icons/IconTextClaude.astro";
+import IconTextClaudeCode from "../components/icons/IconTextClaudeCode.astro";
+import IconTextCodex from "../components/icons/IconTextCodex.astro";
+import IconTextCopilot from "../components/icons/IconTextCopilot.astro";
+import IconTextCursor from "../components/icons/IconTextCursor.astro";
+import IconTextGemini from "../components/icons/IconTextGemini.astro";
+import IconTextOpenAI from "../components/icons/IconTextOpenAI.astro";
+import IconTextOpenCode from "../components/icons/IconTextOpenCode.astro";
+import IconTextVSCode from "../components/icons/IconTextVSCode.astro";
+import IconToolAntigravity from "../components/icons/IconToolAntigravity.astro";
+import IconToolClaude from "../components/icons/IconToolClaude.astro";
+import IconToolClaudeCode from "../components/icons/IconToolClaudeCode.astro";
+import IconToolCodex from "../components/icons/IconToolCodex.astro";
+import IconToolCopilot from "../components/icons/IconToolCopilot.astro";
+import IconToolCursor from "../components/icons/IconToolCursor.astro";
+import IconToolGemini from "../components/icons/IconToolGemini.astro";
+import IconToolOpenAI from "../components/icons/IconToolOpenAI.astro";
+import IconToolVSCode from "../components/icons/IconToolVSCode.astro";
+import Logo from "../components/icons/Logo.astro";
 import SearchBar from "../components/SearchBar.astro";
 import SkillCard from "../components/SkillCard.astro";
 import TypeFilter from "../components/TypeFilter.astro";
@@ -53,39 +72,125 @@ const installCmd = "npx ai-agents-skills add";
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="max-w-2xl">
         <!-- Wordmark -->
-        <div class="mb-8 select-none" aria-label="Agents Skills">
-          <!-- Light mode: static SVG (matches README exactly) -->
-          <img
-            src={`${base}logo-wordmark.svg`}
-            alt="Agents Skills"
-            class="h-16 w-auto sm:h-20 lg:h-24 dark:hidden"
+        <div class="mb-8 flex select-none items-center gap-4 sm:gap-6" aria-label="Agents Skills">
+          <Logo
+            class="h-16 w-auto shrink-0 sm:h-20 lg:h-24"
+            gradientId="bolt-hero"
           />
-          <!-- Dark mode: inline version with light text -->
-          <div class="hidden dark:flex items-center gap-4 sm:gap-6">
-            <Logo
-              class="h-16 w-auto shrink-0 sm:h-20 lg:h-24"
-              gradientId="bolt-hero"
-            />
-            <div
-              class="leading-none tracking-widest text-gray-100"
-              style="font-family: 'Exo 2', sans-serif; font-weight: 900;"
-            >
-              <div class="text-2xl sm:text-3xl lg:text-4xl">AGENTS</div>
-              <div class="text-2xl sm:text-3xl lg:text-4xl mt-3 sm:mt-4">
-                SKILLS
-              </div>
+          <div
+            class="leading-none tracking-widest text-gray-900 dark:text-gray-100"
+            style="font-family: 'Exo 2', sans-serif; font-weight: 900;"
+          >
+            <div class="text-2xl sm:text-3xl lg:text-4xl">AGENTS</div>
+            <div class="text-2xl sm:text-3xl lg:text-4xl mt-3 sm:mt-4">
+              SKILLS
             </div>
           </div>
         </div>
 
         <!-- Tagline -->
-        <p
-          class="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-400"
-        >
-          Curated behavioral patterns for AI coding assistants.<br />
-          Install once. Works with Claude Code, GitHub Copilot, Cursor, and Codex
-          (OpenAI).
+        <p class="mb-4 text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+          Curated behavioral patterns for AI coding assistants.
         </p>
+
+        <!-- Tool strip: infinite marquee -->
+        <div class="mb-6 flex items-center gap-3">
+          <span class="shrink-0 text-xs font-medium tracking-widest uppercase text-gray-400 dark:text-gray-500 select-none">
+            Works with
+          </span>
+          <span class="h-4 w-px shrink-0 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
+          <div
+            class="overflow-hidden"
+            style="mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);"
+            aria-label="Claude Code, GitHub Copilot, Codex, Gemini, OpenCode, Cursor, OpenAI, Claude, Visual Studio Code, Google Antigravity"
+          >
+            <div class="marquee-track" aria-hidden="true">
+              <div class="flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6">
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolClaudeCode class="h-5 w-5 shrink-0" />
+                  <IconTextClaudeCode class="hidden sm:block h-4 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolCopilot class="h-4 w-4 shrink-0" />
+                  <IconTextCopilot class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolCodex class="h-4 w-4 shrink-0" />
+                  <IconTextCodex class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolGemini class="h-4 w-4 shrink-0" />
+                  <IconTextGemini class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="hidden sm:flex items-center text-gray-400 dark:text-gray-500">
+                  <IconTextOpenCode class="h-4 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolCursor class="h-4 w-4 shrink-0" />
+                  <IconTextCursor class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolOpenAI class="h-4 w-4 shrink-0" />
+                  <IconTextOpenAI class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolClaude class="h-4 w-4 shrink-0" />
+                  <IconTextClaude class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolVSCode class="h-4 w-4 shrink-0" />
+                  <IconTextVSCode class="hidden sm:inline-block" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolAntigravity class="h-4 w-4 shrink-0" />
+                  <IconTextAntigravity class="hidden sm:block h-3.5 w-auto" />
+                </div>
+              </div>
+              <!-- Duplicate set for seamless loop -->
+              <div class="flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6" aria-hidden="true">
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolClaudeCode class="h-5 w-5 shrink-0" />
+                  <IconTextClaudeCode class="hidden sm:block h-4 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolCopilot class="h-4 w-4 shrink-0" />
+                  <IconTextCopilot class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolCodex class="h-4 w-4 shrink-0" />
+                  <IconTextCodex class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolGemini class="h-4 w-4 shrink-0" />
+                  <IconTextGemini class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="hidden sm:flex items-center text-gray-400 dark:text-gray-500">
+                  <IconTextOpenCode class="h-4 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolCursor class="h-4 w-4 shrink-0" />
+                  <IconTextCursor class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolOpenAI class="h-4 w-4 shrink-0" />
+                  <IconTextOpenAI class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolClaude class="h-4 w-4 shrink-0" />
+                  <IconTextClaude class="hidden sm:block h-3 w-auto" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolVSCode class="h-4 w-4 shrink-0" />
+                  <IconTextVSCode class="hidden sm:inline-block" />
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                  <IconToolAntigravity class="h-4 w-4 shrink-0" />
+                  <IconTextAntigravity class="hidden sm:block h-3.5 w-auto" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Install command -->
         <div

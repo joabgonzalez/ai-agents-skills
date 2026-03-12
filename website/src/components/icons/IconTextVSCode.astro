@@ -1,0 +1,11 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+---
+<span
+  class={cls}
+  aria-hidden="true"
+  style="font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; white-space: nowrap; line-height: 1;"
+>Visual Studio Code</span>
