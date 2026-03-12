@@ -3,7 +3,7 @@ name: ag-grid
 description: "Advanced data tables with AG Grid. Trigger: When implementing AG Grid tables, configuring features, or creating custom cell renderers."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: library
   skills:
     - react
@@ -102,19 +102,28 @@ const columnDefs = [
 
 ## Decision Tree
 
-**Custom cells?** → Use `cellRenderer`/`cellRendererFramework`.
+```
+Custom cells?
+  → Use cellRenderer/cellRendererFramework
 
-**Editable?** → `editable: true`, handle `onCellValueChanged`.
+Editable?
+  → editable: true, handle onCellValueChanged
 
-**Filtering?** → `filter: true` or specify type (`agTextColumnFilter`, `agNumberColumnFilter`).
+Filtering?
+  → filter: true or specify type (agTextColumnFilter, agNumberColumnFilter)
 
-**Large dataset?** → `rowModelType: 'infinite'` for server pagination.
+Large dataset?
+  → rowModelType: 'infinite' for server pagination
 
-**Grouping?** → `rowGroup: true` on columns.
+Grouping?
+  → rowGroup: true on columns
 
-**Export?** → `exportDataAsCsv()`/`exportDataAsExcel()`.
+Export?
+  → exportDataAsCsv()/exportDataAsExcel()
 
-**Performance?** → Virtualization (default), `immutableData: true` for React.
+Performance?
+  → Virtualization (default), immutableData: true for React
+```
 
 ---
 

@@ -3,7 +3,7 @@ name: code-quality
 description: "Linting and formatting across tools. Trigger: When configuring linters, formatters, enforcing code quality, or fixing style issues."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: domain
 ---
 
@@ -100,38 +100,38 @@ Configure format-on-save and lint-on-save for immediate feedback. See tool-speci
 
 ```
 Project has quality tools configured?
-→ Yes: Check package.json and config files
-  → ESLint installed? → See references/eslint.md
-  → Prettier installed? → See references/prettier.md
-  → Biome installed? → See references/biome.md
-  → oxc installed? → See references/oxc.md
-  → ESLint + Prettier? → Use both with eslint-config-prettier
-→ No: Recommend modern default
+  → Yes: Check package.json and config files
+    → ESLint installed? → See references/eslint.md
+    → Prettier installed? → See references/prettier.md
+    → Biome installed? → See references/biome.md
+    → oxc installed? → See references/oxc.md
+    → ESLint + Prettier? → Use both with eslint-config-prettier
+  → No: Recommend modern default
 
 New project (no tools)?
-→ Small/medium project: Biome (all-in-one, fast)
-→ Large/enterprise: ESLint + Prettier (mature ecosystem, more plugins)
-→ Performance-critical CI: Consider Biome or oxc
+  → Small/medium project: Biome (all-in-one, fast)
+  → Large/enterprise: ESLint + Prettier (mature ecosystem, more plugins)
+  → Performance-critical CI: Consider Biome or oxc
 
 TypeScript project?
-→ ESLint: Use @typescript-eslint/parser + @typescript-eslint/recommended
-→ Biome: Built-in TypeScript support (no extra config)
+  → ESLint: Use @typescript-eslint/parser + @typescript-eslint/recommended
+  → Biome: Built-in TypeScript support (no extra config)
 
 React project?
-→ ESLint: Add plugin:react/recommended + plugin:react-hooks/recommended
-→ Biome: Built-in React support
+  → ESLint: Add plugin:react/recommended + plugin:react-hooks/recommended
+  → Biome: Built-in React support
 
 Formatting only?
-→ Prettier or Biome (both handle formatting)
-→ DON'T use ESLint for formatting alone
+  → Prettier or Biome (both handle formatting)
+  → DON'T use ESLint for formatting alone
 
 Linting only?
-→ ESLint or Biome (both handle linting)
-→ DON'T use Prettier for linting (it only formats)
+  → ESLint or Biome (both handle linting)
+  → DON'T use Prettier for linting (it only formats)
 
 ESLint conflicts with Prettier?
-→ Install eslint-config-prettier (disables conflicting rules)
-→ Or migrate to Biome (single tool, no conflicts)
+  → Install eslint-config-prettier (disables conflicting rules)
+  → Or migrate to Biome (single tool, no conflicts)
 ```
 
 ---

@@ -3,7 +3,7 @@ name: mui
 description: "Material UI components with theming and sx prop. Trigger: When using MUI components, implementing theming, or creating custom components."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: library
   skills:
     - react
@@ -136,23 +136,34 @@ const theme = createTheme({ /* config */ });
 
 ## Decision Tree
 
-**One-off styling?** → Use `sx` prop with theme values: `sx={{ p: 2, bgcolor: 'primary.main' }}`.
+```
+One-off styling?
+  → sx prop with theme values: sx={{ p: 2, bgcolor: 'primary.main' }}
 
-**Reusable styled component?** → Use `styled()` API to create custom components. **[CRITICAL] See** `references/customization.md` for styled API patterns.
+Reusable styled component?
+  → styled() API — see customization.md for styled API patterns
 
-**Global theme change?** → Configure in `createTheme()`, apply via `ThemeProvider`. **[CRITICAL] See** `references/theming.md` for theme setup.
+Global theme change?
+  → Configure in createTheme(), apply via ThemeProvider — see theming.md for theme setup
 
-**Need custom variant?** → Extend theme with component variants in theme configuration. **[CRITICAL] See** `references/customization.md` for variant patterns.
+Need custom variant?
+  → Extend theme with component variants in theme configuration — see customization.md for variant patterns
 
-**Responsive styling?** → Use theme breakpoints: `sx={{ p: { xs: 1, md: 2 } }}` or `theme.breakpoints.up('md')`.
+Responsive styling?
+  → Theme breakpoints: sx={{ p: { xs: 1, md: 2 } }} or theme.breakpoints.up('md')
 
-**Dark mode?** → Create separate light/dark themes, toggle via ThemeProvider. **[CRITICAL] See** `references/theming.md` for dark mode implementation.
+Dark mode?
+  → Create separate light/dark themes, toggle via ThemeProvider — see theming.md for dark mode implementation
 
-**Custom component?** → Extend MUI component with styled API or composition pattern. **[CRITICAL] See** `references/components.md` for component patterns.
+Custom component?
+  → Extend MUI component with styled API or composition pattern — see components.md for component patterns
 
-**Building forms?** → Use TextField, Select, Autocomplete with validation. **[CRITICAL] See** `references/forms.md` for form patterns.
+Building forms?
+  → TextField, Select, Autocomplete with validation — see forms.md for form patterns
 
-**Displaying tables/lists?** → Use Table, DataGrid, List components. **[CRITICAL] See** `references/data-display.md` for data display patterns.
+Displaying tables/lists?
+  → Table, DataGrid, List components — see data-display.md for data display patterns
+```
 
 ---
 

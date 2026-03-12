@@ -3,7 +3,7 @@ name: html
 description: "Semantic HTML with proper elements and structure. Trigger: When writing HTML markup, creating structure, or implementing semantic elements."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: domain
   skills:
     - a11y
@@ -109,19 +109,28 @@ Don't use for React JSX (react skill) or accessibility details (a11y skill).
 
 ## Decision Tree
 
-**Interactive element?** -> `<button>` for actions, `<a>` for navigation.
+```
+Interactive element?
+  → button for actions, a for navigation
 
-**Text content?** -> `<article>` for standalone content, `<section>` for grouped content, `<aside>` for related info.
+Text content?
+  → article for standalone content, section for grouped content, aside for related info
 
-**Form field?** -> Wrap in `<label>`, associate via `for`/`id`, use appropriate `type`.
+Form field?
+  → Wrap in label, associate via for/id, use appropriate type
 
-**List of items?** -> `<ul>` unordered, `<ol>` ordered, `<dl>` definitions.
+List of items?
+  → ul unordered, ol ordered, dl definitions
 
-**Heading?** -> `<h1>`-`<h6>` sequential; one `<h1>` per page.
+Heading?
+  → h1-h6 sequential; one h1 per page
 
-**Image?** -> `<img>` with descriptive `alt`; empty `alt=""` for decorative.
+Image?
+  → img with descriptive alt; empty alt="" for decorative
 
-**Tabular data?** -> `<table>` with `<thead>`, `<tbody>`, `<th scope>`.
+Tabular data?
+  → table with thead, tbody, th scope
+```
 
 ---
 

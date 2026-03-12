@@ -3,7 +3,7 @@ name: skill-sync
 description: "Synchronization across model directories. Trigger: After creating or modifying skills, agents, or prompts to sync across directories."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
 ---
 
@@ -93,12 +93,12 @@ Always edit the source in `skills/` directory. Model directories should contain 
 
 ```
 What changed?
-→ Existing skill content → No sync needed (symlinks auto-propagate)
-→ New skill created → Run: npx ai-agents-skills local
-→ Skill deleted → Remove symlinks from model dirs
-→ AGENTS.md modified → Update model instruction files if they exist
-→ Skill dependencies changed → Re-run: npx ai-agents-skills local
-→ Multiple changes → Run: npx ai-agents-skills local
+  → Existing skill content → No sync needed (symlinks auto-propagate)
+  → New skill created → Run: npx ai-agents-skills local
+  → Skill deleted → Remove symlinks from model dirs
+  → AGENTS.md modified → Update model instruction files if they exist
+  → Skill dependencies changed → Re-run: npx ai-agents-skills local
+  → Multiple changes → Run: npx ai-agents-skills local
 ```
 
 ---

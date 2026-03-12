@@ -3,7 +3,7 @@ name: playwright
 description: "Cross-browser E2E testing with Playwright. Trigger: When writing or running end-to-end tests with Playwright."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   skills:
     - e2e-testing
@@ -137,12 +137,25 @@ test('creates user', async ({ page }) => {
 
 ## Decision Tree
 
-- UI flow or API only? -> UI: `page` fixture; API: `request` fixture
-- Need authentication? -> Create a fixture with stored `storageState`
-- Visual testing? -> `page.screenshot()` with `toMatchSnapshot()`
-- Cross-browser? -> Configure `projects` in `playwright.config.ts`
-- Flaky network? -> Mock with `page.route()` to intercept requests
-- CI integration? -> `npx playwright test --reporter=html` with artifact upload
+```
+UI flow or API only?
+  → UI: page fixture; API: request fixture
+
+Need authentication?
+  → Create a fixture with stored storageState
+
+Visual testing?
+  → page.screenshot() with toMatchSnapshot()
+
+Cross-browser?
+  → Configure projects in playwright.config.ts
+
+Flaky network?
+  → Mock with page.route() to intercept requests
+
+CI integration?
+  → npx playwright test --reporter=html with artifact upload
+```
 
 ---
 

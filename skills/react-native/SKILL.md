@@ -3,7 +3,7 @@ name: react-native
 description: "Cross-platform mobile development with React Native. Trigger: When developing mobile apps, implementing platform features, or optimizing performance."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - react
@@ -111,23 +111,34 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 ## Decision Tree
 
-**Long list?** → Use `FlatList` with `keyExtractor` and `getItemLayout` for optimization. **[CRITICAL] See** `references/performance-rn.md` for FlatList optimization.
+```
+Long list?
+  → FlatList with keyExtractor and getItemLayout — see performance-rn.md for FlatList optimization
 
-**Platform-specific styling?** → Use `Platform.select()` or `Platform.OS === 'ios'`. **[CRITICAL] See** `references/platform-specific.md` for platform patterns.
+Platform-specific styling?
+  → Platform.select() or Platform.OS === 'ios' — see platform-specific.md for platform patterns
 
-**Navigation?** → Use React Navigation library. **[CRITICAL] See** `references/navigation-patterns.md` for Stack/Tab/Drawer setup.
+Navigation?
+  → React Navigation library — see navigation-patterns.md for Stack/Tab/Drawer setup
 
-**Gestures/Animations?** → Use Gesture Handler + Reanimated. **[CRITICAL] See** `references/gestures-animations.md` for gesture and animation patterns.
+Gestures/Animations?
+  → Gesture Handler + Reanimated — see gestures-animations.md for gesture and animation patterns
 
-**Forms?** → Use controlled components, consider `react-hook-form` for complex forms.
+Forms?
+  → Controlled components; consider react-hook-form for complex forms
 
-**State management?** → Context for simple, Redux/Zustand for complex.
+State management?
+  → Context for simple, Redux/Zustand for complex
 
-**Native feature needed?** → Check if React Native API exists, otherwise use native module or library. **[CRITICAL] See** `references/native-modules.md` for native integration.
+Native feature needed?
+  → Check if React Native API exists, otherwise use native module or library — see native-modules.md for native integration
 
-**Performance issue?** → Enable Hermes, use `React.memo()`, avoid inline functions in renders, profile with Flipper. **[CRITICAL] See** `references/performance-rn.md` for optimization strategies.
+Performance issue?
+  → Enable Hermes, use React.memo(), avoid inline functions in renders, profile with Flipper — see performance-rn.md for optimization strategies
 
-**Testing?** → Use Jest + React Native Testing Library, test on real devices.
+Testing?
+  → Jest + React Native Testing Library, test on real devices
+```
 
 ---
 

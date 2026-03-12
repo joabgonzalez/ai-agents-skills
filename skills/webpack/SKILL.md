@@ -3,7 +3,7 @@ name: webpack
 description: "Module bundler with loaders, plugins, and code splitting. Trigger: When configuring Webpack, setting up loaders, or optimizing bundles."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   dependencies:
     webpack: ">=5.0.0 <6.0.0"
@@ -89,19 +89,28 @@ module.exports = (env, argv) => {
 
 ## Decision Tree
 
-**TypeScript files?** → Use `ts-loader` or `babel-loader` with TypeScript preset.
+```
+TypeScript files?
+  → Use ts-loader or babel-loader with TypeScript preset
 
-**CSS/SCSS files?** → Use `style-loader` + `css-loader` (+ `sass-loader` for SCSS).
+CSS/SCSS files?
+  → Use style-loader + css-loader (+ sass-loader for SCSS)
 
-**Images/fonts?** → Use `asset/resource` or `asset/inline` for file handling.
+Images/fonts?
+  → Use asset/resource or asset/inline for file handling
 
-**Code splitting?** → Configure `splitChunks` in optimization, use dynamic `import()`.
+Code splitting?
+  → Configure splitChunks in optimization, use dynamic import()
 
-**Slow build?** → Enable `cache`, use `thread-loader` for parallel processing.
+Slow build?
+  → Enable cache, use thread-loader for parallel processing
 
-**Dev server needed?** → Use `webpack-dev-server` with HMR.
+Dev server needed?
+  → Use webpack-dev-server with HMR
 
-**Bundle analysis?** → Use `webpack-bundle-analyzer` plugin.
+Bundle analysis?
+  → Use webpack-bundle-analyzer plugin
+```
 
 ---
 

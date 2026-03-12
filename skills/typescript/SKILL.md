@@ -3,7 +3,7 @@ name: typescript
 description: "Strict typing and type-safe development. Trigger: When implementing TypeScript in .ts/.tsx files, adding types, or enforcing safety."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: language
   dependencies:
     typescript: ">=5.0.0 <6.0.0"
@@ -169,18 +169,43 @@ type Route = (typeof ROUTES)[keyof typeof ROUTES]; // '/' | '/about'
 
 ## Decision Tree
 
-- **Runtime validation needed?** -> Use [form-validation](../form-validation/SKILL.md) (Zod/Yup). TypeScript is compile-time only.
-- **Transforming types?** -> See [references/utility-types.md](references/utility-types.md) for Partial, Pick, Omit, Record, and 20+ more.
-- **Unknown data?** -> Use `unknown`, never `any`. See [references/type-guards.md](references/type-guards.md).
-- **Missing third-party types?** -> Install `@types/*` or declare custom types in `types/`.
-- **Importing types only?** -> Use `import type { ... }` or inline `type` keyword.
-- **Using <6 exports from a module?** -> Named imports: `import { x, y } from 'mod'`.
-- **Unused import/variable?** -> Delete it. Enable `noUnusedLocals`/`noUnusedParameters` in tsconfig.
-- **Complex object shape?** -> `interface` for extensibility, `type` for unions/intersections/computed.
-- **Reusable logic across types?** -> See [references/generics-advanced.md](references/generics-advanced.md).
-- **External API response?** -> Define interface from actual response shape. Use quicktype for generation.
-- **New project setup?** -> See [references/config-patterns.md](references/config-patterns.md).
-- **Type-safe error handling?** -> See [references/error-handling.md](references/error-handling.md).
+```
+Runtime validation needed?
+  → Use form-validation skill (Zod/Yup). TypeScript is compile-time only
+
+Transforming types?
+  → See utility-types.md for Partial, Pick, Omit, Record, and 20+ more
+
+Unknown data?
+  → Use unknown, never any. See type-guards.md
+
+Missing third-party types?
+  → Install @types/* or declare custom types in types/
+
+Importing types only?
+  → Use import type { ... } or inline type keyword
+
+Using <6 exports from a module?
+  → Named imports: import { x, y } from 'mod'
+
+Unused import/variable?
+  → Delete it. Enable noUnusedLocals/noUnusedParameters in tsconfig
+
+Complex object shape?
+  → interface for extensibility, type for unions/intersections/computed
+
+Reusable logic across types?
+  → See generics-advanced.md
+
+External API response?
+  → Define interface from actual response shape. Use quicktype for generation
+
+New project setup?
+  → See config-patterns.md
+
+Type-safe error handling?
+  → See error-handling.md
+```
 
 ---
 

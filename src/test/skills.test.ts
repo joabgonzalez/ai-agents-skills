@@ -531,3 +531,74 @@ describe('References Directory', () => {
     }
   });
 });
+
+// ── 5. Decision Tree Format ──────────────────────────────────────────────────
+
+function extractDecisionTreeFence(content: string): string | null {
+  const dtIndex = content.indexOf('\n## Decision Tree\n');
+  if (dtIndex === -1) return null;
+  const sectionStart = dtIndex + '\n## Decision Tree\n'.length;
+  const sectionRest = content.slice(sectionStart);
+  // Bound to this section only (stop at next ## heading or --- separator)
+  const sectionEndMatch = sectionRest.match(/^(---|## )/m);
+  const section = sectionEndMatch?.index !== undefined ? sectionRest.slice(0, sectionEndMatch.index) : sectionRest;
+  // Find fence with no language tag
+  const fenceOpenMatch = section.match(/^```\s*$/m);
+  if (!fenceOpenMatch || fenceOpenMatch.index === undefined) return null;
+  const afterOpen = section.slice(fenceOpenMatch.index + fenceOpenMatch[0].length + 1);
+  const fenceCloseIndex = afterOpen.indexOf('\n```');
+  if (fenceCloseIndex === -1) return null;
+  return afterOpen.slice(0, fenceCloseIndex);
+}
+
+describe('Decision Tree Format', () => {
+  it.each(skillNames)('%s — Decision Tree fence content is non-empty', (name) => {
+    const content = readSkillContent(name);
+    const fence = extractDecisionTreeFence(content);
+    expect(fence).not.toBeNull();
+    if (fence !== null) expect(fence.trim().length).toBeGreaterThan(0);
+  });
+
+  it.each(skillNames)('%s — Decision Tree uses → not ->', (name) => {
+    const content = readSkillContent(name);
+    const fence = extractDecisionTreeFence(content);
+    expect(fence).not.toBeNull();
+    if (fence !== null) expect(fence).not.toContain('->');
+  });
+
+  it.each(skillNames)('%s — Decision Tree has no markdown links inside fence', (name) => {
+    const content = readSkillContent(name);
+    const fence = extractDecisionTreeFence(content);
+    expect(fence).not.toBeNull();
+    if (fence !== null) expect(fence).not.toMatch(/\[[^\]]+\]\([^)]+\)/);
+  });
+
+  it.each(skillNames)('%s — Decision Tree has no inline backtick code inside fence', (name) => {
+    const content = readSkillContent(name);
+    const fence = extractDecisionTreeFence(content);
+    expect(fence).not.toBeNull();
+    if (fence !== null) expect(fence).not.toContain('`');
+  });
+
+  it.each(skillNames)('%s — Decision Tree has no bullet list markers inside fence', (name) => {
+    const content = readSkillContent(name);
+    const fence = extractDecisionTreeFence(content);
+    expect(fence).not.toBeNull();
+    if (fence !== null) {
+      const lines = fence.split('\n');
+      const bulletLines = lines.filter((line) => /^[*-] /.test(line));
+      expect(bulletLines).toEqual([]);
+    }
+  });
+
+  it.each(skillNames)('%s — Decision Tree has no top-level → lines (must be indented)', (name) => {
+    const content = readSkillContent(name);
+    const fence = extractDecisionTreeFence(content);
+    expect(fence).not.toBeNull();
+    if (fence !== null) {
+      const lines = fence.split('\n');
+      const topLevelArrows = lines.filter((line) => /^[ ]?→/.test(line));
+      expect(topLevelArrows).toEqual([]);
+    }
+  });
+});

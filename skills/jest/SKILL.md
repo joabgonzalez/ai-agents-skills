@@ -3,7 +3,7 @@ name: jest
 description: "Unit, integration, and snapshot testing with Jest. Trigger: When writing or running tests with Jest."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   skills:
     - unit-testing
@@ -108,12 +108,25 @@ await expect(service.fetch('bad-id')).rejects.toBeInstanceOf(NotFoundError);
 
 ## Decision Tree
 
-- New test file? -> `<module>.test.ts` next to source
-- Replace a whole module? -> `jest.mock('./path')`
-- Spy on one method? -> `jest.spyOn(object, 'method')`
-- Async code? -> `async/await` in the `it` callback
-- Error paths? -> `await expect(...).rejects.toThrow()`
-- Shared setup? -> `beforeEach` + `afterEach` cleanup
+```
+New test file?
+  → name it module.test.ts next to source
+
+Replace a whole module?
+  → jest.mock('./path')
+
+Spy on one method?
+  → jest.spyOn(object, 'method')
+
+Async code?
+  → async/await in the it callback
+
+Error paths?
+  → await expect(...).rejects.toThrow()
+
+Shared setup?
+  → beforeEach + afterEach cleanup
+```
 
 ---
 

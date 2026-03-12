@@ -3,7 +3,7 @@ name: bun
 description: "Fast JavaScript/TypeScript runtime with bundling and testing. Trigger: When using Bun for server apps, scripts, or tooling."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: language
   dependencies:
     bun: ">=1.0.0 <2.0.0"
@@ -183,14 +183,31 @@ Bun.serve({
 
 ## Decision Tree
 
-- Simple HTTP service? -> `Bun.serve()` with no framework
-- Reading/writing files? -> `Bun.file()` and `Bun.write()`
-- Running tests? -> `bun test` (Jest-compatible, zero config)
-- One-off package binary? -> `bunx <package>`
-- Bundling for production? -> `bun build --target=browser` or `--target=bun`
-- Monorepo? -> Configure `workspaces` in root `package.json`
-- Node API not supported? -> Check compatibility docs; fall back to Node
-- Shell scripting? -> `Bun.spawn()` or `Bun.$` tagged template
+```
+Simple HTTP service?
+  → Bun.serve() with no framework
+
+Reading/writing files?
+  → Bun.file() and Bun.write()
+
+Running tests?
+  → bun test (Jest-compatible, zero config)
+
+One-off package binary?
+  → bunx <package>
+
+Bundling for production?
+  → bun build --target=browser or --target=bun
+
+Monorepo?
+  → Configure workspaces in root package.json
+
+Node API not supported?
+  → Check compatibility docs; fall back to Node
+
+Shell scripting?
+  → Bun.spawn() or Bun.$ tagged template
+```
 
 ---
 

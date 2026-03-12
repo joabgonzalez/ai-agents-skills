@@ -3,7 +3,7 @@ name: hono
 description: "Lightweight edge/serverless APIs with Hono. Trigger: When building edge APIs or lightweight serverless apps."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   dependencies:
     hono: ">=3.0.0 <4.0.0"
@@ -97,13 +97,28 @@ app.get("/items", async (c) => {
 
 ## Decision Tree
 
-- Cloudflare Workers? -> Use `Hono<{ Bindings: ... }>` for typed env
-- Need validation? -> Use `@hono/zod-validator` middleware
-- Sub-routes? -> Use `app.route("/prefix", subApp)`
-- Auth required? -> Scope `bearerAuth` or custom middleware to protected paths
-- Returning JSON? -> Always use `c.json()` with explicit status codes
-- Streaming response? -> Use `c.stream()` or `c.streamText()`
-- Multiple platforms? -> Use adapter exports (`hono/cloudflare-workers`, `hono/bun`)
+```
+Cloudflare Workers?
+  → Use Hono<{ Bindings: ... }> for typed env
+
+Need validation?
+  → Use @hono/zod-validator middleware
+
+Sub-routes?
+  → Use app.route("/prefix", subApp)
+
+Auth required?
+  → Scope bearerAuth or custom middleware to protected paths
+
+Returning JSON?
+  → Always use c.json() with explicit status codes
+
+Streaming response?
+  → Use c.stream() or c.streamText()
+
+Multiple platforms?
+  → Use adapter exports (hono/cloudflare-workers, hono/bun)
+```
 
 ---
 

@@ -3,7 +3,7 @@ name: unit-testing
 description: "Unit testing patterns for frontend and backend. Trigger: When writing or reviewing unit tests for any layer."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: domain
 ---
 
@@ -108,13 +108,28 @@ Negative assertions use Jest matchers — see **jest** skill for `.not`, `.toThr
 
 ## Decision Tree
 
-- React component? -> Delegate to **react-testing-library** skill
-- Pure function? -> No mocks needed; call and assert
-- Service with dependencies? -> Mock I/O via **jest** skill
-- Need setup per test? -> `beforeEach` + `afterEach`
-- Multiple behaviors? -> One `it` per behavior under `describe`
-- Error handling? -> Dedicated `it('should throw when ...')` case
-- Unsure what to mock? -> Mock anything touching network, disk, or clock
+```
+React component?
+  → Delegate to react-testing-library skill
+
+Pure function?
+  → No mocks needed; call and assert
+
+Service with dependencies?
+  → Mock I/O via jest skill
+
+Need setup per test?
+  → beforeEach + afterEach
+
+Multiple behaviors?
+  → One it per behavior under describe
+
+Error handling?
+  → Dedicated it('should throw when ...') case
+
+Unsure what to mock?
+  → Mock anything touching network, disk, or clock
+```
 
 ---
 
