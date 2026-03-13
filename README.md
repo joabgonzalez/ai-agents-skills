@@ -3,9 +3,9 @@
   <img src="assets/logo-wordmark.svg" alt="Agents Skills" width="200">
 </picture>
 
-**v1.5.1** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.6.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 68 curated skills for React, TypeScript, testing, architecture, and more — to Claude, GitHub Copilot, Cursor, Gemini, and Codex. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 68 curated skills for React, TypeScript, testing, architecture, and more — to 11 AI agents across two tiers. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 Browse the full skill catalog at **[joabgonzalez.github.io/ai-agents-skills](https://joabgonzalez.github.io/ai-agents-skills/)**
 
@@ -24,13 +24,19 @@ npx ai-agents-skills add --skill react --skill typescript
 
 ## Supported Models
 
-| Model          | Directory  | ID                            |
-| -------------- | ---------- | ----------------------------- |
-| GitHub Copilot | `.github/` | `copilot` or `github-copilot` |
-| Claude         | `.claude/` | `claude`                      |
-| Cursor         | `.cursor/` | `cursor`                      |
-| Gemini         | `.gemini/` | `gemini`                      |
-| OpenAI Codex   | `.codex/`  | `codex`                       |
+11 agents across two tiers. Install once — all agents stay in sync automatically.
+
+**Universal** — read from `.agents/skills/` natively, no extra setup:
+
+Amp · Cline · Codex · Cursor · Gemini CLI · GitHub Copilot · Kimi Code CLI · OpenCode
+
+**Dedicated** — also get a symlink in their own directory:
+
+| Model       | Directory        | `--model` ID  |
+| ----------- | ---------------- | ------------- |
+| Claude Code | `.claude/skills/`| `claude`      |
+| Antigravity | `.agent/skills/` | `antigravity` |
+| OpenClaw    | `skills/`        | `openclaw`    |
 
 ## Commands
 
@@ -57,7 +63,6 @@ npx ai-agents-skills add --skill react --dry-run
 
 | Flag                 | Description                                     |
 | -------------------- | ----------------------------------------------- |
-| `-l, --local`        | Use local `./skills/` directory (dev mode only) |
 | `-p, --preset <id>`  | Install a project starter preset                |
 | `-s, --skill <name>` | Install a specific skill (repeatable)           |
 | `-m, --model <name>` | Target a specific model (repeatable)            |
@@ -134,24 +139,21 @@ npx ai-agents-skills add --skill react
 
 1. Clones the skill repository to `~/.cache/ai-agents-skills/`
 2. Resolves dependencies: `react` → `javascript`, `typescript`, `code-conventions`
-3. Copies skills to `.agents/skills/` in your project
-4. Creates symlinks in each model directory (`.claude/skills/`, `.github/skills/`, etc.)
+3. Copies skills to `.agents/skills/` — the shared directory all 8 universal agents read natively
+4. Creates symlinks in dedicated model directories (`.claude/skills/`, `.agent/skills/`, `skills/`)
 5. Updates AGENTS.md with complete "How to Use Skills" workflow (push context)
 
 ### Installed Structure
 
 ```
 your-project/
-├── AGENTS.md                 # Push context - complete workflow for ALL models ✨
-├── .agents/skills/           # Canonical copy (symlinks to framework)
+├── AGENTS.md                 # Push context — complete workflow for ALL models ✨
+├── .agents/skills/           # Shared directory — all 8 universal agents read here natively
 │   ├── react/
 │   ├── typescript/
 │   └── code-conventions/
-├── .claude/skills/           # Symlinks → .agents/skills/* (auto-discovered)
-├── .cursor/skills/           # Symlinks → .agents/skills/* (auto-discovered)
-├── .github/skills/           # Symlinks → .agents/skills/* (auto-discovered)
-├── .gemini/skills/           # Symlinks → .agents/skills/* (auto-discovered)
-└── .codex/skills/            # Symlinks → .agents/skills/* (auto-discovered)
+├── .claude/skills/           # Symlinks → .agents/skills/* (Claude Code)
+└── .agent/skills/            # Symlinks → .agents/skills/* (Antigravity)
 ```
 
 ## Available Skills (68)

@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
 import IconArrowRight from '../components/icons/IconArrowRight.astro';
 import IconCheck from '../components/icons/IconCheck.astro';
 import IconCopy from '../components/icons/IconCopy.astro';
 import SkillTypeBadge from '../components/SkillTypeBadge.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 const base = import.meta.env.BASE_URL;
 
@@ -36,7 +36,7 @@ const commands = [
   },
   {
     cmd: 'npx ai-agents-skills list',
-    desc: 'List all skills currently installed in your project.',
+    desc: 'List all skills currently installed and which agents are covered.',
   },
   {
     cmd: 'npx ai-agents-skills remove',
@@ -44,22 +44,31 @@ const commands = [
   },
   {
     cmd: 'npx ai-agents-skills sync',
-    desc: 'Sync skills across all model directories (Claude, Copilot, Cursor…).',
+    desc: 'Update installed skills to the latest versions or add support for new dedicated models.',
   },
 ];
 
-const models = [
-  { name: 'Claude', dir: '.claude/', id: 'claude' },
-  { name: 'GitHub Copilot', dir: '.github/', id: 'copilot' },
-  { name: 'Cursor', dir: '.cursor/', id: 'cursor' },
-  { name: 'Gemini', dir: '.gemini/', id: 'gemini' },
-  { name: 'OpenAI Codex', dir: '.codex/', id: 'codex' },
+const universalModels = [
+  { name: 'Amp' },
+  { name: 'Cline' },
+  { name: 'Codex' },
+  { name: 'Cursor' },
+  { name: 'Gemini CLI' },
+  { name: 'GitHub Copilot' },
+  { name: 'Kimi Code CLI' },
+  { name: 'OpenCode' },
+];
+
+const dedicatedModels = [
+  { name: 'Claude Code', dir: '.claude/skills/', id: 'claude' },
+  { name: 'Antigravity', dir: '.agent/skills/', id: 'antigravity' },
+  { name: 'OpenClaw', dir: 'skills/', id: 'openclaw' },
 ];
 ---
 
 <BaseLayout
   title="Getting Started — AI Agent Skills"
-  description="Learn how to install and use AI Agent Skills with Claude, Copilot, Cursor, Gemini, and Codex."
+  description="Learn how to install and use AI Agent Skills with Claude Code, GitHub Copilot, Cursor, Codex, Gemini, Amp, Cline, Kimi, OpenCode, Antigravity, and OpenClaw."
 >
   <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
     <h1 class="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
@@ -78,16 +87,37 @@ const models = [
         so your assistant gives better suggestions out of the box, without needing constant prompting.
       </p>
       <p class="mt-3 text-gray-600 dark:text-gray-400">
-        Each skill is installed as a file in your project's model config directory
-        (<code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">.claude/</code>,
-        <code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">.github/</code>, etc.)
-        where your AI assistant picks it up automatically.
+        Skills are installed into
+        <code class="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm dark:bg-gray-800">.agents/skills/</code>
+        — a shared directory that 8 universal agents read natively. Claude Code and other dedicated models
+        get an additional symlink in their own directory so every agent always stays in sync.
       </p>
     </section>
 
     <!-- Supported models -->
     <section class="mb-12">
       <h2 class="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-100">Supported AI assistants</h2>
+      <p class="mb-5 text-gray-600 dark:text-gray-400">
+        11 agents supported across two tiers. Install once — all agents stay in sync automatically.
+      </p>
+
+      <!-- Universal -->
+      <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        Universal <span class="normal-case font-normal">— read from <code class="rounded bg-gray-100 px-1 py-0.5 font-mono dark:bg-gray-800">.agents/skills/</code> natively, no extra setup</span>
+      </h3>
+      <ul class="mb-6 grid grid-cols-2 gap-x-6 gap-y-1.5">
+        {universalModels.map((m) => (
+          <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+            <IconCheck class="h-3.5 w-3.5 shrink-0 text-green-500" />
+            {m.name}
+          </li>
+        ))}
+      </ul>
+
+      <!-- Dedicated -->
+      <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        Dedicated <span class="normal-case font-normal">— also get a symlink in their own directory</span>
+      </h3>
       <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
         <table class="min-w-full text-sm">
           <thead class="bg-gray-50 dark:bg-gray-900">
@@ -98,7 +128,7 @@ const models = [
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-            {models.map((m) => (
+            {dedicatedModels.map((m) => (
               <tr class="bg-white dark:bg-gray-950">
                 <td class="px-4 py-2.5 text-gray-800 dark:text-gray-200">{m.name}</td>
                 <td class="px-4 py-2.5 font-mono text-gray-600 dark:text-gray-400">{m.dir}</td>
