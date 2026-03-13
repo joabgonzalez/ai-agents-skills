@@ -3,7 +3,7 @@
   <img src="assets/logo-wordmark.svg" alt="Agents Skills" width="200">
 </picture>
 
-**v1.6.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
+**v1.6.1** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
 Install 68 curated skills for React, TypeScript, testing, architecture, and more — to 11 AI agents across two tiers. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
