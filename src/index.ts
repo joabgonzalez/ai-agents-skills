@@ -7,6 +7,7 @@ import { listCommand } from './commands/list';
 import { removeCommand } from './commands/remove';
 import { syncCommand } from './commands/sync';
 import { LogLevel, logger } from './utils/logger';
+import { disableTelemetry, enableTelemetry, telemetryStatus } from './utils/telemetry';
 
 const program = new Command();
 
@@ -113,6 +114,35 @@ program
   .alias('ls')
   .description('List installed skills and models')
   .action(listCommand);
+
+// telemetry — manage anonymous opt-in usage stats
+const telemetryCmd = program
+  .command('telemetry')
+  .description('Manage anonymous usage telemetry (on by default, respects privacy)');
+
+telemetryCmd
+  .command('enable')
+  .description('Opt in to anonymous usage telemetry')
+  .action(() => {
+    enableTelemetry();
+    console.log('Telemetry enabled. Thank you — it helps prioritize new skills.');
+  });
+
+telemetryCmd
+  .command('disable')
+  .description('Opt out of anonymous usage telemetry')
+  .action(() => {
+    disableTelemetry();
+    console.log('Telemetry disabled.');
+  });
+
+telemetryCmd
+  .command('status')
+  .description('Show current telemetry setting')
+  .action(() => {
+    const on = telemetryStatus();
+    console.log(`Telemetry is currently: ${on ? 'enabled (default)' : 'disabled'}`);
+  });
 
 // Parse CLI arguments
 program.parse(process.argv);

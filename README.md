@@ -238,6 +238,32 @@ metadata:
 ...
 ```
 
+## Telemetry
+
+`ai-agents-skills` collects **anonymous usage data** to help prioritize new skills and improvements. No personally identifiable information is ever collected.
+
+**To opt out:**
+
+```bash
+ai-agents-skills telemetry disable  # disable
+ai-agents-skills telemetry enable   # re-enable
+ai-agents-skills telemetry status   # check current setting
+```
+
+**What IS collected:**
+
+- Names of skills installed
+- Preset name used (if any)
+- Number of target models
+- Whether `--dry-run` was used
+- CLI version, Node.js version, OS platform
+
+**What is NEVER collected:** file paths, usernames, hostnames, environment variables, or any personally identifiable information.
+
+Telemetry is automatically disabled in CI environments (`CI`, `GITHUB_ACTIONS`, `CONTINUOUS_INTEGRATION`). Data is sent to a private PostHog instance and never shared with third parties.
+
+---
+
 ## Troubleshooting
 
 **Stale cache after an update or clone issue:**
