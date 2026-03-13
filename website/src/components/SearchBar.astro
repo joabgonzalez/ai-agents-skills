@@ -34,9 +34,15 @@ import IconSearch from './icons/IconSearch.astro';
   }
 
   const input = document.getElementById('skill-search') as HTMLInputElement | null;
+  let searchTimer: ReturnType<typeof setTimeout> | undefined;
   input?.addEventListener('input', () => {
     if (!(window as any).__sf) (window as any).__sf = { type: '', search: '' };
     (window as any).__sf.search = input.value.toLowerCase().trim();
     applyFilters();
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      const q = (window as any).__sf?.search ?? '';
+      if (q.length >= 2) window.posthog?.capture('search', { query: q });
+    }, 800);
   });
 </script>

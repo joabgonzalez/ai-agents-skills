@@ -100,3 +100,9 @@ const metaDesc = description.replace(/\s*Trigger:.*$/i, '').trim();
     )}
   </div>
 </SkillLayout>
+
+<script is:inline define:vars={{ skillName: name }}>
+  window.addEventListener('load', () => {
+    window.posthog?.capture('skill-view', { skill: skillName });
+  });
+</script>

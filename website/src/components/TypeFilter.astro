@@ -71,6 +71,7 @@ const allTypes = [
       if (!(window as any).__sf) (window as any).__sf = { type: '', search: '' };
       (window as any).__sf.type = filter;
       applyFilters();
+      window.posthog?.capture('filter', { type: filter || 'all' });
     });
   });
 </script>

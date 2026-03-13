@@ -29,4 +29,10 @@ npm-debug.log*
 website/node_modules/
 website/dist/
 website/.astro/
+website/.env
+website/.env.local
 !website/package-lock.json
+
+# Environment variables
+.env
+.env.local
