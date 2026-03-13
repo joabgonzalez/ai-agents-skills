@@ -273,6 +273,54 @@ npx ai-agents-skills validate --all            # Validate all skills
 - **Dependency-safe removal:** `remove` command validates dependencies before removing skills
 - **11 agents supported:** 3 dedicated (Claude Code, Antigravity, OpenClaw) + 8 universal (Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi, OpenCode)
 
+## Git & Release Workflow
+
+### Branching
+
+- **`main`** — production, always stable, tagged releases only
+- **`development`** — integration branch, all feature work merges here first
+- Feature branches off `development`, never off `main`
+
+### Commit Strategy
+
+- **Use skill:** `technical-communication` for all commit messages
+- **Format:** single line, imperative, no co-author
+- **Examples:**
+  - `fix: show interactive selector when all AGENTS.md skills installed`
+  - `feat: add PostHog analytics for web and CLI`
+  - `chore: update OG image to match logo`
+- **Group by feature:** separate commits per logical change, never batch unrelated changes
+
+### Merge to Main (Squash)
+
+Merges from `development` → `main` use **squash merge**. The squash commit message format:
+
+```
+v{version}: {brief summary of what's in the squash}
+```
+
+Examples:
+- `v1.6.1: telemetry + PostHog analytics + CI release pipeline`
+- `v1.7.0: preset system overhaul + new skills`
+
+### Versioning & Release
+
+Versions follow **semver**: `MAJOR.MINOR.PATCH`
+
+| Change type | Command | Example |
+|---|---|---|
+| Bug fix, small improvement | `make patch` | 1.6.0 → 1.6.1 |
+| New feature, backwards-compatible | `make minor` | 1.6.0 → 1.7.0 |
+| Breaking change | `make major` | 1.6.0 → 2.0.0 |
+
+**Release flow:**
+1. Work on `development`, commit with single-line messages
+2. Squash merge to `main` with `v{version}: {summary}` message
+3. On `main`: run `make patch|minor|major` → creates tag + pushes
+4. GitHub Actions detects tag → publishes to npm automatically
+
+**Tags always go on `main`**, never on `development`.
+
 ## References
 
 - [AGENTS.md Spec](https://agents.md/)

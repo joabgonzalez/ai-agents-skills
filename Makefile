@@ -1,4 +1,4 @@
-.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format release security-setup security website-install website-dev website-build website-preview
+.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format patch minor major security-setup security website-install website-dev website-build website-preview rsvg-convert
 
 # Default: install skills from local ./skills/ (interactive)
 all: add
@@ -46,9 +46,15 @@ lint-fix:
 format:
 	npm run format
 
-# Release
-release:
-	npm run release
+# Release — bumps version, creates tag, push triggers CI publish to npm
+patch:
+	npm run release:patch
+
+minor:
+	npm run release:minor
+
+major:
+	npm run release:major
 
 # One-time developer setup: install uv (required for mcp-scan)
 security-setup:
@@ -74,3 +80,6 @@ security:
 	npm run security:snyk:deps
 	npm run security:snyk:skills
 	@echo "Security checks complete."
+
+rsvg-convert:
+	rsvg-convert -w 1200 -h 630 website/public/og.svg -o website/public/og.png

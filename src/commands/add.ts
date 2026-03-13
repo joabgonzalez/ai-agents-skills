@@ -15,6 +15,7 @@ import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
 import { showDependencyPreview } from '../utils/dependency-preview';
 import { runInstallLoop, showInstallOutro } from '../utils/install-helpers';
 import { LogLevel, logger } from '../utils/logger';
+import { showFirstRunNotice, trackInstall } from '../utils/telemetry';
 
 const DEFAULT_REPO = 'joabgonzalez/ai-agents-skills';
 
@@ -47,6 +48,7 @@ function isLocalModeAvailable(cwd: string): boolean {
 
 export async function addCommand(options: AddOptions) {
   p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
+  showFirstRunNotice();
 
   const cwd = process.cwd();
 
@@ -257,8 +259,21 @@ export async function addCommand(options: AddOptions) {
     // Local mode: try AGENTS.md first, fallback to interactive
     const agentsMdPath = path.join(cwd, 'AGENTS.md');
     if (fs.existsSync(agentsMdPath)) {
-      skillsToInstall = DependencyResolver.parseAgentsMd(agentsMdPath);
-      p.log.info(`Skills from AGENTS.md: ${color.cyan(skillsToInstall.length.toString())}`);
+      const fromAgentsMd = DependencyResolver.parseAgentsMd(agentsMdPath);
+      p.log.info(`Skills from AGENTS.md: ${color.cyan(fromAgentsMd.length.toString())}`);
+      const alreadyInstalled = projectDetector.getInstalledSkills(project.rootPath);
+      const notYetInstalled = fromAgentsMd.filter((s) => !alreadyInstalled.includes(s));
+      if (notYetInstalled.length === 0) {
+        // All AGENTS.md skills already installed — let user pick additional ones
+        p.log.info(color.dim('All AGENTS.md skills installed. Select additional skills:'));
+        skillsToInstall = await selectSkillsInteractive(
+          projectDetector,
+          project.rootPath,
+          skillSource
+        );
+      } else {
+        skillsToInstall = fromAgentsMd;
+      }
     } else {
       skillsToInstall = await selectSkillsInteractive(
         projectDetector,
@@ -450,6 +465,13 @@ export async function addCommand(options: AddOptions) {
   }
 
   showInstallOutro(counts, selectedModels, options.dryRun ?? false);
+
+  await trackInstall({
+    skills: installOrder,
+    presetName: presetInfo?.name ?? null,
+    modelCount: selectedModels.length,
+    dryRun: options.dryRun ?? false,
+  });
 }
 
 function showDryRunPaths(
