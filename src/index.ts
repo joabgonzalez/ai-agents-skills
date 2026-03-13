@@ -67,6 +67,7 @@ program
     'Limit removal to a specific model, can repeat: --model claude',
     (val, prev: string[] | undefined) => [...(prev ?? []), val]
   )
+  .option('-l, --local', 'Use local ./skills/ directory (dev mode — skips AGENTS.md prompt)')
   .option('-p, --purge', 'Remove all skills and clean up empty directories')
   .option('--confirm', 'Skip confirmation prompt')
   .option('-d, --dry-run', 'Preview changes without making them')
@@ -74,6 +75,7 @@ program
     removeCommand({
       skill: options.skill ?? [],
       model: options.model ?? [],
+      local: options.local ?? false,
       purge: options.purge ?? false,
       confirm: options.confirm ?? false,
       dryRun: options.dryRun ?? false,

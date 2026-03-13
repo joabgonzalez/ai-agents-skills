@@ -19,9 +19,10 @@ This directory contains detailed guides for specific aspects of React developmen
 
 ### Performance & Optimization
 
-| Reference                        | Purpose                                                       | Read When                                                    |
-| -------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------ |
-| [performance.md](performance.md) | useMemo, useCallback, React.memo, concurrent features, Suspense | Optimizing re-renders or working with expensive computations |
+| Reference                                    | Purpose                                                         | Read When                                                    |
+| -------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------ |
+| [performance.md](performance.md)             | useMemo, useCallback, React.memo, concurrent features, Suspense | Optimizing re-renders or working with expensive computations |
+| [js-performance.md](js-performance.md)       | Passive listeners, SVG, JSX hoisting, DOM batching, selectors   | Fine-grained JS/DOM performance tuning                       |
 
 ### State & Composition
 
@@ -31,11 +32,12 @@ This directory contains detailed guides for specific aspects of React developmen
 | [composition.md](composition.md)           | Children, slots, compound, headless, polymorphic  | Building reusable components with flexible APIs            |
 | [forms-state.md](forms-state.md)           | Controlled vs uncontrolled, validation             | Building forms with state management                       |
 
-### Server Features
+### Server Features & Data Fetching
 
 | Reference                                    | Purpose                                          | Read When                                                    |
 | -------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------ |
 | [server-features.md](server-features.md)     | Server components, Suspense data, server actions | Building with Next.js App Router or RSC-enabled frameworks   |
+| [waterfall-patterns.md](waterfall-patterns.md) | Request waterfall diagnosis, SWR, TanStack Query | Client-side data fetching, parallel requests, optimistic updates |
 
 ---
 
@@ -56,13 +58,15 @@ This directory contains detailed guides for specific aspects of React developmen
 
 1. Read main [SKILL.md](../SKILL.md)
 2. **MUST read**: [performance.md](performance.md) for optimization strategies
-3. Profile with React DevTools first
+3. CHECK: [js-performance.md](js-performance.md) for passive listeners, SVG, and DOM patterns
+4. Profile with React DevTools first
 
 ### For Forms & Data Fetching
 
 1. Read main [SKILL.md](../SKILL.md)
 2. **MUST read**: [use-effect-patterns.md](use-effect-patterns.md) for data fetching patterns
-3. CHECK: [forms-state.md](forms-state.md) for form-specific patterns
+3. **MUST read**: [waterfall-patterns.md](waterfall-patterns.md) for SWR/TanStack Query and parallel fetching
+4. CHECK: [forms-state.md](forms-state.md) for form-specific patterns
 
 ### For Server-Side / Next.js App Router
 
@@ -145,6 +149,26 @@ This directory contains detailed guides for specific aspects of React developmen
 - Server actions for mutations
 - Loading/error state patterns
 
+### [waterfall-patterns.md](waterfall-patterns.md)
+
+**Client-side data fetching architecture**
+
+- Request waterfall diagnosis and DevTools detection
+- Parallel fetching with Promise.all and Promise.allSettled
+- React 19 `use()` hook with Suspense
+- SWR: deduplication, optimistic updates, global config
+- TanStack Query: useQuery, useQueries, mutations, prefetching
+
+### [js-performance.md](js-performance.md)
+
+**JavaScript and DOM performance micro-optimizations**
+
+- Passive event listeners for scroll/touch (`{ passive: true }`)
+- SVG optimization with `currentColor` and size props
+- JSX constant hoisting to avoid per-render allocations
+- DOM read/write batching to prevent layout thrashing
+- Memoized selectors with useMemo, Zustand useShallow, Redux createSelector
+
 ---
 
 ## Cross-Reference Map
@@ -156,4 +180,6 @@ This directory contains detailed guides for specific aspects of React developmen
 - [composition.md](composition.md) → Extends SKILL.md's component composition patterns; pairs with context-patterns.md for compound components
 - [forms-state.md](forms-state.md) → Extends SKILL.md's form patterns; pairs with [form-validation](../../form-validation/SKILL.md) for schema-based validation
 - [server-features.md](server-features.md) → Extends SKILL.md's server component patterns; pairs with performance.md for concurrent features
+- [waterfall-patterns.md](waterfall-patterns.md) → Client-side parallel fetching; pairs with server-features.md for full-stack data architecture; pairs with use-effect-patterns.md for low-level fetch patterns
+- [js-performance.md](js-performance.md) → DOM/JS micro-optimizations; pairs with performance.md for full optimization coverage; pairs with web-performance skill for Core Web Vitals context
 - Related skills: [typescript](../../typescript/SKILL.md), [redux-toolkit](../../redux-toolkit/SKILL.md), [form-validation](../../form-validation/SKILL.md), [mui](../../mui/SKILL.md), [astro](../../astro/SKILL.md)

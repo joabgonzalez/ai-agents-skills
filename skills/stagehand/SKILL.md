@@ -3,7 +3,7 @@ name: stagehand
 description: "Browser automation and test orchestration. Trigger: When automating browser flows or test setup with Stagehand."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   skills:
     - playwright
@@ -166,12 +166,25 @@ const reviews = await page.extract({
 
 ## Decision Tree
 
-- Known, stable selectors? -> Use **playwright** directly instead
-- Selectors unknown or fragile? -> Use `page.observe()` then `page.act()`
-- Need structured data? -> Use `page.extract()` with a Zod schema
-- Action keeps failing? -> Make the instruction more specific, add retries
-- Exploring unfamiliar page? -> Start with `page.observe()` to map elements
-- Building deterministic tests? -> Prototype with Stagehand, convert to Playwright
+```
+Known, stable selectors?
+  → Use playwright directly instead
+
+Selectors unknown or fragile?
+  → Use page.observe() then page.act()
+
+Need structured data?
+  → Use page.extract() with a Zod schema
+
+Action keeps failing?
+  → Make the instruction more specific, add retries
+
+Exploring unfamiliar page?
+  → Start with page.observe() to map elements
+
+Building deterministic tests?
+  → Prototype with Stagehand, convert to Playwright
+```
 
 ---
 

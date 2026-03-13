@@ -3,7 +3,7 @@ name: technical-communication
 description: "Clear technical writing for documentation and commits. Trigger: When writing documentation, code comments, or communicating technical concepts."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
   skills:
     - english-writing
@@ -126,19 +126,28 @@ Use the Authorization header with your API key.
 
 ## Decision Tree
 
-**API documentation?** → Include endpoint, parameters, request/response examples, error codes.
+```
+API documentation?
+  → Include endpoint, parameters, request/response examples, error codes
 
-**Code comment?** → Explain "why" not "what". Avoid obvious comments.
+Code comment?
+  → Explain "why" not "what". Avoid obvious comments
 
-**Commit message?** → Use conventional commits format. **Default: simple format** (`[TICKET-ID] type: summary; summary2`). Use descriptive format only when user requests it (`[TICKET-ID] type: summary` + bullet list). Omit `[TICKET-ID]` if no ticket provided.
+Commit message?
+  → Use conventional commits format. Default: simple format ([TICKET-ID] type: summary; summary2). Use descriptive format only when user requests it ([TICKET-ID] type: summary + bullet list). Omit [TICKET-ID] if no ticket provided
 
-**README?** → Include: purpose, installation, usage, examples, contributing guidelines.
+README?
+  → Include: purpose, installation, usage, examples, contributing guidelines
 
-**Technical decision?** → Document with context, rationale, and impact.
+Technical decision?
+  → Document with context, rationale, and impact
 
-**Complex concept?** → Use diagrams, examples, analogies. Break into smaller sections.
+Complex concept?
+  → Use diagrams, examples, analogies. Break into smaller sections
 
-**Error message?** → State problem, cause, solution. Be specific and actionable.
+Error message?
+  → State problem, cause, solution. Be specific and actionable
+```
 
 ---
 

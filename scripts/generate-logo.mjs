@@ -12,17 +12,27 @@ import opentype from 'opentype.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-// Load Exo 2 variable font
-const font = await opentype.load(join(ROOT, 'assets/fonts/Exo2.ttf'));
-
 // Settings — match the hero design
 const FONT_SIZE = 72;
-const LETTER_SPACING = 5; // extra px between glyphs
-const LINE_HEIGHT = 82;
-const TEXT_X = 88;      // left offset (after bolt, ~10px gap)
+// tracking-widest = 0.1em
+const LETTER_SPACING = FONT_SIZE * 0.1;
+// mt-4 gap proportional to text-4xl (16px / 36px ≈ 0.444 of font-size)
+const LINE_HEIGHT = FONT_SIZE + Math.round(FONT_SIZE * 16 / 36); // 72 + 32 = 104
 const BASELINE_1 = 66;  // baseline of "AGENTS"
 const BASELINE_2 = BASELINE_1 + LINE_HEIGHT; // baseline of "SKILLS"
 const WEIGHT = 900;     // Black
+
+// Pre-compute geometry (doesn't need font metrics)
+const VIEW_H = BASELINE_2 + 16; // padding below descenders
+// Bolt scaled to full SVG height
+const boltScale = VIEW_H / 44;
+// Bolt's rightmost x in SVG units: path goes to x=20 in bolt space, + translate(4)
+const boltRight = Math.ceil(20 * boltScale + 4);
+// Gap proportional to hero: gap-4 (16px) / bolt-rendered-width ≈ 0.45
+const TEXT_X = boltRight + Math.round(16 * boltScale * 0.45);
+
+// Load Exo 2 variable font
+const font = await opentype.load(join(ROOT, 'assets/fonts/Exo2.ttf'));
 
 function getPath(text, x, y) {
   if (font.variation) {
@@ -42,10 +52,6 @@ const agentsBB = agentsPath.getBoundingBox();
 const skillsBB = skillsPath.getBoundingBox();
 const textRight = Math.max(agentsBB.x2, skillsBB.x2);
 const VIEW_W = Math.ceil(textRight + 12);
-const VIEW_H = Math.ceil(BASELINE_2 + 16); // padding below descenders
-
-// Bolt scaled to full SVG height
-const boltScale = VIEW_H / 44;
 
 function buildSvg(textColor) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VIEW_W} ${VIEW_H}" width="${VIEW_W}" height="${VIEW_H}">
@@ -73,8 +79,7 @@ const svgDark  = buildSvg('#f9fafb');
 
 for (const [name, content] of [['logo-wordmark.svg', svgLight], ['logo-wordmark-dark.svg', svgDark]]) {
   writeFileSync(join(ROOT, 'assets', name), content, 'utf8');
-  writeFileSync(join(ROOT, 'website/public', name), content, 'utf8');
-  console.log(`✓ Written: assets/${name} + website/public/${name}`);
+  console.log(`✓ Written: assets/${name}`);
 }
 console.log(`  viewBox: 0 0 ${VIEW_W} ${VIEW_H}`);
 console.log(`  AGENTS bbox: x=${agentsBB.x1.toFixed(1)}–${agentsBB.x2.toFixed(1)}`);

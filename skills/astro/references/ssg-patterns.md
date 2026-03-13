@@ -461,8 +461,111 @@ const post = await getPostBySlug(slug); // Won't work without getStaticPaths
 
 ---
 
+## Internationalization (i18n) Routing
+
+Astro 3.5+ includes a built-in i18n routing API. Earlier versions require manual routing or `astro-i18next`.
+
+### Configure i18n in astro.config.mjs
+
+```javascript
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es', 'fr'],
+    routing: {
+      prefixDefaultLocale: false, // /about (not /en/about)
+    },
+  },
+});
+```
+
+### Locale-Aware Pages Structure
+
+```
+src/pages/
+  en/
+    about.astro      → /en/about  (or /about if prefixDefaultLocale: false)
+  es/
+    about.astro      → /es/about
+  fr/
+    about.astro      → /fr/about
+```
+
+### Access Current Locale and Build Links
+
+```astro
+---
+// src/pages/es/about.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const currentLocale = Astro.currentLocale; // 'es'
+const enUrl = getRelativeLocaleUrl('en', 'about'); // '/about'
+const frUrl = getRelativeLocaleUrl('fr', 'about'); // '/fr/about'
+---
+
+<nav>
+  <a href={enUrl}>English</a>
+  <a href={frUrl}>Français</a>
+</nav>
+```
+
+### hreflang Tags for SEO
+
+```astro
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+const locales = ['en', 'es', 'fr'];
+---
+
+<head>
+  {locales.map(locale => (
+    <link
+      rel="alternate"
+      hreflang={locale}
+      href={getRelativeLocaleUrl(locale, Astro.url.pathname)}
+    />
+  ))}
+  <link rel="alternate" hreflang="x-default"
+        href={getRelativeLocaleUrl('en', Astro.url.pathname)} />
+</head>
+```
+
+### Translations with JSON Files
+
+```
+src/
+  i18n/
+    en.json
+    es.json
+    fr.json
+```
+
+```json
+// en.json
+{ "hero.title": "Welcome", "hero.cta": "Get Started" }
+```
+
+```json
+// es.json
+{ "hero.title": "Bienvenido", "hero.cta": "Comenzar" }
+```
+
+```astro
+---
+const t = await import(`../i18n/${Astro.currentLocale}.json`);
+---
+<h1>{t['hero.title']}</h1>
+<a href="/get-started">{t['hero.cta']}</a>
+```
+
+---
+
 ## References
 
 - [Astro SSG Documentation](https://docs.astro.build/en/guides/routing/#static-ssg-mode)
 - [getStaticPaths](https://docs.astro.build/en/reference/api-reference/#getstaticpaths)
 - [Pagination](https://docs.astro.build/en/reference/api-reference/#paginate)
+- [Astro i18n Routing](https://docs.astro.build/en/guides/internationalization/)

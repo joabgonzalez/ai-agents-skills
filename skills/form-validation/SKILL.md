@@ -3,7 +3,7 @@ name: form-validation
 description: "Form and schema validation across libraries. Trigger: When validating forms, API input, schemas, or runtime data."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: domain
 ---
 
@@ -107,32 +107,32 @@ const email = z.string(); // Too permissive
 
 ```
 Project has validation library?
-→ Yes: Check AGENTS.md or package.json
-  → Zod installed? → See references/zod.md
-  → Yup installed? → See references/yup.md
-  → React Hook Form? → See references/react-hook-form.md
-  → Formik? → See references/formik.md
-→ No: Recommend modern default (React Hook Form + Zod for React, Zod for Node.js)
+  → Yes: Check AGENTS.md or package.json
+    → Zod installed? → See references/zod.md
+    → Yup installed? → See references/yup.md
+    → React Hook Form? → See references/react-hook-form.md
+    → Formik? → See references/formik.md
+  → No: Recommend modern default (React Hook Form + Zod for React, Zod for Node.js)
 
 Schema validation only (no forms)?
-→ Use Zod or Yup (see references for library-specific patterns)
+  → Use Zod or Yup (see references for library-specific patterns)
 
 Form management needed (React)?
-→ React Hook Form (modern, performant) or Formik (legacy support)
-→ See references/react-hook-form.md or references/formik.md
+  → React Hook Form (modern, performant) or Formik (legacy support)
+  → See references/react-hook-form.md or references/formik.md
 
 Async validation required?
-→ All libraries support it:
-  - Zod: .parseAsync() or .refine() with async
-  - Yup: .validate() is async
-  - React Hook Form: resolver or custom async rules
-  - Formik: validate prop with async function
+  → All libraries support it:
+    - Zod: .parseAsync() or .refine() with async
+    - Yup: .validate() is async
+    - React Hook Form: resolver or custom async rules
+    - Formik: validate prop with async function
 
 Complex nested structures?
-→ Zod: z.object() nesting
-→ Yup: yup.object() nesting
-→ React Hook Form: dot notation (user.address.street)
-→ Formik: <FieldArray> or dot notation
+  → Zod: z.object() nesting
+  → Yup: yup.object() nesting
+  → React Hook Form: dot notation (user.address.street)
+  → Formik: FieldArray or dot notation
 ```
 
 ---

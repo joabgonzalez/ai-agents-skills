@@ -293,6 +293,12 @@ Policies: Strict typing (no `any`), keyboard-accessible components, React hooks 
 
 **Skills added after creation:** The auto-discovery section handles this automatically. No need to update the AGENTS.md when new skills are installed.
 
+**When to split one agent into multiple:** Split when the agent prompt exceeds ~400 tokens OR the agent covers 2+ unrelated workflows (e.g., frontend development + infrastructure provisioning). Each agent should have one primary job so skill routing stays predictable. Overlap between agents causes the model to load multiple agents unnecessarily.
+
+**Updating agent description when project scope changes:** The `description` field in `AGENTS.md` frontmatter is the routing key — the model uses it to decide which agent to activate. If the project's scope changes (new framework, added backend), re-run the creation workflow to regenerate the description. A stale description causes the wrong agent to be selected or the right one to be skipped.
+
+**Skill version conflicts across agents:** Skills are installed project-wide, not per-agent. If two agents in the same project reference the same skill, they share the same installed version. After updating a skill with `skills sync`, both agents get the update simultaneously — verify both agents' behavior after any skill update that changes critical patterns.
+
 ---
 
 ## Checklist

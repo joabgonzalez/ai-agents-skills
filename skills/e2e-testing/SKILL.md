@@ -3,7 +3,7 @@ name: e2e-testing
 description: "End-to-end testing patterns and best practices. Trigger: When writing or reviewing E2E tests for any layer."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: domain
 ---
 # End-to-End Testing
@@ -115,13 +115,28 @@ e2e-tests:
 
 ## Decision Tree
 
-- Browser UI flow? -> Delegate to the **playwright** skill
-- AI-driven automation? -> Delegate to the **stagehand** skill
-- Need test data? -> Seed via API in `beforeEach`, clean up in `afterEach`
-- Flaky in CI? -> Add `--retries=1`, mock external services, upload traces
-- Testing auth flows? -> Store `storageState` and reuse across tests
-- API-only flow? -> Use Playwright `request` fixture or HTTP client
-- Slow suite? -> Shard across CI workers with `--shard=N/M`
+```
+Browser UI flow?
+  → Delegate to the playwright skill
+
+AI-driven automation?
+  → Delegate to the stagehand skill
+
+Need test data?
+  → Seed via API in beforeEach, clean up in afterEach
+
+Flaky in CI?
+  → Add --retries=1, mock external services, upload traces
+
+Testing auth flows?
+  → Store storageState and reuse across tests
+
+API-only flow?
+  → Use Playwright request fixture or HTTP client
+
+Slow suite?
+  → Shard across CI workers with --shard=N/M
+```
 
 ---
 

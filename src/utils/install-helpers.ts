@@ -1,5 +1,6 @@
 import * as p from '@clack/prompts';
 import color from 'picocolors';
+import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
 import { LogLevel, logger } from './logger';
 
 export interface InstallCounts {
@@ -59,19 +60,39 @@ export async function runInstallLoop(
 
 /**
  * Shows the standard installation summary note + outro.
+ *
+ * dedicatedModels: IDs of dedicated-directory models targeted in this run
+ * (claude, antigravity). Universal models are always shown as a static note.
  */
 export function showInstallOutro(
   counts: InstallCounts,
-  modelCount: number,
+  dedicatedModels: string[],
   dryRun: boolean,
   successMessage = 'Installation complete!'
 ): void {
   const lines: string[] = [];
-  lines.push(`Models: ${color.cyan(modelCount.toString())}`);
-  lines.push(`Skills installed: ${color.green(counts.installed.toString())}`);
+
+  lines.push(`${color.dim('Universal:')}   ${UNIVERSAL_MODELS.length} agents ${color.dim('(.agents/skills/)')}`);
+  for (let i = 0; i < UNIVERSAL_MODELS.length; i++) {
+    const isLast = i === UNIVERSAL_MODELS.length - 1;
+    const branch = isLast ? '└' : '├';
+    lines.push(`             ${color.dim(branch)} ${color.dim(UNIVERSAL_MODELS[i].label)}`);
+  }
+
+  if (dedicatedModels.length > 0) {
+    const dedicatedLine = dedicatedModels
+      .map((id) => {
+        const cfg = DEDICATED_MODELS[id];
+        return cfg ? `${cfg.name} ${color.dim(`(${cfg.directory}/skills/)`)}` : id;
+      })
+      .join('  ');
+    lines.push(`${color.dim('Dedicated:')}   ${dedicatedLine}`);
+  }
+
+  lines.push(`${color.dim('Installed:')}   ${color.green(counts.installed.toString())} skills`);
   if (counts.skipped > 0) {
     lines.push(
-      `Skills skipped: ${color.yellow(counts.skipped.toString())} ${color.dim('(already up-to-date)')}`
+      `${color.dim('Skipped:')}    ${color.yellow(counts.skipped.toString())} ${color.dim('(already up-to-date)')}`
     );
   }
 

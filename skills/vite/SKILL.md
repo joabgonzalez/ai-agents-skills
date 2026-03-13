@@ -3,7 +3,7 @@ name: vite
 description: "Fast build tool with HMR for modern web development. Trigger: When configuring Vite, setting up dev server, or optimizing builds."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   dependencies:
     vite: ">=5.0.0 <6.0.0"
@@ -88,19 +88,28 @@ export default defineConfig({
 
 ## Decision Tree
 
-**React project?** → Install and use `@vitejs/plugin-react`.
+```
+React project?
+  → Install and use @vitejs/plugin-react
 
-**Vue project?** → Use `@vitejs/plugin-vue`.
+Vue project?
+  → Use @vitejs/plugin-vue
 
-**Need path aliases?** → Configure `resolve.alias` in vite.config.
+Need path aliases?
+  → Configure resolve.alias in vite.config
 
-**Custom dev server port?** → Set `server.port`.
+Custom dev server port?
+  → Set server.port
 
-**Proxy API calls?** → Configure `server.proxy` to avoid CORS.
+Proxy API calls?
+  → Configure server.proxy to avoid CORS
 
-**Slow build?** → Check bundle size, use dynamic imports, optimize dependencies.
+Slow build?
+  → Check bundle size, use dynamic imports, optimize dependencies
 
-**Environment-specific config?** → Use `mode` parameter or separate config files.
+Environment-specific config?
+  → Use mode parameter or separate config files
+```
 
 ---
 

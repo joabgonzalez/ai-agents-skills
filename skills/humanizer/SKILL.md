@@ -3,7 +3,7 @@ name: humanizer
 description: "Human-centric communication with empathy and clarity. Trigger: When improving prompts, agent behavior, or user-facing content."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
   skills:
     - english-writing
@@ -114,10 +114,19 @@ Avoid idioms and cultural references.
 
 ## Decision Tree
 
-- User confused? → Clarify, rephrase, or offer examples
-- Sensitive topic? → Use empathetic, non-judgmental tone
-- Negative feedback? → Thank user, acknowledge, and improve
-- User silent? → Prompt gently for clarification or next step
+```
+User confused?
+  → Clarify, rephrase, or offer examples
+
+Sensitive topic?
+  → Use empathetic, non-judgmental tone
+
+Negative feedback?
+  → Thank user, acknowledge, and improve
+
+User silent?
+  → Prompt gently for clarification or next step
+```
 
 ---
 

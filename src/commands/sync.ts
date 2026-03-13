@@ -42,12 +42,17 @@ export async function syncCommand(options: SyncOptions) {
     }
 
     const currentModels = modelDetector.detectInstalledModels(project.rootPath);
-    if (currentModels.length > 0) {
+    {
       const allModelsInfo = modelDetector.getAllModelsInfo(project.rootPath);
-      const names = currentModels
-        .map((id) => allModelsInfo.find((m) => m.id === id)?.name ?? id)
-        .join(', ');
-      p.note(`Currently installed: ${color.cyan(names)}`, 'Models');
+      const universalNote = color.dim('Amp · Cline · Codex · Cursor · Gemini CLI · GitHub Copilot · Kimi · OpenCode');
+      const dedicatedNote =
+        currentModels.length > 0
+          ? currentModels.map((id) => allModelsInfo.find((m) => m.id === id)?.name ?? id).join(', ')
+          : color.dim('none configured');
+      p.note(
+        `Universal: ${universalNote}\nDedicated: ${color.cyan(dedicatedNote)}`,
+        'Agent Coverage'
+      );
     }
 
     // Flags direct execution
@@ -147,7 +152,7 @@ export async function syncCommand(options: SyncOptions) {
     }
 
     if (choices.length === 0) {
-      p.outro(color.green('✓ All models installed and all skills up to date!'));
+      p.outro(color.green('✓ All skills up to date — universal coverage active'));
       return;
     }
 
@@ -446,10 +451,15 @@ async function syncUpdateSkills(
 
   logger.setLevel(prevLevel);
 
-  const currentModels = modelDetector.detectInstalledModels(rootPath);
+  const dedicatedModels = modelDetector.detectInstalledModels(rootPath);
+  const dedicatedSummary =
+    dedicatedModels.length > 0
+      ? dedicatedModels.join(', ')
+      : color.dim('none');
   p.note(
     `Skills updated: ${color.green(updatedCount.toString())}\n` +
-      `Affected models: ${color.cyan(currentModels.length.toString())}`,
+      `Universal agents updated: ${color.dim('Amp · Cline · Codex · Cursor · Gemini CLI · GitHub Copilot · Kimi · OpenCode')}\n` +
+      `Dedicated models updated: ${color.cyan(dedicatedSummary)}`,
     'Summary'
   );
 
@@ -486,7 +496,7 @@ async function syncAddModels(
     const availableModels = allModelsInfo.filter((m) => !currentModels.includes(m.id));
 
     if (availableModels.length === 0) {
-      p.outro(color.yellow('All supported models already have skills installed'));
+      p.outro(color.yellow('All dedicated model directories are already configured'));
       return;
     }
 

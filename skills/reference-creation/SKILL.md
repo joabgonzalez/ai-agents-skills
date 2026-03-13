@@ -3,7 +3,7 @@ name: reference-creation
 description: "Reference files for complex skills (40+ patterns). Trigger: When creating complex skill with 40+ patterns or 4+ natural sub-topics."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
   skills:
     - english-writing
@@ -212,7 +212,7 @@ references/hooks.md (400 lines)
   - useEffect section
 ```
 
-Guideline: 4-9 references optimal. More = harder to discover.
+Target 2-9 references. Hard limit: 10 (enforced by tests). More = harder to discover.
 
 ---
 
@@ -220,28 +220,28 @@ Guideline: 4-9 references optimal. More = harder to discover.
 
 ```
 Skill complexity: <40 patterns?
-→ Yes: Use SKILL.md only (no references needed)
-→ No: Continue assessment
+  → Yes: Use SKILL.md only (no references needed)
+  → No: Continue assessment
 
 Natural sub-topics exist (4+)?
-→ No: Consider if patterns are truly related to same skill
-→ Yes: Plan references/ directory
+  → No: Consider if patterns are truly related to same skill
+  → Yes: Plan references/ directory
 
 Each sub-topic has 10+ patterns?
-→ No: Merge sub-topics or keep inline in SKILL.md
-→ Yes: Create reference file for each sub-topic
+  → No: Merge sub-topics or keep inline in SKILL.md
+  → Yes: Create reference file for each sub-topic
 
-References count: 4-9 files?
-→ No: Consolidate (if >9) or add more sub-topics (if <4)
-→ Yes: Create references/ with README.md
+References count: 2-10 files?
+  → No (>10): Consolidate — hard limit is 10 (enforced by tests)
+  → Yes: Create references/ with README.md
 
 README.md created with navigation?
-→ No: MUST create (CRITICAL)
-→ Yes: Validate cross-links and sync
+  → No: MUST create (CRITICAL)
+  → Yes: Validate cross-links and sync
 
 Token efficiency applied?
-→ No: Remove filler words, condense verbose phrases, eliminate redundancy
-→ Yes: Ready for review
+  → No: Remove filler words, condense verbose phrases, eliminate redundancy
+  → Yes: Ready for review
 ```
 
 ---
@@ -297,7 +297,7 @@ README.md has 4 required sections: Quick Navigation table (with line counts), Re
   - [ ] Reading Strategies by use case (how to navigate content)
   - [ ] File Descriptions (what each reference covers, ~line count)
   - [ ] Cross-Reference Map (topic interconnections between files)
-- [ ] 4-9 reference files (optimal range)
+- [ ] ≤10 reference files (2-9 recommended)
 - [ ] Each file 200-600 lines (max 800 before splitting)
 - [ ] Descriptive file names (no "advanced", "misc", "other")
 - [ ] SKILL.md retains top 15 critical patterns, under 300 lines

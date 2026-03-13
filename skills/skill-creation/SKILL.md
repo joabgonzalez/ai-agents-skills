@@ -3,7 +3,7 @@ name: skill-creation
 description: "Standards-compliant skill creation with templates and validation. Trigger: When creating a new skill or documenting patterns."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
   skills:
     - reference-creation
@@ -92,7 +92,35 @@ Place focused example (<15 lines) after each Critical Pattern showing correct vs
 
 ### ✅ REQUIRED: Add Decision Tree
 
-Every skill MUST include a Decision Tree section using condition→action format.
+Every skill MUST include a `## Decision Tree` section. Content MUST be inside a ` ``` ` code fence (no language tag). Rules inside the fence:
+
+1. Conditions at column 0 (no leading spaces)
+2. Actions indented with `  →` (2 spaces + Unicode arrow)
+3. Use `→` not `->` (ASCII)
+4. No markdown links `[text](url)` — use plain text (`see file.md`)
+5. No inline backtick code — use plain text names
+6. No bullet markers (`- ` or `* `) at line start
+7. Blank line between each condition block
+
+```
+✅ CORRECT
+
+Simple condition?
+  → Single action
+
+Complex condition?
+  → Step A → Step B → Step C
+
+Parallel options?
+  → Option A (if X)
+  → Option B (if Y)
+```
+
+```markdown
+❌ WRONG: outside fence, bullet list, ASCII arrows, backticks, links
+
+- **Condition?** -> Use `someApi()`. See [file.md](references/file.md)
+```
 
 ### ✅ REQUIRED: Create References for Complex Skills
 
@@ -100,7 +128,7 @@ When skill has 40+ patterns or 4+ sub-topics:
 
 ```
 skills/{skill-name}/
-├── SKILL.md (300 lines max)
+├── SKILL.md (400 lines max)
 └── references/
     ├── {sub-topic-1}.md
     └── {sub-topic-2}.md
@@ -273,7 +301,7 @@ Before finalizing any skill:
 - [ ] H1 title is the topic name only — no "Skill" suffix (e.g., `# React`, not `# React Skill`)
 - [ ] When to Use (with Don't use when)
 - [ ] Critical Patterns with ✅/❌ markers and inline examples (<15 lines each)
-- [ ] Decision Tree (condition→action format)
+- [ ] Decision Tree: inside ``` fence, `→` arrows, no links/backticks/bullets inside fence
 - [ ] Example section
 - [ ] Edge Cases
 - [ ] `---` separator between every major `## ` section (except before the first)

@@ -3,7 +3,7 @@ name: redux-toolkit
 description: "Predictable state management with Redux Toolkit. Trigger: When implementing Redux, creating slices, or managing global state."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: library
   skills:
     - react
@@ -105,25 +105,37 @@ const store = createStore(
 
 ## Decision Tree
 
-**Setting up Redux?** → **MUST read [typescript-integration.md](references/typescript-integration.md)** for store setup, typed hooks (useAppDispatch, useAppSelector), RootState/AppDispatch types.
+```
+Setting up Redux?
+  → MUST read typescript-integration.md for store setup, typed hooks (useAppDispatch, useAppSelector), RootState/AppDispatch types
 
-**Creating slice?** → **MUST read [slices-patterns.md](references/slices-patterns.md)** for createSlice, reducers, extraReducers, immer patterns, prepare callbacks.
+Creating slice?
+  → MUST read slices-patterns.md for createSlice, reducers, extraReducers, immer patterns, prepare callbacks
 
-**Need global state?** → Create slice with `createSlice`, define initial state and reducers. Use typed hooks `useAppSelector`/`useAppDispatch`.
+Need global state?
+  → Create slice with createSlice, define initial state and reducers. Use typed hooks useAppSelector/useAppDispatch
 
-**Async operation (API call)?** → Use RTK Query for data fetching (preferred). **MUST read [rtk-query.md](references/rtk-query.md)** for createApi, queries, mutations, cache invalidation. For manual async: **CHECK [async-patterns.md](references/async-patterns.md)** for createAsyncThunk patterns.
+Async operation (API call)?
+  → Use RTK Query for data fetching (preferred). MUST read rtk-query.md for createApi, queries, mutations, cache invalidation. For manual async: CHECK async-patterns.md for createAsyncThunk patterns
 
-**Derived/computed state?** → **CHECK [selectors.md](references/selectors.md)** for createSelector (memoization), selector composition, preventing re-renders.
+Derived/computed state?
+  → CHECK selectors.md for createSelector (memoization), selector composition, preventing re-renders
 
-**Managing collections (users, posts, products)?** → **MUST read [normalization.md](references/normalization.md)** for createEntityAdapter, normalized state, CRUD operations, relationships.
+Managing collections (users, posts, products)?
+  → MUST read normalization.md for createEntityAdapter, normalized state, CRUD operations, relationships
 
-**State normalization needed?** → Use `createEntityAdapter` for managing collections with IDs (automatic CRUD reducers, selectors).
+State normalization needed?
+  → Use createEntityAdapter for managing collections with IDs (automatic CRUD reducers, selectors)
 
-**Performance issue with re-renders?** → Use granular selectors (select only needed data), `React.memo()` on components, `shallowEqual` in useAppSelector. **CHECK [selectors.md](references/selectors.md)** for memoization patterns.
+Performance issue with re-renders?
+  → Use granular selectors (select only needed data), React.memo() on components, shallowEqual in useAppSelector. CHECK selectors.md for memoization patterns
 
-**Cross-slice logic?** → Use extraReducers in slice or dispatch actions from async thunks. Avoid direct slice imports (circular deps).
+Cross-slice logic?
+  → Use extraReducers in slice or dispatch actions from async thunks. Avoid direct slice imports (circular deps)
 
-**DevTools not working?** → Verify `configureStore` enables DevTools by default. Use Redux DevTools Extension for time-travel debugging.
+DevTools not working?
+  → Verify configureStore enables DevTools by default. Use Redux DevTools Extension for time-travel debugging
+```
 
 ---
 

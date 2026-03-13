@@ -3,7 +3,7 @@ name: react
 description: "Modern React with hooks and functional components. Trigger: When creating components, implementing hooks, managing state, or optimizing."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - a11y
@@ -92,20 +92,49 @@ const shouldUse = condition ? value : defaultValue;
 
 ## Decision Tree
 
-- **Simple state (<3 values)?** -> `useState`. See [hooks-advanced.md](references/hooks-advanced.md) (useState Patterns section).
-- **Complex state (4+ related values)?** -> `useReducer`. See [hooks-advanced.md](references/hooks-advanced.md) (useReducer Patterns section).
-- **Side effect?** -> `useEffect` with proper deps. See [use-effect-patterns.md](references/use-effect-patterns.md).
-- **Data fetching?** -> `useEffect` + AbortController. See [use-effect-patterns.md](references/use-effect-patterns.md) (Async Patterns section).
-- **Performance issue?** -> Profile first with React DevTools. See [performance.md](references/performance.md).
-- **Expensive computation?** -> `useMemo`. See [performance.md](references/performance.md) (useMemo section).
-- **Callbacks to memoized children?** -> `useCallback`. See [performance.md](references/performance.md) (useCallback section).
-- **Shared state across components?** -> Context API or lift state. See [context-patterns.md](references/context-patterns.md).
-- **Compound component API?** -> See [context-patterns.md](references/context-patterns.md) (Compound Components section).
-- **Form with validation?** -> Controlled components. See [forms-state.md](references/forms-state.md).
-- **Multi-step form?** -> Wizard pattern. See [forms-state.md](references/forms-state.md) (Multi-Step Forms section).
-- **File upload?** -> Controlled input + File API. See [forms-state.md](references/forms-state.md) (File Uploads section).
-- **Large list (1000+)?** -> Virtualization. See [performance.md](references/performance.md) (List Rendering Optimization section).
-- **Conditional rendering?** -> `&&` for simple, ternary for if-else, early return for complex logic.
+```
+Simple state (<3 values)?
+  → useState — see hooks-advanced.md (useState Patterns)
+
+Complex state (4+ related values)?
+  → useReducer — see hooks-advanced.md (useReducer Patterns)
+
+Side effect?
+  → useEffect with proper deps — see use-effect-patterns.md
+
+Data fetching?
+  → useEffect + AbortController — see use-effect-patterns.md (Async Patterns)
+
+Performance issue?
+  → Profile first with React DevTools — see performance.md
+
+Expensive computation?
+  → useMemo — see performance.md (useMemo)
+
+Callbacks to memoized children?
+  → useCallback — see performance.md (useCallback)
+
+Shared state across components?
+  → Context API or lift state — see context-patterns.md
+
+Compound component API?
+  → see context-patterns.md (Compound Components)
+
+Form with validation?
+  → Controlled components — see forms-state.md
+
+Multi-step form?
+  → Wizard pattern — see forms-state.md (Multi-Step Forms)
+
+File upload?
+  → Controlled input + File API — see forms-state.md (File Uploads)
+
+Large list (1000+)?
+  → Virtualization — see performance.md (List Rendering Optimization)
+
+Conditional rendering?
+  → && for simple, ternary for if-else, early return for complex logic
+```
 
 ---
 

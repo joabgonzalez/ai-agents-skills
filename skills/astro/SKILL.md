@@ -3,7 +3,7 @@ name: astro
 description: "Fast static sites with SSG/SSR and component islands. Trigger: When building Astro websites, implementing islands, or configuring SSG/SSR."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - react
@@ -117,20 +117,49 @@ export default defineConfig({ output: 'hybrid', adapter: node() });
 
 ## Decision Tree
 
-- **No adapter (SSG-only)?** -> Read [ssg-patterns.md](references/ssg-patterns.md)
-- **Has adapter + output: 'server'?** -> Read [ssr-patterns.md](references/ssr-patterns.md)
-- **Has adapter + output: 'hybrid'?** -> Read [hybrid-strategies.md](references/hybrid-strategies.md)
-- **Adding interactivity?** -> Read [client-directives.md](references/client-directives.md)
-- **Managing content (blog, docs)?** -> Read [content-collections.md](references/content-collections.md)
-- **Building forms?** -> Read [actions.md](references/actions.md)
-- **Smooth page transitions or faster navigation?** -> Read [client-navigation.md](references/client-navigation.md)
-- **Auth or request logging?** -> Read [middleware.md](references/middleware.md)
-- **API keys or secrets?** -> Read [env-variables.md](references/env-variables.md)
-- **Dynamic routes with known paths?** -> `getStaticPaths` (SSG)
-- **Dynamic routes with user data?** -> `prerender: false` (SSR)
-- **Immediate interaction?** -> `client:load`
-- **Below fold interaction?** -> `client:visible`
-- **Non-critical interaction?** -> `client:idle`
+```
+No adapter (SSG-only)?
+  → see ssg-patterns.md
+
+Has adapter + output: 'server'?
+  → see ssr-patterns.md
+
+Has adapter + output: 'hybrid'?
+  → see hybrid-strategies.md
+
+Adding interactivity?
+  → see client-directives.md
+
+Managing content (blog, docs)?
+  → see content-collections.md
+
+Building forms?
+  → see actions.md
+
+Smooth page transitions or faster navigation?
+  → see client-navigation.md
+
+Auth or request logging?
+  → see middleware.md
+
+API keys or secrets?
+  → see env-variables.md
+
+Dynamic routes with known paths?
+  → getStaticPaths (SSG)
+
+Dynamic routes with user data?
+  → prerender: false (SSR)
+
+Immediate interaction?
+  → client:load
+
+Below fold interaction?
+  → client:visible
+
+Non-critical interaction?
+  → client:idle
+```
 
 ---
 

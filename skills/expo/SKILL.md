@@ -3,7 +3,7 @@ name: expo
 description: "Managed workflow for cross-platform mobile apps with EAS. Trigger: When developing with Expo, configuring EAS services, or building mobile apps."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - react-native
@@ -132,19 +132,28 @@ module.exports = withInfoPlist(config, (config) => {
 
 ## Decision Tree
 
-**Native feature?** → Check Expo SDK first.
+```
+Native feature?
+  → Check Expo SDK first
 
-**Custom native code?** → Config plugins or eject.
+Custom native code?
+  → Config plugins or eject
 
-**Store builds?** → EAS Build (cloud).
+Store builds?
+  → EAS Build (cloud)
 
-**OTA updates?** → EAS Update.
+OTA updates?
+  → EAS Update
 
-**Platform code?** → `Platform.select()` or `.ios.tsx`/`.android.tsx`.
+Platform code?
+  → Platform.select() or .ios.tsx/.android.tsx
 
-**Testing?** → Expo Go (dev), devices/simulators (final).
+Testing?
+  → Expo Go (dev), devices/simulators (final)
 
-**Navigation?** → Expo Router or React Navigation.
+Navigation?
+  → Expo Router or React Navigation
+```
 
 ---
 

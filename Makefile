@@ -16,7 +16,7 @@ add:
 	npm run dev -- add --local
 
 remove:
-	npm run dev -- remove
+	npm run dev -- remove --local
 
 sync:
 	npm run dev -- sync

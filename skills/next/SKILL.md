@@ -3,7 +3,7 @@ name: next
 description: "Fullstack React with SSR/SSG and API routes. Trigger: When building with Next.js, configuring SSR/SSG, or deploying."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - react
@@ -110,14 +110,31 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 ## Decision Tree
 
-- Needs browser APIs or state? -> Add `"use client"` directive
-- Fetching data for display? -> Use async server component, not useEffect
-- Form submission or mutation? -> Use a server action with `"use server"`
-- Shared layout across routes? -> Create a `layout.tsx` in the parent segment
-- Dynamic page title? -> Export `generateMetadata` function
-- Protecting routes? -> Use `middleware.ts` at the project root
-- Periodic data refresh? -> Use `fetch` with `next: { revalidate: N }`
-- On-demand cache clear? -> Call `revalidatePath()` or `revalidateTag()`
+```
+Needs browser APIs or state?
+  → Add "use client" directive
+
+Fetching data for display?
+  → Use async server component, not useEffect
+
+Form submission or mutation?
+  → Use a server action with "use server"
+
+Shared layout across routes?
+  → Create a layout.tsx in the parent segment
+
+Dynamic page title?
+  → Export generateMetadata function
+
+Protecting routes?
+  → Use middleware.ts at the project root
+
+Periodic data refresh?
+  → fetch with next: { revalidate: N }
+
+On-demand cache clear?
+  → Call revalidatePath() or revalidateTag()
+```
 
 ---
 

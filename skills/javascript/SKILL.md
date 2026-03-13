@@ -3,7 +3,7 @@ name: javascript
 description: "Modern JavaScript (ES2020+) patterns. Trigger: When writing JavaScript code, using ES2020+ features, or refactoring legacy JS."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: language
 ---
 
@@ -136,25 +136,37 @@ const comments = await fetchComments();
 
 ## Decision Tree
 
-**Importing a module?** -> Named imports: `import { x } from 'mod'`. Never `require()` in ES modules.
+```
+Importing a module?
+  → Named imports: import { x } from 'mod' — never require() in ES modules
 
-**Unused import/variable?** -> Delete it. No dead code.
+Unused import/variable?
+  → Delete it — no dead code
 
-**Async operation?** -> `async/await` with try/catch.
+Async operation?
+  → async/await with try/catch
 
-**String concatenation?** -> Template literals: `` `Hello ${name}` ``.
+String concatenation?
+  → Template literals: Hello ${name}
 
-**Default value?** -> `??` for null/undefined; `||` for any falsy.
+Default value?
+  → ?? for null/undefined; || for any falsy
 
-**Property might not exist?** -> Optional chaining: `obj?.prop?.nested`.
+Property might not exist?
+  → Optional chaining: obj?.prop?.nested
 
-**Iterate array?** -> `.map()`, `.filter()`, `.reduce()`. Use `for...of` for early breaks.
+Iterate array?
+  → .map(), .filter(), .reduce() — use for...of for early breaks
 
-**Copy object/array?** -> Spread: `{...obj}`, `[...arr]`.
+Copy object/array?
+  → Spread: {...obj}, [...arr]
 
-**Callback?** -> Arrow function unless `this` context is needed.
+Callback?
+  → Arrow function unless this context is needed
 
-**Multiple independent awaits?** -> `Promise.all()` for parallel execution.
+Multiple independent awaits?
+  → Promise.all() for parallel execution
+```
 
 ---
 

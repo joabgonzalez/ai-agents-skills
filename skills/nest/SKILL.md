@@ -3,7 +3,7 @@ name: nest
 description: "NestJS modular architecture with dependency injection. Trigger: When building scalable server apps with NestJS."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - nodejs
@@ -112,14 +112,31 @@ export class DomainExceptionFilter implements ExceptionFilter {
 
 ## Decision Tree
 
-- REST API? -> Use `@Controller` with HTTP method decorators
-- GraphQL API? -> Use `@Resolver` with `@nestjs/graphql`
-- Shared business logic? -> Extract into an `@Injectable()` service
-- Request validation? -> Apply `ValidationPipe` globally or per-route
-- Auth check? -> Implement a Guard with `canActivate`
-- Response shaping? -> Use an Interceptor or Serializer
-- Background work? -> Use `@nestjs/bull` or `@nestjs/schedule`
-- Config secrets? -> Use `ConfigModule.forRoot()` with `.env`
+```
+REST API?
+  → @Controller with HTTP method decorators
+
+GraphQL API?
+  → @Resolver with @nestjs/graphql
+
+Shared business logic?
+  → Extract into an @Injectable() service
+
+Request validation?
+  → Apply ValidationPipe globally or per-route
+
+Auth check?
+  → Implement a Guard with canActivate
+
+Response shaping?
+  → Use an Interceptor or Serializer
+
+Background work?
+  → @nestjs/bull or @nestjs/schedule
+
+Config secrets?
+  → ConfigModule.forRoot() with .env
+```
 
 ---
 

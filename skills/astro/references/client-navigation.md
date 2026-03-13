@@ -552,3 +552,103 @@ export default defineConfig({
   prefetch: { defaultStrategy: 'hover' }
 });
 ```
+
+---
+
+## Dark Mode
+
+### CSS-Only Dark Mode (prefers-color-scheme)
+
+```css
+/* src/styles/global.css */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1a1a;
+    --color-text: #ffffff;
+  }
+}
+
+body { background: var(--color-bg); color: var(--color-text); }
+```
+
+### Toggle Dark Mode with data-theme
+
+```astro
+---
+// src/layouts/BaseLayout.astro
+---
+<html data-theme="light">
+  <head>
+    <style>
+      [data-theme="light"] { --color-bg: #fff; --color-text: #111; }
+      [data-theme="dark"]  { --color-bg: #111; --color-text: #fff; }
+    </style>
+    <!-- Prevent flash: read stored preference before paint -->
+    <script is:inline>
+      const theme = localStorage.getItem('theme')
+        ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
+  </head>
+  <body><slot /></body>
+</html>
+```
+
+```astro
+---
+// src/components/ThemeToggle.astro
+---
+<button id="theme-toggle" aria-label="Toggle dark mode">
+  <span class="icon-sun">☀️</span>
+  <span class="icon-moon">🌙</span>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  toggle?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+</script>
+```
+
+### Dark Mode with Tailwind CSS
+
+```javascript
+// astro.config.mjs — enable class-based dark mode
+import tailwind from '@astrojs/tailwind';
+export default defineConfig({ integrations: [tailwind()] });
+```
+
+```css
+/* src/styles/global.css */
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+```astro
+<html class={isDark ? 'dark' : ''}>
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+    <slot />
+  </body>
+</html>
+```
+
+### Dark Mode with View Transitions
+
+When using `<ViewTransitions />`, persist the theme across navigation:
+
+```javascript
+// Persist theme on every page load (including transitions)
+document.addEventListener('astro:page-load', () => {
+  const theme = localStorage.getItem('theme') ?? 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+});
+```

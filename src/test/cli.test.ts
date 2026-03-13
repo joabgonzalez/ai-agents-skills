@@ -376,10 +376,10 @@ describe('CLI list: controlled state (tmpProject)', () => {
     expect(output).not.toMatch(/\bjest\b/i);
   });
 
-  test('does not show a model with no directory (cursor)', () => {
-    // cursor is a valid model ID but has no directory in tmpProject → must not appear
+  test('does not show unconfigured dedicated model (antigravity) in list', () => {
+    // antigravity is a valid dedicated model ID but has no directory in tmpProject → must not appear
     const { output } = runIn(tmpProject, 'list');
-    expect(output).not.toMatch(/\bcursor\b/i);
+    expect(output).not.toMatch(/\bantigravity\b/i);
   });
 
   test('exits 0 with guidance when no skills are installed', () => {
@@ -400,8 +400,9 @@ describe('CLI list: controlled state (tmpProject)', () => {
 // All add tests run from tmpProject:
 //   - typescript: available in skills/, PRE-INSTALLED → "already installed" early exit
 //   - jest: available in skills/, NOT installed → goes through full flow
-//   - claude: installed model (.claude/ exists)
-//   - cursor: valid model ID, NOT installed in tmpProject
+//   - claude: installed dedicated model (.claude/ exists)
+//   - antigravity: valid dedicated model ID, NOT installed in tmpProject
+//   - cursor: universal model (not a dedicated model) → "unknown model" warning
 //   - __badmodel__: invalid model ID → "unknown model" warning
 //   - __nonexistent__: invalid skill name → "not found" warning
 //   - __nopreset__: invalid preset → "Preset not found" early exit(1)
@@ -508,17 +509,17 @@ describe('CLI add --local: model validation', () => {
     expect(output).toMatch(/jest|claude/i);
   });
 
-  test('includes non-installed but valid model (cursor) alongside installed models', () => {
-    // cursor is a valid model ID but NOT installed in tmpProject
+  test('includes non-installed but valid dedicated model (antigravity) alongside installed models', () => {
+    // antigravity is a valid dedicated model ID but NOT installed in tmpProject
     // The command merges it with installed models (claude) and shows both as targets
     const { output, exitCode } = runIn(
       tmpProject,
-      'add --local --skill jest --model cursor --dry-run',
+      'add --local --skill jest --model antigravity --dry-run',
       '\n'
     );
     expect(exitCode).toBe(0);
-    // Output shows cursor as a target (and claude as already configured)
-    expect(output).toMatch(/cursor|jest/i);
+    // Output shows antigravity as a target (and claude as already configured)
+    expect(output).toMatch(/antigravity|jest/i);
   });
 
   test('dry-run shows paths that would be created', () => {
@@ -584,15 +585,15 @@ describe('CLI remove --confirm: model validation', () => {
     expect(output).toMatch(/unknown model|No valid models/i);
   });
 
-  test('exits 1 when specified model has no skills installed', () => {
-    // cursor is a valid model ID but NOT in tmpProject's installed models
+  test('exits 1 when specified model is not a known dedicated model', () => {
+    // cursor is a universal model (not a dedicated model) → unknown model warning → exit(1)
     const { output, exitCode } = runIn(
       tmpProject,
       'remove --skill typescript --model cursor --confirm --dry-run'
     );
-    // cursor is valid but no skills installed for it → warns "no skills installed for this model"
+    // cursor not in dedicated models → warns "unknown model" → exit(1)
     expect(exitCode).toBe(1);
-    expect(output).toMatch(/no skills installed|No valid models|cursor/i);
+    expect(output).toMatch(/unknown model|No valid models|cursor/i);
   });
 
   test('alias uninstall --confirm works like remove', () => {

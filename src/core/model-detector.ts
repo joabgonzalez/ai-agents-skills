@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
 
 export interface ModelInfo {
   id: string;
@@ -9,22 +10,21 @@ export interface ModelInfo {
   installed: boolean;
 }
 
-export const SUPPORTED_MODELS: Record<string, { name: string; directory: string }> = {
-  claude: { name: 'Claude', directory: '.claude' },
-  copilot: { name: 'GitHub Copilot', directory: '.github' },
-  cursor: { name: 'Cursor', directory: '.cursor' },
-  gemini: { name: 'Gemini', directory: '.gemini' },
-  codex: { name: 'OpenAI Codex', directory: '.codex' },
-};
+// Re-export for consumers that reference SUPPORTED_MODELS directly
+export const SUPPORTED_MODELS = DEDICATED_MODELS;
+
+// Universal model IDs (use .agents/skills/ natively — no dedicated directory needed)
+export const UNIVERSAL_MODEL_IDS: string[] = UNIVERSAL_MODELS.map((m) => m.value);
 
 export class ModelDetector {
   /**
-   * Detect which models are installed in project
+   * Detect which dedicated models are installed in project.
+   * Universal models are always available via .agents/skills/ and are not detected here.
    */
   detectInstalledModels(projectPath: string): string[] {
     const installed: string[] = [];
 
-    for (const [modelId, config] of Object.entries(SUPPORTED_MODELS)) {
+    for (const [modelId, config] of Object.entries(DEDICATED_MODELS)) {
       const modelPath = path.join(projectPath, config.directory);
       const skillsPath = path.join(modelPath, 'skills');
       if (fs.existsSync(modelPath) && fs.existsSync(skillsPath)) {
@@ -36,10 +36,11 @@ export class ModelDetector {
   }
 
   /**
-   * Get model information
+   * Get model information for a dedicated model.
+   * Returns null for unknown or universal model IDs.
    */
   getModelInfo(projectPath: string, modelId: string): ModelInfo | null {
-    const config = SUPPORTED_MODELS[modelId];
+    const config = DEDICATED_MODELS[modelId];
     if (!config) return null;
 
     const modelPath = path.join(projectPath, config.directory);
@@ -55,19 +56,20 @@ export class ModelDetector {
   }
 
   /**
-   * Get all models information
+   * Get info for all dedicated models.
    */
   getAllModelsInfo(projectPath: string): ModelInfo[] {
-    return Object.keys(SUPPORTED_MODELS)
+    return Object.keys(DEDICATED_MODELS)
       .map((modelId) => this.getModelInfo(projectPath, modelId))
       .filter((info): info is ModelInfo => info !== null);
   }
 
   /**
-   * Get directory path for model
+   * Get directory path for a dedicated model.
+   * Throws for unknown or universal model IDs.
    */
   getModelDirectory(projectPath: string, modelId: string): string {
-    const config = SUPPORTED_MODELS[modelId];
+    const config = DEDICATED_MODELS[modelId];
     if (!config) {
       throw new Error(`Unknown model: ${modelId}`);
     }
@@ -76,7 +78,7 @@ export class ModelDetector {
   }
 
   /**
-   * Get skills directory for model
+   * Get skills directory for a dedicated model.
    */
   getModelSkillsDirectory(projectPath: string, modelId: string): string {
     return path.join(this.getModelDirectory(projectPath, modelId), 'skills');

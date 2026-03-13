@@ -36,7 +36,7 @@ Ask these questions to determine structure:
    - Yes (hooks, components, performance) → Use references/
    - No (single linear workflow) → Keep in SKILL.md
 
-3. **Will SKILL.md exceed 300 lines?**
+3. **Will SKILL.md exceed 400 lines?**
    - Yes → Use references/
    - No → Keep in SKILL.md
 
@@ -174,7 +174,7 @@ assets/
 
 ```
 skills/{skill-name}/
-├── SKILL.md                    # Overview + critical patterns (300 lines max)
+├── SKILL.md                    # Overview + critical patterns (400 lines max)
 ├── assets/                     # Templates, schemas, configs
 │   ├── component-template.tsx
 │   └── schema.json
@@ -215,7 +215,7 @@ Create `references/` when skill meets ANY criteria:
 
 - **40+ patterns** in Critical Patterns section
 - **4+ distinct sub-topics** (hooks, components, performance, server)
-- **Main SKILL.md exceeds 300 lines** with all patterns
+- **Main SKILL.md exceeds 400 lines** with all patterns
 - **Multiple contexts** (browser vs Node vs Edge)
 - **Version-specific patterns** needing isolation
 
@@ -392,7 +392,7 @@ references/
 4. Create reference files (use REFERENCE-TEMPLATE.md)
 5. Keep top 10-15 critical patterns in SKILL.md
 6. Link to references in Critical Patterns and Resources
-7. Ensure SKILL.md stays under 300 lines
+7. Ensure SKILL.md stays under 400 lines
 
 **See [reference-creation](../../reference-creation/SKILL.md) skill for step-by-step migration guide.**
 
@@ -410,7 +410,7 @@ references/
 
 - Structure follows complexity
 - Natural sub-topics → references/
-- SKILL.md stays focused (300 lines max)
+- SKILL.md stays focused (400 lines max)
 - Templates/schemas → assets/
 - Detailed guides → references/
 

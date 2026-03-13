@@ -3,7 +3,7 @@ name: css
 description: "Modern CSS with Grid, Flexbox, and custom properties. Trigger: When writing CSS styles, implementing layouts, or using modern features."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: domain
   skills:
     - a11y
@@ -124,19 +124,28 @@ h1 { font-size: clamp(2rem, 5vw, 4rem); }
 
 ## Decision Tree
 
-**One-dimensional layout?** -> Flexbox.
+```
+One-dimensional layout?
+  → Flexbox
 
-**Two-dimensional layout?** -> Grid.
+Two-dimensional layout?
+  → Grid
 
-**Responsive sizing?** -> `clamp()`, `min()`, `max()`.
+Responsive sizing?
+  → clamp(), min(), max()
 
-**Theme values?** -> `:root` custom properties + `var()`.
+Theme values?
+  → :root custom properties + var()
 
-**Center element?** -> Flexbox `place-content: center` or Grid `place-items: center`.
+Center element?
+  → Flexbox place-content: center or Grid place-items: center
 
-**Hide element?** -> `display: none` (removes), `visibility: hidden` (keeps space), `opacity: 0` (transitions).
+Hide element?
+  → display: none (removes), visibility: hidden (keeps space), opacity: 0 (transitions)
 
-**Responsive breakpoints?** -> Container queries (component), media queries (viewport).
+Responsive breakpoints?
+  → Container queries (component), media queries (viewport)
+```
 
 ---
 

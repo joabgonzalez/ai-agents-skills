@@ -3,7 +3,7 @@ name: tailwindcss
 description: "Utility-first CSS with responsive design. Trigger: When styling with Tailwind utilities, creating responsive designs, or configuring Tailwind."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   skills:
     - a11y
@@ -126,29 +126,43 @@ See [tailwind-v4.md](references/tailwind-v4.md) for migration, breaking changes,
 
 ## Decision Tree
 
-**Building a design system?** -> See references/design-system.md for token hierarchy, semantic naming, CVA patterns.
+```
+Building a design system?
+  → See design-system.md for token hierarchy, semantic naming, CVA patterns
 
-**Migrating to Tailwind v4?** -> See references/tailwind-v4.md for migration checklist, breaking changes, new utilities.
+Migrating to Tailwind v4?
+  → See tailwind-v4.md for migration checklist, breaking changes, new utilities
 
-**Component with variants (size/color/state)?** -> Use CVA (Class Variance Authority) from references/design-system.md.
+Component with variants (size/color/state)?
+  → Use CVA (Class Variance Authority) from design-system.md
 
-**Tailwind class exists?** -> Use utility: `className="bg-blue-500"`.
+Tailwind class exists?
+  → Use utility class directly (e.g. bg-blue-500)
 
-**Dynamic value?** -> Inline style: `style={{ width: \`${percent}%\` }}` or arbitrary: `w-[137px]`.
+Dynamic value?
+  → Inline style for computed values or arbitrary class (e.g. w-[137px])
 
-**Conditional styles?** -> Use clsx/cn: `cn("base", condition && "variant")`.
+Conditional styles?
+  → Use clsx/cn: cn("base", condition && "variant")
 
-**Reusable component style?** -> Create component with utilities; avoid @apply.
+Reusable component style?
+  → Create component with utilities; avoid @apply
 
-**Custom color/spacing?** -> Add to `theme.extend` in config (v3) or `@theme` block (v4+).
+Custom color/spacing?
+  → Add to theme.extend in config (v3) or @theme block (v4+)
 
-**Responsive?** -> Breakpoint prefixes: `md:flex lg:grid`.
+Responsive?
+  → Breakpoint prefixes: md:flex lg:grid
 
-**Dark mode?** -> v3: Enable in config. v4: Use `@custom-variant dark` (see tailwind-v4.md).
+Dark mode?
+  → v3: Enable in config. v4: Use @custom-variant dark (see tailwind-v4.md)
 
-**Production build?** -> Ensure all template paths in `content` array or classes get purged.
+Production build?
+  → Ensure all template paths in content array or classes get purged
 
-**Custom animations?** -> v3: Extend `theme.animation`. v4: Use `@keyframes` in `@theme` (see tailwind-v4.md).
+Custom animations?
+  → v3: Extend theme.animation. v4: Use @keyframes in @theme (see tailwind-v4.md)
+```
 
 ---
 

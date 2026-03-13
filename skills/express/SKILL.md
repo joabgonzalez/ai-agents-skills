@@ -3,7 +3,7 @@ name: express
 description: "Express.js routing, middleware, and error handling. Trigger: When building REST APIs or server logic with Express."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: framework
   skills:
     - nodejs
@@ -108,13 +108,28 @@ router.delete("/users/:id", asyncHandler(async (req, res) => {
 
 ## Decision Tree
 
-- Multiple resource routes? -> Group into a Router per resource
-- Async handler? -> Wrap with asyncHandler utility
-- Need auth? -> Add auth middleware before route handlers
-- Input from client? -> Validate with schema middleware
-- Creating a resource? -> Return 201, not 200
-- Deleting a resource? -> Return 204 with no body
-- Unhandled error? -> Let centralized error middleware respond
+```
+Multiple resource routes?
+  → Group into a Router per resource
+
+Async handler?
+  → Wrap with asyncHandler utility
+
+Need auth?
+  → Add auth middleware before route handlers
+
+Input from client?
+  → Validate with schema middleware
+
+Creating a resource?
+  → Return 201, not 200
+
+Deleting a resource?
+  → Return 204 with no body
+
+Unhandled error?
+  → Let centralized error middleware respond
+```
 
 ---
 

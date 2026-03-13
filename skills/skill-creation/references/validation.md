@@ -215,7 +215,7 @@ JavaScript? → Use JSDoc
 
 - [ ] Skill has 40+ patterns
 - [ ] Skill has 4+ natural sub-topics
-- [ ] SKILL.md would exceed 300 lines with all patterns
+- [ ] SKILL.md would exceed 400 lines with all patterns
 
 ### Reference Structure
 
@@ -307,7 +307,7 @@ Refer to a11y for:
 
 ### Overall
 
-- [ ] SKILL.md under 300 lines (complex skills)
+- [ ] SKILL.md under 400 lines (complex skills)
 - [ ] Every word adds unique value
 - [ ] No redundancy across sections
 - [ ] Active voice, imperative mood

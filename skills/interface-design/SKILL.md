@@ -187,6 +187,41 @@ Disabled → reduced opacity + cursor:not-allowed
 - [ ] Token Test: CSS variable names evoke this product's world, not any generic project
 ```
 
+### ✅ REQUIRED: Design Critique Framework
+
+Use when evaluating existing UI — a mockup, PR, or shipped feature. Run all 5 dimensions in order.
+
+**1. First Impression (2 seconds)**
+
+- What draws the eye first? Is that the right element for the user's goal?
+- Is the purpose immediately clear without reading any text?
+
+**2. Usability**
+
+- Can the user accomplish their goal with the current flow?
+- Are interactive elements obvious — buttons look pressable, links distinguishable?
+- Are there unnecessary steps between intent and outcome?
+
+**3. Visual Hierarchy**
+
+- Is there a clear reading order? Do size, weight, and contrast guide it?
+- Is whitespace used deliberately — not just as leftover space?
+
+**4. Consistency**
+
+- Does it follow the established design system (spacing tokens, color tokens, typography scale)?
+- Do similar elements (same action type, same data type) look and behave the same?
+
+**5. Accessibility** (use `a11y` skill for full audit)
+
+- Color contrast ≥ 4.5:1 for text, ≥ 3:1 for UI elements
+- Touch targets ≥ 44×44px
+- All interactive elements reachable and operable by keyboard
+
+**Feedback rules:** Be specific (cite element and reason). Suggest alternatives alongside issues. Acknowledge what works.
+
+---
+
 ### ❌ NEVER: Generic AI Defaults
 
 ```
@@ -247,6 +282,7 @@ Choosing between UI patterns?
   → See Examples table below or references/design-thinking.md
 
 Evaluating existing UI?
+  → Run Design Critique Framework (5 dimensions: impression, usability, hierarchy, consistency, a11y)
   → Run 4 craft checkpoints → Verify depth strategy is consistent
   → Confirm all 5 interactive states are covered
 

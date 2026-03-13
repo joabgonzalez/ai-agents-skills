@@ -11,6 +11,7 @@ import {
 } from '../core';
 import type { PresetInfo } from '../core/repository';
 import { FileSystemSkillSource } from '../core/skill-source';
+import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
 import { showDependencyPreview } from '../utils/dependency-preview';
 import { runInstallLoop, showInstallOutro } from '../utils/install-helpers';
 import { LogLevel, logger } from '../utils/logger';
@@ -121,7 +122,7 @@ export async function addCommand(options: AddOptions) {
     const knownIds = new Set(allModelsCheck.map((m) => m.id));
     const unknown = options.model.filter((m) => !knownIds.has(m));
     for (const m of unknown) {
-      p.log.warn(`'${m}': unknown model — supported: ${Array.from(knownIds).join(', ')}`);
+      p.log.warn(`'${m}': unknown model — supported dedicated models: ${Array.from(knownIds).join(', ')}`);
     }
     const validSpecified = options.model.filter((m) => knownIds.has(m));
     if (validSpecified.length === 0) {
@@ -129,7 +130,6 @@ export async function addCommand(options: AddOptions) {
       process.exit(1);
     }
     // Merge with already-installed models — same behavior as interactive flow
-    // (installed models always receive skills; --model adds to that, not replaces)
     const installedModels = modelDetector.detectInstalledModels(project.rootPath);
     const allTargets = [...new Set([...installedModels, ...validSpecified])];
     const targetNames = allTargets
@@ -143,27 +143,67 @@ export async function addCommand(options: AddOptions) {
   }
 
   // 4. Model selection
+  // Universal models (.agents/skills/) are always covered — never need to be selected.
+  // OpenClaw (skills/) is auto-covered in local mode — excluded from prompts there.
+  // Only other dedicated-directory models (claude, antigravity) appear in prompts.
+
+  const agentsExist = fs.existsSync(projectDetector.getSkillsDir(project.rootPath));
+  const universalIcon = agentsExist ? color.green('✓') : color.green('○');
+  const universalHeader = agentsExist
+    ? `${color.green('✓')} Universal models ${color.dim('(.agents/skills/) — 8 agents covered')}`
+    : `Installing universal models ${color.dim('(.agents/skills/) — covers 8 agents automatically')}`;
+
+  p.log.info(universalHeader);
+  for (const m of UNIVERSAL_MODELS) {
+    console.log(`${color.dim('│')}  ${universalIcon} ${m.label}`);
+  }
+
+  // In local mode OpenClaw is natively supported — skills/ already exists in this repo
+  if (installType === 'local') {
+    p.log.info(`${color.green('✓')} OpenClaw ${color.dim('(skills/) — supported by default in local mode')}`);
+  }
+
   let selectedModels: string[];
 
+  // Models eligible for prompts: exclude openclaw in local mode (auto-covered)
+  const isOpenClawAuto = installType === 'local';
+
   if (options.model && options.model.length > 0) {
-    selectedModels = options.model;
-  } else {
-    const installedModels = modelDetector.detectInstalledModels(project.rootPath);
+    selectedModels = options.model.filter((id) => !(isOpenClawAuto && id === 'openclaw'));
+
+    // Show dedicated models from --model flag
     const allModels = modelDetector.getAllModelsInfo(project.rootPath);
+    const installedModels = modelDetector.detectInstalledModels(project.rootPath);
+    for (const id of selectedModels) {
+      const cfg = DEDICATED_MODELS[id];
+      const relPath = cfg ? `${cfg.directory}/skills/` : id;
+      const icon = installedModels.includes(id) ? color.green('✓') : color.green('○');
+      const name = allModels.find((m) => m.id === id)?.name ?? id;
+      p.log.info(`${icon} ${name} ${color.dim(`(${relPath})`)}`);
+    }
+  } else {
+    const installedModels = modelDetector.detectInstalledModels(project.rootPath)
+      .filter((id) => !(isOpenClawAuto && id === 'openclaw'));
+    const allModels = modelDetector.getAllModelsInfo(project.rootPath)
+      .filter((m) => !(isOpenClawAuto && m.id === 'openclaw'));
     const newModels = allModels.filter((m) => !installedModels.includes(m.id));
 
     if (installedModels.length > 0) {
-      // Show installed models as static info — skills always go to all installed models
-      const installedNames = installedModels
-        .map((id) => allModels.find((m) => m.id === id)?.name ?? id)
-        .join(', ');
-      p.log.info(`Already configured: ${color.dim(installedNames)}`);
+      // Show already-configured dedicated models as static info
+      for (const id of installedModels) {
+        const cfg = DEDICATED_MODELS[id];
+        const relPath = cfg ? `${cfg.directory}/skills/` : id;
+        p.log.info(`${color.green('✓')} ${cfg?.name ?? id} ${color.dim(`(${relPath})`)}`);
+      }
 
       if (newModels.length > 0) {
-        // Let user optionally add more models
+        // Let user optionally add unconfigured dedicated models
         const additional = await p.multiselect({
-          message: 'Also install to additional models? (optional — press Enter to skip)',
-          options: newModels.map((m) => ({ value: m.id, label: m.name })),
+          message: 'Also install to additional dedicated models? (optional — press Enter to skip)',
+          options: newModels.map((m) => {
+            const cfg = DEDICATED_MODELS[m.id];
+            return { value: m.id, label: m.name, hint: cfg ? `${cfg.directory}/skills/` : m.id };
+          }),
           required: false,
         });
 
@@ -177,11 +217,14 @@ export async function addCommand(options: AddOptions) {
         selectedModels = installedModels;
       }
     } else {
-      // No models configured yet — show full list
+      // No dedicated models configured yet — prompt (optional)
       const selected = await p.multiselect({
-        message: 'Select AI models to install skills for:',
-        options: allModels.map((m) => ({ value: m.id, label: m.name })),
-        required: true,
+        message: 'Install to dedicated model directories? (optional — press Enter to skip)',
+        options: allModels.map((m) => {
+          const cfg = DEDICATED_MODELS[m.id];
+          return { value: m.id, label: m.name, hint: cfg ? `${cfg.directory}/skills/` : m.id };
+        }),
+        required: false,
       });
 
       if (p.isCancel(selected)) {
@@ -296,8 +339,12 @@ export async function addCommand(options: AddOptions) {
   showDependencyPreview(previewSkills, resolved, alreadyInstalled);
 
   // 6. Confirm (always shown; dry-run proceeds but makes no changes)
+  const modelSuffix =
+    selectedModels.length > 0
+      ? ` + ${selectedModels.length} dedicated model(s)`
+      : '';
   const confirmInstall = await p.confirm({
-    message: `Install ${installOrder.length} skill(s) to ${selectedModels.length} model(s)?${options.dryRun ? color.dim(' [dry-run]') : ''}`,
+    message: `Install ${installOrder.length} skill(s) to .agents/skills/${modelSuffix}?${options.dryRun ? color.dim(' [dry-run]') : ''}`,
     initialValue: true,
   });
   if (!confirmInstall || p.isCancel(confirmInstall)) {
@@ -402,7 +449,7 @@ export async function addCommand(options: AddOptions) {
     }
   }
 
-  showInstallOutro(counts, selectedModels.length, options.dryRun ?? false);
+  showInstallOutro(counts, selectedModels, options.dryRun ?? false);
 }
 
 function showDryRunPaths(

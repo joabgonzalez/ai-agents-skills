@@ -3,7 +3,7 @@ name: react-testing-library
 description: "User-centric React component testing. Trigger: When testing React components with RTL."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: tooling
   skills:
     - react
@@ -106,13 +106,28 @@ See **unit-testing** skill for the broader strategy of testing both presence and
 
 ## Decision Tree
 
-- Element present now? -> `getByRole` / `getByText`
-- Appears after async? -> `findByRole` / `findByText`
-- Should NOT exist? -> `queryByRole` (returns null)
-- User input? -> `userEvent.setup()` then `user.type()`, `user.click()`
-- No accessible query? -> Add `aria-label`; `getByTestId` last resort
-- Custom hook? -> `renderHook(() => useMyHook())`
-- Side effects? -> `waitFor(() => expect(...))`
+```
+Element present now?
+  → getByRole / getByText
+
+Appears after async?
+  → findByRole / findByText
+
+Should NOT exist?
+  → queryByRole (returns null)
+
+User input?
+  → userEvent.setup() then user.type(), user.click()
+
+No accessible query?
+  → Add aria-label; getByTestId last resort
+
+Custom hook?
+  → renderHook(() => useMyHook())
+
+Side effects?
+  → waitFor(() => expect(...))
+```
 
 ---
 
