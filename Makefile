@@ -1,4 +1,4 @@
-.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format release security-setup security website-install website-dev website-build website-preview
+.PHONY: all build install add remove sync list test lint lint-md lint-md-fix format release security-setup security website-install website-dev website-build website-preview rsvg-convert
 
 # Default: install skills from local ./skills/ (interactive)
 all: add
@@ -74,3 +74,6 @@ security:
 	npm run security:snyk:deps
 	npm run security:snyk:skills
 	@echo "Security checks complete."
+
+rsvg-convert:
+	rsvg-convert -w 1200 -h 630 website/public/og.svg -o website/public/og.png
