@@ -6,9 +6,33 @@ import { DependencyResolver, ModelDetector, ProjectDetector } from '../core';
 import { FileSystemSkillSource } from '../core/skill-source';
 import { LogLevel, logger } from '../utils/logger';
 
+function isLocalModeAvailable(cwd: string): boolean {
+  const skillsDir = path.join(cwd, 'skills');
+  if (!fs.existsSync(skillsDir)) return false;
+  const pkgPath = path.join(cwd, 'package.json');
+  if (!fs.existsSync(pkgPath)) return false;
+  try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    return pkg.name === 'ai-agents-skills';
+  } catch {
+    return false;
+  }
+}
+
+/** Like fs.existsSync but also returns true for broken symlinks. */
+function pathExists(p: string): boolean {
+  try {
+    fs.lstatSync(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export interface RemoveOptions {
   skill?: string[];
   model?: string[];
+  local?: boolean;
   purge: boolean;
   confirm: boolean;
   dryRun: boolean;
@@ -17,6 +41,18 @@ export interface RemoveOptions {
 export async function removeCommand(options: RemoveOptions): Promise<void> {
   try {
     p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
+
+    const cwd = process.cwd();
+    if (options.local && !isLocalModeAvailable(cwd)) {
+      p.cancel(
+        '--local requires running from the ai-agents-skills repository root (./skills/ dir + package.json name must be "ai-agents-skills")'
+      );
+      process.exit(1);
+    }
+
+    if (options.local) {
+      p.log.info(color.dim('Mode: local'));
+    }
 
     const projectDetector = new ProjectDetector();
     const modelDetector = new ModelDetector();
@@ -194,9 +230,10 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
         p.cancel('None of the specified models have skills installed');
         process.exit(1);
       }
-      targetModels = validModels;
+      targetModels = validModels.filter((id) => !(options.local && id === 'openclaw'));
     } else {
-      const detected = modelDetector.detectInstalledModels(project.rootPath);
+      const detected = modelDetector.detectInstalledModels(project.rootPath)
+        .filter((id) => !(options.local && id === 'openclaw'));
       if (detected.length === 0) {
         p.cancel('No model directories found');
         process.exit(1);
@@ -273,13 +310,13 @@ export async function removeCommand(options: RemoveOptions): Promise<void> {
       for (const modelId of targetModels) {
         const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
         const skillPath = path.join(modelDir, 'skills', skillName);
-        if (fs.existsSync(skillPath) && !options.dryRun) {
+        if (pathExists(skillPath) && !options.dryRun) {
           fs.rmSync(skillPath, { recursive: true, force: true });
         }
       }
 
       const agentsSkillPath = path.join(agentsSkillsDir, skillName);
-      if (fs.existsSync(agentsSkillPath) && !options.dryRun) {
+      if (pathExists(agentsSkillPath) && !options.dryRun) {
         fs.rmSync(agentsSkillPath, { recursive: true, force: true });
       }
 
@@ -361,6 +398,8 @@ function cleanupEmptyDirs(
 
   for (const modelId of modelIds) {
     const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
+    // Never delete the project root (e.g. openclaw uses directory: '.')
+    if (path.resolve(modelDir) === path.resolve(rootPath)) continue;
     const modelSkillsDir = path.join(modelDir, 'skills');
     if (fs.existsSync(modelSkillsDir) && fs.readdirSync(modelSkillsDir).length === 0) {
       fs.rmSync(modelSkillsDir, { recursive: true, force: true });
@@ -402,6 +441,7 @@ function predictCleanupDirs(
 
   for (const modelId of modelIds) {
     const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
+    if (path.resolve(modelDir) === path.resolve(rootPath)) continue;
     const modelSkillsDir = path.join(modelDir, 'skills');
     if (!fs.existsSync(modelSkillsDir)) continue;
     const remaining = fs.readdirSync(modelSkillsDir).filter((e) => !removedSet.has(e));
@@ -439,11 +479,12 @@ async function purgeCommand(
   modelDetector: ModelDetector
 ): Promise<void> {
   const installedSkills = projectDetector.getInstalledSkills(rootPath);
-  const installedModels = modelDetector.detectInstalledModels(rootPath);
+  const installedModels = modelDetector.detectInstalledModels(rootPath)
+    .filter((id) => !(options.local && id === 'openclaw'));
   const agentsSkillsDir = projectDetector.getSkillsDir(rootPath);
 
   const agentsMdPath = path.join(rootPath, 'AGENTS.md');
-  const hasAgentsMd = fs.existsSync(agentsMdPath);
+  const hasAgentsMd = !options.local && fs.existsSync(agentsMdPath);
 
   const wouldClean = predictCleanupDirs(
     rootPath,
@@ -453,10 +494,14 @@ async function purgeCommand(
     installedSkills
   );
 
+  const universalNote = color.dim('Amp · Cline · Codex · Cursor · Gemini CLI · GitHub Copilot · Kimi · OpenCode');
   p.note(
     [
       `Skills: ${color.red(installedSkills.length.toString())} (${installedSkills.join(', ') || 'none'})`,
-      `Models: ${color.cyan(installedModels.join(', ') || 'none')}`,
+      `Universal agents (.agents/skills/): ${universalNote}`,
+      installedModels.length > 0
+        ? `Dedicated models: ${color.cyan(installedModels.join(', '))}`
+        : '',
       wouldClean.length > 0
         ? `Empty dirs to remove: ${color.dim(wouldClean.join(', '))}`
         : '',
@@ -469,7 +514,7 @@ async function purgeCommand(
 
   if (!options.confirm) {
     const shouldContinue = await p.confirm({
-      message: `Remove all ${installedSkills.length} skill(s) from ${installedModels.length} model(s)?${options.dryRun ? color.dim(' [dry-run]') : ''}`,
+      message: `Remove all ${installedSkills.length} skill(s) from .agents/skills/${installedModels.length > 0 ? ` + ${installedModels.length} dedicated model(s)` : ''}?${options.dryRun ? color.dim(' [dry-run]') : ''}`,
       initialValue: false,
     });
     if (p.isCancel(shouldContinue) || !shouldContinue) {
@@ -480,16 +525,16 @@ async function purgeCommand(
 
   if (!options.dryRun) {
     for (const skill of installedSkills) {
-      const agentsEntry = path.join(agentsSkillsDir, skill);
-      if (fs.existsSync(agentsEntry)) {
-        fs.rmSync(agentsEntry, { recursive: true, force: true });
-      }
       for (const modelId of installedModels) {
         const modelDir = modelDetector.getModelDirectory(rootPath, modelId);
         const modelEntry = path.join(modelDir, 'skills', skill);
-        if (fs.existsSync(modelEntry)) {
+        if (pathExists(modelEntry)) {
           fs.rmSync(modelEntry, { recursive: true, force: true });
         }
+      }
+      const agentsEntry = path.join(agentsSkillsDir, skill);
+      if (pathExists(agentsEntry)) {
+        fs.rmSync(agentsEntry, { recursive: true, force: true });
       }
     }
 
@@ -512,7 +557,7 @@ async function purgeCommand(
     }
   } else {
     p.log.info(
-      `DRY RUN: would remove ${installedSkills.length} skill(s) from ${installedModels.length} model dir(s)` +
+      `DRY RUN: would remove ${installedSkills.length} skill(s) from .agents/skills/${installedModels.length > 0 ? ` + ${installedModels.length} dedicated model dir(s)` : ''}` +
         (wouldClean.length > 0 ? ` and clean up ${wouldClean.length} empty dir(s)` : '') +
         (hasAgentsMd ? ', and ask about AGENTS.md' : '')
     );

@@ -1,6 +1,6 @@
 ---
 name: ai-agents-skills
-description: "CLI framework for managing and distributing AI agent skills across multiple models (Copilot, Claude, Gemini, Codex, Cursor)."
+description: "CLI framework for managing and distributing AI agent skills across 11 AI agents (3 dedicated + 8 universal)."
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -35,7 +35,7 @@ metadata:
 
 # AI Agents Skills Framework
 
-CLI for creating, managing, and distributing AI agent skills across 5 AI models. Local-first architecture with symlink-based installation, dependency resolution, and token-efficient model instructions.
+CLI for creating, managing, and distributing AI agent skills across 11 AI agents. Local-first architecture with symlink-based installation, dependency resolution, and token-efficient model instructions.
 
 ## How to Use Skills (MANDATORY WORKFLOW)
 
@@ -47,15 +47,16 @@ Check the "Mandatory Skills" table below. Match your task to the "Trigger" colum
 
 ### Step 2: Read the Skill
 
-**Path format:** `.{model}/skills/{skill-name}/SKILL.md`
+Find your agent below and use the corresponding path:
 
-Replace `{model}` with your coding agent:
+| Agent | Skills path |
+|-------|------------|
+| Claude Code | `.claude/skills/{skill-name}/SKILL.md` |
+| Antigravity | `.agent/skills/{skill-name}/SKILL.md` |
+| OpenClaw | `skills/{skill-name}/SKILL.md` |
+| Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi, OpenCode | `.agents/skills/{skill-name}/SKILL.md` |
 
-- **Cursor:** `.cursor/skills/typescript/SKILL.md`
-- **Claude:** `.claude/skills/typescript/SKILL.md`
-- **Copilot:** `.github/skills/typescript/SKILL.md`
-- **Gemini:** `.gemini/skills/typescript/SKILL.md`
-- **Codex:** `.codex/skills/typescript/SKILL.md`
+**Shortcut:** All skill source files live at `skills/{skill-name}/SKILL.md` — if your agent can't resolve symlinks, read from there directly.
 
 ### Step 3: Read Dependencies
 
@@ -76,15 +77,15 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 **Task:** "Create TypeScript interface for User model"
 
 1. **Check table below** → Trigger: "TypeScript types/interfaces" → Skill: `typescript`
-2. **Read:** `.{model}/skills/typescript/SKILL.md`
+2. **Read:** `skills/typescript/SKILL.md` (or your agent's path from Step 2)
 3. **Check frontmatter** → Dependencies: `javascript`
 4. **Read dependency:**
-   - `.{model}/skills/javascript/SKILL.md` (which depends on `code-conventions`)
+   - `skills/javascript/SKILL.md` (which depends on `code-conventions`)
 5. **Apply patterns:** Use `interface` (not `type`), PascalCase names, export from `types/` directory
 
 ## Mandatory Skills
 
-**Path format:** `.{model}/skills/{skill-name}/SKILL.md` (see Step 2 above)
+**Path:** Use the table in Step 2 above to find the correct path for your agent.
 
 | Trigger                          | Skill            |
 | -------------------------------- | ---------------- |
@@ -141,23 +142,20 @@ ai-agents-skills/
 │   ├── typescript/
 │   │   └── SKILL.md
 │   └── ...
-├── .agents/skills/        # Canonical symlinks to skills/ (shared across models)
+├── .agents/skills/        # Canonical symlinks → skills/ (universal: 8 agents read here natively)
 │   ├── react/            → ../../skills/react/
 │   ├── typescript/       → ../../skills/typescript/
 │   └── ...
-├── .claude/skills/        # Claude-specific symlinks to .agents/skills/
+├── .claude/skills/        # Claude Code symlinks → .agents/skills/
 │   ├── react/            → ../../.agents/skills/react/
 │   └── typescript/       → ../../.agents/skills/typescript/
-├── .cursor/skills/        # Cursor-specific symlinks to .agents/skills/
-├── .github/skills/        # Copilot-specific symlinks to .agents/skills/
-├── .gemini/skills/        # Gemini-specific symlinks to .agents/skills/
-├── .codex/skills/         # Codex-specific symlinks to .agents/skills/
+├── .agent/skills/         # Antigravity symlinks → .agents/skills/
 ├── presets/               # Project Starter Preset (AGENTS.md + skills bundle)
 ├── src/                   # TypeScript CLI source
 │   ├── commands/          # CLI commands (local, add, remove, sync, validate, list)
 │   ├── core/              # Dependency resolver, installer, skill parser
 │   └── utils/             # Logger, YAML parser, instruction generator
-├── templates/             # Model instruction templates (5 models)
+├── templates/             # Model instruction templates
 ├── website/               # Astro SSG skill catalog website
 │   ├── src/
 │   │   ├── content/       # Content collections (skills, references)
@@ -174,25 +172,25 @@ ai-agents-skills/
 
 1. **Source of truth:** `skills/<skill-name>/SKILL.md` (real files, always read from here)
 2. **Canonical layer:** `.agents/skills/<skill-name>/` → `skills/<skill-name>/` (shared symlinks)
-3. **Model-specific layer:** `.{model}/skills/<skill-name>/` → `.agents/skills/<skill-name>/` (per-model symlinks)
+3. **Model-specific layer:** `.claude/skills/` and `.agent/skills/` → `.agents/skills/` (dedicated model symlinks)
 
 **How to access skills:**
 
-- **Preferred:** Read directly from `skills/<skill-name>/SKILL.md` (bypasses symlinks)
-- **Alternative:** Follow symlinks from `.{model}/skills/<skill-name>/SKILL.md` if your IDE resolves them automatically
+- **Preferred:** Read directly from `skills/<skill-name>/SKILL.md` (bypasses symlinks — always works)
+- **Alternative:** Use your agent's path from Step 2 if your IDE resolves symlinks automatically
 - **If symlinks fail:** All real skill files are in `skills/` directory
 
 ### Skills Storage Architecture
 
 **Why 3 layers?**
 
-1. **Layer 1 (skills/):** Single source of truth — edit once, affects all models
-2. **Layer 2 (.agents/skills/):** Canonical shared location — prevents duplication across 5 models
-3. **Layer 3 (.{model}/skills/):** Model-specific access — each AI model reads from its own directory
+1. **Layer 1 (skills/):** Single source of truth — edit once, affects all agents
+2. **Layer 2 (.agents/skills/):** Canonical shared location — 8 universal agents read here natively
+3. **Layer 3 (.claude/skills/, .agent/skills/):** Dedicated model symlinks for Claude Code and Antigravity
 
 **Benefits:**
 
-- **Zero duplication:** 61 skills stored once, available to 5 models
+- **Zero duplication:** Skills stored once, available to all 11 agents
 - **Always up-to-date:** Changes propagate instantly (symlinks reference same files)
 - **Token-efficient:** Models read only the skills they need
 
@@ -203,13 +201,16 @@ User edits: skills/react/SKILL.md
       ↓
 Symlink: .agents/skills/react/ → skills/react/
       ↓
-Symlinks: .claude/skills/react/ → .agents/skills/react/
-          .cursor/skills/react/ → .agents/skills/react/
-          .github/skills/react/ → .agents/skills/react/
-          .gemini/skills/react/ → .agents/skills/react/
-          .codex/skills/react/  → .agents/skills/react/
+Universal agents (Amp, Cline, Codex, Cursor, Gemini, Copilot, Kimi, OpenCode)
+      read: .agents/skills/react/ directly
       ↓
-All 5 models see updated react skill instantly
+Dedicated agents get additional symlinks:
+  .claude/skills/react/ → .agents/skills/react/   (Claude Code)
+  .agent/skills/react/  → .agents/skills/react/   (Antigravity)
+      ↓
+OpenClaw reads: skills/react/ directly (project root, no symlink needed)
+      ↓
+All 11 agents see updated react skill instantly
 ```
 
 ## Workflows
@@ -257,15 +258,20 @@ npx ai-agents-skills validate --all            # Validate all skills
 
 - **Explicit dependencies:** Skills declare all their dependencies in `metadata.skills` — no hidden auto-includes
 - **Dependency resolution:** Auto-resolve with cycle detection and topological sort
-- **Symlink architecture:** 3-layer structure for zero duplication across models:
-  - **Layer 1:** `skills/` (source of truth — real files)
-  - **Layer 2:** `.agents/skills/` → `skills/` (canonical shared symlinks)
-  - **Layer 3:** `.{model}/skills/` → `.agents/skills/` (model-specific symlinks)
+- **Two-tier model architecture:**
+  - **Dedicated models** — require their own skills directory:
+    - Claude Code (`.claude/skills/`), Antigravity (`.agent/skills/`), OpenClaw (`skills/`)
+  - **Universal models** — read `.agents/skills/` natively, no extra directory needed:
+    - Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi, OpenCode
+- **Symlink architecture:** 3-layer structure for zero duplication:
+  - **Layer 1:** `skills/` (source of truth — real files; also OpenClaw's native path)
+  - **Layer 2:** `.agents/skills/` → `skills/` (canonical shared symlinks — universal coverage)
+  - **Layer 3:** `.claude/skills/` and `.agent/skills/` → `.agents/skills/` (dedicated model symlinks)
   - **Individual skill symlinks:** Each skill gets its own symlink (NOT directory-level)
-  - **Instant propagation:** Changes to source files visible to all models immediately
+  - **Instant propagation:** Changes to source files visible to all agents immediately
 - **Auto-generated instructions:** Each model gets an instruction file listing all installed skills with their metadata
 - **Dependency-safe removal:** `remove` command validates dependencies before removing skills
-- **5 models supported:** GitHub Copilot, Claude, Gemini, Codex, Cursor
+- **11 agents supported:** 3 dedicated (Claude Code, Antigravity, OpenClaw) + 8 universal (Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi, OpenCode)
 
 ## References
 
