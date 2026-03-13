@@ -35,6 +35,7 @@ jobs:
           sed -i "s/\*\*v[0-9]*\.[0-9]*\.[0-9]*\*\*/**v${VERSION}**/" README.md
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout main
           git add README.md
           git diff --staged --quiet || git commit -m "chore: update README version to v${VERSION}"
           git push origin main
