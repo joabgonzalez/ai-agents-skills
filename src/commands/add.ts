@@ -257,8 +257,21 @@ export async function addCommand(options: AddOptions) {
     // Local mode: try AGENTS.md first, fallback to interactive
     const agentsMdPath = path.join(cwd, 'AGENTS.md');
     if (fs.existsSync(agentsMdPath)) {
-      skillsToInstall = DependencyResolver.parseAgentsMd(agentsMdPath);
-      p.log.info(`Skills from AGENTS.md: ${color.cyan(skillsToInstall.length.toString())}`);
+      const fromAgentsMd = DependencyResolver.parseAgentsMd(agentsMdPath);
+      p.log.info(`Skills from AGENTS.md: ${color.cyan(fromAgentsMd.length.toString())}`);
+      const alreadyInstalled = projectDetector.getInstalledSkills(project.rootPath);
+      const notYetInstalled = fromAgentsMd.filter((s) => !alreadyInstalled.includes(s));
+      if (notYetInstalled.length === 0) {
+        // All AGENTS.md skills already installed — let user pick additional ones
+        p.log.info(color.dim('All AGENTS.md skills installed. Select additional skills:'));
+        skillsToInstall = await selectSkillsInteractive(
+          projectDetector,
+          project.rootPath,
+          skillSource
+        );
+      } else {
+        skillsToInstall = fromAgentsMd;
+      }
     } else {
       skillsToInstall = await selectSkillsInteractive(
         projectDetector,
