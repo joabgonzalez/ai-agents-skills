@@ -24,10 +24,9 @@
     "format": "biome format --write .",
     "check": "biome check --write . && npm run test && npm run build",
     "prepublishOnly": "npm run build",
-    "release": "npm publish --access public",
-    "release:patch": "npm version patch && npm publish --access public",
-    "release:minor": "npm version minor && npm publish --access public",
-    "release:major": "npm version major && npm publish --access public",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags",
     "security": "npm run security:snyk:deps && npm run security:snyk:skills:inspect",
     "security:ci": "npm run security:snyk:deps && npm run security:snyk:skills",
     "security:snyk:deps": "snyk test",
@@ -58,6 +57,7 @@
     "commander": "^14.0.3",
     "js-yaml": "^4.1.1",
     "picocolors": "^1.1.1",
+    "posthog-node": "^5.21.2",
     "simple-git": "^3.30.0"
   },
   "devDependencies": {
