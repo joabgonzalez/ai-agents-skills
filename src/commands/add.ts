@@ -15,6 +15,7 @@ import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
 import { showDependencyPreview } from '../utils/dependency-preview';
 import { runInstallLoop, showInstallOutro } from '../utils/install-helpers';
 import { LogLevel, logger } from '../utils/logger';
+import { showFirstRunNotice, trackInstall } from '../utils/telemetry';
 
 const DEFAULT_REPO = 'joabgonzalez/ai-agents-skills';
 
@@ -47,6 +48,7 @@ function isLocalModeAvailable(cwd: string): boolean {
 
 export async function addCommand(options: AddOptions) {
   p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
+  showFirstRunNotice();
 
   const cwd = process.cwd();
 
@@ -463,6 +465,13 @@ export async function addCommand(options: AddOptions) {
   }
 
   showInstallOutro(counts, selectedModels, options.dryRun ?? false);
+
+  await trackInstall({
+    skills: installOrder,
+    presetName: presetInfo?.name ?? null,
+    modelCount: selectedModels.length,
+    dryRun: options.dryRun ?? false,
+  });
 }
 
 function showDryRunPaths(
