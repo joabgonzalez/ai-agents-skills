@@ -50,5 +50,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout development
-          git merge main --no-edit
+          git merge main --no-edit -X theirs
           git push origin development
