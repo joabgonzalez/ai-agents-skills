@@ -9,7 +9,7 @@ import packageJson from '../../package.json';
 
 const CONFIG_DIR = path.join(os.homedir(), '.config', 'ai-agents-skills');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'telemetry.json');
-const POSTHOG_KEY = process.env.POSTHOG_KEY ?? '';
+const POSTHOG_KEY = process.env.POSTHOG_KEY ?? '__POSTHOG_KEY__';
 
 interface TelemetryConfig {
   enabled: boolean;
@@ -33,7 +33,7 @@ function getOrCreateAnonymousId(): string {
   const config = readConfig();
   if (config?.anonymousId) return config.anonymousId;
   const id = randomUUID();
-  writeConfig({ enabled: config?.enabled ?? false, anonymousId: id });
+  writeConfig({ enabled: config?.enabled ?? true, anonymousId: id });
   return id;
 }
 
@@ -83,10 +83,10 @@ export interface InstallPayload {
 }
 
 export async function trackInstall(payload: InstallPayload): Promise<void> {
-  if (!telemetryStatus() || !POSTHOG_KEY) return;
+  if (!telemetryStatus() || !POSTHOG_KEY || POSTHOG_KEY === '__POSTHOG_KEY__') return;
 
   const client = new PostHog(POSTHOG_KEY, {
-    host: 'https://app.posthog.com',
+    host: 'https://us.i.posthog.com',
     flushAt: 1,
     flushInterval: 0,
   });

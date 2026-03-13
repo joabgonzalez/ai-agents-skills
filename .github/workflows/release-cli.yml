@@ -26,6 +26,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Inject PostHog key
+        run: |
+          if [ -z "${{ secrets.POSTHOG_KEY }}" ]; then
+            echo "⚠️ POSTHOG_KEY secret not set — telemetry will be disabled"
+          fi
+          sed -i "s/__POSTHOG_KEY__/${{ secrets.POSTHOG_KEY }}/" src/utils/telemetry.ts
+
       - name: Build
         run: npm run build
 
