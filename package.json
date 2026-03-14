@@ -1,6 +1,6 @@
 {
   "name": "ai-agents-skills",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Modular CLI for distributing 60+ AI agent skills across 11 coding assistants",
   "main": "dist/index.js",
   "bin": {
