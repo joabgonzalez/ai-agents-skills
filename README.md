@@ -5,7 +5,7 @@
 
 **v1.6.3** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 68 curated skills for React, TypeScript, testing, architecture, and more — to 11 AI agents across two tiers. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 80 curated skills for React, TypeScript, testing, architecture, authentication, Docker, GraphQL, and more — to 11 AI agents across two tiers. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 Browse the full skill catalog at **[joabgonzalez.github.io/ai-agents-skills](https://joabgonzalez.github.io/ai-agents-skills/)**
 
@@ -156,11 +156,15 @@ your-project/
 └── .agent/skills/            # Symlinks → .agents/skills/* (Antigravity)
 ```
 
-## Available Skills (68)
+## Available Skills (80)
 
 ### Frameworks
 
 React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
+
+### Best Practices
+
+React Best Practices, Astro Best Practices, CSS Best Practices, Node.js Best Practices
 
 ### Testing
 
@@ -172,11 +176,11 @@ TypeScript, JavaScript, HTML, CSS, TailwindCSS, A11y
 
 ### Web
 
-Web Performance, Web SEO
+Web Performance, Web SEO, Design System Spec
 
-### Backend
+### Backend & Infrastructure
 
-Node.js, Express, Nest, Hono, Bun, Backend Development
+Node.js, Express, Nest, Hono, Bun, Backend Development, Authentication, Docker, GraphQL
 
 ### Build Tools
 
@@ -196,7 +200,7 @@ Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagona
 
 ### Behavioral
 
-English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Slides
+English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch, Slides
 
 ### Meta (creation tools)
 

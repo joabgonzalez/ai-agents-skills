@@ -9,13 +9,16 @@ metadata:
     - agent-creation
     - typescript
     - nodejs
+    - nodejs-best-practices
     - code-conventions
     - critical-partner
     - unit-testing
     - jest
     - brainstorming
     - astro
+    - astro-best-practices
     - tailwindcss
+    - css-best-practices
     - a11y
     - frontend-dev
     - interface-design
@@ -28,9 +31,13 @@ metadata:
     - javascript
     - english-writing
     - code-review
+    - receiving-code-review
     - writing-plans
     - verification-protocol
     - prompt-creation
+    - sharp-execution
+    - lean-output
+    - ship-branch
 ---
 
 # AI Agents Skills Framework
@@ -112,30 +119,44 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | JavaScript patterns or scripts   | javascript             |
 | Writing skill content in English | english-writing        |
 | Formal code review checklist     | code-review            |
+| Processing incoming review feedback | receiving-code-review |
 | Planning implementation tasks    | writing-plans          |
 | Verifying task completion        | verification-protocol  |
 | Creating model prompt files      | prompt-creation        |
+| Agent overthinking or hesitation | sharp-execution        |
+| Minimize response tokens         | lean-output            |
+| Shipping or closing a branch     | ship-branch            |
+| Auth, JWT, OAuth, password hashing | authentication       |
+| Dockerfiles or containerization  | docker                 |
+| GraphQL schemas or resolvers     | graphql                |
+| Documenting a design system      | design-system-spec     |
+| React code quality review        | react-best-practices   |
+| Astro site quality review        | astro-best-practices   |
+| CSS architecture review          | css-best-practices     |
+| Node.js service quality review   | nodejs-best-practices  |
 
 ## Skills Reference
 
-61 skills organized by category:
+80 skills organized by category:
 
 - **Frameworks:** React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
-- **Testing:** Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing
+- **Best Practices:** React Best Practices, Astro Best Practices, CSS Best Practices, Node.js Best Practices
+- **Testing:** Jest, Playwright, React Testing Library, React Native Testing Library, E2E Testing, Unit Testing, Testing Strategy
 - **Standards:** TypeScript, JavaScript, HTML, CSS, TailwindCSS, A11y
-- **Backend:** Node.js, Express, Nest, Hono, Bun, Backend Development
+- **Backend & Infrastructure:** Node.js, Express, Nest, Hono, Bun, Backend Development, Authentication, Docker, GraphQL
+- **Web:** Web Performance, Web SEO, Design System Spec
 - **Build Tools:** Vite, Webpack
 - **Libraries:** MUI, AG Grid, Redux Toolkit, Stagehand
 - **Quality & Architecture:** Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring
-- **Architecture Patterns:** Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern
-- **Behavioral:** English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Verification Protocol, Plan Execution, Subagent Orchestration
+- **Architecture Patterns:** Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern, Circuit Breaker Pattern, State Machines Pattern, Screaming Architecture
+- **Behavioral:** English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch
 - **Meta:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
 ## Project Structure
 
 ```
 ai-agents-skills/
-├── skills/                # 61 skill definitions (SKILL.md format) - SOURCE OF TRUTH
+├── skills/                # 80 skill definitions (SKILL.md format) - SOURCE OF TRUTH
 │   ├── react/
 │   │   ├── SKILL.md
 │   │   └── references/    # Progressive disclosure for complex skills
