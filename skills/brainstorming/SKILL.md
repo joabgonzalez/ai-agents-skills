@@ -23,6 +23,7 @@ Don't use for:
 
 - Trivial changes (one-line fixes, obvious implementations)
 - Pure code review (use critical-partner)
+- Validating or stress-testing a decision already made (use critical-partner)
 - Debugging (use systematic-debugging)
 
 ---

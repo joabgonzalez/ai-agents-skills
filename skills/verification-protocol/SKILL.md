@@ -149,6 +149,32 @@ Each task has explicit verification steps.
 
 ```
 
+### ❌ NEVER: Use Speculative Language
+
+"Should work", "probably passes", "likely green", "I believe it's fixed" — all violate the iron law. If you haven't run it, you don't know.
+
+```markdown
+# ❌ WRONG
+✅ Tests should be passing now.
+✅ Build probably succeeds after that fix.
+
+# ✅ CORRECT
+Ran: npm test → 12/12 passed ✅
+Ran: npm run build → dist/ created ✅
+```
+
+### ❌ NEVER: Reuse Prior Output
+
+Always run verification fresh. Never rely on output from a previous run, cached result, or agent success report.
+
+```markdown
+# ❌ WRONG
+Tests passed earlier so ✅ still valid.
+
+# ✅ CORRECT
+Re-ran: npm test → 12/12 passed ✅
+```
+
 ### ❌ NEVER: Skip Verification Steps
 
 Skipping steps leads to undetected failures.
