@@ -170,48 +170,24 @@ Rules: `<main>` needs `tabindex="-1"` to be programmatically focusable. Do NOT m
 
 ## Conventions
 
-### Framework-Native First
+**Framework-native first:** MUI, Radix UI, React Aria, Headless UI ship accessible primitives — use them before implementing manually.
 
-Before implementing accessibility patterns manually, check if your framework or UI library already provides them. Most production stacks (Tailwind, MUI, Radix UI, React Aria, Headless UI) ship accessible primitives that handle ARIA, focus, and keyboard contracts automatically. Use them — avoid duplicating CSS or markup that diverges from the design system.
+**Semantic HTML:** `<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>` · heading hierarchy h1→h2→h3 (no skipping) · `<button>` for actions, `<a>` for navigation.
 
-### Semantic HTML
+**ARIA:** Only when semantic HTML is insufficient. Common: `aria-label`, `aria-labelledby`, `aria-describedby`, `aria-live`, `aria-current="page"`.
 
-- Semantic elements (`<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`)
-- Heading hierarchy (h1 → h2 → h3, no skipping)
-- `<button>` for actions, `<a>` for navigation; labels associated with inputs
+**Keyboard:** All interactive elements reachable · logical tab order · visible focus indicators · Escape closes modals/dropdowns.
 
-### ARIA
+**Contrast (SC 1.4.3 / 1.4.11):**
 
-- Only when semantic HTML insufficient; prefer native elements
-- Common: `aria-label`, `aria-labelledby`, `aria-describedby`
-- Dynamic content: `aria-live`, `aria-atomic`
-- Active navigation: `aria-current="page"` on current link, `aria-current="step"` in wizards
-
-### Keyboard Navigation
-
-- All interactive elements keyboard accessible; logical tab order
-- Visible focus indicators; Escape closes modals/dropdowns
-
-### Color and Contrast
-
-Never use color as the only means of conveying information (SC 1.4.1).
-
-Contrast requirements by element type:
-
-| Element type | AA minimum | AAA |
+| Element | AA | AAA |
 |---|---|---|
-| Normal text (< 18pt / < 14pt bold) | 4.5:1 | 7:1 |
-| Large text (≥ 18pt or ≥ 14pt bold) | 3:1 | 4.5:1 |
-| UI components (input borders, button outlines, icons, charts) | 3:1 | — |
-| Focus indicators | 3:1 (WCAG 2.2 SC 1.4.11) | — |
-| Disabled elements | No requirement | — |
-| Decorative (no meaning) | No requirement | — |
+| Normal text | 4.5:1 | 7:1 |
+| Large text (≥18pt / ≥14pt bold) | 3:1 | 4.5:1 |
+| UI components, focus indicators | 3:1 | — |
+| Disabled / decorative | none | — |
 
-SC references: 1.4.3 (text AA), 1.4.6 (text AAA), 1.4.11 (non-text AA, WCAG 2.1), 1.4.13 (focus, WCAG 2.2).
-
-### Touch Targets
-
-- 24×24px min (WCAG 2.2), 44×44px recommended; adequate spacing between targets
+**Touch targets:** 24×24px min (WCAG 2.2), 44×44px recommended.
 
 ---
 
