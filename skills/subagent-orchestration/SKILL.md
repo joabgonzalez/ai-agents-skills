@@ -68,6 +68,26 @@ Problem: Carries assumptions from Task 1, stale context, decision fatigue
 - **Parallel**: Independent agents can work simultaneously
 - **Quality**: No accumulated technical debt or assumptions
 
+### ✅ REQUIRED: Craft Context — Never Inherit Session History
+
+Each subagent prompt must be self-contained. Never pass your session history or assume the subagent knows what happened before.
+
+```markdown
+# ❌ WRONG: Implicit context inheritance
+Agent.spawn("Now implement the password reset endpoint")
+// Agent has no idea what was built, what interfaces exist, what constraints apply
+
+# ✅ CORRECT: Explicit crafted context
+Agent.spawn(`
+  Implement POST /auth/reset-password.
+  User schema: see src/models/user.ts
+  Email service interface: see src/services/email.interface.ts
+  Error format: { error: string, code: string } — see src/types/errors.ts
+  Test pattern: see tests/auth-register.test.ts
+  Do NOT read other test files — only the interfaces above.
+`)
+```
+
 ### ✅ REQUIRED: Two-Stage Review Per Task
 
 Review each task output in two stages: spec compliance FIRST, then code quality.

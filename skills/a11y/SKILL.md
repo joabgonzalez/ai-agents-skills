@@ -3,7 +3,7 @@ name: a11y
 description: "Accessibility guide (WCAG 2.1/2.2, Level A–AAA). Trigger: When building UI components, interactive elements, or auditing accessibility compliance."
 license: "Apache 2.0"
 metadata:
-  version: "1.1"
+  version: "1.2"
   type: domain
   allowed-tools:
     - file-reader
@@ -19,6 +19,7 @@ Ensures WCAG 2.1/2.2 Level AA compliance: semantic structure, ARIA, contrast, ke
 - Implementing forms, modals, or custom widgets
 - Adding dynamic content or live regions
 - Ensuring keyboard navigation or reviewing accessibility compliance
+- Auditing components or pages for WCAG 2.0/2.1/2.2 compliance
 
 Don't use for:
 
@@ -169,77 +170,166 @@ Rules: `<main>` needs `tabindex="-1"` to be programmatically focusable. Do NOT m
 
 ## Conventions
 
-### Framework-Native First
+**Framework-native first:** MUI, Radix UI, React Aria, Headless UI ship accessible primitives — use them before implementing manually.
 
-Before implementing accessibility patterns manually, check if your framework or UI library already provides them. Most production stacks (Tailwind, MUI, Radix UI, React Aria, Headless UI) ship accessible primitives that handle ARIA, focus, and keyboard contracts automatically. Use them — avoid duplicating CSS or markup that diverges from the design system.
+**Semantic HTML:** `<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>` · heading hierarchy h1→h2→h3 (no skipping) · `<button>` for actions, `<a>` for navigation.
 
-### Semantic HTML
+**ARIA:** Only when semantic HTML is insufficient. Common: `aria-label`, `aria-labelledby`, `aria-describedby`, `aria-live`, `aria-current="page"`.
 
-- Semantic elements (`<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`)
-- Heading hierarchy (h1 → h2 → h3, no skipping)
-- `<button>` for actions, `<a>` for navigation; labels associated with inputs
+**Keyboard:** All interactive elements reachable · logical tab order · visible focus indicators · Escape closes modals/dropdowns.
 
-### ARIA
+**Contrast (SC 1.4.3 / 1.4.11):**
 
-- Only when semantic HTML insufficient; prefer native elements
-- Common: `aria-label`, `aria-labelledby`, `aria-describedby`
-- Dynamic content: `aria-live`, `aria-atomic`
-- Active navigation: `aria-current="page"` on current link, `aria-current="step"` in wizards
+| Element | AA | AAA |
+|---|---|---|
+| Normal text | 4.5:1 | 7:1 |
+| Large text (≥18pt / ≥14pt bold) | 3:1 | 4.5:1 |
+| UI components, focus indicators | 3:1 | — |
+| Disabled / decorative | none | — |
 
-### Keyboard Navigation
-
-- All interactive elements keyboard accessible; logical tab order
-- Visible focus indicators; Escape closes modals/dropdowns
-
-### Color and Contrast
-
-- Text 4.5:1 min (7:1 AAA), large text 3:1 min; UI components 3:1; focus indicators 3:1 (WCAG 2.2)
-- Don't rely on color alone
-
-### Touch Targets
-
-- 24×24px min (WCAG 2.2), 44×44px recommended; adequate spacing between targets
+**Touch targets:** 24×24px min (WCAG 2.2), 44×44px recommended.
 
 ---
 
 ## Decision Tree
 
 ```
-Interactive element (button, link)?
-  → Ensure keyboard accessible (Tab, Enter/Space)
-  → Visible focus indicator, proper role and semantic element
+Does the element convey meaning visually (image, icon, SVG, badge, chart)?
+  → Purely decorative (adds no information)?
+      → img: alt="" | SVG inline: aria-hidden="true" focusable="false"
+  → Informative?
+      → img: write descriptive alt text (SC 1.1.1)
+      → SVG inline: role="img" + aria-label + title element
+      → Icon button: aria-label on button + aria-hidden on icon
 
-Form field?
-  → Associate <label> with input (htmlFor/id)
-  → Mark required: aria-required="true" (or native required)
-  → Field error: aria-invalid="true" + aria-describedby → error span + role="alert"
-  → Submit errors: move focus to error summary (tabindex="-1") + role="alert"
+Is color the only way information is communicated?
+  → Error/success state conveyed only by color?
+      → Add icon, text label, or pattern alongside color (SC 1.4.1)
+  → Chart series distinguishable only by color?
+      → Add patterns, direct labels, or textures
+  → Link differs from surrounding text only by color?
+      → Add underline or distinct non-color visual cue
+
+Is contrast sufficient?
+  → Element is disabled or purely decorative?
+      → No contrast requirement
+  → Text or text in image?
+      → Large text (18pt+ or 14pt+ bold)?
+          → Minimum 3:1 AA / 4.5:1 AAA (SC 1.4.3 / 1.4.6)
+      → Normal text?
+          → Minimum 4.5:1 AA / 7:1 AAA (SC 1.4.3 / 1.4.6)
+  → UI component (input border, button outline, icon, chart graphic)?
+      → Minimum 3:1 (SC 1.4.11)
+  → Focus indicator?
+      → Minimum 3:1 against adjacent colors (SC 1.4.11 / WCAG 2.2 SC 1.4.13)
+
+Does the element have an accessible name?
+  → Button or link with visible text?
+      → Verify text is meaningful, not generic ("Click here", "Read more")
+  → Button or link with icon only or no visible label?
+      → Add aria-label or aria-labelledby (SC 4.1.2)
+  → Form input?
+      → Associate label via htmlFor/id or aria-labelledby (SC 1.3.1 / 3.3.2)
+  → Custom widget (role="combobox", role="slider", etc.)?
+      → Name via aria-label or aria-labelledby (SC 4.1.2)
+
+Is the element keyboard operable?
+  → Native element (button, a, input, select)?
+      → Keyboard accessible by default — verify logical tab order
+  → Custom interactive element (div/span with onClick)?
+      → Add role + tabindex="0" + keydown handler for Enter/Space (SC 2.1.1)
+  → Functionality requires path-based gesture (drag, swipe)?
+      → Provide single-pointer or keyboard alternative (SC 2.5.1)
+
+Does the page have proper structure and landmarks?
+  → html element missing lang attribute?
+      → Set lang matching the page language (SC 3.1.1)
+  → Heading levels skip or no h1 exists?
+      → Fix hierarchy — h1 once per page, then h2, h3 without gaps (SC 1.3.1)
+  → No skip link as first focusable element?
+      → Add skip link pointing to main content (SC 2.4.1)
+  → Content not inside landmark regions?
+      → Wrap in main, nav, header, footer, or aside (SC 1.3.6)
+  → Page missing a descriptive, unique title?
+      → Set document.title per page/view (SC 2.4.2)
+
+Is focus visible and well-managed?
+  → Focus indicator not visible or low contrast?
+      → Ensure visible focus ring with 3:1 contrast (SC 2.4.7 / WCAG 2.2 SC 2.4.11)
+  → Positive tabindex value (tabindex="1" or higher)?
+      → Remove — use DOM order to control tab sequence (SC 1.3.2)
+  → Focusable element inside aria-hidden subtree?
+      → Remove aria-hidden or make element non-focusable with inert or tabindex="-1"
+  → Modal open — is focus trapped and restored on close?
+      → Trap focus in modal + restore to trigger on close (SC 2.1.2)
+
+Is dynamic content properly announced?
+  → Non-urgent update (search results, lazy-loaded content)?
+      → aria-live="polite"
+  → Critical alert or error message?
+      → aria-live="assertive" or role="alert"
+  → Entire region replaces its content at once?
+      → aria-atomic="true"
+  → Status message not in a dialog (toast, save confirmation)?
+      → role="status" or role="alert" without moving focus (SC 4.1.3)
+
+Is this a form with validation?
+  → Required field?
+      → aria-required="true" or native required attribute (SC 3.3.2)
+  → Field has validation error?
+      → aria-invalid="true" + aria-describedby pointing to error span + role="alert"
+  → Multi-field form submitted with errors?
+      → Move focus to error summary (tabindex="-1") + role="alert" (SC 3.3.1)
+
+Is content adaptable and not reliant on sensory characteristics alone?
+  → Instructions reference only shape, color, size, or position?
+      → Add text alternative (SC 1.3.3)
+  → Reading or operation order depends on visual layout?
+      → Verify DOM order matches visual order (SC 1.3.2)
+  → Content breaks or clips when zoomed to 400%?
+      → Ensure reflow at 1280px/400% without horizontal scroll (SC 1.4.10)
+  → Content clips when text spacing is increased?
+      → No fixed containers that overflow on spacing change (SC 1.4.12)
+
+Is there audio or video content?
+  → Video with dialogue or meaningful audio?
+      → Provide synchronized captions (SC 1.2.2 AA)
+  → Audio-only content (podcast, recording)?
+      → Provide text transcript (SC 1.2.1 A)
+  → Video has important visual info not described in audio?
+      → Provide audio description (SC 1.2.5 AA)
+  → Media autoplays for more than 3 seconds?
+      → Provide pause, stop, or mute mechanism (SC 1.4.2)
+
+Does content flash or blink?
+  → Flashes more than 3 times per second?
+      → Remove or reduce below threshold (SC 2.3.1)
+  → Blinks indefinitely?
+      → Remove blink or provide mechanism to stop (SC 2.2.2)
+
+Is the markup valid and role/state/property correct?
+  → Duplicate id attributes in the DOM?
+      → Remove duplicates — id must be unique per page (SC 4.1.1)
+  → ARIA role, state, or property has invalid value?
+      → Fix to spec-valid value per WAI-ARIA (SC 4.1.2)
+  → Required ARIA attributes missing for a role?
+      → Add missing attributes per WAI-ARIA spec (SC 4.1.2)
 
 SPA / route change?
-  → Update document.title to reflect new page (SC 2.4.2)
-  → Announce new page via persistent aria-live="polite" region
-  → Move focus to <main tabindex="-1"> or <h1 tabindex="-1"> (not <body>)
+  → Update document.title to reflect the new page/view
+  → Announce via persistent aria-live="polite" region
+  → Move focus to main or h1 with tabindex="-1"
 
-Dynamic content change?
-  → Non-urgent: aria-live="polite"
-  → Critical alerts: aria-live="assertive"
-  → Whole region: aria-atomic="true"
+Custom widget (tabs, combobox, slider, tree, datepicker)?
+  → Follow WAI-ARIA Authoring Practices for that pattern
+  → Arrow key navigation, Escape, Enter/Space
+  → See references/wai-aria-patterns.md
 
-Custom widget (dropdown, modal, tabs)?
-  → Follow WAI-ARIA Authoring Practices patterns
-  → Implement keyboard navigation (Arrow keys, Escape, Enter)
-  → See references/wai-aria-patterns.md for full widget patterns
-
-Image?
-  → <img>: decorative → alt="", informative → descriptive alt text
-  → Inline SVG / SVGR: decorative → aria-hidden="true", informative → role="img" aria-label="..."
-
-Color conveys meaning?
-  → Add text label, icon, or pattern; verify 4.5:1 for text, 3:1 for UI
-
-Modal or overlay?
-  → Trap focus inside modal, restore focus on close
-  → Allow Escape to dismiss; use aria-modal="true" and role="dialog"
+Touch / pointer interaction?
+  → Target size below 24x24px?
+      → Increase to minimum 24x24px, target 44x44px (WCAG 2.2 SC 2.5.8)
+  → Gesture requires specific path (drag, pinch, swipe)?
+      → Provide single-pointer or keyboard alternative (SC 2.5.1)
 ```
 
 ---

@@ -27,6 +27,7 @@ Don't use for:
 
 - Simple syntax fixes (use code-conventions skill directly)
 - Generating new code without review context
+- Choosing between options when none has been decided yet (use brainstorming)
 - Automated linting (use code-quality skill)
 
 ---

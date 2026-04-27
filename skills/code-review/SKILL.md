@@ -350,6 +350,7 @@ export async function registerUser(email: string, password: string): Promise<Use
 
 ## Resources
 
+- [output-format.md](references/output-format.md) - Canonical output structure: verdict, self-contained findings, merge checklist
 - [critical-partner](../critical-partner/SKILL.md) - General critical feedback
 - [code-conventions](../code-conventions/SKILL.md) - Code standards and organization
 - [typescript](../typescript/SKILL.md) - Type safety review
