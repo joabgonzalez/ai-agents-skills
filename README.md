@@ -5,7 +5,7 @@
 
 **v1.7.0** - A modular CLI for distributing reusable AI agent skills across multiple coding assistants.
 
-Install 80 curated skills for React, TypeScript, testing, architecture, authentication, Docker, GraphQL, and more — to 11 AI agents across two tiers. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
+Install 50+ curated skills for React, TypeScript, testing, architecture, authentication, Docker, GraphQL, and more — to 11 AI agents across two tiers. Features project presets, interactive setup, dependency resolution, version tracking, and seamless multi-model sync.
 
 Browse the full skill catalog at **[joabgonzalez.github.io/ai-agents-skills](https://joabgonzalez.github.io/ai-agents-skills/)**
 
@@ -156,7 +156,7 @@ your-project/
 └── .agent/skills/            # Symlinks → .agents/skills/* (Antigravity)
 ```
 
-## Available Skills (80)
+## Available Skills (50+)
 
 ### Frameworks
 

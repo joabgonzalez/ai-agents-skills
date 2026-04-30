@@ -1,6 +1,6 @@
 ---
 name: ai-agents-skills
-description: "CLI framework for managing and distributing AI agent skills across 11 AI agents (3 dedicated + 8 universal)."
+description: "CLI framework for managing and distributing 50+ AI agent skills across 11 AI agents (3 dedicated + 8 universal)."
 license: "Apache 2.0"
 metadata:
   version: "1.0"
@@ -137,7 +137,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 
 ## Skills Reference
 
-80 skills organized by category:
+50+ skills organized by category (exact count shown as nearest lower multiple of 50: 50+, 100+, 150+, etc.):
 
 - **Frameworks:** React, Next.js, Astro, Express, Nest, Hono, React Native, Expo
 - **Best Practices:** React Best Practices, Astro Best Practices, CSS Best Practices, Node.js Best Practices
@@ -156,7 +156,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 
 ```
 ai-agents-skills/
-├── skills/                # 80 skill definitions (SKILL.md format) - SOURCE OF TRUTH
+├── skills/                # 50+ skill definitions (SKILL.md format) - SOURCE OF TRUTH
 │   ├── react/
 │   │   ├── SKILL.md
 │   │   └── references/    # Progressive disclosure for complex skills
