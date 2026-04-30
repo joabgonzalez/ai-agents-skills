@@ -1,9 +1,9 @@
 ---
 name: code-conventions
-description: "Universal naming, structure, and organization conventions. Trigger: When establishing coding standards or reviewing conventions across any technology."
+description: "Universal coding principles: DRY, security by default, null guards, and YAGNI. Trigger: When writing or reviewing code in any language or technology."
 license: "Apache 2.0"
 metadata:
-  version: "2.0"
+  version: "3.0"
   type: universal
   allowed-tools:
     - file-reader
@@ -11,10 +11,12 @@ metadata:
 
 # Code Conventions
 
-Universal meta-conventions: naming, file structure, code organization. Rules that apply regardless of language or framework. Tech-specific conventions live in their respective skills.
+Universal coding principles and meta-conventions: how to write clean, secure, and robust code regardless of language or framework. Covers naming, file structure, organization, and active quality principles. Tech-specific conventions live in their respective skills.
 
 ## When to Use
 
+- Writing new functions, classes, or modules in any language
+- Applying quality principles during code generation
 - Naming variables, functions, classes, files across any technology
 - Organizing code structure and project layout
 - Reviewing code for general best practices
@@ -99,6 +101,149 @@ For `import type`, named vs namespace imports, barrel exports → see **typescri
 external libraries first → internal modules → types last
 ```
 
+### ✅ REQUIRED: DRY — No Duplicate Logic
+
+Before writing new logic, check if it already exists. Extract when the same logic appears in 2+ places.
+
+```typescript
+// ❌ WRONG: same validation duplicated
+function createUser(email: string) {
+  if (!email.includes("@")) throw new Error("Invalid email")
+}
+function updateUser(email: string) {
+  if (!email.includes("@")) throw new Error("Invalid email")
+}
+
+// ✅ CORRECT: extracted once
+function validateEmail(email: string) {
+  if (!email.includes("@")) throw new Error("Invalid email")
+}
+function createUser(email: string) { validateEmail(email) }
+function updateUser(email: string) { validateEmail(email) }
+```
+
+```javascript
+// ❌ WRONG: formatting logic copy-pasted in 3 components
+const price = `$${(amount / 100).toFixed(2)}`  // in CartItem
+const price = `$${(amount / 100).toFixed(2)}`  // in OrderSummary
+const price = `$${(amount / 100).toFixed(2)}`  // in Invoice
+
+// ✅ CORRECT: one utility
+const formatPrice = (amount) => `$${(amount / 100).toFixed(2)}`
+```
+
+### ✅ REQUIRED: Security by Default (Non-Negotiable)
+
+These rules are inviolable — never produce code that violates them.
+
+```typescript
+// ❌ WRONG: user input concatenated into query
+const rows = await db.query(`SELECT * FROM users WHERE id = ${userId}`)
+
+// ✅ CORRECT: parameterized
+const rows = await db.query("SELECT * FROM users WHERE id = $1", [userId])
+
+// ❌ WRONG: hardcoded secret
+const apiKey = "sk-1234abcd"
+
+// ✅ CORRECT: from environment
+const apiKey = process.env.API_KEY
+
+// ❌ WRONG: state-changing endpoint with no auth check
+app.post("/admin/delete-user", async (req, res) => {
+  await deleteUser(req.body.userId)
+})
+
+// ✅ CORRECT: auth check before action
+app.post("/admin/delete-user", requireAdmin, async (req, res) => {
+  await deleteUser(req.body.userId)
+})
+```
+
+```javascript
+// ❌ WRONG: shell command with user input (command injection)
+exec(`convert ${req.query.file} output.pdf`)
+
+// ✅ CORRECT: validated and escaped
+const safeName = path.basename(req.query.file)
+execFile("convert", [safeName, "output.pdf"])
+```
+
+Rules:
+- Never concatenate external input into queries or shell commands
+- Never hardcode secrets, tokens, or credentials in source
+- Validate all external input at the system boundary, not in inner layers
+- State-changing endpoints require an auth check
+
+### ✅ REQUIRED: Robustness — Fail Fast, No Swallow
+
+```typescript
+// ❌ WRONG: null dereference without guard
+function getUsername(user: User | null) {
+  return user.name
+}
+
+// ✅ CORRECT: guard at entry
+function getUsername(user: User | null): string {
+  if (user === null) throw new Error("User is required")
+  return user.name
+}
+
+// ❌ WRONG: exception silenced
+try {
+  await sendEmail(user)
+} catch (e) {}
+
+// ✅ CORRECT: fail fast with context
+try {
+  await sendEmail(user)
+} catch (e) {
+  logger.error("Failed to send email", { userId: user.id, error: e })
+  throw e
+}
+```
+
+```javascript
+// ❌ WRONG: deeply nested happy-path, no early return
+function processOrder(order) {
+  if (order) {
+    if (order.items.length > 0) {
+      if (order.payment) {
+        return charge(order)
+      }
+    }
+  }
+}
+
+// ✅ CORRECT: fail fast with early returns
+function processOrder(order) {
+  if (!order) throw new Error("Order is required")
+  if (order.items.length === 0) throw new Error("Order has no items")
+  if (!order.payment) throw new Error("Payment method missing")
+  return charge(order)
+}
+```
+
+### ✅ REQUIRED: YAGNI — Don't Build What Isn't Needed Today
+
+```typescript
+// ❌ WRONG: abstraction for a hypothetical future
+class UserRepositoryFactory {
+  create(type: "postgres" | "mysql" | "mongo") { ... }  // only postgres exists
+}
+
+// ✅ CORRECT: implement what exists now
+class UserRepository {
+  async findById(id: string): Promise<User> { ... }
+}
+```
+
+Signals of YAGNI violation:
+- Config parameters with only one possible value today
+- Abstractions for "when we eventually need X"
+- Commented-out code "just in case"
+- Feature flags for unplanned functionality
+
 ---
 
 ## Decision Tree
@@ -110,6 +255,7 @@ Is this convention universal (any language/framework)?
     File responsibility (SRP)
     No dead code
     Variable shadowing
+    DRY, Security, Robustness, YAGNI
 
   → NO: Belongs in technology-specific skill
     TypeScript specifics (import type, no any, type safety) → typescript skill
@@ -118,6 +264,23 @@ Is this convention universal (any language/framework)?
     Linting/formatting tools                                → code-quality skill
     Architecture decisions                                  → architecture-patterns skill
     Accessibility                                           → a11y skill
+
+Writing new code?
+  → Logic already exists in codebase?
+    → YES: reuse it (DRY)
+    → NO: proceed
+  → Touches external input (user, API, file)?
+    → YES: validate at boundary, parameterize queries
+    → NO: proceed
+  → Value could be null or undefined?
+    → YES: guard at function entry, fail fast on invalid state
+    → NO: proceed
+  → Adding abstraction or configuration?
+    → Needed today with a real use case?
+      → YES: implement
+      → NO: YAGNI — skip
+  → Catching an exception?
+    → Log with context and re-throw — never swallow silently
 ```
 
 **Quick reference:**
@@ -129,6 +292,10 @@ Is this convention universal (any language/framework)?
 - File has too many responsibilities? → Split by SRP
 - Unused import/variable/function? → Delete it
 - Variable name conflicts with outer scope? → Rename to avoid shadowing
+- Logic duplicated in 2+ places? → Extract (DRY)
+- Input from user, API, or file? → Validate at boundary, parameterize queries
+- Value could be null? → Guard at entry, fail fast
+- Building for a future use case? → YAGNI — don't
 - TypeScript-specific question? → See typescript skill
 
 ---

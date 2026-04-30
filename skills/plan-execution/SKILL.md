@@ -3,11 +3,12 @@ name: plan-execution
 description: "Batch execution with checkpoints. Trigger: When executing plans with batched tasks."
 license: "Apache 2.0"
 metadata:
-  version: "1.0"
+  version: "1.1"
   type: behavioral
   skills:
     - writing-plans
     - verification-protocol
+    - code-conventions
 ---
 
 # Plan Execution
@@ -94,6 +95,12 @@ Verify quality before proceeding.
 4. Type check? Yes
    - Ran: `tsc --noEmit`
    - Result: No type errors
+
+5. Code quality? Yes
+   - DRY: no logic duplicated from existing codebase
+   - Security: no hardcoded secrets, inputs parameterized
+   - Robustness: null guards present, no swallowed exceptions
+   - YAGNI: no unused abstractions or dead config
 
 **Architect Review Needed?** No (straightforward CRUD implementation)
 
@@ -204,6 +211,12 @@ Quality issue at checkpoint?
   → Re-verify checkpoint
   → Only then proceed
 
+Code quality issue at checkpoint?
+  Security violation (hardcoded secret, input not parameterized)?
+    → STOP immediately — fix before proceeding
+  DRY, robustness, or YAGNI issue?
+    → Fix in current batch before marking checkpoint passed
+
 Task taking longer than planned?
   → Note actual time
   → Adjust estimates for remaining tasks
@@ -262,12 +275,8 @@ Task taking longer than planned?
 - [ ] Blockers documented with escalation path
 - [ ] Actual time tracked vs estimates
 - [ ] Rollback plan if checkpoint fails
-
----
-
-## Example
-
-See [references/execution-walkthrough.md](references/execution-walkthrough.md) for a complete 3-batch execution walkthrough.
+- [ ] Code quality verified per code-conventions (DRY, security, robustness, YAGNI)
+- [ ] Security violations treated as blocking
 
 ---
 
@@ -275,7 +284,6 @@ See [references/execution-walkthrough.md](references/execution-walkthrough.md) f
 
 - [writing-plans](../writing-plans/SKILL.md) - Creating executable plans
 - [verification-protocol](../verification-protocol/SKILL.md) - Checkpoint verification
+- [code-conventions](../code-conventions/SKILL.md) - Code quality principles (DRY, security, robustness, YAGNI)
 - [code-review](../code-review/SKILL.md) - Quality review after execution
 - [systematic-debugging](../systematic-debugging/SKILL.md) - Handling checkpoint failures
-- [references/README.md](references/README.md) - Reference file navigation
-- [references/execution-walkthrough.md](references/execution-walkthrough.md) - Complete 3-batch example
