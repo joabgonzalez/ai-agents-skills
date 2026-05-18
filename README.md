@@ -200,7 +200,7 @@ Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagona
 
 ### Behavioral
 
-English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch, Slides
+English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch, Slides, Grill Me, Context Handoff
 
 ### Meta (creation tools)
 

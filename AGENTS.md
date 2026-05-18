@@ -38,6 +38,8 @@ metadata:
     - sharp-execution
     - lean-output
     - ship-branch
+    - grill-me
+    - context-handoff
 ---
 
 # AI Agents Skills Framework
@@ -126,6 +128,8 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Agent overthinking or hesitation | sharp-execution        |
 | Minimize response tokens         | lean-output            |
 | Shipping or closing a branch     | ship-branch            |
+| Clarify requirements before acting | grill-me             |
+| Summarize session for new chat   | context-handoff        |
 | Auth, JWT, OAuth, password hashing | authentication       |
 | Dockerfiles or containerization  | docker                 |
 | GraphQL schemas or resolvers     | graphql                |
@@ -149,7 +153,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 - **Libraries:** MUI, AG Grid, Redux Toolkit, Stagehand
 - **Quality & Architecture:** Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring
 - **Architecture Patterns:** Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern, Circuit Breaker Pattern, State Machines Pattern, Screaming Architecture
-- **Behavioral:** English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch
+- **Behavioral:** English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch, Grill Me, Context Handoff
 - **Meta:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
 ## Project Structure
