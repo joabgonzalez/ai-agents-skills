@@ -3,12 +3,11 @@ name: plan-execution
 description: "Batch execution with checkpoints. Trigger: When executing plans with batched tasks."
 license: "Apache 2.0"
 metadata:
-  version: "1.1"
+  version: "1.2"
   type: behavioral
   skills:
     - writing-plans
     - verification-protocol
-    - code-conventions
 ---
 
 # Plan Execution
@@ -221,6 +220,34 @@ Task taking longer than planned?
   → Note actual time
   → Adjust estimates for remaining tasks
   → Flag if timeline at risk
+```
+
+---
+
+## Example
+
+Three-batch execution of an auth module implementation:
+
+```markdown
+### Batch 1: Data layer (tasks 1-3)
+Task 1: User entity — src/entities/User.ts ✅
+Task 2: UserRepository — src/repositories/UserRepository.ts ✅
+Task 3: Password hashing util — src/utils/hash.ts ✅
+
+**CHECKPOINT**: Batch 1 Complete
+- npm test → 8/8 passed
+- npm run build → Success
+- Decision: Proceed to Batch 2
+
+### Batch 2: API layer (tasks 4-6)
+Task 4: POST /auth/login ✅
+Task 5: POST /auth/refresh ✅
+Task 6: POST /auth/logout ✅
+
+**CHECKPOINT**: Batch 2 Complete
+- npm test → 15/15 passed
+- Architect review needed? No (standard JWT pattern)
+- Decision: Proceed to Batch 3
 ```
 
 ---

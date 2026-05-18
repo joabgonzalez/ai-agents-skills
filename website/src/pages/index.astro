@@ -68,19 +68,30 @@ const installCmd = "npx ai-agents-skills add";
 ---
 
 <BaseLayout
-  title={`Agents Skills — ${total} curated skills for AI coding assistants`}
-  description={`Install ${total} curated behavioral skills for Claude Code, Copilot, Cursor, Gemini, Codex, and 6 more AI coding assistants. One CLI, all agents.`}
+  title={`Agents Skills — 50+ curated skills for AI coding assistants`}
+  description={`Install 50+ curated behavioral skills for Claude Code, Copilot, Cursor, Gemini, Codex, and 6 more AI coding assistants. One CLI, all agents.`}
 >
   <!-- Hero: full-width so bg-grid reaches viewport edges -->
   <div class="relative bg-grid pb-6 pt-10">
     <!-- Radial overlay: fades grid toward content area -->
-    <div class="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_55%_120%_at_10%_50%,white_20%,transparent_100%)] dark:[background:radial-gradient(ellipse_55%_120%_at_10%_50%,#030712_20%,transparent_100%)]" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_55%_120%_at_10%_50%,white_20%,transparent_100%)] dark:[background:radial-gradient(ellipse_55%_120%_at_10%_50%,#030712_20%,transparent_100%)]"
+      aria-hidden="true"
+    >
+    </div>
     <!-- Bottom fade: softens the border-b cut -->
-    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent to-white dark:to-gray-950" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent to-white dark:to-gray-950"
+      aria-hidden="true"
+    >
+    </div>
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="max-w-2xl">
         <!-- Wordmark -->
-        <div class="mb-8 flex select-none items-center gap-4 sm:gap-6" aria-label="Agents Skills">
+        <div
+          class="mb-8 flex select-none items-center gap-4 sm:gap-6"
+          aria-label="Agents Skills"
+        >
           <Logo
             class="animate-hero-logo h-16 w-auto shrink-0 sm:h-20 lg:h-24"
             gradientId="bolt-hero"
@@ -97,16 +108,22 @@ const installCmd = "npx ai-agents-skills add";
         </div>
 
         <!-- Tagline -->
-        <p class="mb-4 text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+        <p
+          class="mb-4 text-lg leading-relaxed text-gray-600 dark:text-gray-400"
+        >
           Curated behavioral patterns for AI coding assistants.
         </p>
 
         <!-- Tool strip: infinite marquee -->
         <div class="mb-6 flex items-center gap-3">
-          <span class="shrink-0 text-xs font-medium tracking-widest uppercase text-gray-400 dark:text-gray-500 select-none">
+          <span
+            class="shrink-0 text-xs font-medium tracking-widest uppercase text-gray-400 dark:text-gray-500 select-none"
+          >
             Works with
           </span>
-          <span class="h-4 w-px shrink-0 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
+          <span
+            class="h-4 w-px shrink-0 bg-gray-200 dark:bg-gray-700"
+            aria-hidden="true"></span>
           <div
             class="overflow-hidden"
             style="mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);"
@@ -114,116 +131,175 @@ const installCmd = "npx ai-agents-skills add";
           >
             <div class="marquee-track" aria-hidden="true">
               <div class="flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6">
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolClaudeCode class="h-5 w-5 shrink-0" />
                   <IconTextClaudeCode class="hidden sm:block h-4 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCopilot class="h-4 w-4 shrink-0" />
                   <IconTextCopilot class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCodex class="h-4 w-4 shrink-0" />
                   <IconTextCodex class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolGemini class="h-4 w-4 shrink-0" />
                   <IconTextGemini class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="hidden sm:flex items-center text-gray-400 dark:text-gray-500">
+                <div
+                  class="hidden sm:flex items-center text-gray-400 dark:text-gray-500"
+                >
                   <IconTextOpenCode class="h-4 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolOpenClaw class="h-4 w-4 shrink-0" />
                   <IconTextOpenClaw class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCursor class="h-4 w-4 shrink-0" />
                   <IconTextCursor class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolOpenAI class="h-4 w-4 shrink-0" />
                   <IconTextOpenAI class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolClaude class="h-4 w-4 shrink-0" />
                   <IconTextClaude class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolVSCode class="h-4 w-4 shrink-0" />
                   <IconTextVSCode class="hidden sm:inline-block" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolAntigravity class="h-4 w-4 shrink-0" />
                   <IconTextAntigravity class="hidden sm:block h-3.5 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolAmp class="h-4 w-4 shrink-0" />
                   <IconTextAmp class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCline class="h-4 w-4 shrink-0" />
                   <IconTextCline class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolKimi class="h-4 w-4 shrink-0" />
                   <IconTextKimi class="hidden sm:block h-3 w-auto" />
                 </div>
               </div>
               <!-- Duplicate set for seamless loop -->
-              <div class="flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6" aria-hidden="true">
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+              <div
+                class="flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6"
+                aria-hidden="true"
+              >
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolClaudeCode class="h-5 w-5 shrink-0" />
                   <IconTextClaudeCode class="hidden sm:block h-4 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCopilot class="h-4 w-4 shrink-0" />
                   <IconTextCopilot class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCodex class="h-4 w-4 shrink-0" />
                   <IconTextCodex class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolGemini class="h-4 w-4 shrink-0" />
                   <IconTextGemini class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="hidden sm:flex items-center text-gray-400 dark:text-gray-500">
+                <div
+                  class="hidden sm:flex items-center text-gray-400 dark:text-gray-500"
+                >
                   <IconTextOpenCode class="h-4 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolOpenClaw class="h-4 w-4 shrink-0" />
                   <IconTextOpenClaw class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCursor class="h-4 w-4 shrink-0" />
                   <IconTextCursor class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolOpenAI class="h-4 w-4 shrink-0" />
                   <IconTextOpenAI class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolClaude class="h-4 w-4 shrink-0" />
                   <IconTextClaude class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolVSCode class="h-4 w-4 shrink-0" />
                   <IconTextVSCode class="hidden sm:inline-block" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolAntigravity class="h-4 w-4 shrink-0" />
                   <IconTextAntigravity class="hidden sm:block h-3.5 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolAmp class="h-4 w-4 shrink-0" />
                   <IconTextAmp class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolCline class="h-4 w-4 shrink-0" />
                   <IconTextCline class="hidden sm:block h-3 w-auto" />
                 </div>
-                <div class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                <div
+                  class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500"
+                >
                   <IconToolKimi class="h-4 w-4 shrink-0" />
                   <IconTextKimi class="hidden sm:block h-3 w-auto" />
                 </div>
@@ -302,15 +378,20 @@ const installCmd = "npx ai-agents-skills add";
 
     <!-- Empty state -->
     <div id="skills-empty" class="hidden py-20 text-center">
-      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+      <div
+        class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800"
+      >
         <IconSearchOff class="h-6 w-6 text-gray-400 dark:text-gray-500" />
       </div>
-      <p class="text-lg font-medium text-gray-900 dark:text-gray-100">No skills found</p>
-      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Try a different search term or clear the type filter.</p>
+      <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        No skills found
+      </p>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        Try a different search term or clear the type filter.
+      </p>
     </div>
   </div>
 </BaseLayout>
-
 
 <script>
   const btn = document.getElementById("hero-copy-btn");
