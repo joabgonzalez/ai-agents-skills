@@ -124,7 +124,9 @@ export async function addCommand(options: AddOptions) {
     const knownIds = new Set(allModelsCheck.map((m) => m.id));
     const unknown = options.model.filter((m) => !knownIds.has(m));
     for (const m of unknown) {
-      p.log.warn(`'${m}': unknown model — supported dedicated models: ${Array.from(knownIds).join(', ')}`);
+      p.log.warn(
+        `'${m}': unknown model — supported dedicated models: ${Array.from(knownIds).join(', ')}`
+      );
     }
     const validSpecified = options.model.filter((m) => knownIds.has(m));
     if (validSpecified.length === 0) {
@@ -162,7 +164,9 @@ export async function addCommand(options: AddOptions) {
 
   // In local mode OpenClaw is natively supported — skills/ already exists in this repo
   if (installType === 'local') {
-    p.log.info(`${color.green('✓')} OpenClaw ${color.dim('(skills/) — supported by default in local mode')}`);
+    p.log.info(
+      `${color.green('✓')} OpenClaw ${color.dim('(skills/) — supported by default in local mode')}`
+    );
   }
 
   let selectedModels: string[];
@@ -184,9 +188,11 @@ export async function addCommand(options: AddOptions) {
       p.log.info(`${icon} ${name} ${color.dim(`(${relPath})`)}`);
     }
   } else {
-    const installedModels = modelDetector.detectInstalledModels(project.rootPath)
+    const installedModels = modelDetector
+      .detectInstalledModels(project.rootPath)
       .filter((id) => !(isOpenClawAuto && id === 'openclaw'));
-    const allModels = modelDetector.getAllModelsInfo(project.rootPath)
+    const allModels = modelDetector
+      .getAllModelsInfo(project.rootPath)
       .filter((m) => !(isOpenClawAuto && m.id === 'openclaw'));
     const newModels = allModels.filter((m) => !installedModels.includes(m.id));
 
@@ -355,9 +361,7 @@ export async function addCommand(options: AddOptions) {
 
   // 6. Confirm (always shown; dry-run proceeds but makes no changes)
   const modelSuffix =
-    selectedModels.length > 0
-      ? ` + ${selectedModels.length} dedicated model(s)`
-      : '';
+    selectedModels.length > 0 ? ` + ${selectedModels.length} dedicated model(s)` : '';
   const confirmInstall = await p.confirm({
     message: `Install ${installOrder.length} skill(s) to .agents/skills/${modelSuffix}?${options.dryRun ? color.dim(' [dry-run]') : ''}`,
     initialValue: true,
