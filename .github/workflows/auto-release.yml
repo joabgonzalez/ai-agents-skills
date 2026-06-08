@@ -38,8 +38,9 @@ jobs:
 
       - name: Bump version and create tag
         run: |
+          set -x
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout main
+          git status
           npm version ${{ steps.bump-type.outputs.type }} -m "%s"
-          git push origin main --follow-tags
+          git push origin HEAD:main --follow-tags
