@@ -342,7 +342,7 @@ Versions follow **semver**: `MAJOR.MINOR.PATCH`
 1. Work on `development`, commit with single-line messages
 2. Squash merge to `main` with a `release(patch|minor|major): {summary}` message
 3. `auto-release.yml` detects the prefix on push to `main`, runs `npm version <type>`, and pushes the version commit + tag — no manual command needed
-4. `release-cli.yml` triggers on the tag → builds, publishes to npm, updates the README badge, and syncs the bump back to `development`
+4. `auto-release.yml` bumps the version, builds, publishes to npm, updates the README badge, and syncs back to `development` — all in one pipeline
 
 **Tags always go on `main`**, never on `development`.
 
