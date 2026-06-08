@@ -1,0 +1,7 @@
+MESSAGE=$(head -n1 "$1")
+
+if [[ "$MESSAGE" == release\(* ]] && ! [[ "$MESSAGE" =~ ^release\((patch|minor|major)\):\ .+ ]]; then
+  echo "Invalid release commit message: \"$MESSAGE\""
+  echo "Expected format: release(patch|minor|major): summary"
+  exit 1
+fi

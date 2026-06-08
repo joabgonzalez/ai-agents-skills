@@ -1,0 +1,44 @@
+name: Auto Release (version bump + tag)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    if: ${{ startsWith(github.event.head_commit.message, 'release(') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Determine bump type
+        id: bump-type
+        run: |
+          MESSAGE="${{ github.event.head_commit.message }}"
+          if [[ "$MESSAGE" =~ ^release\((patch|minor|major)\): ]]; then
+            echo "type=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          else
+            echo "Commit message does not match release(patch|minor|major): convention — skipping" >&2
+            exit 1
+          fi
+
+      - name: Bump version and create tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          npm version ${{ steps.bump-type.outputs.type }} -m "%s"
+          git push origin main --follow-tags
