@@ -318,31 +318,31 @@ npx ai-agents-skills validate --all            # Validate all skills
 
 ### Merge to Main (Squash)
 
-Merges from `development` → `main` use **squash merge**. The squash commit message format:
+Merges from `development` → `main` use **squash merge**. The squash commit message format encodes the release type and triggers the auto-release pipeline:
 
 ```
-v{version}: {brief summary of what's in the squash}
+release(patch|minor|major): {brief summary of what's in the squash}
 ```
 
 Examples:
-- `v1.6.1: telemetry + PostHog analytics + CI release pipeline`
-- `v1.7.0: preset system overhaul + new skills`
+- `release(patch): telemetry + PostHog analytics + CI release pipeline`
+- `release(minor): preset system overhaul + new skills`
 
 ### Versioning & Release
 
 Versions follow **semver**: `MAJOR.MINOR.PATCH`
 
-| Change type | Command | Example |
+| Change type | Squash merge prefix | Example |
 |---|---|---|
-| Bug fix, small improvement | `make patch` | 1.6.0 → 1.6.1 |
-| New feature, backwards-compatible | `make minor` | 1.6.0 → 1.7.0 |
-| Breaking change | `make major` | 1.6.0 → 2.0.0 |
+| Bug fix, small improvement | `release(patch): ...` | 1.6.0 → 1.6.1 |
+| New feature, backwards-compatible | `release(minor): ...` | 1.6.0 → 1.7.0 |
+| Breaking change | `release(major): ...` | 1.6.0 → 2.0.0 |
 
 **Release flow:**
 1. Work on `development`, commit with single-line messages
-2. Squash merge to `main` with `v{version}: {summary}` message
-3. On `main`: run `make patch|minor|major` → creates tag + pushes
-4. GitHub Actions detects tag → publishes to npm automatically
+2. Squash merge to `main` with a `release(patch|minor|major): {summary}` message
+3. `auto-release.yml` detects the prefix on push to `main`, runs `npm version <type>`, and pushes the version commit + tag — no manual command needed
+4. `release-cli.yml` triggers on the tag → builds, publishes to npm, updates the README badge, and syncs the bump back to `development`
 
 **Tags always go on `main`**, never on `development`.
 
