@@ -1,4 +1,4 @@
-name: Auto Release (version bump + tag)
+name: Auto Release (version bump + tag + npm publish)
 
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm install
@@ -38,9 +39,37 @@ jobs:
 
       - name: Bump version and create tag
         run: |
-          set -x
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git status
           npm version ${{ steps.bump-type.outputs.type }} -m "%s"
           git push origin HEAD:main --follow-tags
+
+      - name: Inject PostHog key
+        run: |
+          if [ -z "${{ secrets.POSTHOG_KEY }}" ]; then
+            echo "⚠️ POSTHOG_KEY secret not set — telemetry will be disabled"
+          fi
+          sed -i "s/__POSTHOG_KEY__/${{ secrets.POSTHOG_KEY }}/" src/utils/telemetry.ts
+
+      - name: Build
+        run: npm run build
+
+      - name: Update README version badge
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          sed -i "s/\*\*v[0-9]*\.[0-9]*\.[0-9]*\*\*/**v${VERSION}**/" README.md
+          git add README.md
+          git diff --staged --quiet || git commit -m "chore: update README version to v${VERSION}"
+          git push origin HEAD:main
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Sync version bump back to development
+        run: |
+          git checkout development
+          git pull origin development
+          git merge main --no-edit -X theirs
+          git push origin development
