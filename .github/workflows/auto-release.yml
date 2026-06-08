@@ -1,4 +1,4 @@
-name: Auto Release (version bump + tag + npm publish)
+name: Auto Release
 
 on:
   push:
@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  bump:
+  release:
     if: ${{ startsWith(github.event.head_commit.message, 'release(') }}
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Determine bump type
+      - name: Detect release type
         id: bump-type
         run: |
           MESSAGE="${{ github.event.head_commit.message }}"
@@ -37,14 +37,14 @@ jobs:
             exit 1
           fi
 
-      - name: Bump version and create tag
+      - name: Bump version and push tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           npm version ${{ steps.bump-type.outputs.type }} -m "%s"
           git push origin HEAD:main --follow-tags
 
-      - name: Inject PostHog key
+      - name: Inject PostHog telemetry key
         run: |
           if [ -z "${{ secrets.POSTHOG_KEY }}" ]; then
             echo "⚠️ POSTHOG_KEY secret not set — telemetry will be disabled"
@@ -54,6 +54,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Deploy to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Update README version badge
         run: |
           VERSION=$(node -p "require('./package.json').version")
@@ -62,12 +67,7 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: update README version to v${VERSION}"
           git push origin HEAD:main
 
-      - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Sync version bump back to development
+      - name: Sync back to development
         run: |
           git checkout development
           git pull origin development
