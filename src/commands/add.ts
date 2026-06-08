@@ -432,6 +432,13 @@ export async function addCommand(options: AddOptions) {
     async (skillName) => {
       let installedToAny = false;
 
+      const universalInstalled = await installer.installToAgentsSkills(
+        skillName,
+        installType,
+        options.dryRun ?? false
+      );
+      if (universalInstalled) installedToAny = true;
+
       for (const modelId of selectedModels) {
         const modelDir = modelDetector.getModelDirectory(project.rootPath, modelId);
         try {

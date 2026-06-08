@@ -45,6 +45,46 @@ export class Installer {
   }
 
   /**
+   * Ensure a skill exists in .agents/skills/ (universal install target)
+   * Independent of any dedicated model — must run regardless of selectedModels
+   * Returns true if newly created, false if already present
+   */
+  async installToAgentsSkills(
+    skillName: string,
+    installType: InstallationType,
+    dryRun: boolean = false
+  ): Promise<boolean> {
+    const sourcePath = path.join(this.baseDir, 'skills', skillName);
+    const agentsSkillsPath = path.join(this.agentsBaseDir, '.agents', 'skills', skillName);
+
+    if (!exists(sourcePath)) {
+      throw new Error(`Source skill not found: ${sourcePath}`);
+    }
+
+    ensureDir(path.join(this.agentsBaseDir, '.agents', 'skills'));
+
+    if (exists(agentsSkillsPath)) {
+      return false;
+    }
+
+    if (dryRun) {
+      logger.info(`[DRY RUN] Would install ${skillName} to .agents/skills/`);
+      return true;
+    }
+
+    if (installType === 'local') {
+      const relativeSource = path.relative(path.dirname(agentsSkillsPath), sourcePath);
+      await createSymlink(relativeSource, agentsSkillsPath);
+      logger.debug(`Created intermediate symlink: .agents/skills/${skillName}`);
+    } else {
+      await copyDir(sourcePath, agentsSkillsPath);
+      logger.debug(`Copied to .agents/skills/${skillName}`);
+    }
+
+    return true;
+  }
+
+  /**
    * Install a single skill with cascading symlinks
    *
    * Architecture:
