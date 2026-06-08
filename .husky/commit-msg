@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 MESSAGE=$(head -n1 "$1")
 
 if [[ "$MESSAGE" == release\(* ]] && ! [[ "$MESSAGE" =~ ^release\((patch|minor|major)\):\ .+ ]]; then
