@@ -112,6 +112,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 | Accessibility or UI components   | a11y                   |
 | Frontend workflow or components  | frontend-dev           |
 | UI/UX decisions or design review | interface-design       |
+| Writing architecture or spike docs | tech-docs            |
 | Commit messages or documentation | technical-communication|
 | Creating reference files         | reference-creation     |
 | Syncing skills across models     | skill-sync             |
@@ -153,6 +154,7 @@ Read these 4 direct dependencies. Dependencies are resolved transitively - when 
 - **Libraries:** MUI, AG Grid, Redux Toolkit, Stagehand
 - **Quality & Architecture:** Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactoring
 - **Architecture Patterns:** Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern, Circuit Breaker Pattern, State Machines Pattern, Screaming Architecture
+- **Documentation:** Tech Docs
 - **Behavioral:** English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch, Grill Me, Context Handoff
 - **Meta:** Skill Creation, Agent Creation, Reference Creation, Prompt Creation, Skill Sync
 
