@@ -11,7 +11,12 @@ import {
 } from '../core';
 import type { PresetInfo } from '../core/repository';
 import { FileSystemSkillSource } from '../core/skill-source';
-import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
+import {
+  DEDICATED_MODELS,
+  HIDDEN_UNIVERSAL_MODELS,
+  UNIVERSAL_MODELS,
+  VISIBLE_UNIVERSAL_MODELS,
+} from '../shared/constants';
 import { showDependencyPreview } from '../utils/dependency-preview';
 import { runInstallLoop, showInstallOutro } from '../utils/install-helpers';
 import { LogLevel, logger } from '../utils/logger';
@@ -153,13 +158,17 @@ export async function addCommand(options: AddOptions) {
 
   const agentsExist = fs.existsSync(projectDetector.getSkillsDir(project.rootPath));
   const universalIcon = agentsExist ? color.green('✓') : color.green('○');
+  const totalUniversal = UNIVERSAL_MODELS.length;
   const universalHeader = agentsExist
-    ? `${color.green('✓')} Universal models ${color.dim('(.agents/skills/) — 8 agents covered')}`
-    : `Installing universal models ${color.dim('(.agents/skills/) — covers 8 agents automatically')}`;
+    ? `${color.green('✓')} Universal models ${color.dim(`(.agents/skills/) — ${totalUniversal} agents covered`)}`
+    : `Installing universal models ${color.dim(`(.agents/skills/) — covers ${totalUniversal} agents automatically`)}`;
 
   p.log.info(universalHeader);
-  for (const m of UNIVERSAL_MODELS) {
+  for (const m of VISIBLE_UNIVERSAL_MODELS) {
     console.log(`${color.dim('│')}  ${universalIcon} ${m.label}`);
+  }
+  if (HIDDEN_UNIVERSAL_MODELS.length > 0) {
+    console.log(`${color.dim('│')}  ${color.dim(`...and ${HIDDEN_UNIVERSAL_MODELS.length} more`)}`);
   }
 
   // In local mode OpenClaw is natively supported — skills/ already exists in this repo

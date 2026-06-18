@@ -2,7 +2,12 @@ import fs from 'node:fs';
 import * as p from '@clack/prompts';
 import color from 'picocolors';
 import { ModelDetector, ProjectDetector } from '../core';
-import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
+import {
+  DEDICATED_MODELS,
+  HIDDEN_UNIVERSAL_MODELS,
+  UNIVERSAL_MODELS,
+  VISIBLE_UNIVERSAL_MODELS,
+} from '../shared/constants';
 
 export async function listCommand() {
   p.intro(color.bgCyan(color.black(' ⚡ AGENTS SKILLS ')));
@@ -35,13 +40,15 @@ export async function listCommand() {
   p.note(skillLines, `📦 Installed Skills (${installedSkills.length} total)`);
 
   // Models note — universal always first, then dedicated
+  const totalUniversal = UNIVERSAL_MODELS.length;
   const universalHeader = agentsInstalled
-    ? `${color.green('✓')} Universal models ${color.dim('(.agents/skills/) — 8 agents covered')}`
+    ? `${color.green('✓')} Universal models ${color.dim(`(.agents/skills/) — ${totalUniversal} agents covered`)}`
     : `${color.dim('○')} Universal models ${color.dim('(.agents/skills/) — not yet installed')}`;
-  const universalLines = [
-    universalHeader,
-    ...UNIVERSAL_MODELS.map((m) => `  ${color.green('●')} ${m.label}`),
-  ].join('\n');
+  const visibleLines = VISIBLE_UNIVERSAL_MODELS.map((m) => `  ${color.green('●')} ${m.label}`);
+  if (HIDDEN_UNIVERSAL_MODELS.length > 0) {
+    visibleLines.push(`  ${color.dim(`...and ${HIDDEN_UNIVERSAL_MODELS.length} more`)}`);
+  }
+  const universalLines = [universalHeader, ...visibleLines].join('\n');
 
   const dedicatedLines = installedDedicated
     .map((id) => {
