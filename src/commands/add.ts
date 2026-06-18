@@ -558,9 +558,19 @@ async function selectSkillsInteractive(
     p.log.info(`Already installed: ${color.dim(installedSkills.join(', '))}`);
   }
 
-  const selected = await p.multiselect({
+  const selected = await p.autocompleteMultiselect({
     message: `Select skills to install (${notInstalled.length} available):`,
-    options: notInstalled.map((skill) => ({ value: skill, label: skill })),
+    placeholder: 'Type to search...',
+    options: notInstalled.map((skill) => {
+      let hint: string | undefined;
+      try {
+        hint = skillSource.getSkillMetadata(skill).description;
+      } catch {
+        hint = undefined;
+      }
+      return { value: skill, label: skill, hint };
+    }),
+    maxItems: 8,
     required: true,
   });
 
