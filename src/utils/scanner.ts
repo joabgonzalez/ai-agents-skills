@@ -31,8 +31,9 @@ export function scanModelDirectory(modelDir: string): InstalledSkill[] {
 
     const skillPath = path.join(skillsDir, entry);
 
-    // Check if it's a directory or symlink
+    // Check if it's a directory or symlink with a valid SKILL.md
     if (!exists(skillPath)) continue;
+    if (!exists(path.join(skillPath, 'SKILL.md'))) continue;
 
     installed.push({
       name: entry,
@@ -77,7 +78,7 @@ export function isSkillInstalled(
 ): boolean {
   for (const modelDir of modelDirs) {
     const skillPath = path.join(basePath, modelDir, 'skills', skillName);
-    if (exists(skillPath)) {
+    if (exists(skillPath) && exists(path.join(skillPath, 'SKILL.md'))) {
       return true;
     }
   }

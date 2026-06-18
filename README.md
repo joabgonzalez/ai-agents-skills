@@ -198,6 +198,10 @@ Code Conventions, Code Quality, Form Validation, Critical Partner, Code Refactor
 
 Architecture Patterns, SOLID, Clean Architecture, Domain-Driven Design, Hexagonal Architecture, Screaming Architecture, Result Pattern, DRY Principle, Mediator Pattern, Sidecar Pattern, Composition Pattern, Circuit Breaker Pattern, State Machines Pattern
 
+### Documentation
+
+Tech Docs
+
 ### Behavioral
 
 English Writing, Technical Communication, Humanizer, Frontend Development, Brainstorming, Systematic Debugging, Interface Design, Writing Plans, Code Review, Receiving Code Review, Verification Protocol, Plan Execution, Subagent Orchestration, Sharp Execution, Lean Output, Ship Branch, Slides, Grill Me, Context Handoff

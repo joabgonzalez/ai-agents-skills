@@ -11,7 +11,12 @@ import {
 } from '../core';
 import type { PresetInfo } from '../core/repository';
 import { FileSystemSkillSource } from '../core/skill-source';
-import { DEDICATED_MODELS, UNIVERSAL_MODELS } from '../shared/constants';
+import {
+  DEDICATED_MODELS,
+  HIDDEN_UNIVERSAL_MODELS,
+  UNIVERSAL_MODELS,
+  VISIBLE_UNIVERSAL_MODELS,
+} from '../shared/constants';
 import { showDependencyPreview } from '../utils/dependency-preview';
 import { runInstallLoop, showInstallOutro } from '../utils/install-helpers';
 import { LogLevel, logger } from '../utils/logger';
@@ -152,21 +157,16 @@ export async function addCommand(options: AddOptions) {
   // Only other dedicated-directory models (claude, antigravity) appear in prompts.
 
   const agentsExist = fs.existsSync(projectDetector.getSkillsDir(project.rootPath));
-  const universalIcon = agentsExist ? color.green('✓') : color.green('○');
-  const universalHeader = agentsExist
-    ? `${color.green('✓')} Universal models ${color.dim('(.agents/skills/) — 8 agents covered')}`
-    : `Installing universal models ${color.dim('(.agents/skills/) — covers 8 agents automatically')}`;
+  const totalUniversal = UNIVERSAL_MODELS.length;
+  const universalStatus = agentsExist ? color.green('✓') : color.dim('○');
+  const universalHeader = `${universalStatus} Universal models ${color.dim(`(.agents/skills/) — ${totalUniversal} agents covered`)}`;
 
   p.log.info(universalHeader);
-  for (const m of UNIVERSAL_MODELS) {
-    console.log(`${color.dim('│')}  ${universalIcon} ${m.label}`);
+  for (const m of VISIBLE_UNIVERSAL_MODELS) {
+    console.log(`${color.dim('│')}  ${color.dim(m.label)}`);
   }
-
-  // In local mode OpenClaw is natively supported — skills/ already exists in this repo
-  if (installType === 'local') {
-    p.log.info(
-      `${color.green('✓')} OpenClaw ${color.dim('(skills/) — supported by default in local mode')}`
-    );
+  if (HIDDEN_UNIVERSAL_MODELS.length > 0) {
+    console.log(`${color.dim('│')}  ${color.dim(`...and ${HIDDEN_UNIVERSAL_MODELS.length} more`)}`);
   }
 
   let selectedModels: string[];
@@ -177,15 +177,18 @@ export async function addCommand(options: AddOptions) {
   if (options.model && options.model.length > 0) {
     selectedModels = options.model.filter((id) => !(isOpenClawAuto && id === 'openclaw'));
 
-    // Show dedicated models from --model flag
+    // Show additional models from --model flag
     const allModels = modelDetector.getAllModelsInfo(project.rootPath);
     const installedModels = modelDetector.detectInstalledModels(project.rootPath);
-    for (const id of selectedModels) {
-      const cfg = DEDICATED_MODELS[id];
-      const relPath = cfg ? `${cfg.directory}/skills/` : id;
-      const icon = installedModels.includes(id) ? color.green('✓') : color.green('○');
-      const name = allModels.find((m) => m.id === id)?.name ?? id;
-      p.log.info(`${icon} ${name} ${color.dim(`(${relPath})`)}`);
+    if (selectedModels.length > 0) {
+      p.log.info(`Additional models:`);
+      for (const id of selectedModels) {
+        const cfg = DEDICATED_MODELS[id];
+        const relPath = cfg ? `${cfg.directory}/skills/` : id;
+        const icon = installedModels.includes(id) ? color.green('✓') : color.dim('○');
+        const name = allModels.find((m) => m.id === id)?.name ?? id;
+        console.log(`${color.dim('│')}  ${icon} ${name} ${color.dim(`(${relPath})`)}`);
+      }
     }
   } else {
     const installedModels = modelDetector
@@ -196,51 +199,36 @@ export async function addCommand(options: AddOptions) {
       .filter((m) => !(isOpenClawAuto && m.id === 'openclaw'));
     const newModels = allModels.filter((m) => !installedModels.includes(m.id));
 
-    if (installedModels.length > 0) {
-      // Show already-configured dedicated models as static info
+    // Show all additional models (installed + available) in a single section
+    if (installedModels.length > 0 || allModels.length > 0) {
+      p.log.info(`Additional models:`);
       for (const id of installedModels) {
         const cfg = DEDICATED_MODELS[id];
         const relPath = cfg ? `${cfg.directory}/skills/` : id;
-        p.log.info(`${color.green('✓')} ${cfg?.name ?? id} ${color.dim(`(${relPath})`)}`);
+        console.log(
+          `${color.dim('│')}  ${color.green('✓')} ${cfg?.name ?? id} ${color.dim(`(${relPath})`)}`
+        );
       }
+    }
 
-      if (newModels.length > 0) {
-        // Let user optionally add unconfigured dedicated models
-        const additional = await p.multiselect({
-          message: 'Also install to additional dedicated models? (optional — press Enter to skip)',
-          options: newModels.map((m) => {
-            const cfg = DEDICATED_MODELS[m.id];
-            return { value: m.id, label: m.name, hint: cfg ? `${cfg.directory}/skills/` : m.id };
-          }),
-          required: false,
-        });
-
-        if (p.isCancel(additional)) {
-          p.cancel('Installation cancelled');
-          process.exit(0);
-        }
-
-        selectedModels = [...installedModels, ...(additional as string[])];
-      } else {
-        selectedModels = installedModels;
-      }
-    } else {
-      // No dedicated models configured yet — prompt (optional)
-      const selected = await p.multiselect({
-        message: 'Install to dedicated model directories? (optional — press Enter to skip)',
-        options: allModels.map((m) => {
+    if (newModels.length > 0) {
+      const additional = await p.multiselect({
+        message: 'Also install to additional model directories? (optional — press Enter to skip)',
+        options: newModels.map((m) => {
           const cfg = DEDICATED_MODELS[m.id];
           return { value: m.id, label: m.name, hint: cfg ? `${cfg.directory}/skills/` : m.id };
         }),
         required: false,
       });
 
-      if (p.isCancel(selected)) {
+      if (p.isCancel(additional)) {
         p.cancel('Installation cancelled');
         process.exit(0);
       }
 
-      selectedModels = selected as string[];
+      selectedModels = [...installedModels, ...(additional as string[])];
+    } else {
+      selectedModels = installedModels;
     }
   }
 
@@ -266,20 +254,30 @@ export async function addCommand(options: AddOptions) {
     const agentsMdPath = path.join(cwd, 'AGENTS.md');
     if (fs.existsSync(agentsMdPath)) {
       const fromAgentsMd = DependencyResolver.parseAgentsMd(agentsMdPath);
-      p.log.info(`Skills from AGENTS.md: ${color.cyan(fromAgentsMd.length.toString())}`);
       const alreadyInstalled = projectDetector.getInstalledSkills(project.rootPath);
       const notYetInstalled = fromAgentsMd.filter((s) => !alreadyInstalled.includes(s));
-      if (notYetInstalled.length === 0) {
-        // All AGENTS.md skills already installed — let user pick additional ones
-        p.log.info(color.dim('All AGENTS.md skills installed. Select additional skills:'));
-        skillsToInstall = await selectSkillsInteractive(
-          projectDetector,
-          project.rootPath,
-          skillSource
+
+      if (alreadyInstalled.length > 0) {
+        p.log.info(`Already installed: ${color.dim(alreadyInstalled.join(', '))}`);
+      }
+
+      if (notYetInstalled.length > 0) {
+        p.log.info(`Suggestions from AGENTS.md: ${color.dim(notYetInstalled.join(', '))}`);
+        p.log.info(
+          color.dim('These are pre-selected — deselect any you want to skip or add more.')
         );
       } else {
-        skillsToInstall = fromAgentsMd;
+        p.log.info(
+          color.dim('All AGENTS.md skills are already installed. Select additional skills:')
+        );
       }
+
+      skillsToInstall = await selectSkillsInteractive(
+        projectDetector,
+        project.rootPath,
+        skillSource,
+        notYetInstalled
+      );
     } else {
       skillsToInstall = await selectSkillsInteractive(
         projectDetector,
@@ -529,7 +527,8 @@ function showDryRunPaths(
 async function selectSkillsInteractive(
   projectDetector: ProjectDetector,
   rootPath: string,
-  skillSource: FileSystemSkillSource
+  skillSource: FileSystemSkillSource,
+  preselected: string[] = []
 ): Promise<string[]> {
   const availableSkills = skillSource.listSkills();
   if (availableSkills.length === 0) {
@@ -545,13 +544,26 @@ async function selectSkillsInteractive(
     process.exit(0);
   }
 
-  if (installedSkills.length > 0) {
+  if (installedSkills.length > 0 && preselected.length === 0) {
     p.log.info(`Already installed: ${color.dim(installedSkills.join(', '))}`);
   }
 
-  const selected = await p.multiselect({
+  const validPreselected = preselected.filter((s) => notInstalled.includes(s));
+
+  const selected = await p.autocompleteMultiselect({
     message: `Select skills to install (${notInstalled.length} available):`,
-    options: notInstalled.map((skill) => ({ value: skill, label: skill })),
+    placeholder: 'Type to search...',
+    options: notInstalled.map((skill) => {
+      let hint: string | undefined;
+      try {
+        hint = skillSource.getSkillMetadata(skill).description;
+      } catch {
+        hint = undefined;
+      }
+      return { value: skill, label: skill, hint };
+    }),
+    initialValues: validPreselected,
+    maxItems: 8,
     required: true,
   });
 
